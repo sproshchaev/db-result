@@ -1,147 +1,146 @@
-Attribute VB_Name = "Module_Архив"
-' *** Архивные копии процедур и функций ***
+Attribute VB_Name = "Module_РђСЂС…РёРІ"
+' *** РђСЂС…РёРІРЅС‹Рµ РєРѕРїРёРё РїСЂРѕС†РµРґСѓСЂ Рё С„СѓРЅРєС†РёР№ ***
 
-' Выгрузить файл с дневным планом продаж по форме обновленной форме (на основе формы данилова)
-' Templates\Ежедневная форма отчёта (куратор) 2.xlsx
-Sub Архив_Выгрузить_план_дневных_продаж2()
+' Р’С‹РіСЂСѓР·РёС‚СЊ С„Р°Р№Р» СЃ РґРЅРµРІРЅС‹Рј РїР»Р°РЅРѕРј РїСЂРѕРґР°Р¶ РїРѕ С„РѕСЂРјРµ РѕР±РЅРѕРІР»РµРЅРЅРѕР№ С„РѕСЂРјРµ (РЅР° РѕСЃРЅРѕРІРµ С„РѕСЂРјС‹ Р”Р°РЅРёР»РѕРІР°)
+' Templates\Р•Р¶РµРґРЅРµРІРЅР°СЏ С„РѕСЂРјР° РѕС‚С‡С‘С‚Р° (РєСѓСЂР°С‚РѕСЂ) 2.xlsx
+Sub РђСЂС…РёРІ_Р’С‹РіСЂСѓР·РёС‚СЊ_РїР»Р°РЅ_РґРЅРµРІРЅС‹С…_РїСЂРѕРґР°Р¶2()
 Dim FileNewVar As String
 
-  ' Формируем цели на день по форме Данилова
+  ' Р¤РѕСЂРјРёСЂСѓРµРј С†РµР»Рё РЅР° РґРµРЅСЊ РїРѕ С„РѕСЂРјРµ Р”Р°РЅРёР»РѕРІР°
   
-  ' Запрос на формирование
-  If MsgBox("Сформировать поручения на день для офисов?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ
+  If MsgBox("РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕСЂСѓС‡РµРЅРёСЏ РЅР° РґРµРЅСЊ РґР»СЏ РѕС„РёСЃРѕРІ?", vbYesNo) = vbYes Then
       
-    ' Открываем шаблон C:\Users\proschaevsf\Documents\#DB_Result\Templates\Ежедневная форма отчёта (куратор) 2.xlsx
-    fileTemplatesName = "Ежедневная форма отчёта (куратор) 2.xlsx"
+    ' РћС‚РєСЂС‹РІР°РµРј С€Р°Р±Р»РѕРЅ C:\Users\proschaevsf\Documents\#DB_Result\Templates\Р•Р¶РµРґРЅРµРІРЅР°СЏ С„РѕСЂРјР° РѕС‚С‡С‘С‚Р° (РєСѓСЂР°С‚РѕСЂ) 2.xlsx
+    fileTemplatesName = "Р•Р¶РµРґРЅРµРІРЅР°СЏ С„РѕСЂРјР° РѕС‚С‡С‘С‚Р° (РєСѓСЂР°С‚РѕСЂ) 2.xlsx"
     Workbooks.Open (ThisWorkbook.Path + "\Templates\" + fileTemplatesName)
            
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("Лист8").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р›РёСЃС‚8").Activate
 
-    ' Дата формирования - если сегодня понедельник, то формируем за пятницу
-    ' Если текущая дата это понедельник, то формируем отчет за пятницу
+    ' Р”Р°С‚Р° С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ - РµСЃР»Рё СЃРµРіРѕРґРЅСЏ РїРѕРЅРµРґРµР»СЊРЅРёРє, С‚Рѕ С„РѕСЂРјРёСЂСѓРµРј Р·Р° РїСЏС‚РЅРёС†Сѓ
+    ' Р•СЃР»Рё С‚РµРєСѓС‰Р°СЏ РґР°С‚Р° СЌС‚Рѕ РїРѕРЅРµРґРµР»СЊРЅРёРє, С‚Рѕ С„РѕСЂРјРёСЂСѓРµРј РѕС‚С‡РµС‚ Р·Р° РїСЏС‚РЅРёС†Сѓ
     If Weekday(CurrDate, vbMonday) = 1 Then
       dateReport = Date - 3
     Else
       dateReport = Date
     End If
 
-    ' Имя нового файла
-    FileNewVar = "Ежедневная_форма_отчёта_" + strДД_MM_YYYY(dateReport) + ".xlsx"
+    ' РРјСЏ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°
+    FileNewVar = "Р•Р¶РµРґРЅРµРІРЅР°СЏ_С„РѕСЂРјР°_РѕС‚С‡С‘С‚Р°_" + strР”Р”_MM_YYYY(dateReport) + ".xlsx"
     Workbooks(fileTemplatesName).SaveAs FileName:=ThisWorkbook.Path + "\Out\" + FileNewVar, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
     
-    ' Наименование листа в файле (TemplateSheets)
-    TS = "Ежедневный отчет"
+    ' РќР°РёРјРµРЅРѕРІР°РЅРёРµ Р»РёСЃС‚Р° РІ С„Р°Р№Р»Рµ (TemplateSheets)
+    TS = "Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚"
     
-    ' Остаток рабочих дней определяем число рабочих дней с понеделника до конца месяца Working_days_between_dateReports(In_dateReportStart, In_dateReportEnd, In_working_days_in_the_week) As Integer
-    Остаток_рабочих_дней = Working_days_between_dates(dateReport - 1, Date_last_day_month(dateReport), 5)
+    ' РћСЃС‚Р°С‚РѕРє СЂР°Р±РѕС‡РёС… РґРЅРµР№ РѕРїСЂРµРґРµР»СЏРµРј С‡РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ СЃ РїРѕРЅРµРґРµР»РЅРёРєР° РґРѕ РєРѕРЅС†Р° РјРµСЃСЏС†Р° Working_days_between_dateReports(In_dateReportStart, In_dateReportEnd, In_working_days_in_the_week) As Integer
+    РћСЃС‚Р°С‚РѕРє_СЂР°Р±РѕС‡РёС…_РґРЅРµР№ = Working_days_between_dates(dateReport - 1, Date_last_day_month(dateReport), 5)
 
-    ' Заголовок
-    Workbooks(FileNewVar).Sheets(TS).Range("A1").Value = "Продажи за: " + CStr(dateReport) + " (ост.дней " + CStr(Остаток_рабочих_дней) + ")"
+    ' Р—Р°РіРѕР»РѕРІРѕРє
+    Workbooks(FileNewVar).Sheets(TS).Range("A1").Value = "РџСЂРѕРґР°Р¶Рё Р·Р°: " + CStr(dateReport) + " (РѕСЃС‚.РґРЅРµР№ " + CStr(РћСЃС‚Р°С‚РѕРє_СЂР°Р±РѕС‡РёС…_РґРЅРµР№) + ")"
 
-    ' Строка с именами файлов для архивирования
+    ' РЎС‚СЂРѕРєР° СЃ РёРјРµРЅР°РјРё С„Р°Р№Р»РѕРІ РґР»СЏ Р°СЂС…РёРІРёСЂРѕРІР°РЅРёСЏ
     strFileNewVar_Office = ""
 
-    ' Проходим по Листу8 и заполняем планы:
+    ' РџСЂРѕС…РѕРґРёРј РїРѕ Р›РёСЃС‚Сѓ8 Рё Р·Р°РїРѕР»РЅСЏРµРј РїР»Р°РЅС‹:
     For i = 1 To 5
-        ' Номера офисов от 1 до 5
+        ' РќРѕРјРµСЂР° РѕС„РёСЃРѕРІ РѕС‚ 1 РґРѕ 5
         Select Case i
-          Case 1 ' ОО «Тюменский»
-            officeNameInReport = "ОО «Тюменский»"
-          Case 2 ' ОО «Сургутский»
-            officeNameInReport = "ОО «Сургутский»"
-          Case 3 ' ОО «Нижневартовский»
-            officeNameInReport = "ОО «Нижневартовский»"
-          Case 4 ' ОО «Новоуренгойский»
-            officeNameInReport = "ОО «Новоуренгойский»"
-          Case 5 ' ОО «Тарко-Сале»
-            officeNameInReport = "ОО «Тарко-Сале»"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            officeNameInReport = "РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            officeNameInReport = "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            officeNameInReport = "РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            officeNameInReport = "РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            officeNameInReport = "РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»"
         End Select
         
-        ' Сообщение
-        Application.StatusBar = "Формирование по " + officeNameInReport
+        ' РЎРѕРѕР±С‰РµРЅРёРµ
+        Application.StatusBar = "Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїРѕ " + officeNameInReport
                 
-        ' Текущая строка офиса в отчете
+        ' РўРµРєСѓС‰Р°СЏ СЃС‚СЂРѕРєР° РѕС„РёСЃР° РІ РѕС‚С‡РµС‚Рµ
         row_TS = rowByValue(FileNewVar, TS, officeNameInReport, 100, 100)
         
-        ' Обрабатываем столбцы в fileTemplatesName в горизонтальном направлении
+        ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЃС‚РѕР»Р±С†С‹ РІ fileTemplatesName РІ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅРѕРј РЅР°РїСЂР°РІР»РµРЅРёРё
         ColumnCount = 1
         Do While (ColumnCount <= 100)
           
-          ' Если находим # в ячейке
+          ' Р•СЃР»Рё РЅР°С…РѕРґРёРј # РІ СЏС‡РµР№РєРµ
           If InStr(Workbooks(FileNewVar).Sheets(TS).Cells(1, ColumnCount).Value, "#") <> 0 Then
             
-            ' Текущий продукт в форме отчета
+            ' РўРµРєСѓС‰РёР№ РїСЂРѕРґСѓРєС‚ РІ С„РѕСЂРјРµ РѕС‚С‡РµС‚Р°
             currProductName = Mid(Workbooks(FileNewVar).Sheets(TS).Cells(1, ColumnCount).Value, 2)
             
-            ' Находим Текущий продукт на Лист8 для текущего офиса
-            Row_Лист8 = getRowFromSheet8(officeNameInReport, currProductName)
+            ' РќР°С…РѕРґРёРј РўРµРєСѓС‰РёР№ РїСЂРѕРґСѓРєС‚ РЅР° Р›РёСЃС‚8 РґР»СЏ С‚РµРєСѓС‰РµРіРѕ РѕС„РёСЃР°
+            Row_Р›РёСЃС‚8 = getRowFromSheet8(officeNameInReport, currProductName)
             
-            ' Расчет плана дня
-            If Round(((ThisWorkbook.Sheets("Лист8").Cells(Row_Лист8, 9).Value - ThisWorkbook.Sheets("Лист8").Cells(Row_Лист8, 10).Value) / Остаток_рабочих_дней), 0) > 0 Then
-              Workbooks(FileNewVar).Sheets(TS).Cells(row_TS, ColumnCount).Value = Round(((ThisWorkbook.Sheets("Лист8").Cells(Row_Лист8, 9).Value - ThisWorkbook.Sheets("Лист8").Cells(Row_Лист8, 10).Value) / Остаток_рабочих_дней), 0)
+            ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РґРЅСЏ
+            If Round(((ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(Row_Р›РёСЃС‚8, 9).Value - ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(Row_Р›РёСЃС‚8, 10).Value) / РћСЃС‚Р°С‚РѕРє_СЂР°Р±РѕС‡РёС…_РґРЅРµР№), 0) > 0 Then
+              Workbooks(FileNewVar).Sheets(TS).Cells(row_TS, ColumnCount).Value = Round(((ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(Row_Р›РёСЃС‚8, 9).Value - ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(Row_Р›РёСЃС‚8, 10).Value) / РћСЃС‚Р°С‚РѕРє_СЂР°Р±РѕС‡РёС…_РґРЅРµР№), 0)
             Else
               Workbooks(FileNewVar).Sheets(TS).Cells(row_TS, ColumnCount).Value = 0
             End If
 
-            ' Формат ячейки плана
+            ' Р¤РѕСЂРјР°С‚ СЏС‡РµР№РєРё РїР»Р°РЅР°
             Workbooks(FileNewVar).Sheets(TS).Cells(row_TS, ColumnCount).NumberFormat = "#,##0"
             
-          End If ' Если находим # в ячейке
+          End If ' Р•СЃР»Рё РЅР°С…РѕРґРёРј # РІ СЏС‡РµР№РєРµ
           
-          ' Следующий столбец
+          ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
           ' Application.StatusBar = In_Product_Code + " " + In_officeNameInReport + ": " + CStr(rowCount) + "..."
           ColumnCount = ColumnCount + 1
           DoEventsInterval (ColumnCount)
         Loop
                 
-        ' Строка статуса
-        Application.StatusBar = "Сохранение " + officeNameInReport + "..."
+        ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+        Application.StatusBar = "РЎРѕС…СЂР°РЅРµРЅРёРµ " + officeNameInReport + "..."
                 
-        ' Сохранение изменений
+        ' РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№
         ' Workbooks(FileNewVar).Save
         
-        ' Офис отработан - нарезаем в отдельный файл
-        FileNewVar_Office = ThisWorkbook.Path + "\Out\Ежедневный_отчёт_" + cityOfficeNameByNumber(i) + "_" + strДД_MM_YYYY(dateReport) + ".xlsx"
+        ' РћС„РёСЃ РѕС‚СЂР°Р±РѕС‚Р°РЅ - РЅР°СЂРµР·Р°РµРј РІ РѕС‚РґРµР»СЊРЅС‹Р№ С„Р°Р№Р»
+        FileNewVar_Office = ThisWorkbook.Path + "\Out\Р•Р¶РµРґРЅРµРІРЅС‹Р№_РѕС‚С‡С‘С‚_" + cityOfficeNameByNumber(i) + "_" + strР”Р”_MM_YYYY(dateReport) + ".xlsx"
         Workbooks(FileNewVar).SaveCopyAs FileName:=FileNewVar_Office
 
-        ' Строка с именами файлов для архивирования
+        ' РЎС‚СЂРѕРєР° СЃ РёРјРµРЅР°РјРё С„Р°Р№Р»РѕРІ РґР»СЏ Р°СЂС…РёРІРёСЂРѕРІР°РЅРёСЏ
         strFileNewVar_Office = strFileNewVar_Office + FileNewVar_Office + " "
 
-        ' Переходим на окно DB
-        ThisWorkbook.Sheets("Лист8").Activate
+        ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+        ThisWorkbook.Sheets("Р›РёСЃС‚8").Activate
 
-        ' Строка статуса
+        ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
         Application.StatusBar = ""
 
         
     Next i
     
-    ' Закрываем файл
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р»
     Workbooks(FileNewVar).Close SaveChanges:=True
 
-    Application.StatusBar = "Сформирован файл " + ThisWorkbook.Path + "\Out\" + FileNewVar
+    Application.StatusBar = "РЎС„РѕСЂРјРёСЂРѕРІР°РЅ С„Р°Р№Р» " + ThisWorkbook.Path + "\Out\" + FileNewVar
 
-    Application.StatusBar = "Создание архива"
+    Application.StatusBar = "РЎРѕР·РґР°РЅРёРµ Р°СЂС…РёРІР°"
 
-    ' Запускаем архиватор этого файла
-    ' Работает Shell ("C:\Program Files\7-Zip\7z a -tzip -ssw -mx0 C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\Отчет.zip C:\Users\PROSCHAEVSF\Documents\#DB_Result\OUT\Ежедневный_отчёт_Тюмень_07-02-2021.xlsx C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\Отчет.zip C:\Users\PROSCHAEVSF\Documents\#DB_Result\OUT\Ежедневный_отчёт_Тарко-Сале_07-02-2021.xlsx")
-    Shell ("C:\Program Files\7-Zip\7z a -tzip -ssw -mx9 C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\Ежедневная_форма_отчёта_" + strДД_MM_YYYY(dateReport) + ".zip " + strFileNewVar_Office)
-    ' Имя файла архива
-    File7zipName = "Ежедневная_форма_отчёта_" + strДД_MM_YYYY(dateReport) + ".zip"
+    ' Р—Р°РїСѓСЃРєР°РµРј Р°СЂС…РёРІР°С‚РѕСЂ СЌС‚РѕРіРѕ С„Р°Р№Р»Р°
+    ' Р Р°Р±РѕС‚Р°РµС‚ Shell ("C:\Program Files\7-Zip\7z a -tzip -ssw -mx0 C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\РћС‚С‡РµС‚.zip C:\Users\PROSCHAEVSF\Documents\#DB_Result\OUT\Р•Р¶РµРґРЅРµРІРЅС‹Р№_РѕС‚С‡С‘С‚_РўСЋРјРµРЅСЊ_07-02-2021.xlsx C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\РћС‚С‡РµС‚.zip C:\Users\PROSCHAEVSF\Documents\#DB_Result\OUT\Р•Р¶РµРґРЅРµРІРЅС‹Р№_РѕС‚С‡С‘С‚_РўР°СЂРєРѕ-РЎР°Р»Рµ_07-02-2021.xlsx")
+    Shell ("C:\Program Files\7-Zip\7z a -tzip -ssw -mx9 C:\Users\PROSCHAEVSF\Documents\#DB_Result\Out\Р•Р¶РµРґРЅРµРІРЅР°СЏ_С„РѕСЂРјР°_РѕС‚С‡С‘С‚Р°_" + strР”Р”_MM_YYYY(dateReport) + ".zip " + strFileNewVar_Office)
+    ' РРјСЏ С„Р°Р№Р»Р° Р°СЂС…РёРІР°
+    File7zipName = "Р•Р¶РµРґРЅРµРІРЅР°СЏ_С„РѕСЂРјР°_РѕС‚С‡С‘С‚Р°_" + strР”Р”_MM_YYYY(dateReport) + ".zip"
 
-    Application.StatusBar = "Архив создан!"
+    Application.StatusBar = "РђСЂС…РёРІ СЃРѕР·РґР°РЅ!"
 
-    MsgBox ("Сформирован файл " + ThisWorkbook.Path + "\Out\" + FileNewVar + "!")
+    MsgBox ("РЎС„РѕСЂРјРёСЂРѕРІР°РЅ С„Р°Р№Р» " + ThisWorkbook.Path + "\Out\" + FileNewVar + "!")
 
-    ' Отправка в почте в офисы
-    ' Call Отправка_Lotus_Notes_Выгр_день_Лист8(ThisWorkbook.Path + "\Out\" + FileNewVar, DateReport)
-    Call Отправка_Lotus_Notes_Выгр_день_Лист8(ThisWorkbook.Path + "\Out\" + File7zipName, dateReport)
+    ' РћС‚РїСЂР°РІРєР° РІ РїРѕС‡С‚Рµ РІ РѕС„РёСЃС‹
+    ' Call РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р’С‹РіСЂ_РґРµРЅСЊ_Р›РёСЃС‚8(ThisWorkbook.Path + "\Out\" + FileNewVar, DateReport)
+    Call РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р’С‹РіСЂ_РґРµРЅСЊ_Р›РёСЃС‚8(ThisWorkbook.Path + "\Out\" + File7zipName, dateReport)
       
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
       
   End If
   
 End Sub
-
