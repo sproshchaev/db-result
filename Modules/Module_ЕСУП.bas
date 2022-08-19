@@ -1,93 +1,93 @@
-Attribute VB_Name = "Module_ЕСУП"
-' Выгрузка протокола собрания ЕСУП
-Sub Протокол_Собрания()
+Attribute VB_Name = "Module_Р•РЎРЈРџ"
+' Р’С‹РіСЂСѓР·РєР° РїСЂРѕС‚РѕРєРѕР»Р° СЃРѕР±СЂР°РЅРёСЏ Р•РЎРЈРџ
+Sub РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ()
   
-Dim FileProtocolName, str_Присутствовавшие_на_Собрании, str_Отсутствовавшие_на_Собрании, str_копияВадрес, К_пор_Range, str_Поручениеi, Присутств_на_Собрании_Range, range_Список_получателей As String
-Dim НомерСтроки_Повестка_дня, Номер_вопроса, rowCount, К_пор_Row, К_пор_Column, Номер_поручения, текущаяСтрокаПротокола, i, Присутств_на_Собрании_Row, Присутств_на_Собрании_Column As Byte
-Dim row_column_Список_получателей, column_Список_получателей As Byte
+Dim FileProtocolName, str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ, Рљ_РїРѕСЂ_Range, str_РџРѕСЂСѓС‡РµРЅРёРµi, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range, range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, rowCount, Рљ_РїРѕСЂ_Row, Рљ_РїРѕСЂ_Column, РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, i, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column As Byte
+Dim row_column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ As Byte
 
-  ' Закрытие Протокола (из макроса)
-  ' Workbooks.Open FileName:="C:\Users\Сергей\Documents\#VBA\DB_Result\Templates\Приложение 1. Протокол.xlsx"
-  ' ChDir "C:\Users\Сергей\Documents\#VBA\DB_Result\Out"
-  ' ActiveWorkbook.SaveAs FileName:="C:\Users\Сергей\Documents\#VBA\DB_Result\Out\Протокол_собрания.xlsx", FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
+  ' Р—Р°РєСЂС‹С‚РёРµ РџСЂРѕС‚РѕРєРѕР»Р° (РёР· РјР°РєСЂРѕСЃР°)
+  ' Workbooks.Open FileName:="C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Templates\РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx"
+  ' ChDir "C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Out"
+  ' ActiveWorkbook.SaveAs FileName:="C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Out\РџСЂРѕС‚РѕРєРѕР»_СЃРѕР±СЂР°РЅРёСЏ.xlsx", FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
   ' ActiveWindow.Close
 
-  ' Запрос на формирование протокола Собрания
-  If MsgBox("Сформировать протокол Собрания?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ
+  If MsgBox("РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ?", vbYesNo) = vbYes Then
     
-    ' Открываем шаблон Протокола из C:\Users\...\Documents\#VBA\DB_Result\Templates
-    Workbooks.Open (ThisWorkbook.Path + "\Templates\Приложение 1. Протокол.xlsx")
+    ' РћС‚РєСЂС‹РІР°РµРј С€Р°Р±Р»РѕРЅ РџСЂРѕС‚РѕРєРѕР»Р° РёР· C:\Users\...\Documents\#VBA\DB_Result\Templates
+    Workbooks.Open (ThisWorkbook.Path + "\Templates\РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx")
          
-    ' Имя файла с протоколом - берем из G2 "10-02032020"
-    FileProtocolName = "Протокол _ РОО Тюменский_" + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + ".xlsx"
-    Workbooks("Приложение 1. Протокол.xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + FileProtocolName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
+    ' РРјСЏ С„Р°Р№Р»Р° СЃ РїСЂРѕС‚РѕРєРѕР»РѕРј - Р±РµСЂРµРј РёР· G2 "10-02032020"
+    FileProtocolName = "РџСЂРѕС‚РѕРєРѕР» _ Р РћРћ РўСЋРјРµРЅСЃРєРёР№_" + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + ".xlsx"
+    Workbooks("РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + FileProtocolName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
     
-    ' Номер протокола
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C1:E2").Value = "Протокол Собрания №" + ThisWorkbook.Sheets("ЕСУП").Range("G2").Value
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C1:G2").MergeCells = True
-    ' Увеличиваем ширину предпоследнего столбца
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Columns("H:H").ColumnWidth = 20.43  ' 20.43, 21.64-предел
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Columns("I:I").ColumnWidth = 3
-    ' Тема
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A4:C4").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A4:C4").VerticalAlignment = xlCenter
-    ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D4:H4").Value = "Еженедельный конференц-колл с Управляющими офисов и НОРПиКО Тюменского РОО по подведению итогов работы офисов за предыдущую неделю и постановке бизнес-целей на текущую неделю"
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D4:H4").Value = "Еженедельный конференц-колл с Управляющими офисов и НОРПиКО Тюменского РОО по подведению итогов работы офисов за предыдущую неделю и постановке бизнес-целей на период с " + strDDMM(weekStartDate(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value))) + " по " + CStr(weekEndDate(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value))) + " г."
-    ' Дата проведения
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A5:C5").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A5:C5").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D5:H5").Value = CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + " г."
-    ' Место проведения
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A6:C6").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A6:C6").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D6:H6").Value = "г.Тюмень, ул.Советская 51/1"
-    ' Участники присутствовали
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A7:B8").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A7:B8").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C7").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C7").VerticalAlignment = xlCenter
-    str_Присутствовавшие_на_Собрании = Присутствовавшие_на_Собрании(1)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D7:H7").Value = str_Присутствовавшие_на_Собрании
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D7:H7").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("7:7").RowHeight = lineHeight(str_Присутствовавшие_на_Собрании, 15, 60) ' было 50 - норм. 60 - реальная ширина
+    ' РќРѕРјРµСЂ РїСЂРѕС‚РѕРєРѕР»Р°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C1:E2").Value = "РџСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ в„–" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C1:G2").MergeCells = True
+    ' РЈРІРµР»РёС‡РёРІР°РµРј С€РёСЂРёРЅСѓ РїСЂРµРґРїРѕСЃР»РµРґРЅРµРіРѕ СЃС‚РѕР»Р±С†Р°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Columns("H:H").ColumnWidth = 20.43  ' 20.43, 21.64-РїСЂРµРґРµР»
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Columns("I:I").ColumnWidth = 3
+    ' РўРµРјР°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A4:C4").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A4:C4").VerticalAlignment = xlCenter
+    ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D4:H4").Value = "Р•Р¶РµРЅРµРґРµР»СЊРЅС‹Р№ РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р» СЃ РЈРїСЂР°РІР»СЏСЋС‰РёРјРё РѕС„РёСЃРѕРІ Рё РќРћР РџРёРљРћ РўСЋРјРµРЅСЃРєРѕРіРѕ Р РћРћ РїРѕ РїРѕРґРІРµРґРµРЅРёСЋ РёС‚РѕРіРѕРІ СЂР°Р±РѕС‚С‹ РѕС„РёСЃРѕРІ Р·Р° РїСЂРµРґС‹РґСѓС‰СѓСЋ РЅРµРґРµР»СЋ Рё РїРѕСЃС‚Р°РЅРѕРІРєРµ Р±РёР·РЅРµСЃ-С†РµР»РµР№ РЅР° С‚РµРєСѓС‰СѓСЋ РЅРµРґРµР»СЋ"
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D4:H4").Value = "Р•Р¶РµРЅРµРґРµР»СЊРЅС‹Р№ РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р» СЃ РЈРїСЂР°РІР»СЏСЋС‰РёРјРё РѕС„РёСЃРѕРІ Рё РќРћР РџРёРљРћ РўСЋРјРµРЅСЃРєРѕРіРѕ Р РћРћ РїРѕ РїРѕРґРІРµРґРµРЅРёСЋ РёС‚РѕРіРѕРІ СЂР°Р±РѕС‚С‹ РѕС„РёСЃРѕРІ Р·Р° РїСЂРµРґС‹РґСѓС‰СѓСЋ РЅРµРґРµР»СЋ Рё РїРѕСЃС‚Р°РЅРѕРІРєРµ Р±РёР·РЅРµСЃ-С†РµР»РµР№ РЅР° РїРµСЂРёРѕРґ СЃ " + strDDMM(weekStartDate(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value))) + " РїРѕ " + CStr(weekEndDate(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value))) + " Рі."
+    ' Р”Р°С‚Р° РїСЂРѕРІРµРґРµРЅРёСЏ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A5:C5").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A5:C5").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D5:H5").Value = CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + " Рі."
+    ' РњРµСЃС‚Рѕ РїСЂРѕРІРµРґРµРЅРёСЏ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A6:C6").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A6:C6").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D6:H6").Value = "Рі.РўСЋРјРµРЅСЊ, СѓР».РЎРѕРІРµС‚СЃРєР°СЏ 51/1"
+    ' РЈС‡Р°СЃС‚РЅРёРєРё РїСЂРёСЃСѓС‚СЃС‚РІРѕРІР°Р»Рё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A7:B8").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A7:B8").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C7").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C7").VerticalAlignment = xlCenter
+    str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(1)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D7:H7").Value = str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D7:H7").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("7:7").RowHeight = lineHeight(str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, 15, 60) ' Р±С‹Р»Рѕ 50 - РЅРѕСЂРј. 60 - СЂРµР°Р»СЊРЅР°СЏ С€РёСЂРёРЅР°
         
-    ' Участники отсутствовали
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C8").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C8").VerticalAlignment = xlCenter
-    str_Отсутствовавшие_на_Собрании = Присутствовавшие_на_Собрании(0)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D8:H8").Value = str_Отсутствовавшие_на_Собрании
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D8:H8").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("8:8").RowHeight = lineHeight(str_Отсутствовавшие_на_Собрании, 15, 60) ' было 40 - норм
-    ' Копия в адрес:
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A9:C9").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A9:C9").VerticalAlignment = xlCenter
-    str_копияВадрес = getFromAddrBook("РД", 1) + ", " + getFromAddrBook("КОП", 1) + ", " + getFromAddrBook("КИп", 1) + ", " + getFromAddrBook("ККП", 1) + ", " + getFromAddrBook("Кaf", 1) + ", " + getFromAddrBook("КПВО", 1)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D9:H9").Value = str_копияВадрес
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D9:H9").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("9:9").RowHeight = lineHeight(str_копияВадрес, 15, 60) ' было 30 - норм
+    ' РЈС‡Р°СЃС‚РЅРёРєРё РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°Р»Рё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C8").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C8").VerticalAlignment = xlCenter
+    str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(0)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D8:H8").Value = str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D8:H8").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("8:8").RowHeight = lineHeight(str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, 15, 60) ' Р±С‹Р»Рѕ 40 - РЅРѕСЂРј
+    ' РљРѕРїРёСЏ РІ Р°РґСЂРµСЃ:
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A9:C9").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A9:C9").VerticalAlignment = xlCenter
+    str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ = getFromAddrBook("Р Р”", 1) + ", " + getFromAddrBook("РљРћРџ", 1) + ", " + getFromAddrBook("РљРРї", 1) + ", " + getFromAddrBook("РљРљРџ", 1) + ", " + getFromAddrBook("Рљaf", 1) + ", " + getFromAddrBook("РљРџР’Рћ", 1)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D9:H9").Value = str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D9:H9").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("9:9").RowHeight = lineHeight(str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ, 15, 60) ' Р±С‹Р»Рѕ 30 - РЅРѕСЂРј
     
-    ' Повестка дня:
-    НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Row
+    ' РџРѕРІРµСЃС‚РєР° РґРЅСЏ:
+    РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Row
     rowCount = 2
-    Номер_вопроса = 0
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value <> ""
-      ' Если у вопроса стоит отметка "1", то вносим его в протокол собрания
-      If ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 14).Value = "1" Then
+    РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = 0
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value <> ""
+      ' Р•СЃР»Рё Сѓ РІРѕРїСЂРѕСЃР° СЃС‚РѕРёС‚ РѕС‚РјРµС‚РєР° "1", С‚Рѕ РІРЅРѕСЃРёРј РµРіРѕ РІ РїСЂРѕС‚РѕРєРѕР» СЃРѕР±СЂР°РЅРёСЏ
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 14).Value = "1" Then
         
-        Номер_вопроса = Номер_вопроса + 1
+        РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 1
         
-        ' Если номер вопроса более 6-ти, то вставляем строку
-        If Номер_вопроса > 6 Then
-          ' Вставляем строку
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса) + ":" + CStr(12 + Номер_вопроса)).Select
+        ' Р•СЃР»Рё РЅРѕРјРµСЂ РІРѕРїСЂРѕСЃР° Р±РѕР»РµРµ 6-С‚Рё, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        If РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° > 6 Then
+          ' Р’СЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).Select
           Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
-          ' Нумерация "7." возможна только если формат преобразовать к текстовому ("@")
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).NumberFormat = "@"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).Value = CStr(Номер_вопроса) + "."
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).HorizontalAlignment = xlLeft
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса) + ":H" + CStr(12 + Номер_вопроса)).MergeCells = True
-          ' Рамка
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A" + CStr(12 + Номер_вопроса) + ":H" + CStr(12 + Номер_вопроса)).Select
+          ' РќСѓРјРµСЂР°С†РёСЏ "7." РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РµСЃР»Рё С„РѕСЂРјР°С‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ Рє С‚РµРєСЃС‚РѕРІРѕРјСѓ ("@")
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).NumberFormat = "@"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).Value = CStr(РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + "."
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).HorizontalAlignment = xlLeft
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).MergeCells = True
+          ' Р Р°РјРєР°
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).Select
           With Selection.Borders(xlEdgeLeft)
             .LineStyle = xlContinuous
             .ThemeColor = 3
@@ -121,60 +121,60 @@ Dim row_column_Список_получателей, column_Список_получателей As Byte
         
         End If
         
-        ' Формат номера пункта Повестки Дня
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).HorizontalAlignment = xlCenter
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).VerticalAlignment = xlCenter
-        ' Вносим в Повестку Дня
-        If ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 13).Value = "" Then
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value
+        ' Р¤РѕСЂРјР°С‚ РЅРѕРјРµСЂР° РїСѓРЅРєС‚Р° РџРѕРІРµСЃС‚РєРё Р”РЅСЏ
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).HorizontalAlignment = xlCenter
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).VerticalAlignment = xlCenter
+        ' Р’РЅРѕСЃРёРј РІ РџРѕРІРµСЃС‚РєСѓ Р”РЅСЏ
+        If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 13).Value = "" Then
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value
         Else
-          ' Если есть Хэштэг
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value + " (" + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 13).Value + ")"
+          ' Р•СЃР»Рё РµСЃС‚СЊ РҐСЌС€С‚СЌРі
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value + " (" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 13).Value + ")"
         End If
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).HorizontalAlignment = xlLeft
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).VerticalAlignment = xlTop
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).WrapText = True
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).RowHeight = lineHeight(delSym(Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value), 15, 90) ' было 15, 65
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).HorizontalAlignment = xlLeft
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).VerticalAlignment = xlTop
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).WrapText = True
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).RowHeight = lineHeight(delSym(Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value), 15, 90) ' Р±С‹Р»Рѕ 15, 65
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
     
-    ' Корректируем номер вопроса, если он менее 6 для того, чтобы корректно рассчитывать число строк в Поручениях
-    If Номер_вопроса < 6 Then
-      Номер_вопроса = 6
+    ' РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј РЅРѕРјРµСЂ РІРѕРїСЂРѕСЃР°, РµСЃР»Рё РѕРЅ РјРµРЅРµРµ 6 РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РєРѕСЂСЂРµРєС‚РЅРѕ СЂР°СЃСЃС‡РёС‚С‹РІР°С‚СЊ С‡РёСЃР»Рѕ СЃС‚СЂРѕРє РІ РџРѕСЂСѓС‡РµРЅРёСЏС…
+    If РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° < 6 Then
+      РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = 6
     End If
        
-    ' Поручения участникам
-    Номер_поручения = 0
+    ' РџРѕСЂСѓС‡РµРЅРёСЏ СѓС‡Р°СЃС‚РЅРёРєР°Рј
+    РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = 0
     For i = 1 To 5
-      ' Находим столбец К_порi
-      К_пор_Range = RangeByValue(ThisWorkbook.Name, "ЕСУП", "К_пор" + CStr(i), 100, 100)
-      К_пор_Row = ThisWorkbook.Sheets("ЕСУП").Range(К_пор_Range).Row
-      К_пор_Column = ThisWorkbook.Sheets("ЕСУП").Range(К_пор_Range).Column
-      ' Обрабатываем Поручения по офису, где стоят даты
-      rowCount = К_пор_Row + 1
-      Do While ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column - 6).Value <> ""
+      ' РќР°С…РѕРґРёРј СЃС‚РѕР»Р±РµС† Рљ_РїРѕСЂi
+      Рљ_РїРѕСЂ_Range = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "Рљ_РїРѕСЂ" + CStr(i), 100, 100)
+      Рљ_РїРѕСЂ_Row = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(Рљ_РїРѕСЂ_Range).Row
+      Рљ_РїРѕСЂ_Column = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(Рљ_РїРѕСЂ_Range).Column
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РџРѕСЂСѓС‡РµРЅРёСЏ РїРѕ РѕС„РёСЃСѓ, РіРґРµ СЃС‚РѕСЏС‚ РґР°С‚С‹
+      rowCount = Рљ_РїРѕСЂ_Row + 1
+      Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column - 6).Value <> ""
         
-        ' Если в поле Дата не пусто (+ если План не 0), то выводим в поручение
-        If (ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column + 1).Value <> "") And (ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column + 2).Value <> 0) Then
-          ' Номер поручения
-          Номер_поручения = Номер_поручения + 1
-          ' Если номер поручения более 6-ти, то вставляем строку
-          If Номер_поручения > 6 Then
+        ' Р•СЃР»Рё РІ РїРѕР»Рµ Р”Р°С‚Р° РЅРµ РїСѓСЃС‚Рѕ (+ РµСЃР»Рё РџР»Р°РЅ РЅРµ 0), С‚Рѕ РІС‹РІРѕРґРёРј РІ РїРѕСЂСѓС‡РµРЅРёРµ
+        If (ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column + 1).Value <> "") And (ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column + 2).Value <> 0) Then
+          ' РќРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ
+          РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ + 1
+          ' Р•СЃР»Рё РЅРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ Р±РѕР»РµРµ 6-С‚Рё, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+          If РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ > 6 Then
             
-            ' Вставляем пустую строку в блок "Поручения"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' Р’СЃС‚Р°РІР»СЏРµРј РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ Р±Р»РѕРє "РџРѕСЂСѓС‡РµРЅРёСЏ"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
-            ' Нумерация "7." возможна только если формат преобразовать к текстовому ("@")
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).NumberFormat = "@"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).Value = CStr(Номер_поручения) + "."
-            ' Объединяем B, С, D
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
-            ' Объединяем G, Н
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("G" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
-            ' Рамка
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' РќСѓРјРµСЂР°С†РёСЏ "7." РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РµСЃР»Рё С„РѕСЂРјР°С‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ Рє С‚РµРєСЃС‚РѕРІРѕРјСѓ ("@")
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).NumberFormat = "@"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).Value = CStr(РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + "."
+            ' РћР±СЉРµРґРёРЅСЏРµРј B, РЎ, D
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
+            ' РћР±СЉРµРґРёРЅСЏРµРј G, Рќ
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("G" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
+            ' Р Р°РјРєР°
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             With Selection.Borders(xlEdgeLeft)
                 .LineStyle = xlContinuous
                 .ThemeColor = 3
@@ -206,142 +206,142 @@ Dim row_column_Список_получателей, column_Список_получателей As Byte
                 .Weight = xlThin
             End With
 
-          End If ' Вставляем новую строку Поручения и нумеруем
+          End If ' Р’СЃС‚Р°РІР»СЏРµРј РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РџРѕСЂСѓС‡РµРЅРёСЏ Рё РЅСѓРјРµСЂСѓРµРј
           
-          ' Номер Поручения (№ п/п) - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).VerticalAlignment = xlCenter
+          ' РќРѕРјРµСЂ РџРѕСЂСѓС‡РµРЅРёСЏ (в„– Рї/Рї) - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).VerticalAlignment = xlCenter
 
-          ' Поручение
-          str_Поручениеi = getNameOfficeByNumber(i) + ": " + ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column - 5).Value + " " + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column + 2).Value) + " " + ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column + 3).Value
+          ' РџРѕСЂСѓС‡РµРЅРёРµ
+          str_РџРѕСЂСѓС‡РµРЅРёРµi = getNameOfficeByNumber(i) + ": " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column - 5).Value + " " + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column + 2).Value) + " " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column + 3).Value
           
-          ' Поручение - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Поручение - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).HorizontalAlignment = xlLeft
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).VerticalAlignment = xlTop
-          ' Поручение - высота строки
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).RowHeight = lineHeight(str_Поручениеi, 15, 37) ' 20 - норм
-          ' Поручение - Запись в протокол
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).Value = str_Поручениеi
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).HorizontalAlignment = xlLeft
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).VerticalAlignment = xlTop
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЃРѕС‚Р° СЃС‚СЂРѕРєРё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).RowHeight = lineHeight(str_РџРѕСЂСѓС‡РµРЅРёРµi, 15, 37) ' 20 - РЅРѕСЂРј
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - Р—Р°РїРёСЃСЊ РІ РїСЂРѕС‚РѕРєРѕР»
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).Value = str_РџРѕСЂСѓС‡РµРЅРёРµi
 
-          ' Ответственный
-          ' Вариант 1 - Должность и ФИО
-          ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 4).Value + " " + ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 3).Value
-          ' Вариант 2 - ФИО
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 3).Value
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+          ' Р’Р°СЂРёР°РЅС‚ 1 - Р”РѕР»Р¶РЅРѕСЃС‚СЊ Рё Р¤РРћ
+          ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 4).Value + " " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 3).Value
+          ' Р’Р°СЂРёР°РЅС‚ 2 - Р¤РРћ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 3).Value
           
-          ' Ответственный - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Ответственный - выравнивание по вертикали и горизонтали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).VerticalAlignment = xlTop
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).HorizontalAlignment = xlCenter
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»Рё Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).VerticalAlignment = xlTop
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).HorizontalAlignment = xlCenter
           
-          ' Срок исполнения
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).Value = CStr(weekEndDate(CDate(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, К_пор_Column + 1).Value)))
-          ' Срок исполнения - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).VerticalAlignment = xlTop
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).Value = CStr(weekEndDate(CDate(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, Рљ_РїРѕСЂ_Column + 1).Value)))
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).VerticalAlignment = xlTop
           
         End If
-        ' Следующая строка
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
         DoEvents
         rowCount = rowCount + 1
       Loop ' Do While
       
-    Next i ' Следующий офис
+    Next i ' РЎР»РµРґСѓСЋС‰РёР№ РѕС„РёСЃ
     
-    ' Вывести результаты исполнения предидущих поручений из BASE\
+    ' Р’С‹РІРµСЃС‚Рё СЂРµР·СѓР»СЊС‚Р°С‚С‹ РёСЃРїРѕР»РЅРµРЅРёСЏ РїСЂРµРґРёРґСѓС‰РёС… РїРѕСЂСѓС‡РµРЅРёР№ РёР· BASE\
     
-    ' Моя Подпись под протоколом
-    текущаяСтрокаПротокола = (12 + Номер_вопроса + 4 + Номер_поручения) + 2
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = "Заместитель директора по развитию розничного бизнеса"
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 7).Value = "Прощаев С.Ф."
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+    ' РњРѕСЏ РџРѕРґРїРёСЃСЊ РїРѕРґ РїСЂРѕС‚РѕРєРѕР»РѕРј
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = (12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + 2
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = "Р—Р°РјРµСЃС‚РёС‚РµР»СЊ РґРёСЂРµРєС‚РѕСЂР° РїРѕ СЂР°Р·РІРёС‚РёСЋ СЂРѕР·РЅРёС‡РЅРѕРіРѕ Р±РёР·РЅРµСЃР°"
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 7).Value = "РџСЂРѕС‰Р°РµРІ РЎ.Р¤."
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
     
-    ' С протоколом ознакомлены: (по электронной почте) - направляем присутствующим и отсутствующим
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = "C протоколом ознакомлены (по электронной почте):"
-    ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Font.Underline = xlUnderlineStyleSingle
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+    ' РЎ РїСЂРѕС‚РѕРєРѕР»РѕРј РѕР·РЅР°РєРѕРјР»РµРЅС‹: (РїРѕ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ) - РЅР°РїСЂР°РІР»СЏРµРј РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‰РёРј Рё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРј
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = "C РїСЂРѕС‚РѕРєРѕР»РѕРј РѕР·РЅР°РєРѕРјР»РµРЅС‹ (РїРѕ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ):"
+    ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Font.Underline = xlUnderlineStyleSingle
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
     '
-    Присутств_на_Собрании_Range = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Присутств_на_Собрании", 100, 100)
-    Присутств_на_Собрании_Row = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Row
-    Присутств_на_Собрании_Column = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Column
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё", 100, 100)
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Row
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Column
     
-    rowCount = Присутств_на_Собрании_Row + 1
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column).Value <> "Пригл_на_Собрание"
+    rowCount = РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row + 1
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column).Value <> "РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ"
       
-      ' Если ФИО <>0
-      If ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value <> 0 Then
+      ' Р•СЃР»Рё Р¤РРћ <>0
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value <> 0 Then
         
-        ' Должность_и_ФИО = ThisWorkbook.Sheets("ЕСУП").Cells(RowCount, Присутств_на_Собрании_Column + 4).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(RowCount, Присутств_на_Собрании_Column + 1).Value, 3)
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 4).Value
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 6).Value = Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value, 3)
-        текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-        Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+        ' Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(RowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 4).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(RowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value, 3)
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 4).Value
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 6).Value = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value, 3)
+        С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+        Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
       
       End If
       
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
  
-    ' Формируем список для отправки (в "Список получателей:"):
-    range_Список_получателей = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Список получателей:", 100, 100)
-    row_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Row
-    column_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Column
+    ' Р¤РѕСЂРјРёСЂСѓРµРј СЃРїРёСЃРѕРє РґР»СЏ РѕС‚РїСЂР°РІРєРё (РІ "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:"):
+    range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+    row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Row
+    column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Column
     '
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 2).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП", 2)
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 3).Value = " "
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 2).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ", 2)
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 3).Value = " "
     
-    ' Перемещаем в ячейку A1
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A1").Select
+    ' РџРµСЂРµРјРµС‰Р°РµРј РІ СЏС‡РµР№РєСѓ A1
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A1").Select
     
-    ' Закрытие файла с Протоколом Собрания
+    ' Р—Р°РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РџСЂРѕС‚РѕРєРѕР»РѕРј РЎРѕР±СЂР°РЅРёСЏ
     Workbooks(FileProtocolName).Close SaveChanges:=True
     
-    ' Редактируем тему письма
-    ThisWorkbook.Sheets("ЕСУП").Cells(1, 17).Value = "Тюменский РОО: Протокол конференц-колла с офисами №" + ThisWorkbook.Sheets("ЕСУП").Cells(2, 7).Value + " от " + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + " г."
+    ' Р РµРґР°РєС‚РёСЂСѓРµРј С‚РµРјСѓ РїРёСЃСЊРјР°
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 17).Value = "РўСЋРјРµРЅСЃРєРёР№ Р РћРћ: РџСЂРѕС‚РѕРєРѕР» РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р»Р° СЃ РѕС„РёСЃР°РјРё в„–" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(2, 7).Value + " РѕС‚ " + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + " Рі."
     
-    ' Редактируем поля с Тэгами 1 и 2 на листе Есуп
-    ThisWorkbook.Sheets("ЕСУП").Cells(1, 15).Value = "#protocol"
-    ThisWorkbook.Sheets("ЕСУП").Cells(3, 15).Value = "#protocol_" + ThisWorkbook.Sheets("ЕСУП").Cells(2, 7).Value
+    ' Р РµРґР°РєС‚РёСЂСѓРµРј РїРѕР»СЏ СЃ РўСЌРіР°РјРё 1 Рё 2 РЅР° Р»РёСЃС‚Рµ Р•СЃСѓРї
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 15).Value = "#protocol"
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(3, 15).Value = "#protocol_" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(2, 7).Value
    
-    MsgBox ("Протокол сформирован!")
+    MsgBox ("РџСЂРѕС‚РѕРєРѕР» СЃС„РѕСЂРјРёСЂРѕРІР°РЅ!")
     
-  End If ' Запрос на формирование
+  End If ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ
   
 End Sub
 
-' Новый бланк Протокола собрания (Перенести в архив повестку)
-Sub Новый_бланк_Протокола_Собрания()
-Dim НомерСтроки_Повестка_дня, rowCount, Номер_вопроса, row_Повестка_дня, column_Повестка_дня As Byte
+' РќРѕРІС‹Р№ Р±Р»Р°РЅРє РџСЂРѕС‚РѕРєРѕР»Р° СЃРѕР±СЂР°РЅРёСЏ (РџРµСЂРµРЅРµСЃС‚Рё РІ Р°СЂС…РёРІ РїРѕРІРµСЃС‚РєСѓ)
+Sub РќРѕРІС‹Р№_Р±Р»Р°РЅРє_РџСЂРѕС‚РѕРєРѕР»Р°_РЎРѕР±СЂР°РЅРёСЏ()
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, rowCount, РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ As Byte
 
-  ' Запрос на формирование бланка протокола Собрания
-  If MsgBox("Перенести Повестку и Поручения в Архив?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р±Р»Р°РЅРєР° РїСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ
+  If MsgBox("РџРµСЂРµРЅРµСЃС‚Рё РџРѕРІРµСЃС‚РєСѓ Рё РџРѕСЂСѓС‡РµРЅРёСЏ РІ РђСЂС…РёРІ?", vbYesNo) = vbYes Then
     
-    ' 1. Копирование полей протокола: переносим все в BASE\?
+    ' 1. РљРѕРїРёСЂРѕРІР°РЅРёРµ РїРѕР»РµР№ РїСЂРѕС‚РѕРєРѕР»Р°: РїРµСЂРµРЅРѕСЃРёРј РІСЃРµ РІ BASE\?
     ' OpenBookInBase InsertRecordInBook CloseBook
-    ' 1.1. Копирование в BASE\Protocols
-    Application.StatusBar = "Копирование данных: Protocols ..."
-    ' Открываем BASE\Protocols
+    ' 1.1. РљРѕРїРёСЂРѕРІР°РЅРёРµ РІ BASE\Protocols
+    Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ РґР°РЅРЅС‹С…: Protocols ..."
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Protocols
     OpenBookInBase ("Protocols")
     ThisWorkbook.Activate
     
-    ' Вставляем протокол
-    Call InsertRecordInBook("Protocols", "Лист1", "Protocol", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, _
-                                            "Date", dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value), _
-                                              "Protocol", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, _
-                                                "Theme", "Еженедельный конференц-колл с Управляющими офисов и НОРПиКО Тюменского РОО по подведению итогов работы офисов за предыдущую неделю и постановке бизнес-целей на текущую неделю", _
-                                                  "Place", "г.Тюмень, ул.Советская 51/1", _
-                                                    "Participants", Присутствовавшие_на_Собрании(1), _
-                                                      "Lack", Присутствовавшие_на_Собрании(0), _
-                                                        "Copy_to", getFromAddrBook("КОП", 1), _
+    ' Р’СЃС‚Р°РІР»СЏРµРј РїСЂРѕС‚РѕРєРѕР»
+    Call InsertRecordInBook("Protocols", "Р›РёСЃС‚1", "Protocol", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, _
+                                            "Date", dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value), _
+                                              "Protocol", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, _
+                                                "Theme", "Р•Р¶РµРЅРµРґРµР»СЊРЅС‹Р№ РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р» СЃ РЈРїСЂР°РІР»СЏСЋС‰РёРјРё РѕС„РёСЃРѕРІ Рё РќРћР РџРёРљРћ РўСЋРјРµРЅСЃРєРѕРіРѕ Р РћРћ РїРѕ РїРѕРґРІРµРґРµРЅРёСЋ РёС‚РѕРіРѕРІ СЂР°Р±РѕС‚С‹ РѕС„РёСЃРѕРІ Р·Р° РїСЂРµРґС‹РґСѓС‰СѓСЋ РЅРµРґРµР»СЋ Рё РїРѕСЃС‚Р°РЅРѕРІРєРµ Р±РёР·РЅРµСЃ-С†РµР»РµР№ РЅР° С‚РµРєСѓС‰СѓСЋ РЅРµРґРµР»СЋ", _
+                                                  "Place", "Рі.РўСЋРјРµРЅСЊ, СѓР».РЎРѕРІРµС‚СЃРєР°СЏ 51/1", _
+                                                    "Participants", РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(1), _
+                                                      "Lack", РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(0), _
+                                                        "Copy_to", getFromAddrBook("РљРћРџ", 1), _
                                                           "", "", _
                                                             "", "", _
                                                               "", "", _
@@ -357,28 +357,28 @@ Dim НомерСтроки_Повестка_дня, rowCount, Номер_вопроса, row_Повестка_дня, column_
                                                                                   "", "")
 
     
-    ' 1.2. Копирование в BASE\Themes
-    Application.StatusBar = "Копирование данных: Themes ..."
-    ' Открываем BASE\Themes
+    ' 1.2. РљРѕРїРёСЂРѕРІР°РЅРёРµ РІ BASE\Themes
+    Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ РґР°РЅРЅС‹С…: Themes ..."
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Themes
     OpenBookInBase ("Themes")
     ThisWorkbook.Activate
         
-    НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Row
+    РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Row
     rowCount = 2
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value <> ""
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value <> ""
       
-      ' Если у вопроса стоит отметка "1", то значит мы его осветили и переносим в Архив. Если стоит 0, то оставляем для следующего Собрания
-      If ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 14).Value = "1" Then
+      ' Р•СЃР»Рё Сѓ РІРѕРїСЂРѕСЃР° СЃС‚РѕРёС‚ РѕС‚РјРµС‚РєР° "1", С‚Рѕ Р·РЅР°С‡РёС‚ РјС‹ РµРіРѕ РѕСЃРІРµС‚РёР»Рё Рё РїРµСЂРµРЅРѕСЃРёРј РІ РђСЂС…РёРІ. Р•СЃР»Рё СЃС‚РѕРёС‚ 0, С‚Рѕ РѕСЃС‚Р°РІР»СЏРµРј РґР»СЏ СЃР»РµРґСѓСЋС‰РµРіРѕ РЎРѕР±СЂР°РЅРёСЏ
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 14).Value = "1" Then
         
-        ' Вставляем Темы выступлений
-        Call InsertRecordInBook("Themes", "Лист1", "Number_Theme", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value + "-" + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value), _
-                                            "Date", dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value), _
-                                              "Protocol", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, _
-                                                "Number_Theme", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value + "-" + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value), _
-                                                  "Speker", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 2).Value, _
-                                                    "Theme", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value, _
-                                                      "HashTag", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 13).Value, _
-                                                        "Action", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 14).Value, _
+        ' Р’СЃС‚Р°РІР»СЏРµРј РўРµРјС‹ РІС‹СЃС‚СѓРїР»РµРЅРёР№
+        Call InsertRecordInBook("Themes", "Р›РёСЃС‚1", "Number_Theme", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value + "-" + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value), _
+                                            "Date", dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value), _
+                                              "Protocol", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, _
+                                                "Number_Theme", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value + "-" + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value), _
+                                                  "Speker", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 2).Value, _
+                                                    "Theme", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value, _
+                                                      "HashTag", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 13).Value, _
+                                                        "Action", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 14).Value, _
                                                           "", "", _
                                                             "", "", _
                                                               "", "", _
@@ -393,562 +393,562 @@ Dim НомерСтроки_Повестка_дня, rowCount, Номер_вопроса, row_Повестка_дня, column_
                                                                                 "", "", _
                                                                                   "", "")
 
-      End If ' Если у вопроса стоит 1
+      End If ' Р•СЃР»Рё Сѓ РІРѕРїСЂРѕСЃР° СЃС‚РѕРёС‚ 1
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
         
-    ' 1.3. Копирование в BASE\Tasks
-    ' Application.StatusBar = "Копирование данных: Tasks ..."
-    ' Открываем BASE\Tasks
+    ' 1.3. РљРѕРїРёСЂРѕРІР°РЅРёРµ РІ BASE\Tasks
+    ' Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ РґР°РЅРЅС‹С…: Tasks ..."
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Tasks
     ' OpenBookInBase ("Tasks")
         
-    ' Здесь копировать нечего
+    ' Р—РґРµСЃСЊ РєРѕРїРёСЂРѕРІР°С‚СЊ РЅРµС‡РµРіРѕ
         
-    ' Закрываем 3 таблицы
+    ' Р—Р°РєСЂС‹РІР°РµРј 3 С‚Р°Р±Р»РёС†С‹
     CloseBook ("Protocols")
     CloseBook ("Themes")
     ' CloseBook ("Tasks")
                 
-    ' 2. Новый номер протокола в G2 Протокол:   10-02032020
-    ' 3. Новый номер недели в J2 Неделя: 10
-    ' 4. Присутств_на_Собрании - поставить всем 0
-    ' 5. Пригл_на_Собрание - проставить всем 0
+    ' 2. РќРѕРІС‹Р№ РЅРѕРјРµСЂ РїСЂРѕС‚РѕРєРѕР»Р° РІ G2 РџСЂРѕС‚РѕРєРѕР»:   10-02032020
+    ' 3. РќРѕРІС‹Р№ РЅРѕРјРµСЂ РЅРµРґРµР»Рё РІ J2 РќРµРґРµР»СЏ: 10
+    ' 4. РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё - РїРѕСЃС‚Р°РІРёС‚СЊ РІСЃРµРј 0
+    ' 5. РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ - РїСЂРѕСЃС‚Р°РІРёС‚СЊ РІСЃРµРј 0
     
-    ' 6. Повестка_дня - очистить все строки, которые были перенесены в архив с признаком 1, строки с 0 оставляем без изменений
-    Application.StatusBar = "Очистка списка вопросов..."
+    ' 6. РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - РѕС‡РёСЃС‚РёС‚СЊ РІСЃРµ СЃС‚СЂРѕРєРё, РєРѕС‚РѕСЂС‹Рµ Р±С‹Р»Рё РїРµСЂРµРЅРµСЃРµРЅС‹ РІ Р°СЂС…РёРІ СЃ РїСЂРёР·РЅР°РєРѕРј 1, СЃС‚СЂРѕРєРё СЃ 0 РѕСЃС‚Р°РІР»СЏРµРј Р±РµР· РёР·РјРµРЅРµРЅРёР№
+    Application.StatusBar = "РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° РІРѕРїСЂРѕСЃРѕРІ..."
     
-    row_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Row
-    column_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Column
+    row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Row
+    column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Column
     rowCount = 2
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня).Value <> ""
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value <> ""
     
-      ' Если отметка = "1"
-      If ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня + 12).Value = "1" Then
+      ' Р•СЃР»Рё РѕС‚РјРµС‚РєР° = "1"
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = "1" Then
         
-        ' Номер
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня - 1).Value = ""
-        ' Выступающий:
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня).Value = ""
-        ' Тема:
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня + 1).Value = ""
+        ' РќРѕРјРµСЂ
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = ""
+        ' Р’С‹СЃС‚СѓРїР°СЋС‰РёР№:
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = ""
+        ' РўРµРјР°:
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = ""
         ' HashTag
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня + 11).Value = ""
-        ' Отметка
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Повестка_дня + rowCount, column_Повестка_дня + 12).Value = ""
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = ""
+        ' РћС‚РјРµС‚РєР°
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, column_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = ""
       
       End If
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
     
     Application.StatusBar = ""
     
-    ' 7. Очистить Поручения_участникам
-    Application.StatusBar = "Очистка списка Поручений участникам..."
+    ' 7. РћС‡РёСЃС‚РёС‚СЊ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј
+    Application.StatusBar = "РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° РџРѕСЂСѓС‡РµРЅРёР№ СѓС‡Р°СЃС‚РЅРёРєР°Рј..."
     
-    row_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)).Row
-    column_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)).Column
+    row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)).Row
+    column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)).Column
     
-    ' Счетчик ошибок
+    ' РЎС‡РµС‚С‡РёРє РѕС€РёР±РѕРє
     CountError = 0
 
     rowCount = 2
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 2).Value <> ""
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value <> ""
     
-      ' Если отметка = "1"
-      If ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 13).Value = "1" Then
+      ' Р•СЃР»Рё РѕС‚РјРµС‚РєР° = "1"
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = "1" Then
         
-        ' Номер
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам - 1).Value = ""
-        ' Ответственный:
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам).Value = ""
-        ' Срок:
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 1).Value = ""
-        ' Содержание поручения:
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 2).Value = ""
-        ' Отметка перенесено "В To-Do"
-        ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 13).Value = ""
+        ' РќРѕРјРµСЂ
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = ""
+        ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№:
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = ""
+        ' РЎСЂРѕРє:
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = ""
+        ' РЎРѕРґРµСЂР¶Р°РЅРёРµ РїРѕСЂСѓС‡РµРЅРёСЏ:
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = ""
+        ' РћС‚РјРµС‚РєР° РїРµСЂРµРЅРµСЃРµРЅРѕ "Р’ To-Do"
+        ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = ""
       
       End If
       
-      ' Если есть отметка = "0"
-      If ThisWorkbook.Sheets("ЕСУП").Cells(row_Поручения_участникам + rowCount, column_Поручения_участникам + 13).Value = "0" Then
-        ' Счетчик ошибок
+      ' Р•СЃР»Рё РµСЃС‚СЊ РѕС‚РјРµС‚РєР° = "0"
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, column_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = "0" Then
+        ' РЎС‡РµС‚С‡РёРє РѕС€РёР±РѕРє
         CountError = CountError + 1
       End If
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
     
-    ' Проверяем результат на наличие ошибок
+    ' РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РЅР° РЅР°Р»РёС‡РёРµ РѕС€РёР±РѕРє
     If CountError <> 0 Then
-      MsgBox ("Внимание! " + CStr(CountError) + " Поручений не перенесены в To-Do!")
+      MsgBox ("Р’РЅРёРјР°РЅРёРµ! " + CStr(CountError) + " РџРѕСЂСѓС‡РµРЅРёР№ РЅРµ РїРµСЂРµРЅРµСЃРµРЅС‹ РІ To-Do!")
     End If
     
     Application.StatusBar = ""
     
-    ' Зачеркиваем: "Перенести в Архив Повестку Собрания"
-    Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Перенести в Архив Повестку Собрания", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј: "РџРµСЂРµРЅРµСЃС‚Рё РІ РђСЂС…РёРІ РџРѕРІРµСЃС‚РєСѓ РЎРѕР±СЂР°РЅРёСЏ"
+    Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РџРµСЂРµРЅРµСЃС‚Рё РІ РђСЂС…РёРІ РџРѕРІРµСЃС‚РєСѓ РЎРѕР±СЂР°РЅРёСЏ", 100, 100))
     
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
     
-    MsgBox ("Повестка и Поручения перенесены в Архив!")
+    MsgBox ("РџРѕРІРµСЃС‚РєР° Рё РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРµРЅРµСЃРµРЅС‹ РІ РђСЂС…РёРІ!")
   
   End If
 End Sub
 
-' Отправить Протокол собрания
+' РћС‚РїСЂР°РІРёС‚СЊ РџСЂРѕС‚РѕРєРѕР» СЃРѕР±СЂР°РЅРёСЏ
 Sub sendProtocol()
-  ' Запрос на формирование бланка протокола Собрания
-  If MsgBox("Отправить Протокол Собрания?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р±Р»Р°РЅРєР° РїСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ РџСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ?", vbYesNo) = vbYes Then
     
-    ' Отправить в Lotus Notes
-    ' Строка статуса
-    Application.StatusBar = "Отправка Протокола участникам в Lotus Notes ..."
+    ' РћС‚РїСЂР°РІРёС‚СЊ РІ Lotus Notes
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћС‚РїСЂР°РІРєР° РџСЂРѕС‚РѕРєРѕР»Р° СѓС‡Р°СЃС‚РЅРёРєР°Рј РІ Lotus Notes ..."
     
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
     
-    MsgBox ("Протокол отправлен в Lotus Notes!")
-    ' Скопировать в каталог ЕСУП
-    ' Строка статуса
-    Application.StatusBar = "Копирование Протокола в каталог ЕСУП ..."
+    MsgBox ("РџСЂРѕС‚РѕРєРѕР» РѕС‚РїСЂР°РІР»РµРЅ РІ Lotus Notes!")
+    ' РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ РџСЂРѕС‚РѕРєРѕР»Р° РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ ..."
     
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
-    MsgBox ("Протокол скопирован в каталог ЕСУП!")
+    MsgBox ("РџСЂРѕС‚РѕРєРѕР» СЃРєРѕРїРёСЂРѕРІР°РЅ РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ!")
   End If
 End Sub
 
 
-' Добавление строки
+' Р”РѕР±Р°РІР»РµРЅРёРµ СЃС‚СЂРѕРєРё
 Sub InsertRow_InProtocol(In_FileProtocolName, In_Sheets, In_RowNumber)
   
-  ' Вставляем пустую строку в блок "Поручения"
+  ' Р’СЃС‚Р°РІР»СЏРµРј РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ Р±Р»РѕРє "РџРѕСЂСѓС‡РµРЅРёСЏ"
   Workbooks(In_FileProtocolName).Sheets(In_Sheets).Range(CStr(In_RowNumber) + ":" + CStr(In_RowNumber)).Select
   Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
               
 End Sub
 
-' ЕСУП: Нумеровать список вопросов на Листе в разделе повестка от 1 до ...
+' Р•РЎРЈРџ: РќСѓРјРµСЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє РІРѕРїСЂРѕСЃРѕРІ РЅР° Р›РёСЃС‚Рµ РІ СЂР°Р·РґРµР»Рµ РїРѕРІРµСЃС‚РєР° РѕС‚ 1 РґРѕ ...
 Sub createNumberingThemes()
-Dim НомерСтроки_Повестка_дня, rowCount As Byte
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, rowCount As Byte
 
-  НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Row
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Row
   rowCount = 2
-  Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value <> ""
+  Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value <> ""
     
-    ' Нумерация
-    ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value = (rowCount - 1)
+    ' РќСѓРјРµСЂР°С†РёСЏ
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value = (rowCount - 1)
     
-    ' Снимаем установку "Переносить по словам"
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).HorizontalAlignment = xlGeneral
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).VerticalAlignment = xlBottom
-    ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).WrapText = False
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Orientation = 0
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).AddIndent = False
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).IndentLevel = 0
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).ShrinkToFit = False
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).ReadingOrder = xlContext
-    ' ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).MergeCells = False
+    ' РЎРЅРёРјР°РµРј СѓСЃС‚Р°РЅРѕРІРєСѓ "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).HorizontalAlignment = xlGeneral
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).VerticalAlignment = xlBottom
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).WrapText = False
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Orientation = 0
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).AddIndent = False
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).IndentLevel = 0
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).ShrinkToFit = False
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).ReadingOrder = xlContext
+    ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).MergeCells = False
     
-    ' Следующая строка
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
     rowCount = rowCount + 1
   Loop
 
 End Sub
 
-' ЕСУП: Нумеровать список вопросов на Листе в разделе Поручения от 1 до ...
+' Р•РЎРЈРџ: РќСѓРјРµСЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє РІРѕРїСЂРѕСЃРѕРІ РЅР° Р›РёСЃС‚Рµ РІ СЂР°Р·РґРµР»Рµ РџРѕСЂСѓС‡РµРЅРёСЏ РѕС‚ 1 РґРѕ ...
 Sub createNumberingTask()
-Dim НомерСтроки_Поручения_участникам, rowCount As Byte
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, rowCount As Byte
 
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)).Row
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)).Row
   rowCount = 2
-  Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, 19).Value <> ""
-    ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, 18).Value = (rowCount - 1)
-    ' Следующая строка
+  Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, 19).Value <> ""
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, 18).Value = (rowCount - 1)
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
     rowCount = rowCount + 1
   Loop
 
 End Sub
 
 
-' Перевести в ЕСУП номер следующей недели в CSMP (common standards for management procedures)
+' РџРµСЂРµРІРµСЃС‚Рё РІ Р•РЎРЈРџ РЅРѕРјРµСЂ СЃР»РµРґСѓСЋС‰РµР№ РЅРµРґРµР»Рё РІ CSMP (common standards for management procedures)
 Sub changeWeekNumberInCSMP()
 Dim currentOperDate As Date
-Dim i, Range_Row, Range_Row2, Range_Column, Range_Column2, row_Присутств_на_Собрании, column_Присутств_на_Собрании As Byte
-Dim ПланНаНеделю_Активы, ПланНаНеделю_ИК, ПланНаНеделю_ИК_Сургут As Double
-Dim rowCount, ПланНаНеделю_ДК, ПланНаНеделю_КК As Integer
-Dim Номер_протокола_прошлой_недели, Range_str, Range_str2 As String
+Dim i, Range_Row, Range_Row2, Range_Column, Range_Column2, row_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё, column_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё As Byte
+Dim РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РђРєС‚РёРІС‹, РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ, РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ_РЎСѓСЂРіСѓС‚ As Double
+Dim rowCount, РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Р”Рљ, РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РљРљ As Integer
+Dim РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё, Range_str, Range_str2 As String
 
-  ' Текущая операционная дата на новой неделе - первый понедельник на неделя + 1
+  ' РўРµРєСѓС‰Р°СЏ РѕРїРµСЂР°С†РёРѕРЅРЅР°СЏ РґР°С‚Р° РЅР° РЅРѕРІРѕР№ РЅРµРґРµР»Рµ - РїРµСЂРІС‹Р№ РїРѕРЅРµРґРµР»СЊРЅРёРє РЅР° РЅРµРґРµР»СЏ + 1
   ' currentOperDate = Date
-  currentOperDate = MondayDateByWeekNumber(НеделяНаЛистеN("ЕСУП") + 1, Year(Date))
+  currentOperDate = MondayDateByWeekNumber(РќРµРґРµР»СЏРќР°Р›РёСЃС‚РµN("Р•РЎРЈРџ") + 1, Year(Date))
   
-  ' Проверяем неделю на листе и текущую неделю
-  If НеделяНаЛистеN("ЕСУП") < WeekNumber(currentOperDate) Then
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅРµРґРµР»СЋ РЅР° Р»РёСЃС‚Рµ Рё С‚РµРєСѓС‰СѓСЋ РЅРµРґРµР»СЋ
+  If РќРµРґРµР»СЏРќР°Р›РёСЃС‚РµN("Р•РЎРЈРџ") < WeekNumber(currentOperDate) Then
   
-    ' Запрос на формирование бланка протокола Собрания
-    If MsgBox("Открыть новую неделю?", vbYesNo) = vbYes Then
+    ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ Р±Р»Р°РЅРєР° РїСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ
+    If MsgBox("РћС‚РєСЂС‹С‚СЊ РЅРѕРІСѓСЋ РЅРµРґРµР»СЋ?", vbYesNo) = vbYes Then
     
-      ' Строка статуса
-      Application.StatusBar = "Открытие новой недели ..."
+      ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+      Application.StatusBar = "РћС‚РєСЂС‹С‚РёРµ РЅРѕРІРѕР№ РЅРµРґРµР»Рё ..."
     
-      ' Протокол прошлой недели
-      Номер_протокола_прошлой_недели = ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Протокол:", 100, 100), ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Протокол:", 100, 100) + 1).Value
+      ' РџСЂРѕС‚РѕРєРѕР» РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё
+      РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРѕС‚РѕРєРѕР»:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРѕС‚РѕРєРѕР»:", 100, 100) + 1).Value
       
-      ' Открываем BASE\Tasks
+      ' РћС‚РєСЂС‹РІР°РµРј BASE\Tasks
       OpenBookInBase ("Tasks")
 
-      ' Период: с 01.01 по 07.01.2020 г. (ищем "Единая Система Управленческих Процедур")
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Единая Система Управленческих Процедур", 100, 100) + 1, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Единая Система Управленческих Процедур", 100, 100)).Value = "Период: с " + CStr(weekStartDate(currentOperDate)) + " по " + CStr(weekEndDate(currentOperDate)) + " г."
+      ' РџРµСЂРёРѕРґ: СЃ 01.01 РїРѕ 07.01.2020 Рі. (РёС‰РµРј "Р•РґРёРЅР°СЏ РЎРёСЃС‚РµРјР° РЈРїСЂР°РІР»РµРЅС‡РµСЃРєРёС… РџСЂРѕС†РµРґСѓСЂ")
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р•РґРёРЅР°СЏ РЎРёСЃС‚РµРјР° РЈРїСЂР°РІР»РµРЅС‡РµСЃРєРёС… РџСЂРѕС†РµРґСѓСЂ", 100, 100) + 1, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р•РґРёРЅР°СЏ РЎРёСЃС‚РµРјР° РЈРїСЂР°РІР»РµРЅС‡РµСЃРєРёС… РџСЂРѕС†РµРґСѓСЂ", 100, 100)).Value = "РџРµСЂРёРѕРґ: СЃ " + CStr(weekStartDate(currentOperDate)) + " РїРѕ " + CStr(weekEndDate(currentOperDate)) + " Рі."
     
-      ' в G2 Протокол:   10-02032020
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Протокол:", 100, 100), ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Протокол:", 100, 100) + 1).Value = CStr(WeekNumber(currentOperDate)) + "-" + strDDMMYYYY(currentOperDate)
+      ' РІ G2 РџСЂРѕС‚РѕРєРѕР»:   10-02032020
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРѕС‚РѕРєРѕР»:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРѕС‚РѕРєРѕР»:", 100, 100) + 1).Value = CStr(WeekNumber(currentOperDate)) + "-" + strDDMMYYYY(currentOperDate)
 
-      ' в J2 Неделя: 10. Устанавливаем номер недели как предидущая плюс 1!
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Неделя:", 100, 100), ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Неделя:", 100, 100) + 1).Value = WeekNumber(currentOperDate)
+      ' РІ J2 РќРµРґРµР»СЏ: 10. РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅРѕРјРµСЂ РЅРµРґРµР»Рё РєР°Рє РїСЂРµРґРёРґСѓС‰Р°СЏ РїР»СЋСЃ 1!
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РќРµРґРµР»СЏ:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РќРµРґРµР»СЏ:", 100, 100) + 1).Value = WeekNumber(currentOperDate)
       
-      ' в ячейку C6 (ПК), E6 (ИСЖ), G6 (ДК), I6 (КК) занести номер недели "План нед.(11)"
-      ' ПК
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 1).Value = "План нед.(" + CStr(WeekNumber(currentOperDate)) + ")"
-      ' по ИСЖ переносим на Лист 4
-      ' ThisWorkbook.Sheets("ЕСУП").Cells(RowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 3).Value = "План нед.(" + CStr(WeekNumber(currentOperDate)) + ")"
-      ' ДК
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 5).Value = "План нед.(" + CStr(WeekNumber(currentOperDate)) + ")"
-      ' КК
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 7).Value = "План нед.(" + CStr(WeekNumber(currentOperDate)) + ")"
-      ' ИЦ
-      ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 13, ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения периода:", 100, 100) + 1).Value = "План нед.(" + CStr(WeekNumber(currentOperDate)) + ")"
+      ' РІ СЏС‡РµР№РєСѓ C6 (РџРљ), E6 (РРЎР–), G6 (Р”Рљ), I6 (РљРљ) Р·Р°РЅРµСЃС‚Рё РЅРѕРјРµСЂ РЅРµРґРµР»Рё "РџР»Р°РЅ РЅРµРґ.(11)"
+      ' РџРљ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 1).Value = "РџР»Р°РЅ РЅРµРґ.(" + CStr(WeekNumber(currentOperDate)) + ")"
+      ' РїРѕ РРЎР– РїРµСЂРµРЅРѕСЃРёРј РЅР° Р›РёСЃС‚ 4
+      ' ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(RowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 3).Value = "РџР»Р°РЅ РЅРµРґ.(" + CStr(WeekNumber(currentOperDate)) + ")"
+      ' Р”Рљ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 5).Value = "РџР»Р°РЅ РЅРµРґ.(" + CStr(WeekNumber(currentOperDate)) + ")"
+      ' РљРљ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 2, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 7).Value = "РџР»Р°РЅ РЅРµРґ.(" + CStr(WeekNumber(currentOperDate)) + ")"
+      ' РР¦
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 13, ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ РїРµСЂРёРѕРґР°:", 100, 100) + 1).Value = "РџР»Р°РЅ РЅРµРґ.(" + CStr(WeekNumber(currentOperDate)) + ")"
       
     
-      ' Делаем расчет планов на неделю по активам - берем план и факт с Лист3
+      ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚ РїР»Р°РЅРѕРІ РЅР° РЅРµРґРµР»СЋ РїРѕ Р°РєС‚РёРІР°Рј - Р±РµСЂРµРј РїР»Р°РЅ Рё С„Р°РєС‚ СЃ Р›РёСЃС‚3
       
-      ' Активы: План-Поручение офису ВПКi
-      ' Range_str = RangeByValue(ThisWorkbook.Name, "Лист3", "Форма 2", 100, 100)
-      ' Форма 2.1
-      Range_str = RangeByValue(ThisWorkbook.Name, "Лист3", "Форма 2.1", 100, 100)
-      Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Лист3").Range(Range_str).Row
-      Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Лист3").Range(Range_str).Column
+      ' РђРєС‚РёРІС‹: РџР»Р°РЅ-РџРѕСЂСѓС‡РµРЅРёРµ РѕС„РёСЃСѓ Р’РџРљi
+      ' Range_str = RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚3", "Р¤РѕСЂРјР° 2", 100, 100)
+      ' Р¤РѕСЂРјР° 2.1
+      Range_str = RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚3", "Р¤РѕСЂРјР° 2.1", 100, 100)
+      Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Р›РёСЃС‚3").Range(Range_str).Row
+      Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Р›РёСЃС‚3").Range(Range_str).Column
       
-      ' ДК и КК
-      Range_str2 = RangeByValue(ThisWorkbook.Name, "Лист5", "Заявки на карточные продукты", 100, 100)
-      Range_Row2 = Workbooks(ThisWorkbook.Name).Sheets("Лист5").Range(Range_str2).Row
-      Range_Column2 = Workbooks(ThisWorkbook.Name).Sheets("Лист5").Range(Range_str2).Column
+      ' Р”Рљ Рё РљРљ
+      Range_str2 = RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚5", "Р—Р°СЏРІРєРё РЅР° РєР°СЂС‚РѕС‡РЅС‹Рµ РїСЂРѕРґСѓРєС‚С‹", 100, 100)
+      Range_Row2 = Workbooks(ThisWorkbook.Name).Sheets("Р›РёСЃС‚5").Range(Range_str2).Row
+      Range_Column2 = Workbooks(ThisWorkbook.Name).Sheets("Р›РёСЃС‚5").Range(Range_str2).Column
       
       
-      ' Цикл по 5-ти офисам
+      ' Р¦РёРєР» РїРѕ 5-С‚Рё РѕС„РёСЃР°Рј
       For i = 1 To 6
         
-        ' Офисы - номера от 1 до 5
+        ' РћС„РёСЃС‹ - РЅРѕРјРµСЂР° РѕС‚ 1 РґРѕ 5
         If i <= 5 Then
         
-          Application.StatusBar = "Расчет планов " + getNameOfficeByNumber(i) + "..."
+          Application.StatusBar = "Р Р°СЃС‡РµС‚ РїР»Р°РЅРѕРІ " + getNameOfficeByNumber(i) + "..."
         
-          ' Расчет плана ПК
-          ПланНаНеделю_Активы = Round(ПланНаНеделю(ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 2 + i, Range_Column + 3).Value, ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 2 + i, Range_Column + 4).Value, currentOperDate, 6), 0)
-          ' Запись плана ПК
-          Call setК_порInЕСУП(ThisWorkbook.Name, "ЕСУП", "ВПК" + CStr(i), ПланНаНеделю_Активы, weekStartDate(currentOperDate), "тыс.руб.", "")
-          ' Установка исполнения плана ПК прошлой недели Номер_протокола_прошлой_недели
-          Call setStatusInTasks("Tasks", "Лист1", currentOperDate, "ВПК" + CStr(i), Номер_протокола_прошлой_недели)
+          ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РџРљ
+          РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РђРєС‚РёРІС‹ = Round(РџР»Р°РЅРќР°РќРµРґРµР»СЋ(ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 2 + i, Range_Column + 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 2 + i, Range_Column + 4).Value, currentOperDate, 6), 0)
+          ' Р—Р°РїРёСЃСЊ РїР»Р°РЅР° РџРљ
+          Call setРљ_РїРѕСЂInР•РЎРЈРџ(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р’РџРљ" + CStr(i), РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РђРєС‚РёРІС‹, weekStartDate(currentOperDate), "С‚С‹СЃ.СЂСѓР±.", "")
+          ' РЈСЃС‚Р°РЅРѕРІРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїР»Р°РЅР° РџРљ РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё
+          Call setStatusInTasks("Tasks", "Р›РёСЃС‚1", currentOperDate, "Р’РџРљ" + CStr(i), РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё)
       
-          ' Расчет плана ДК
-          ПланНаНеделю_ДК = Round(ПланНаНеделю(ThisWorkbook.Sheets("Лист5").Cells(Range_Row2 + 2 + i, Range_Column2 + 1).Value, ThisWorkbook.Sheets("Лист5").Cells(Range_Row2 + 2 + i, Range_Column2 + 2).Value, currentOperDate, 6), 0)
-          ' Запись плана ДК
-          Call setК_порInЕСУП(ThisWorkbook.Name, "ЕСУП", "ЗДК" + CStr(i), ПланНаНеделю_ДК, weekStartDate(currentOperDate), "шт.", "")
-          ' Установка исполнения плана ДК прошлой недели Номер_протокола_прошлой_недели
-          Call setStatusInTasks("Tasks", "Лист1", currentOperDate, "ЗДК" + CStr(i), Номер_протокола_прошлой_недели)
+          ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° Р”Рљ
+          РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Р”Рљ = Round(РџР»Р°РЅРќР°РќРµРґРµР»СЋ(ThisWorkbook.Sheets("Р›РёСЃС‚5").Cells(Range_Row2 + 2 + i, Range_Column2 + 1).Value, ThisWorkbook.Sheets("Р›РёСЃС‚5").Cells(Range_Row2 + 2 + i, Range_Column2 + 2).Value, currentOperDate, 6), 0)
+          ' Р—Р°РїРёСЃСЊ РїР»Р°РЅР° Р”Рљ
+          Call setРљ_РїРѕСЂInР•РЎРЈРџ(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р—Р”Рљ" + CStr(i), РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Р”Рљ, weekStartDate(currentOperDate), "С€С‚.", "")
+          ' РЈСЃС‚Р°РЅРѕРІРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїР»Р°РЅР° Р”Рљ РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё
+          Call setStatusInTasks("Tasks", "Р›РёСЃС‚1", currentOperDate, "Р—Р”Рљ" + CStr(i), РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё)
        
-          ' Расчет плана КК
-          ПланНаНеделю_КК = Round(ПланНаНеделю(ThisWorkbook.Sheets("Лист5").Cells(Range_Row2 + 2 + i, Range_Column2 + 3).Value, ThisWorkbook.Sheets("Лист5").Cells(Range_Row2 + 2 + i, Range_Column2 + 4).Value, currentOperDate, 6), 0)
-          ' Запись плана КК
-          Call setК_порInЕСУП(ThisWorkbook.Name, "ЕСУП", "ЗКК" + CStr(i), ПланНаНеделю_КК, weekStartDate(currentOperDate), "шт.", "")
-          ' Установка исполнения плана КК прошлой недели Номер_протокола_прошлой_недели
-          Call setStatusInTasks("Tasks", "Лист1", currentOperDate, "ЗКК" + CStr(i), Номер_протокола_прошлой_недели)
+          ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РљРљ
+          РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РљРљ = Round(РџР»Р°РЅРќР°РќРµРґРµР»СЋ(ThisWorkbook.Sheets("Р›РёСЃС‚5").Cells(Range_Row2 + 2 + i, Range_Column2 + 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚5").Cells(Range_Row2 + 2 + i, Range_Column2 + 4).Value, currentOperDate, 6), 0)
+          ' Р—Р°РїРёСЃСЊ РїР»Р°РЅР° РљРљ
+          Call setРљ_РїРѕСЂInР•РЎРЈРџ(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р—РљРљ" + CStr(i), РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РљРљ, weekStartDate(currentOperDate), "С€С‚.", "")
+          ' РЈСЃС‚Р°РЅРѕРІРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїР»Р°РЅР° РљРљ РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё
+          Call setStatusInTasks("Tasks", "Р›РёСЃС‚1", currentOperDate, "Р—РљРљ" + CStr(i), РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё)
                     
         Else
-          ' Ипотека ВИК1
-          Application.StatusBar = "Расчет планов ИЦ ОО «Тюменский» ..."
-          ' Расчет плана ИЦ
-          ПланНаНеделю_ИК = Round(ПланНаНеделю(ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 16, Range_Column + 3).Value, ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 16, Range_Column + 4).Value, currentOperDate, 5), 0)
-          ' Запись плана ИЦ
-          Call setК_порInЕСУП(ThisWorkbook.Name, "ЕСУП", "ВИК1", ПланНаНеделю_ИК, weekStartDate(currentOperDate), "тыс.руб.", "")
-          ' Установка исполнения плана ИЦ прошлой недели Номер_протокола_прошлой_недели
-          Call setStatusInTasks("Tasks", "Лист1", currentOperDate, "ВИК1", Номер_протокола_прошлой_недели)
+          ' РРїРѕС‚РµРєР° Р’РРљ1
+          Application.StatusBar = "Р Р°СЃС‡РµС‚ РїР»Р°РЅРѕРІ РР¦ РћРћ В«РўСЋРјРµРЅСЃРєРёР№В» ..."
+          ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РР¦
+          РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ = Round(РџР»Р°РЅРќР°РќРµРґРµР»СЋ(ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 16, Range_Column + 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 16, Range_Column + 4).Value, currentOperDate, 5), 0)
+          ' Р—Р°РїРёСЃСЊ РїР»Р°РЅР° РР¦
+          Call setРљ_РїРѕСЂInР•РЎРЈРџ(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р’РРљ1", РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ, weekStartDate(currentOperDate), "С‚С‹СЃ.СЂСѓР±.", "")
+          ' РЈСЃС‚Р°РЅРѕРІРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїР»Р°РЅР° РР¦ РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё
+          Call setStatusInTasks("Tasks", "Р›РёСЃС‚1", currentOperDate, "Р’РРљ1", РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё)
           
-          ' и в т.ч. по ОО «Сургутский» ВИК2
-          ' Расчет плана ИЦ Сургут
-          ПланНаНеделю_ИК_Сургут = Round(ПланНаНеделю(ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 17, Range_Column + 3).Value, ThisWorkbook.Sheets("Лист3").Cells(Range_Row + 17, Range_Column + 4).Value, currentOperDate, 5), 0)
-          ' Запись плана ИЦ Сургут
-          Call setК_порInЕСУП(ThisWorkbook.Name, "ЕСУП", "ВИК2", ПланНаНеделю_ИК_Сургут, weekStartDate(currentOperDate), "тыс.руб.", "")
-          ' Установка исполнения плана ИЦ Сургут прошлой недели Номер_протокола_прошлой_недели
-          Call setStatusInTasks("Tasks", "Лист1", currentOperDate, "ВИК2", Номер_протокола_прошлой_недели)
+          ' Рё РІ С‚.С‡. РїРѕ РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В» Р’РРљ2
+          ' Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РР¦ РЎСѓСЂРіСѓС‚
+          РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ_РЎСѓСЂРіСѓС‚ = Round(РџР»Р°РЅРќР°РќРµРґРµР»СЋ(ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 17, Range_Column + 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(Range_Row + 17, Range_Column + 4).Value, currentOperDate, 5), 0)
+          ' Р—Р°РїРёСЃСЊ РїР»Р°РЅР° РР¦ РЎСѓСЂРіСѓС‚
+          Call setРљ_РїРѕСЂInР•РЎРЈРџ(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р’РРљ2", РџР»Р°РЅРќР°РќРµРґРµР»СЋ_РРљ_РЎСѓСЂРіСѓС‚, weekStartDate(currentOperDate), "С‚С‹СЃ.СЂСѓР±.", "")
+          ' РЈСЃС‚Р°РЅРѕРІРєР° РёСЃРїРѕР»РЅРµРЅРёСЏ РїР»Р°РЅР° РР¦ РЎСѓСЂРіСѓС‚ РїСЂРѕС€Р»РѕР№ РЅРµРґРµР»Рё РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё
+          Call setStatusInTasks("Tasks", "Р›РёСЃС‚1", currentOperDate, "Р’РРљ2", РќРѕРјРµСЂ_РїСЂРѕС‚РѕРєРѕР»Р°_РїСЂРѕС€Р»РѕР№_РЅРµРґРµР»Рё)
           
-        End If ' Офисы - номера от 1 до 5
+        End If ' РћС„РёСЃС‹ - РЅРѕРјРµСЂР° РѕС‚ 1 РґРѕ 5
       
       Next i
   
-      Application.StatusBar = "Очистка списка Присутств_на_Собрании ..." ' Application.StatusBar = "Очистка списка Пригл_на_Собрание ..."
-      row_Присутств_на_Собрании = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Присутств_на_Собрании", 100, 100)).Row
-      column_Присутств_на_Собрании = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Присутств_на_Собрании", 100, 100)).Column
+      Application.StatusBar = "РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё ..." ' Application.StatusBar = "РћС‡РёСЃС‚РєР° СЃРїРёСЃРєР° РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ ..."
+      row_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё", 100, 100)).Row
+      column_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё", 100, 100)).Column
       rowCount = 1
-      Do While ThisWorkbook.Sheets("ЕСУП").Cells(row_Присутств_на_Собрании + rowCount, column_Присутств_на_Собрании).Value <> ""
-        If ThisWorkbook.Sheets("ЕСУП").Cells(row_Присутств_на_Собрании + rowCount, column_Присутств_на_Собрании).Value = "1" Then
-          ThisWorkbook.Sheets("ЕСУП").Cells(row_Присутств_на_Собрании + rowCount, column_Присутств_на_Собрании).Value = "0"
+      Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё + rowCount, column_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё).Value <> ""
+        If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё + rowCount, column_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё).Value = "1" Then
+          ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё + rowCount, column_РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё).Value = "0"
         End If
-        ' Следующая строка
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
         rowCount = rowCount + 1
       Loop
 
-      ' Строка статуса
+      ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
       Application.StatusBar = ""
                     
-      ' Закрываем базу BASE\Tasks
+      ' Р—Р°РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ BASE\Tasks
       CloseBook ("Tasks")
     
-      ' Зачеркнуть на Лист0 "Открыть новую неделю в ЕСУП"
-      Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Открыть новую неделю в ЕСУП", 100, 100))
+      ' Р—Р°С‡РµСЂРєРЅСѓС‚СЊ РЅР° Р›РёСЃС‚0 "РћС‚РєСЂС‹С‚СЊ РЅРѕРІСѓСЋ РЅРµРґРµР»СЋ РІ Р•РЎРЈРџ"
+      Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћС‚РєСЂС‹С‚СЊ РЅРѕРІСѓСЋ РЅРµРґРµР»СЋ РІ Р•РЎРЈРџ", 100, 100))
 
-      MsgBox ("Неделя открыта!")
+      MsgBox ("РќРµРґРµР»СЏ РѕС‚РєСЂС‹С‚Р°!")
     End If
   Else
-    MsgBox ("Уже установлена неделя: " + CStr(WeekNumber(currentOperDate)) + "!")
+    MsgBox ("РЈР¶Рµ СѓСЃС‚Р°РЅРѕРІР»РµРЅР° РЅРµРґРµР»СЏ: " + CStr(WeekNumber(currentOperDate)) + "!")
   End If
   
 End Sub
 
-' Перемещение пункта в повестке собрания вверх
+' РџРµСЂРµРјРµС‰РµРЅРёРµ РїСѓРЅРєС‚Р° РІ РїРѕРІРµСЃС‚РєРµ СЃРѕР±СЂР°РЅРёСЏ РІРІРµСЂС…
 Sub moveInListUp()
-Dim Ячейка_Повестка_дня, Текущий_номер, Текущий_выступающий, Текущий_тема, Текущий_HashTag, Текущий_Отметка, Цель_номер, Цель_выступающий, Цель_тема, Цель_HashTag, Цель_Отметка As String
-Dim НомерСтроки_Повестка_дня, НомерСтолбца_Повестка_дня, Текущий_Row, Текущий_Column As Byte
+Dim РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ, РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№, РўРµРєСѓС‰РёР№_С‚РµРјР°, РўРµРєСѓС‰РёР№_HashTag, РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР°, Р¦РµР»СЊ_РЅРѕРјРµСЂ, Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№, Р¦РµР»СЊ_С‚РµРјР°, Р¦РµР»СЊ_HashTag, Р¦РµР»СЊ_РћС‚РјРµС‚РєР° As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РўРµРєСѓС‰РёР№_Row, РўРµРєСѓС‰РёР№_Column As Byte
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Повестка_дня = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)
-  НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Row
-  НомерСтолбца_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Повестка_дня + 2) And (ActiveCell.Row <= НомерСтроки_Повестка_дня + 20) And (ActiveCell.Column >= НомерСтолбца_Повестка_дня - 1) And ((ActiveCell.Column <= НомерСтолбца_Повестка_дня + 12)) Then
-      ' Координаты
-      Текущий_Row = ActiveCell.Row
-      Текущий_Column = ActiveCell.Column
-      ' Запоминаем текущий
-      Текущий_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня - 1).Value
-      Текущий_выступающий = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня).Value
-      Текущий_тема = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 1).Value
-      Текущий_HashTag = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 11).Value
-      Текущий_Отметка = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 12).Value
-      ' Запоминаем цель
-      ' Цель_Row = Текущий_Row + 1
-      Цель_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня - 1).Value
-      Цель_выступающий = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня).Value
-      Цель_тема = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 1).Value
-      Цель_HashTag = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 11).Value
-      Цель_Отметка = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 12).Value
-      ' Меняем местами:
-      ' Текущий ставим в Цель:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня - 1).Value = Текущий_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня).Value = Текущий_выступающий
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 1).Value = Текущий_тема
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 11).Value = Текущий_HashTag
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Повестка_дня + 12).Value = Текущий_Отметка
-      ' Цель ставим в Текущий:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня - 1).Value = Цель_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня).Value = Цель_выступающий
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 1).Value = Цель_тема
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 11).Value = Цель_HashTag
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 12).Value = Цель_Отметка
-      ' Устанавливаем на строку выше
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, Текущий_Column).Select
-      ' Производим перенумерацию списка
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 20) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12)) Then
+      ' РљРѕРѕСЂРґРёРЅР°С‚С‹
+      РўРµРєСѓС‰РёР№_Row = ActiveCell.Row
+      РўРµРєСѓС‰РёР№_Column = ActiveCell.Column
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰РёР№
+      РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value
+      РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value
+      РўРµРєСѓС‰РёР№_С‚РµРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value
+      РўРµРєСѓС‰РёР№_HashTag = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value
+      РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С†РµР»СЊ
+      ' Р¦РµР»СЊ_Row = РўРµРєСѓС‰РёР№_Row + 1
+      Р¦РµР»СЊ_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value
+      Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value
+      Р¦РµР»СЊ_С‚РµРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value
+      Р¦РµР»СЊ_HashTag = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value
+      Р¦РµР»СЊ_РћС‚РјРµС‚РєР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value
+      ' РњРµРЅСЏРµРј РјРµСЃС‚Р°РјРё:
+      ' РўРµРєСѓС‰РёР№ СЃС‚Р°РІРёРј РІ Р¦РµР»СЊ:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = РўРµРєСѓС‰РёР№_С‚РµРјР°
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = РўРµРєСѓС‰РёР№_HashTag
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР°
+      ' Р¦РµР»СЊ СЃС‚Р°РІРёРј РІ РўРµРєСѓС‰РёР№:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = Р¦РµР»СЊ_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = Р¦РµР»СЊ_С‚РµРјР°
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = Р¦РµР»СЊ_HashTag
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = Р¦РµР»СЊ_РћС‚РјРµС‚РєР°
+      ' РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР° СЃС‚СЂРѕРєСѓ РІС‹С€Рµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РўРµРєСѓС‰РёР№_Column).Select
+      ' РџСЂРѕРёР·РІРѕРґРёРј РїРµСЂРµРЅСѓРјРµСЂР°С†РёСЋ СЃРїРёСЃРєР°
       Call createNumberingThemes
     Else
-      MsgBox ("Укажите ячейку в диапазоне Повестка_дня!")
+      MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕРІРµСЃС‚РєР°_РґРЅСЏ!")
   End If
 End Sub
 
-' Перемещение пункта в повестке собрания вниз
+' РџРµСЂРµРјРµС‰РµРЅРёРµ РїСѓРЅРєС‚Р° РІ РїРѕРІРµСЃС‚РєРµ СЃРѕР±СЂР°РЅРёСЏ РІРЅРёР·
 Sub moveInListDown()
-Dim Ячейка_Повестка_дня, Текущий_номер, Текущий_выступающий, Текущий_тема, Текущий_HashTag, Текущий_Отметка, Цель_номер, Цель_выступающий, Цель_тема, Цель_HashTag, Цель_Отметка As String
-Dim НомерСтроки_Повестка_дня, НомерСтолбца_Повестка_дня, Текущий_Row, Текущий_Column As Byte
+Dim РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ, РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№, РўРµРєСѓС‰РёР№_С‚РµРјР°, РўРµРєСѓС‰РёР№_HashTag, РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР°, Р¦РµР»СЊ_РЅРѕРјРµСЂ, Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№, Р¦РµР»СЊ_С‚РµРјР°, Р¦РµР»СЊ_HashTag, Р¦РµР»СЊ_РћС‚РјРµС‚РєР° As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РўРµРєСѓС‰РёР№_Row, РўРµРєСѓС‰РёР№_Column As Byte
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Повестка_дня = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)
-  НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Row
-  НомерСтолбца_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Повестка_дня + 2) And (ActiveCell.Row <= НомерСтроки_Повестка_дня + 20) And (ActiveCell.Column >= НомерСтолбца_Повестка_дня - 1) And ((ActiveCell.Column <= НомерСтолбца_Повестка_дня + 12)) Then
-      ' Координаты
-      Текущий_Row = ActiveCell.Row
-      Текущий_Column = ActiveCell.Column
-      ' Запоминаем текущий
-      Текущий_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня - 1).Value
-      Текущий_выступающий = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня).Value
-      Текущий_тема = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 1).Value
-      Текущий_HashTag = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 11).Value
-      Текущий_Отметка = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 12).Value
-      ' Запоминаем цель
-      ' Цель_Row = Текущий_Row + 1
-      Цель_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня - 1).Value
-      Цель_выступающий = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня).Value
-      Цель_тема = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 1).Value
-      Цель_HashTag = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 11).Value
-      Цель_Отметка = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 12).Value
-      ' Меняем местами:
-      ' Текущий ставим в Цель:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня - 1).Value = Текущий_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня).Value = Текущий_выступающий
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 1).Value = Текущий_тема
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 11).Value = Текущий_HashTag
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Повестка_дня + 12).Value = Текущий_Отметка
-      ' Цель ставим в Текущий:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня - 1).Value = Цель_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня).Value = Цель_выступающий
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 1).Value = Цель_тема
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 11).Value = Цель_HashTag
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Повестка_дня + 12).Value = Цель_Отметка
-      ' Устанавливаем на строку выше
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, Текущий_Column).Select
-      ' Производим перенумерацию списка
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 20) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12)) Then
+      ' РљРѕРѕСЂРґРёРЅР°С‚С‹
+      РўРµРєСѓС‰РёР№_Row = ActiveCell.Row
+      РўРµРєСѓС‰РёР№_Column = ActiveCell.Column
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰РёР№
+      РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value
+      РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value
+      РўРµРєСѓС‰РёР№_С‚РµРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value
+      РўРµРєСѓС‰РёР№_HashTag = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value
+      РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С†РµР»СЊ
+      ' Р¦РµР»СЊ_Row = РўРµРєСѓС‰РёР№_Row + 1
+      Р¦РµР»СЊ_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value
+      Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value
+      Р¦РµР»СЊ_С‚РµРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value
+      Р¦РµР»СЊ_HashTag = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value
+      Р¦РµР»СЊ_РћС‚РјРµС‚РєР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value
+      ' РњРµРЅСЏРµРј РјРµСЃС‚Р°РјРё:
+      ' РўРµРєСѓС‰РёР№ СЃС‚Р°РІРёРј РІ Р¦РµР»СЊ:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = РўРµРєСѓС‰РёР№_РІС‹СЃС‚СѓРїР°СЋС‰РёР№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = РўРµРєСѓС‰РёР№_С‚РµРјР°
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = РўРµРєСѓС‰РёР№_HashTag
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = РўРµРєСѓС‰РёР№_РћС‚РјРµС‚РєР°
+      ' Р¦РµР»СЊ СЃС‚Р°РІРёРј РІ РўРµРєСѓС‰РёР№:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = Р¦РµР»СЊ_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = Р¦РµР»СЊ_С‚РµРјР°
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = Р¦РµР»СЊ_HashTag
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = Р¦РµР»СЊ_РћС‚РјРµС‚РєР°
+      ' РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР° СЃС‚СЂРѕРєСѓ РІС‹С€Рµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РўРµРєСѓС‰РёР№_Column).Select
+      ' РџСЂРѕРёР·РІРѕРґРёРј РїРµСЂРµРЅСѓРјРµСЂР°С†РёСЋ СЃРїРёСЃРєР°
       Call createNumberingThemes
     Else
-      MsgBox ("Укажите ячейку в диапазоне Повестка_дня!")
+      MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕРІРµСЃС‚РєР°_РґРЅСЏ!")
   End If
 
 End Sub
 
-' Удаление пункта из повестки
+' РЈРґР°Р»РµРЅРёРµ РїСѓРЅРєС‚Р° РёР· РїРѕРІРµСЃС‚РєРё
 Sub deleteFromList()
-Dim Ячейка_Повестка_дня As String
-Dim НомерСтроки_Повестка_дня, НомерСтолбца_Повестка_дня As Byte
+Dim РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ As Byte
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Повестка_дня = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)
-  НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Row
-  НомерСтолбца_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Повестка_дня + 2) And (ActiveCell.Row <= НомерСтроки_Повестка_дня + 20) And (ActiveCell.Column >= НомерСтолбца_Повестка_дня - 1) And ((ActiveCell.Column <= НомерСтолбца_Повестка_дня + 12)) And (ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня + 1).Value <> "") Then
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 20) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12)) And (ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value <> "") Then
     '
-    If MsgBox("Удалить вопрос №" + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня - 1).Value) + " из повестки?", vbYesNo) = vbYes Then
-      ' Удаляем
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня - 1).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня + 1).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня + 11).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня + 12).Value = ""
+    If MsgBox("РЈРґР°Р»РёС‚СЊ РІРѕРїСЂРѕСЃ в„–" + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value) + " РёР· РїРѕРІРµСЃС‚РєРё?", vbYesNo) = vbYes Then
+      ' РЈРґР°Р»СЏРµРј
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 1).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 11).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 12).Value = ""
     End If
   Else
-    MsgBox ("Укажите ячейку в диапазоне Повестка_дня!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕРІРµСЃС‚РєР°_РґРЅСЏ!")
   End If
   
 End Sub
 
 
-' Открыть протокол Собрания
-Sub Открыть_Протокол_Собрания()
+' РћС‚РєСЂС‹С‚СЊ РїСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ
+Sub РћС‚РєСЂС‹С‚СЊ_РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ()
   
-  ' Открываем сформированный протокол по имени
+  ' РћС‚РєСЂС‹РІР°РµРј СЃС„РѕСЂРјРёСЂРѕРІР°РЅРЅС‹Р№ РїСЂРѕС‚РѕРєРѕР» РїРѕ РёРјРµРЅРё
            
-  ' Имя файла с протоколом - берем из G2 "10-02032020"
-  FileProtocolName = "Протокол _ РОО Тюменский_" + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + ".xlsx"
+  ' РРјСЏ С„Р°Р№Р»Р° СЃ РїСЂРѕС‚РѕРєРѕР»РѕРј - Р±РµСЂРµРј РёР· G2 "10-02032020"
+  FileProtocolName = "РџСЂРѕС‚РѕРєРѕР» _ Р РћРћ РўСЋРјРµРЅСЃРєРёР№_" + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + ".xlsx"
 
-  ' Проверка наличия файла
+  ' РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ С„Р°Р№Р»Р°
   If Dir(ThisWorkbook.Path + "\Out\" + FileProtocolName) <> "" Then
-    ' Открываем шаблон Протокола из C:\Users\...\Documents\#VBA\DB_Result\Templates
+    ' РћС‚РєСЂС‹РІР°РµРј С€Р°Р±Р»РѕРЅ РџСЂРѕС‚РѕРєРѕР»Р° РёР· C:\Users\...\Documents\#VBA\DB_Result\Templates
     Workbooks.Open (ThisWorkbook.Path + "\Out\" + FileProtocolName)
   Else
-    ' Сообщение, что файл не найден
-    MsgBox ("Файл " + FileProtocolName + " не найден!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ, С‡С‚Рѕ С„Р°Р№Р» РЅРµ РЅР°Р№РґРµРЅ
+    MsgBox ("Р¤Р°Р№Р» " + FileProtocolName + " РЅРµ РЅР°Р№РґРµРЅ!")
   End If
   
 End Sub
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе:
-Sub Отправка_Lotus_Notes_Лист_ЕСУП()
-Dim темаПисьма, текстПисьма, hashTag, attachmentFile As String
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ:
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚_Р•РЎРЈРџ()
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag, attachmentFile As String
 Dim i As Byte
-Dim Отправка_Lotus_Notes, FileCopy_To_ЕСУП As Boolean
+Dim РћС‚РїСЂР°РІРєР°_Lotus_Notes, FileCopy_To_Р•РЎРЈРџ As Boolean
   
   
-  Отправка_Lotus_Notes = False
-  FileCopy_To_ЕСУП = False
+  РћС‚РїСЂР°РІРєР°_Lotus_Notes = False
+  FileCopy_To_Р•РЎРЈРџ = False
   
-  If MsgBox("Отправить себе Шаблон письма?", vbYesNo) = vbYes Then
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР°?", vbYesNo) = vbYes Then
     
-    ' Строка статуса
-    Application.StatusBar = "Отправка письма в Lotus Notes ..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР° РІ Lotus Notes ..."
     
-    ' Тема письма - Тема:
-    ' темаПисьма = "Тюменский РОО: Протокол конференц-колла с офисами от " + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + " г."
-    темаПисьма = ThisWorkbook.Sheets("ЕСУП").Cells(1, 17).Value
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    ' С‚РµРјР°РџРёСЃСЊРјР° = "РўСЋРјРµРЅСЃРєРёР№ Р РћРћ: РџСЂРѕС‚РѕРєРѕР» РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р»Р° СЃ РѕС„РёСЃР°РјРё РѕС‚ " + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + " Рі."
+    С‚РµРјР°РџРёСЃСЊРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 17).Value
     
-    ' hashTag - Хэштэг:
-    hashTag = hashTagFromSheet("ЕСУП")
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = hashTagFromSheet("Р•РЎРЈРџ")
     
-    ' Файл-вложение (!!!)
-    attachmentFile = ThisWorkbook.Path + "\Out\Протокол _ РОО Тюменский_" + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + ".xlsx"
+    ' Р¤Р°Р№Р»-РІР»РѕР¶РµРЅРёРµ (!!!)
+    attachmentFile = ThisWorkbook.Path + "\Out\РџСЂРѕС‚РѕРєРѕР» _ Р РћРћ РўСЋРјРµРЅСЃРєРёР№_" + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + ".xlsx"
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + ThisWorkbook.Sheets("ЕСУП").Cells(rowByValue(ThisWorkbook.Name, "ЕСУП", "Список получателей:", 100, 100), ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Список получателей:", 100, 100) + 2).Value + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    ' Адреса для копии
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100) + 2).Value + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' РђРґСЂРµСЃР° РґР»СЏ РєРѕРїРёРё
     
-    '     str_копияВадрес = getFromAddrBook("РД", 1) + ", " + getFromAddrBook("КОП", 1) + ", " + getFromAddrBook("КИп", 1) + ", " + getFromAddrBook("ККП", 1) + ", " + getFromAddrBook("Кaf", 1)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("РД", 2) + ", " + getFromAddrBook("КОП", 2) + ", " + getFromAddrBook("КИп", 2) + ", " + getFromAddrBook("ККП", 2) + ", " + getFromAddrBook("Кaf", 2) + ", " + getFromAddrBook("КПВО", 1) + Chr(13)
+    '     str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ = getFromAddrBook("Р Р”", 1) + ", " + getFromAddrBook("РљРћРџ", 1) + ", " + getFromAddrBook("РљРРї", 1) + ", " + getFromAddrBook("РљРљРџ", 1) + ", " + getFromAddrBook("Рљaf", 1)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("Р Р”", 2) + ", " + getFromAddrBook("РљРћРџ", 2) + ", " + getFromAddrBook("РљРРї", 2) + ", " + getFromAddrBook("РљРљРџ", 2) + ", " + getFromAddrBook("Рљaf", 2) + ", " + getFromAddrBook("РљРџР’Рћ", 1) + Chr(13)
     
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Уважаемые сотрудники," + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Направляю протокол конференции. Прошу принять поручения к исполнению." + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(25) + hashTag + " " + hashTagFromSheetII("ЕСУП", 2)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РЈРІР°Р¶Р°РµРјС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРё," + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РќР°РїСЂР°РІР»СЏСЋ РїСЂРѕС‚РѕРєРѕР» РєРѕРЅС„РµСЂРµРЅС†РёРё. РџСЂРѕС€Сѓ РїСЂРёРЅСЏС‚СЊ РїРѕСЂСѓС‡РµРЅРёСЏ Рє РёСЃРїРѕР»РЅРµРЅРёСЋ." + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(25) + hashTag + " " + hashTagFromSheetII("Р•РЎРЈРџ", 2)
     
-    ' Вызов
-    Call send_Lotus_Notes2(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", текстПисьма, attachmentFile)
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes2(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", С‚РµРєСЃС‚РџРёСЃСЊРјР°, attachmentFile)
         
-    Отправка_Lotus_Notes = True
+    РћС‚РїСЂР°РІРєР°_Lotus_Notes = True
         
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
     
-    ' Сообщение
-    MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   End If
   
-  ' Копирование поручений в To-Do
+  ' РљРѕРїРёСЂРѕРІР°РЅРёРµ РїРѕСЂСѓС‡РµРЅРёР№ РІ To-Do
   Call copyTaskInToDo
   
-  ' Создание задачи в ToDO с контролем исполнения в пятницу
-  Application.StatusBar = "Создание задачи контроля в To-Do..."
+  ' РЎРѕР·РґР°РЅРёРµ Р·Р°РґР°С‡Рё РІ ToDO СЃ РєРѕРЅС‚СЂРѕР»РµРј РёСЃРїРѕР»РЅРµРЅРёСЏ РІ РїСЏС‚РЅРёС†Сѓ
+  Application.StatusBar = "РЎРѕР·РґР°РЅРёРµ Р·Р°РґР°С‡Рё РєРѕРЅС‚СЂРѕР»СЏ РІ To-Do..."
   
-  ' Открываем таблицу BASE\ToDo
+  ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
   OpenBookInBase ("ToDo")
 
-  ' Переходим на окно DB
-  ThisWorkbook.Sheets("ЕСУП").Activate
+  ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+  ThisWorkbook.Sheets("Р•РЎРЈРџ").Activate
 
-  ' Вносим данные в BASE\ToDo
+  ' Р’РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ РІ BASE\ToDo
   hashTag = createHashTag("t")
   ' Id_Task
   Id_TaskVar = Replace(hashTag, "#t", "")
 
-  Call InsertRecordInBook("ToDo", "Лист1", "Id_Task", Id_TaskVar, _
+  Call InsertRecordInBook("ToDo", "Р›РёСЃС‚1", "Id_Task", Id_TaskVar, _
                                             "Date_Create", Date, _
                                               "Id_Task", Id_TaskVar, _
-                                                "Task", "Запросить исполнение поручений по протоколу " + ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, _
-                                                  "Lotus_subject", subjectFromSheet("ЕСУП"), _
-                                                    "Responsible", "УДО/НОРПиКО/НОКП", _
-                                                      "Lotus_hashtag", hashTagFromSheetII("ЕСУП", 2), _
+                                                "Task", "Р—Р°РїСЂРѕСЃРёС‚СЊ РёСЃРїРѕР»РЅРµРЅРёРµ РїРѕСЂСѓС‡РµРЅРёР№ РїРѕ РїСЂРѕС‚РѕРєРѕР»Сѓ " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, _
+                                                  "Lotus_subject", subjectFromSheet("Р•РЎРЈРџ"), _
+                                                    "Responsible", "РЈР”Рћ/РќРћР РџРёРљРћ/РќРћРљРџ", _
+                                                      "Lotus_hashtag", hashTagFromSheetII("Р•РЎРЈРџ", 2), _
                                                         "Task_Status", 1, _
                                                           "Date_Control", weekEndDate(Date) - 2, _
                                                             "", "", _
@@ -964,363 +964,363 @@ Dim Отправка_Lotus_Notes, FileCopy_To_ЕСУП As Boolean
                                                                                 "", "", _
                                                                                   "", "")
 
-  ' Закрываем таблицу BASE\ToDo
+  ' Р—Р°РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
   CloseBook ("ToDo")
   
-  ' Строка статуса
+  ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
   Application.StatusBar = ""
   
   
-  ' Перенести файл протокола в каталог ЕСУП? - https://www.excel-vba.ru/chto-umeet-excel/kak-sredstvami-vba-pereimenovatperemestitskopirovat-fajl/
-  If MsgBox("Перенести файл Протокола Собрания в каталог ЕСУП?", vbYesNo) = vbYes Then
+  ' РџРµСЂРµРЅРµСЃС‚Рё С„Р°Р№Р» РїСЂРѕС‚РѕРєРѕР»Р° РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ? - https://www.excel-vba.ru/chto-umeet-excel/kak-sredstvami-vba-pereimenovatperemestitskopirovat-fajl/
+  If MsgBox("РџРµСЂРµРЅРµСЃС‚Рё С„Р°Р№Р» РџСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ?", vbYesNo) = vbYes Then
   
-    ' Строка статуса
-    Application.StatusBar = "Копирование в каталог ЕСУП ..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ ..."
     
-    FileCopy attachmentFile, "\\probank\DavWWWRoot\drp\DocLib1\Тюменский ОО1\Управленческие процедуры\Собрания\Протокол _ РОО Тюменский_" + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + ".xlsx"
+    FileCopy attachmentFile, "\\probank\DavWWWRoot\drp\DocLib1\РўСЋРјРµРЅСЃРєРёР№ РћРћ1\РЈРїСЂР°РІР»РµРЅС‡РµСЃРєРёРµ РїСЂРѕС†РµРґСѓСЂС‹\РЎРѕР±СЂР°РЅРёСЏ\РџСЂРѕС‚РѕРєРѕР» _ Р РћРћ РўСЋРјРµРЅСЃРєРёР№_" + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + ".xlsx"
   
-    FileCopy_To_ЕСУП = True
+    FileCopy_To_Р•РЎРЈРџ = True
   
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Сообщение
-    MsgBox ("Файл перенесен в каталог ЕСУП!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("Р¤Р°Р№Р» РїРµСЂРµРЅРµСЃРµРЅ РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ!")
     
   End If
   
-  ' Если оба пункта выполнены - зачеркиваем: "Отправить Протокол Собрания в почте и в каталог ЕСУП"
-  If (Отправка_Lotus_Notes = True) And (FileCopy_To_ЕСУП = True) Then
-    Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Отправить Протокол Собрания в почте и в каталог ЕСУП", 100, 100))
+  ' Р•СЃР»Рё РѕР±Р° РїСѓРЅРєС‚Р° РІС‹РїРѕР»РЅРµРЅС‹ - Р·Р°С‡РµСЂРєРёРІР°РµРј: "РћС‚РїСЂР°РІРёС‚СЊ РџСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ РІ РїРѕС‡С‚Рµ Рё РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ"
+  If (РћС‚РїСЂР°РІРєР°_Lotus_Notes = True) And (FileCopy_To_Р•РЎРЈРџ = True) Then
+    Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћС‚РїСЂР°РІРёС‚СЊ РџСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ РІ РїРѕС‡С‚Рµ Рё РІ РєР°С‚Р°Р»РѕРі Р•РЎРЈРџ", 100, 100))
   End If
   
 End Sub
 
-' Отчетность ЕСУП_итог ДД.ММ.ГГГГ
-Sub Отчетность_ЕСУП_итог()
+' РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ_РёС‚РѕРі Р”Р”.РњРњ.Р“Р“Р“Р“
+Sub РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі()
 
-' Описание переменных
-Dim ячейка_ДО_Лист_ДО_Рег_Сеть_Range_str, ячейка_Форма_Отчетность_ЕСУП_итог_str, ячейка_месяц_str, ячейка_Тюменский_ОО1_str, ReportName_String, officeNameInReport, CheckFormatReportResult, Тема2_Range_str, Хэштэг2_Range_str, поручениеЕСУПдо85процентов As String
+' РћРїРёСЃР°РЅРёРµ РїРµСЂРµРјРµРЅРЅС‹С…
+Dim СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_str, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_str, СЏС‡РµР№РєР°_РјРµСЃСЏС†_str, СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_str, ReportName_String, officeNameInReport, CheckFormatReportResult, РўРµРјР°2_Range_str, РҐСЌС€С‚СЌРі2_Range_str, РїРѕСЂСѓС‡РµРЅРёРµР•РЎРЈРџРґРѕ85РїСЂРѕС†РµРЅС‚РѕРІ As String
 Dim i, rowCount As Integer
 Dim finishProcess As Boolean
-Dim ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Row, ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Column, ячейка_Форма_Отчетность_ЕСУП_итог_row, ячейка_Форма_Отчетность_ЕСУП_итог_Column, ячейка_Тюменский_ОО1_Row, ячейка_Тюменский_ОО1_Column, Row_Включить_в_Собрание, Column_Включить_в_Собрание, Тема2_Range_Row, Тема2_Range_Column, Хэштэг2_Range_Row, Хэштэг2_Range_Column As Byte
+Dim СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Row, СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Column, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column, СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Column, Row_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ, Column_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ, РўРµРјР°2_Range_Row, РўРµРјР°2_Range_Column, РҐСЌС€С‚СЌРі2_Range_Row, РҐСЌС€С‚СЌРі2_Range_Column As Byte
 Dim dateReportFrom_ReportName_String As Date
     
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "Открытие файла с отчетом")
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РѕС‚С‡РµС‚РѕРј")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("ЕСУП").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Activate
 
-    ' Проверка формы отчета
-    CheckFormatReportResult = CheckFormatReport(ReportName_String, "инструкция", 9, Date)
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
+    CheckFormatReportResult = CheckFormatReport(ReportName_String, "РёРЅСЃС‚СЂСѓРєС†РёСЏ", 9, Date)
     If CheckFormatReportResult = "OK" Then
       
-      ' Дата отчета из имени файла
+      ' Р”Р°С‚Р° РѕС‚С‡РµС‚Р° РёР· РёРјРµРЅРё С„Р°Р№Р»Р°
       dateReportFrom_ReportName_String = CDate(getDateReportFromFileName(ReportName_String))
                 
-      ' Находим ячейку "Форма_Отчетность_ЕСУП_итог" на Листе "ЕСУП"
-      ячейка_Форма_Отчетность_ЕСУП_итог_str = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Форма «Отчетность ЕСУП_итог»", 100, 100)
-      ячейка_Форма_Отчетность_ЕСУП_итог_row = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(ячейка_Форма_Отчетность_ЕСУП_итог_str).Row
-      ячейка_Форма_Отчетность_ЕСУП_итог_Column = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(ячейка_Форма_Отчетность_ЕСУП_итог_str).Column
+      ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі" РЅР° Р›РёСЃС‚Рµ "Р•РЎРЈРџ"
+      СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_str = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "Р¤РѕСЂРјР° В«РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ_РёС‚РѕРіВ»", 100, 100)
+      СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_str).Row
+      СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_str).Column
 
-      ' Отчетность ЕСУП на ___
-      ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row - 1, ячейка_Форма_Отчетность_ЕСУП_итог_Column).Value = "Отчетность ЕСУП на " + CStr(dateReportFrom_ReportName_String) + " г."
+      ' РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ РЅР° ___
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row - 1, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column).Value = "РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ РЅР° " + CStr(dateReportFrom_ReportName_String) + " Рі."
                       
-      ' Тема2:
-      Тема2_Range_str = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Тема2:", 100, 100)
-      Тема2_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(Тема2_Range_str).Row
-      Тема2_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(Тема2_Range_str).Column
-      ThisWorkbook.Sheets("ЕСУП").Cells(Тема2_Range_Row, Тема2_Range_Column + 1).Value = "Отчетность ЕСУП на " + CStr(dateReportFrom_ReportName_String) + " г."
+      ' РўРµРјР°2:
+      РўРµРјР°2_Range_str = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РўРµРјР°2:", 100, 100)
+      РўРµРјР°2_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(РўРµРјР°2_Range_str).Row
+      РўРµРјР°2_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(РўРµРјР°2_Range_str).Column
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРјР°2_Range_Row, РўРµРјР°2_Range_Column + 1).Value = "РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ РЅР° " + CStr(dateReportFrom_ReportName_String) + " Рі."
     
-      ' Хэштэг2: "#есуп"+strDDMMYYYY
-      Хэштэг2_Range_str = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Хэштэг2:", 100, 100)
-      Хэштэг2_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(Хэштэг2_Range_str).Row
-      Хэштэг2_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("ЕСУП").Range(Хэштэг2_Range_str).Column
-      ThisWorkbook.Sheets("ЕСУП").Cells(Хэштэг2_Range_Row, Хэштэг2_Range_Column + 1).Value = "#есуп_" + strDDMMYYYY(dateReportFrom_ReportName_String)
+      ' РҐСЌС€С‚СЌРі2: "#РµСЃСѓРї"+strDDMMYYYY
+      РҐСЌС€С‚СЌРі2_Range_str = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РҐСЌС€С‚СЌРі2:", 100, 100)
+      РҐСЌС€С‚СЌРі2_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(РҐСЌС€С‚СЌРі2_Range_str).Row
+      РҐСЌС€С‚СЌРі2_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Р•РЎРЈРџ").Range(РҐСЌС€С‚СЌРі2_Range_str).Column
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РҐСЌС€С‚СЌРі2_Range_Row, РҐСЌС€С‚СЌРі2_Range_Column + 1).Value = "#РµСЃСѓРї_" + strDDMMYYYY(dateReportFrom_ReportName_String)
                                 
-      ' Находим столбец "ДО" на листе "ДО_Рег.Сеть"
-      ячейка_ДО_Лист_ДО_Рег_Сеть_Range_str = RangeByValue(ReportName_String, "ДО_Рег.Сеть", "ДО", 100, 100)
-      ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Row = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_ДО_Лист_ДО_Рег_Сеть_Range_str).Row
-      ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Column = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_ДО_Лист_ДО_Рег_Сеть_Range_str).Column
+      ' РќР°С…РѕРґРёРј СЃС‚РѕР»Р±РµС† "Р”Рћ" РЅР° Р»РёСЃС‚Рµ "Р”Рћ_Р РµРі.РЎРµС‚СЊ"
+      СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_str = RangeByValue(ReportName_String, "Р”Рћ_Р РµРі.РЎРµС‚СЊ", "Р”Рћ", 100, 100)
+      СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Row = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_str).Row
+      СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Column = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_str).Column
 
-      ' Находим в первой строке начальную дату месяца отчета monthStartDate (Здесь на 160-ом столбце возникает ошибка при использовании функции из интернет ConvertToLetter)
-      ' ячейка_месяц_str = RangeByValue(ReportName_String, "ДО_Рег.Сеть", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
-      ' ячейка_месяц_Row = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_месяц_str).Row
-      ' ячейка_месяц_Column = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_месяц_str).Column
+      ' РќР°С…РѕРґРёРј РІ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРµ РЅР°С‡Р°Р»СЊРЅСѓСЋ РґР°С‚Сѓ РјРµСЃСЏС†Р° РѕС‚С‡РµС‚Р° monthStartDate (Р—РґРµСЃСЊ РЅР° 160-РѕРј СЃС‚РѕР»Р±С†Рµ РІРѕР·РЅРёРєР°РµС‚ РѕС€РёР±РєР° РїСЂРё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРё С„СѓРЅРєС†РёРё РёР· РёРЅС‚РµСЂРЅРµС‚ ConvertToLetter)
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_str = RangeByValue(ReportName_String, "Р”Рћ_Р РµРі.РЎРµС‚СЊ", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_Row = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str).Row
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str).Column
 
-      ячейка_месяц_str = cellByValue(ReportName_String, "ДО_Рег.Сеть", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
-      ячейка_месяц_Row = row_cellByValue(ячейка_месяц_str)
-      ячейка_месяц_Column = column_cellByValue(ячейка_месяц_str)
+      СЏС‡РµР№РєР°_РјРµСЃСЏС†_str = cellByValue(ReportName_String, "Р”Рћ_Р РµРі.РЎРµС‚СЊ", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
+      СЏС‡РµР№РєР°_РјРµСЃСЏС†_Row = row_cellByValue(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str)
+      СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column = column_cellByValue(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str)
 
-      ' Очищаем ячейки отчета
-      ' Call clearСontents2(ThisWorkbook.Name, "ЕСУП", "X7", "AJ12")
-      Call clearСontents3(ThisWorkbook.Name, "ЕСУП", ячейка_Форма_Отчетность_ЕСУП_итог_row + 3, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 3, ячейка_Форма_Отчетность_ЕСУП_итог_row + 8, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12)
+      ' РћС‡РёС‰Р°РµРј СЏС‡РµР№РєРё РѕС‚С‡РµС‚Р°
+      ' Call clearРЎontents2(ThisWorkbook.Name, "Р•РЎРЈРџ", "X7", "AJ12")
+      Call clearРЎontents3(ThisWorkbook.Name, "Р•РЎРЈРџ", СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 3, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 3, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 8, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12)
 
-      ' Список офисов с исполнением ЕСУП менее 85%
-      Список_офисов_с_исполнением_ЕСУП_менее_85 = ""
+      ' РЎРїРёСЃРѕРє РѕС„РёСЃРѕРІ СЃ РёСЃРїРѕР»РЅРµРЅРёРµРј Р•РЎРЈРџ РјРµРЅРµРµ 85%
+      РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = ""
  
-      ' Обрабатываем отчет
-      ' Цикл по 5-ти офисам
-      ' Обработка отчета
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚С‡РµС‚
+      ' Р¦РёРєР» РїРѕ 5-С‚Рё РѕС„РёСЃР°Рј
+      ' РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°
       For i = 1 To 5
-        ' Номера офисов от 1 до 5
+        ' РќРѕРјРµСЂР° РѕС„РёСЃРѕРІ РѕС‚ 1 РґРѕ 5
         Select Case i
-          Case 1 ' ОО «Тюменский»
-            officeNameInReport = "Тюменский"
-          Case 2 ' ОО «Сургутский»
-            officeNameInReport = "Сургутский"
-          Case 3 ' ОО «Нижневартовский»
-            officeNameInReport = "Нижневартовский"
-          Case 4 ' ОО «Новоуренгойский»
-            officeNameInReport = "Новоуренгойский"
-          Case 5 ' ОО «Тарко-Сале»
-            officeNameInReport = "Тарко-Сале"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            officeNameInReport = "РўСЋРјРµРЅСЃРєРёР№"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            officeNameInReport = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            officeNameInReport = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            officeNameInReport = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            officeNameInReport = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
         End Select
 
         rowCount = 4
         office_was_found = False
-        Do While (Not IsEmpty(Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Column).Value)) And (office_was_found = False)
+        Do While (Not IsEmpty(Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Column).Value)) And (office_was_found = False)
           
-          ' Проверка офиса
-          If InStr(Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_ДО_Лист_ДО_Рег_Сеть_Range_Column).Value, officeNameInReport) <> 0 Then
+          ' РџСЂРѕРІРµСЂРєР° РѕС„РёСЃР°
+          If InStr(Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_Р”Рћ_Р›РёСЃС‚_Р”Рћ_Р РµРі_РЎРµС‚СЊ_Range_Column).Value, officeNameInReport) <> 0 Then
             
-            ' Записываем данные
-            ' Индивидуальные встречи: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 3).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column).Value
-            ' Индивидуальные встречи: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 4).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 1).Value
-            ' Индивидуальные встречи:  % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 2).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).Value) ' "0.0%"
+            ' Р—Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ
+            ' РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 3).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column).Value
+            ' РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 4).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 1).Value
+            ' РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё:  % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 2).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).Value) ' "0.0%"
             
-            ' Наблюдения за работой сотр.: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 6).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 6).Value
-            ' Наблюдения за работой сотр.: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 7).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 7).Value
-            ' Наблюдения за работой сотр.:  % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 8).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).Value) ' "0.0%"
+            ' РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 6).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 6).Value
+            ' РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 7).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 7).Value
+            ' РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.:  % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 8).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).Value) ' "0.0%"
             
-            ' Собрания: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 9).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 9).Value
-            ' Собрания: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 10).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 10).Value
-            ' Собрания: % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 11).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).Value) ' "0.0%"
+            ' РЎРѕР±СЂР°РЅРёСЏ: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 9).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 9).Value
+            ' РЎРѕР±СЂР°РЅРёСЏ: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 10).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 10).Value
+            ' РЎРѕР±СЂР°РЅРёСЏ: % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 11).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).Value) ' "0.0%"
             
-            ' Итоговый рейтинг
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Cells(rowCount, ячейка_месяц_Column + 12).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value) ' "0.0%"
+            ' РС‚РѕРіРѕРІС‹Р№ СЂРµР№С‚РёРЅРі
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Cells(rowCount, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 12).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value) ' "0.0%"
             
-            ' Список офисов с исполнением ЕСУП менее 85%
-            If ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value < 0.85 Then
-              If Список_офисов_с_исполнением_ЕСУП_менее_85 = "" Then
-                Список_офисов_с_исполнением_ЕСУП_менее_85 = getNameOfficeByNumber(i)
+            ' РЎРїРёСЃРѕРє РѕС„РёСЃРѕРІ СЃ РёСЃРїРѕР»РЅРµРЅРёРµРј Р•РЎРЈРџ РјРµРЅРµРµ 85%
+            If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value < 0.85 Then
+              If РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = "" Then
+                РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = getNameOfficeByNumber(i)
               Else
-                Список_офисов_с_исполнением_ЕСУП_менее_85 = Список_офисов_с_исполнением_ЕСУП_менее_85 + ", " + getNameOfficeByNumber(i)
+                РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 + ", " + getNameOfficeByNumber(i)
               End If
             End If
             
-            ' Условное форматирование
-            Call cellFormatConditions(ThisWorkbook.Name, "ЕСУП", ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12)
+            ' РЈСЃР»РѕРІРЅРѕРµ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ
+            Call cellFormatConditions(ThisWorkbook.Name, "Р•РЎРЈРџ", СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12)
                         
-            ' Переменная - Офис был найден
+            ' РџРµСЂРµРјРµРЅРЅР°СЏ - РћС„РёСЃ Р±С‹Р» РЅР°Р№РґРµРЅ
             office_was_found = True
           End If
         
-          ' Следующая запись
+          ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
           rowCount = rowCount + 1
           Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
           DoEventsInterval (rowCount)
         Loop
       
-        ' Выводим данные по офису
+        ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ РїРѕ РѕС„РёСЃСѓ
       
-      Next i ' Следующий офис
+      Next i ' РЎР»РµРґСѓСЋС‰РёР№ РѕС„РёСЃ
       
-      ' ЕСУП по Ипотеке
+      ' Р•РЎРЈРџ РїРѕ РРїРѕС‚РµРєРµ
         
-      ' Находим столбец "Тюменский ОО1" на листе "ИПОТЕКА"
-      ячейка_Тюменский_ОО1_str = RangeByValue(ReportName_String, "ИПОТЕКА", "Тюменский ОО1", 100, 100)
-      ячейка_Тюменский_ОО1_Row = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_Тюменский_ОО1_str).Row
-      ячейка_Тюменский_ОО1_Column = Workbooks(ReportName_String).Sheets("ДО_Рег.Сеть").Range(ячейка_Тюменский_ОО1_str).Column
+      ' РќР°С…РѕРґРёРј СЃС‚РѕР»Р±РµС† "РўСЋРјРµРЅСЃРєРёР№ РћРћ1" РЅР° Р»РёСЃС‚Рµ "РРџРћРўР•РљРђ"
+      СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_str = RangeByValue(ReportName_String, "РРџРћРўР•РљРђ", "РўСЋРјРµРЅСЃРєРёР№ РћРћ1", 100, 100)
+      СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_str).Row
+      СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Column = Workbooks(ReportName_String).Sheets("Р”Рћ_Р РµРі.РЎРµС‚СЊ").Range(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_str).Column
 
-      ' Находим в первой строке начальную дату месяца отчета monthStartDate
-      ' ячейка_месяц_str = RangeByValue(ReportName_String, "ИПОТЕКА", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
-      ' ячейка_месяц_Row = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Range(ячейка_месяц_str).Row
-      ' ячейка_месяц_Column = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Range(ячейка_месяц_str).Column
+      ' РќР°С…РѕРґРёРј РІ РїРµСЂРІРѕР№ СЃС‚СЂРѕРєРµ РЅР°С‡Р°Р»СЊРЅСѓСЋ РґР°С‚Сѓ РјРµСЃСЏС†Р° РѕС‚С‡РµС‚Р° monthStartDate
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_str = RangeByValue(ReportName_String, "РРџРћРўР•РљРђ", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_Row = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Range(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str).Row
+      ' СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Range(СЏС‡РµР№РєР°_РјРµСЃСЏС†_str).Column
           
-      ячейка_месяц_Row = rowByValue(ReportName_String, "ИПОТЕКА", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
-      ячейка_месяц_Column = ColumnByValue(ReportName_String, "ИПОТЕКА", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
+      СЏС‡РµР№РєР°_РјРµСЃСЏС†_Row = rowByValue(ReportName_String, "РРџРћРўР•РљРђ", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
+      СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column = ColumnByValue(ReportName_String, "РРџРћРўР•РљРђ", CStr(monthStartDate(dateReportFrom_ReportName_String)), 100, 10000)
       
-            ' Записываем данные
-            ' ИПОТЕКА Индивидуальные встречи: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 3).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 6).Value
-            ' ИПОТЕКА Индивидуальные встречи: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 4).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 7).Value
-            ' ИПОТЕКА Индивидуальные встречи:  % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 8).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 5).Value) ' "0.0%"
+            ' Р—Р°РїРёСЃС‹РІР°РµРј РґР°РЅРЅС‹Рµ
+            ' РРџРћРўР•РљРђ РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 3).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 6).Value
+            ' РРџРћРўР•РљРђ РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 4).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 7).Value
+            ' РРџРћРўР•РљРђ РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё:  % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 8).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 5).Value) ' "0.0%"
             
-            ' ИПОТЕКА Наблюдения за работой сотр.: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 6).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 3).Value
-            ' ИПОТЕКА Наблюдения за работой сотр.: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 7).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 4).Value
-            ' ИПОТЕКА Наблюдения за работой сотр.:  % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 5).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 8).Value) ' "0.0%"
+            ' РРџРћРўР•РљРђ РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 6).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 3).Value
+            ' РРџРћРўР•РљРђ РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 7).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 4).Value
+            ' РРџРћРўР•РљРђ РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂ.:  % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 5).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 8).Value) ' "0.0%"
             
-            ' ИПОТЕКА Собрания: План
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 9).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 0).Value
-            ' ИПОТЕКА Собрания: Факт
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 10).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 1).Value
-            ' ИПОТЕКА Собрания: % вып.
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 2).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 11).Value) ' "0.0%"
+            ' РРџРћРўР•РљРђ РЎРѕР±СЂР°РЅРёСЏ: РџР»Р°РЅ
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 9).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 0).Value
+            ' РРџРћРўР•РљРђ РЎРѕР±СЂР°РЅРёСЏ: Р¤Р°РєС‚
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 10).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 1).Value
+            ' РРџРћРўР•РљРђ РЎРѕР±СЂР°РЅРёСЏ: % РІС‹Рї.
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 2).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 11).Value) ' "0.0%"
             
-            ' ИПОТЕКА Итоговый рейтинг
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value = Workbooks(ReportName_String).Sheets("ИПОТЕКА").Cells(ячейка_Тюменский_ОО1_Row, ячейка_месяц_Column + 9).Value
-            ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value) ' "0.0%"
+            ' РРџРћРўР•РљРђ РС‚РѕРіРѕРІС‹Р№ СЂРµР№С‚РёРЅРі
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value = Workbooks(ReportName_String).Sheets("РРџРћРўР•РљРђ").Cells(СЏС‡РµР№РєР°_РўСЋРјРµРЅСЃРєРёР№_РћРћ1_Row, СЏС‡РµР№РєР°_РјРµСЃСЏС†_Column + 9).Value
+            ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value) ' "0.0%"
     
-            ' Условное форматирование
-            Call cellFormatConditions(ThisWorkbook.Name, "ЕСУП", ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12)
+            ' РЈСЃР»РѕРІРЅРѕРµ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ
+            Call cellFormatConditions(ThisWorkbook.Name, "Р•РЎРЈРџ", СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12)
 
-            ' Список офисов с исполнением ЕСУП менее 85%
-            If ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + i, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value < 0.85 Then
-              If Список_офисов_с_исполнением_ЕСУП_менее_85 = "" Then
-                Список_офисов_с_исполнением_ЕСУП_менее_85 = "ИЦ"
+            ' РЎРїРёСЃРѕРє РѕС„РёСЃРѕРІ СЃ РёСЃРїРѕР»РЅРµРЅРёРµРј Р•РЎРЈРџ РјРµРЅРµРµ 85%
+            If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + i, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value < 0.85 Then
+              If РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = "" Then
+                РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = "РР¦"
               Else
-                Список_офисов_с_исполнением_ЕСУП_менее_85 = Список_офисов_с_исполнением_ЕСУП_менее_85 + ", ИЦ"
+                РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 = РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 + ", РР¦"
               End If
             End If
 
 
 
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Формируем информацию в протокол Собрания через Включить_в_Собрание_Повестка_дня()
-    ' 1) Заносим в ячейку "Включить в Собрание "Повестка_дня":"
-    Row_Включить_в_Собрание = rowByValue(ThisWorkbook.Name, "Лист0", "Включить в Собрание " + Chr(34) + "Повестка_дня" + Chr(34) + ":", 100, 100)
-    Column_Включить_в_Собрание = ColumnByValue(ThisWorkbook.Name, "Лист0", "Включить в Собрание " + Chr(34) + "Повестка_дня" + Chr(34) + ":", 100, 100)
+    ' Р¤РѕСЂРјРёСЂСѓРµРј РёРЅС„РѕСЂРјР°С†РёСЋ РІ РїСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ С‡РµСЂРµР· Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ()
+    ' 1) Р—Р°РЅРѕСЃРёРј РІ СЏС‡РµР№РєСѓ "Р’РєР»СЋС‡РёС‚СЊ РІ РЎРѕР±СЂР°РЅРёРµ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ":"
+    Row_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "Р’РєР»СЋС‡РёС‚СЊ РІ РЎРѕР±СЂР°РЅРёРµ " + Chr(34) + "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" + Chr(34) + ":", 100, 100)
+    Column_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ = ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "Р’РєР»СЋС‡РёС‚СЊ РІ РЎРѕР±СЂР°РЅРёРµ " + Chr(34) + "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" + Chr(34) + ":", 100, 100)
     
-    ' Сформировать поручение для офисов у которых менее 85%
-    If Список_офисов_с_исполнением_ЕСУП_менее_85 <> "" Then
-      поручениеЕСУПдо85процентов = "Руководителям " + Список_офисов_с_исполнением_ЕСУП_менее_85 + " провести в подразделениях Собрания, Индивидуальные встречи, Наблюдения за работой сотрудников для достижения уровня Итогового рейтинга за " + ИмяМесяцаГод(dateReportFrom_ReportName_String) + " - не менее 85%."
+    ' РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїРѕСЂСѓС‡РµРЅРёРµ РґР»СЏ РѕС„РёСЃРѕРІ Сѓ РєРѕС‚РѕСЂС‹С… РјРµРЅРµРµ 85%
+    If РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 <> "" Then
+      РїРѕСЂСѓС‡РµРЅРёРµР•РЎРЈРџРґРѕ85РїСЂРѕС†РµРЅС‚РѕРІ = "Р СѓРєРѕРІРѕРґРёС‚РµР»СЏРј " + РЎРїРёСЃРѕРє_РѕС„РёСЃРѕРІ_СЃ_РёСЃРїРѕР»РЅРµРЅРёРµРј_Р•РЎРЈРџ_РјРµРЅРµРµ_85 + " РїСЂРѕРІРµСЃС‚Рё РІ РїРѕРґСЂР°Р·РґРµР»РµРЅРёСЏС… РЎРѕР±СЂР°РЅРёСЏ, РРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рµ РІСЃС‚СЂРµС‡Рё, РќР°Р±Р»СЋРґРµРЅРёСЏ Р·Р° СЂР°Р±РѕС‚РѕР№ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ РґР»СЏ РґРѕСЃС‚РёР¶РµРЅРёСЏ СѓСЂРѕРІРЅСЏ РС‚РѕРіРѕРІРѕРіРѕ СЂРµР№С‚РёРЅРіР° Р·Р° " + РРјСЏРњРµСЃСЏС†Р°Р“РѕРґ(dateReportFrom_ReportName_String) + " - РЅРµ РјРµРЅРµРµ 85%."
     Else
-      поручениеЕСУПдо85процентов = ""
+      РїРѕСЂСѓС‡РµРЅРёРµР•РЎРЈРџРґРѕ85РїСЂРѕС†РµРЅС‚РѕРІ = ""
     End If
     
-    ' Тема:
-    ThisWorkbook.Sheets("Лист0").Cells(Row_Включить_в_Собрание + 2, Column_Включить_в_Собрание).Value = ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row - 1, ячейка_Форма_Отчетность_ЕСУП_итог_Column).Value + " Исполнение: " _
-                                                                                                        + "ОО «Тюменский» " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 1, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%, " _
-                                                                                                          + "ОО «Сургутский» " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 2, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%, " _
-                                                                                                            + "ОО «Нижневартовский» " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 3, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%, " _
-                                                                                                              + "ОО «Новоуренгойский» " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 4, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%, " _
-                                                                                                                + "ОО «Тарко-Сале» " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 5, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%, " _
-                                                                                                                  + "Ипотечный центр " + CStr(Round(ThisWorkbook.Sheets("ЕСУП").Cells(ячейка_Форма_Отчетность_ЕСУП_итог_row + 2 + 6, ячейка_Форма_Отчетность_ЕСУП_итог_Column + 12).Value * 100, 0)) + "%. " _
-                                                                                                                    + поручениеЕСУПдо85процентов
+    ' РўРµРјР°:
+    ThisWorkbook.Sheets("Р›РёСЃС‚0").Cells(Row_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ + 2, Column_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row - 1, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column).Value + " РСЃРїРѕР»РЅРµРЅРёРµ: " _
+                                                                                                        + "РћРћ В«РўСЋРјРµРЅСЃРєРёР№В» " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 1, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%, " _
+                                                                                                          + "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В» " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 2, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%, " _
+                                                                                                            + "РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В» " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 3, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%, " _
+                                                                                                              + "РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В» " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 4, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%, " _
+                                                                                                                + "РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ» " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 5, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%, " _
+                                                                                                                  + "РРїРѕС‚РµС‡РЅС‹Р№ С†РµРЅС‚СЂ " + CStr(Round(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_row + 2 + 6, СЏС‡РµР№РєР°_Р¤РѕСЂРјР°_РћС‚С‡РµС‚РЅРѕСЃС‚СЊ_Р•РЎРЈРџ_РёС‚РѕРі_Column + 12).Value * 100, 0)) + "%. " _
+                                                                                                                    + РїРѕСЂСѓС‡РµРЅРёРµР•РЎРЈРџРґРѕ85РїСЂРѕС†РµРЅС‚РѕРІ
         
-    ' HashTag на Лист0 из Хэштэг2:
-    ThisWorkbook.Sheets("Лист0").Cells(Row_Включить_в_Собрание + 2, Column_Включить_в_Собрание + 14).Value = ThisWorkbook.Sheets("ЕСУП").Cells(Хэштэг2_Range_Row, Хэштэг2_Range_Column + 1).Value
+    ' HashTag РЅР° Р›РёСЃС‚0 РёР· РҐСЌС€С‚СЌРі2:
+    ThisWorkbook.Sheets("Р›РёСЃС‚0").Cells(Row_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ + 2, Column_Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ + 14).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РҐСЌС€С‚СЌРі2_Range_Row, РҐСЌС€С‚СЌРі2_Range_Column + 1).Value
 
-    ' 2) Включить_в_Собрание_Повестка_дня()
-    Call Включить_в_Собрание_Повестка_дня
+    ' 2) Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ()
+    Call Р’РєР»СЋС‡РёС‚СЊ_РІ_РЎРѕР±СЂР°РЅРёРµ_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ
     
-    ' Формируем список для отправки (в "Список получателей2:"):
-    range_Список_получателей = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Список получателей2:", 100, 100)
-    row_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Row
-    column_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Column
+    ' Р¤РѕСЂРјРёСЂСѓРµРј СЃРїРёСЃРѕРє РґР»СЏ РѕС‚РїСЂР°РІРєРё (РІ "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:"):
+    range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100)
+    row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Row
+    column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Column
     '
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 2).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,РИЦ", 2)
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 3).Value = " "
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 2).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,Р РР¦", 2)
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 3).Value = " "
 
-    ' Переходим в ячейку M2
-    ThisWorkbook.Sheets("ЕСУП").Range("AL4").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("AL4").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    ' Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Оперативная справка по _________________", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћРїРµСЂР°С‚РёРІРЅР°СЏ СЃРїСЂР°РІРєР° РїРѕ _________________", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
 
 End Sub
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе
-Sub Отправка_Lotus_Notes_Лист_ЕСУП_ОО_и_ИЦ()
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚_Р•РЎРЈРџ_РћРћ_Рё_РР¦()
 '
-Dim темаПисьма, текстПисьма, hashTag As String
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag As String
 Dim i As Byte
   
-  If MsgBox("Отправить себе Шаблон письма?", vbYesNo) = vbYes Then
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР°?", vbYesNo) = vbYes Then
     
-    ' Тема письма - Тема:
-    темаПисьма = subjectFromSheet2("ЕСУП")
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    С‚РµРјР°РџРёСЃСЊРјР° = subjectFromSheet2("Р•РЎРЈРџ")
 
-    ' hashTag - Хэштэг:
-    hashTag = hashTagFromSheet2("ЕСУП")
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = hashTagFromSheet2("Р•РЎРЈРџ")
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + recipientList2("ЕСУП") + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("РД", 2) + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Уважаемые руководители," + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Информация по текущему исполнению отчетности. Норматив итогового рейтинга - 85%." + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(20) + hashTag
-    ' Вызов
-    Call send_Lotus_Notes2(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", текстПисьма, "")
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + recipientList2("Р•РЎРЈРџ") + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("Р Р”", 2) + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РЈРІР°Р¶Р°РµРјС‹Рµ СЂСѓРєРѕРІРѕРґРёС‚РµР»Рё," + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РРЅС„РѕСЂРјР°С†РёСЏ РїРѕ С‚РµРєСѓС‰РµРјСѓ РёСЃРїРѕР»РЅРµРЅРёСЋ РѕС‚С‡РµС‚РЅРѕСЃС‚Рё. РќРѕСЂРјР°С‚РёРІ РёС‚РѕРіРѕРІРѕРіРѕ СЂРµР№С‚РёРЅРіР° - 85%." + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(20) + hashTag
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes2(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", С‚РµРєСЃС‚РџРёСЃСЊРјР°, "")
   
-    ' Сообщение
-    MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   End If
 
 
 End Sub
 
-' Условное форматирование
+' РЈСЃР»РѕРІРЅРѕРµ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёРµ
 Sub cellFormatConditions(In_BookName, In_Sheet, In_Row, In_Column)
                        
             Workbooks(In_BookName).Sheets(In_Sheet).Cells(In_Row, In_Column).FormatConditions.AddIconSetCondition
@@ -1347,107 +1347,107 @@ Sub cellFormatConditions(In_BookName, In_Sheet, In_Row, In_Column)
 End Sub
 
 
-' Выгрузка протокола собрания ЕСУП 2
-Sub Протокол_Собрания2()
+' Р’С‹РіСЂСѓР·РєР° РїСЂРѕС‚РѕРєРѕР»Р° СЃРѕР±СЂР°РЅРёСЏ Р•РЎРЈРџ 2
+Sub РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ2()
   
-Dim FileProtocolName, str_Присутствовавшие_на_Собрании, str_Отсутствовавшие_на_Собрании, str_копияВадрес, К_пор_Range, str_Поручениеi, Присутств_на_Собрании_Range, range_Список_получателей As String
-Dim НомерСтроки_Повестка_дня, Номер_вопроса, rowCount, К_пор_Row, К_пор_Column, Номер_поручения, текущаяСтрокаПротокола, i, Присутств_на_Собрании_Row, Присутств_на_Собрании_Column As Byte
-Dim row_column_Список_получателей, column_Список_получателей As Byte
+Dim FileProtocolName, str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ, Рљ_РїРѕСЂ_Range, str_РџРѕСЂСѓС‡РµРЅРёРµi, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range, range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, rowCount, Рљ_РїРѕСЂ_Row, Рљ_РїРѕСЂ_Column, РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, i, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column As Byte
+Dim row_column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ As Byte
 
-  ' Закрытие Протокола (из макроса)
-  ' Workbooks.Open FileName:="C:\Users\Сергей\Documents\#VBA\DB_Result\Templates\Приложение 1. Протокол.xlsx"
-  ' ChDir "C:\Users\Сергей\Documents\#VBA\DB_Result\Out"
-  ' ActiveWorkbook.SaveAs FileName:="C:\Users\Сергей\Documents\#VBA\DB_Result\Out\Протокол_собрания.xlsx", FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
+  ' Р—Р°РєСЂС‹С‚РёРµ РџСЂРѕС‚РѕРєРѕР»Р° (РёР· РјР°РєСЂРѕСЃР°)
+  ' Workbooks.Open FileName:="C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Templates\РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx"
+  ' ChDir "C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Out"
+  ' ActiveWorkbook.SaveAs FileName:="C:\Users\РЎРµСЂРіРµР№\Documents\#VBA\DB_Result\Out\РџСЂРѕС‚РѕРєРѕР»_СЃРѕР±СЂР°РЅРёСЏ.xlsx", FileFormat:=xlOpenXMLWorkbook, CreateBackup:=False
   ' ActiveWindow.Close
 
-  ' Запрос на формирование протокола Собрания
-  If MsgBox("Сформировать протокол Собрания?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РїСЂРѕС‚РѕРєРѕР»Р° РЎРѕР±СЂР°РЅРёСЏ
+  If MsgBox("РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РїСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ?", vbYesNo) = vbYes Then
     
-    ' Открываем таблицу BASE\ToDo
+    ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
     OpenBookInBase ("ToDo")
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("ЕСУП").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Activate
 
     
-    ' Открываем шаблон Протокола из C:\Users\...\Documents\#VBA\DB_Result\Templates
-    Workbooks.Open (ThisWorkbook.Path + "\Templates\Приложение 1. Протокол.xlsx")
+    ' РћС‚РєСЂС‹РІР°РµРј С€Р°Р±Р»РѕРЅ РџСЂРѕС‚РѕРєРѕР»Р° РёР· C:\Users\...\Documents\#VBA\DB_Result\Templates
+    Workbooks.Open (ThisWorkbook.Path + "\Templates\РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx")
          
-    ' Имя файла с протоколом - берем из G2 "10-02032020"
-    FileProtocolName = "Протокол _ РОО Тюменский_" + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + ".xlsx"
+    ' РРјСЏ С„Р°Р№Р»Р° СЃ РїСЂРѕС‚РѕРєРѕР»РѕРј - Р±РµСЂРµРј РёР· G2 "10-02032020"
+    FileProtocolName = "РџСЂРѕС‚РѕРєРѕР» _ Р РћРћ РўСЋРјРµРЅСЃРєРёР№_" + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + ".xlsx"
     
-    ' Проверяем - если файл есть, то удаляем его
+    ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃР»Рё С„Р°Р№Р» РµСЃС‚СЊ, С‚Рѕ СѓРґР°Р»СЏРµРј РµРіРѕ
     Call deleteFile(ThisWorkbook.Path + "\Out\" + FileProtocolName)
     
-    ' Сохраняем файл с протоколом
-    Workbooks("Приложение 1. Протокол.xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + FileProtocolName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
+    ' РЎРѕС…СЂР°РЅСЏРµРј С„Р°Р№Р» СЃ РїСЂРѕС‚РѕРєРѕР»РѕРј
+    Workbooks("РџСЂРёР»РѕР¶РµРЅРёРµ 1. РџСЂРѕС‚РѕРєРѕР».xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + FileProtocolName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
     
-    ' Номер протокола
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C1:E2").Value = "Протокол Собрания №" + ThisWorkbook.Sheets("ЕСУП").Range("G2").Value
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C1:G2").MergeCells = True
-    ' Увеличиваем ширину предпоследнего столбца
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Columns("H:H").ColumnWidth = 20.43  ' 20.43, 21.64-предел
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Columns("I:I").ColumnWidth = 3
-    ' Тема
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A4:C4").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A4:C4").VerticalAlignment = xlCenter
-    ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D4:H4").Value = "Еженедельный конференц-колл с Управляющими офисов и НОРПиКО Тюменского РОО по подведению итогов работы офисов за предыдущую неделю и постановке бизнес-целей на текущую неделю"
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D4:H4").Value = "Еженедельный конференц-колл с Управляющими офисов и НОРПиКО Тюменского РОО по подведению итогов работы офисов за предыдущую неделю и постановке бизнес-целей на период с " + strDDMM(weekStartDate(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value))) + " по " + CStr(weekEndDate(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value))) + " г."
-    ' Дата проведения
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A5:C5").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A5:C5").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D5:H5").Value = CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + " г."
-    ' Место проведения
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A6:C6").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A6:C6").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D6:H6").Value = "г.Тюмень, ул.Советская 51/1"
-    ' Участники присутствовали
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A7:B8").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A7:B8").VerticalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C7").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C7").VerticalAlignment = xlCenter
-    str_Присутствовавшие_на_Собрании = Присутствовавшие_на_Собрании(1)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D7:H7").Value = str_Присутствовавшие_на_Собрании
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D7:H7").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("7:7").RowHeight = lineHeight(str_Присутствовавшие_на_Собрании, 15, 60) ' было 50 - норм. 60 - реальная ширина
+    ' РќРѕРјРµСЂ РїСЂРѕС‚РѕРєРѕР»Р°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C1:E2").Value = "РџСЂРѕС‚РѕРєРѕР» РЎРѕР±СЂР°РЅРёСЏ в„–" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C1:G2").MergeCells = True
+    ' РЈРІРµР»РёС‡РёРІР°РµРј С€РёСЂРёРЅСѓ РїСЂРµРґРїРѕСЃР»РµРґРЅРµРіРѕ СЃС‚РѕР»Р±С†Р°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Columns("H:H").ColumnWidth = 20.43  ' 20.43, 21.64-РїСЂРµРґРµР»
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Columns("I:I").ColumnWidth = 3
+    ' РўРµРјР°
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A4:C4").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A4:C4").VerticalAlignment = xlCenter
+    ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D4:H4").Value = "Р•Р¶РµРЅРµРґРµР»СЊРЅС‹Р№ РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р» СЃ РЈРїСЂР°РІР»СЏСЋС‰РёРјРё РѕС„РёСЃРѕРІ Рё РќРћР РџРёРљРћ РўСЋРјРµРЅСЃРєРѕРіРѕ Р РћРћ РїРѕ РїРѕРґРІРµРґРµРЅРёСЋ РёС‚РѕРіРѕРІ СЂР°Р±РѕС‚С‹ РѕС„РёСЃРѕРІ Р·Р° РїСЂРµРґС‹РґСѓС‰СѓСЋ РЅРµРґРµР»СЋ Рё РїРѕСЃС‚Р°РЅРѕРІРєРµ Р±РёР·РЅРµСЃ-С†РµР»РµР№ РЅР° С‚РµРєСѓС‰СѓСЋ РЅРµРґРµР»СЋ"
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D4:H4").Value = "Р•Р¶РµРЅРµРґРµР»СЊРЅС‹Р№ РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р» СЃ РЈРїСЂР°РІР»СЏСЋС‰РёРјРё РѕС„РёСЃРѕРІ Рё РќРћР РџРёРљРћ РўСЋРјРµРЅСЃРєРѕРіРѕ Р РћРћ РїРѕ РїРѕРґРІРµРґРµРЅРёСЋ РёС‚РѕРіРѕРІ СЂР°Р±РѕС‚С‹ РѕС„РёСЃРѕРІ Р·Р° РїСЂРµРґС‹РґСѓС‰СѓСЋ РЅРµРґРµР»СЋ Рё РїРѕСЃС‚Р°РЅРѕРІРєРµ Р±РёР·РЅРµСЃ-С†РµР»РµР№ РЅР° РїРµСЂРёРѕРґ СЃ " + strDDMM(weekStartDate(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value))) + " РїРѕ " + CStr(weekEndDate(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value))) + " Рі."
+    ' Р”Р°С‚Р° РїСЂРѕРІРµРґРµРЅРёСЏ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A5:C5").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A5:C5").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D5:H5").Value = CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + " Рі."
+    ' РњРµСЃС‚Рѕ РїСЂРѕРІРµРґРµРЅРёСЏ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A6:C6").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A6:C6").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D6:H6").Value = "Рі.РўСЋРјРµРЅСЊ, СѓР».РЎРѕРІРµС‚СЃРєР°СЏ 51/1"
+    ' РЈС‡Р°СЃС‚РЅРёРєРё РїСЂРёСЃСѓС‚СЃС‚РІРѕРІР°Р»Рё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A7:B8").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A7:B8").VerticalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C7").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C7").VerticalAlignment = xlCenter
+    str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(1)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D7:H7").Value = str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D7:H7").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("7:7").RowHeight = lineHeight(str_РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, 15, 60) ' Р±С‹Р»Рѕ 50 - РЅРѕСЂРј. 60 - СЂРµР°Р»СЊРЅР°СЏ С€РёСЂРёРЅР°
         
-    ' Участники отсутствовали
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C8").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("C8").VerticalAlignment = xlCenter
-    str_Отсутствовавшие_на_Собрании = Присутствовавшие_на_Собрании(0)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D8:H8").Value = str_Отсутствовавшие_на_Собрании
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D8:H8").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("8:8").RowHeight = lineHeight(str_Отсутствовавшие_на_Собрании, 15, 60) ' было 40 - норм
-    ' Копия в адрес:
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A9:C9").HorizontalAlignment = xlCenter
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A9:C9").VerticalAlignment = xlCenter
-    ' str_копияВадрес = getFromAddrBook("КОП", 1) ' + ", " + getFromAddrBook("ККП", 1) - пока без Воронцова
-    str_копияВадрес = getFromAddrBook("РД", 1) + ", " + getFromAddrBook("КОП", 1) + ", " + getFromAddrBook("КИп", 1) + ", " + getFromAddrBook("ККП", 1) + ", " + getFromAddrBook("Кaf", 1) + ", " + getFromAddrBook("КПВО", 1)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D9:H9").Value = str_копияВадрес
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("D9:H9").WrapText = True
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("9:9").RowHeight = lineHeight(str_копияВадрес, 15, 60) ' было 30 - норм
+    ' РЈС‡Р°СЃС‚РЅРёРєРё РѕС‚СЃСѓС‚СЃС‚РІРѕРІР°Р»Рё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C8").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("C8").VerticalAlignment = xlCenter
+    str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(0)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D8:H8").Value = str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D8:H8").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("8:8").RowHeight = lineHeight(str_РћС‚СЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё, 15, 60) ' Р±С‹Р»Рѕ 40 - РЅРѕСЂРј
+    ' РљРѕРїРёСЏ РІ Р°РґСЂРµСЃ:
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A9:C9").HorizontalAlignment = xlCenter
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A9:C9").VerticalAlignment = xlCenter
+    ' str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ = getFromAddrBook("РљРћРџ", 1) ' + ", " + getFromAddrBook("РљРљРџ", 1) - РїРѕРєР° Р±РµР· Р’РѕСЂРѕРЅС†РѕРІР°
+    str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ = getFromAddrBook("Р Р”", 1) + ", " + getFromAddrBook("РљРћРџ", 1) + ", " + getFromAddrBook("РљРРї", 1) + ", " + getFromAddrBook("РљРљРџ", 1) + ", " + getFromAddrBook("Рљaf", 1) + ", " + getFromAddrBook("РљРџР’Рћ", 1)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D9:H9").Value = str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("D9:H9").WrapText = True
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("9:9").RowHeight = lineHeight(str_РєРѕРїРёСЏР’Р°РґСЂРµСЃ, 15, 60) ' Р±С‹Р»Рѕ 30 - РЅРѕСЂРј
     
-    ' Повестка дня:
-    НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)).Row
+    ' РџРѕРІРµСЃС‚РєР° РґРЅСЏ:
+    РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)).Row
     rowCount = 2
-    Номер_вопроса = 0
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 1).Value <> ""
-      ' Если у вопроса стоит отметка "1", то вносим его в протокол собрания
-      If ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 14).Value = "1" Then
+    РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = 0
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 1).Value <> ""
+      ' Р•СЃР»Рё Сѓ РІРѕРїСЂРѕСЃР° СЃС‚РѕРёС‚ РѕС‚РјРµС‚РєР° "1", С‚Рѕ РІРЅРѕСЃРёРј РµРіРѕ РІ РїСЂРѕС‚РѕРєРѕР» СЃРѕР±СЂР°РЅРёСЏ
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 14).Value = "1" Then
         
-        Номер_вопроса = Номер_вопроса + 1
+        РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 1
         
-        ' Если номер вопроса более 6-ти, то вставляем строку
-        If Номер_вопроса > 6 Then
-          ' Вставляем строку
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса) + ":" + CStr(12 + Номер_вопроса)).Select
+        ' Р•СЃР»Рё РЅРѕРјРµСЂ РІРѕРїСЂРѕСЃР° Р±РѕР»РµРµ 6-С‚Рё, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        If РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° > 6 Then
+          ' Р’СЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).Select
           Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
-          ' Нумерация "7." возможна только если формат преобразовать к текстовому ("@")
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).NumberFormat = "@"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).Value = CStr(Номер_вопроса) + "."
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).HorizontalAlignment = xlLeft
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса) + ":H" + CStr(12 + Номер_вопроса)).MergeCells = True
-          ' Рамка
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A" + CStr(12 + Номер_вопроса) + ":H" + CStr(12 + Номер_вопроса)).Select
+          ' РќСѓРјРµСЂР°С†РёСЏ "7." РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РµСЃР»Рё С„РѕСЂРјР°С‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ Рє С‚РµРєСЃС‚РѕРІРѕРјСѓ ("@")
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).NumberFormat = "@"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).Value = CStr(РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + "."
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).HorizontalAlignment = xlLeft
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).MergeCells = True
+          ' Р Р°РјРєР°
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°)).Select
           With Selection.Borders(xlEdgeLeft)
             .LineStyle = xlContinuous
             .ThemeColor = 3
@@ -1481,60 +1481,60 @@ Dim row_column_Список_получателей, column_Список_получателей As Byte
         
         End If
         
-        ' Формат номера пункта Повестки Дня
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).HorizontalAlignment = xlCenter
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 1).VerticalAlignment = xlCenter
-        ' Вносим в Повестку Дня
-        If ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 13).Value = "" Then
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value
+        ' Р¤РѕСЂРјР°С‚ РЅРѕРјРµСЂР° РїСѓРЅРєС‚Р° РџРѕРІРµСЃС‚РєРё Р”РЅСЏ
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).HorizontalAlignment = xlCenter
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 1).VerticalAlignment = xlCenter
+        ' Р’РЅРѕСЃРёРј РІ РџРѕРІРµСЃС‚РєСѓ Р”РЅСЏ
+        If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 13).Value = "" Then
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value
         Else
-          ' Если есть Хэштэг
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 3).Value + " (" + ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Повестка_дня + rowCount, 13).Value + ")"
+          ' Р•СЃР»Рё РµСЃС‚СЊ РҐСЌС€С‚СЌРі
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 2).Value + ": " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 3).Value + " (" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + rowCount, 13).Value + ")"
         End If
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).HorizontalAlignment = xlLeft
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).VerticalAlignment = xlTop
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).WrapText = True
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).RowHeight = lineHeight(delSym(Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса, 2).Value), 15, 90) ' было 15, 65
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).HorizontalAlignment = xlLeft
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).VerticalAlignment = xlTop
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).WrapText = True
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).RowHeight = lineHeight(delSym(Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР°, 2).Value), 15, 90) ' Р±С‹Р»Рѕ 15, 65
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
     
-    ' Корректируем номер вопроса, если он менее 6 для того, чтобы корректно рассчитывать число строк в Поручениях
-    If Номер_вопроса < 6 Then
-      Номер_вопроса = 6
+    ' РљРѕСЂСЂРµРєС‚РёСЂСѓРµРј РЅРѕРјРµСЂ РІРѕРїСЂРѕСЃР°, РµСЃР»Рё РѕРЅ РјРµРЅРµРµ 6 РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РєРѕСЂСЂРµРєС‚РЅРѕ СЂР°СЃСЃС‡РёС‚С‹РІР°С‚СЊ С‡РёСЃР»Рѕ СЃС‚СЂРѕРє РІ РџРѕСЂСѓС‡РµРЅРёСЏС…
+    If РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° < 6 Then
+      РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° = 6
     End If
        
-    ' Поручения участникам:
+    ' РџРѕСЂСѓС‡РµРЅРёСЏ СѓС‡Р°СЃС‚РЅРёРєР°Рј:
       
-      ' Номер поручения
-      Номер_поручения = 0
+      ' РќРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ
+      РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = 0
       
-      ' Обрабатываем Поручения по офису, где стоят даты
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РџРѕСЂСѓС‡РµРЅРёСЏ РїРѕ РѕС„РёСЃСѓ, РіРґРµ СЃС‚РѕСЏС‚ РґР°С‚С‹
       rowCount = 62
-      Do While Trim(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, 19).Value) <> ""
+      Do While Trim(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, 19).Value) <> ""
         
-          ' Номер поручения
-          Номер_поручения = Номер_поручения + 1
-          ' Если номер поручения более 6-ти, то вставляем строку
-          If Номер_поручения > 6 Then
+          ' РќРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ
+          РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ + 1
+          ' Р•СЃР»Рё РЅРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ Р±РѕР»РµРµ 6-С‚Рё, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+          If РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ > 6 Then
             
-            ' Вставляем пустую строку в блок "Поручения"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' Р’СЃС‚Р°РІР»СЏРµРј РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ Р±Р»РѕРє "РџРѕСЂСѓС‡РµРЅРёСЏ"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
             
-            ' Нумерация "7." возможна только если формат преобразовать к текстовому ("@")
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).NumberFormat = "@"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).Value = CStr(Номер_поручения) + "."
+            ' РќСѓРјРµСЂР°С†РёСЏ "7." РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РµСЃР»Рё С„РѕСЂРјР°С‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ Рє С‚РµРєСЃС‚РѕРІРѕРјСѓ ("@")
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).NumberFormat = "@"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).Value = CStr(РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + "."
             
-            ' Объединяем B, С, D
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
+            ' РћР±СЉРµРґРёРЅСЏРµРј B, РЎ, D
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
             
-            ' Объединяем G, Н
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("G" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
+            ' РћР±СЉРµРґРёРЅСЏРµРј G, Рќ
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("G" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
             
-            ' Рамка
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' Р Р°РјРєР°
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             With Selection.Borders(xlEdgeLeft)
                 .LineStyle = xlContinuous
                 .ThemeColor = 3
@@ -1566,84 +1566,84 @@ Dim row_column_Список_получателей, column_Список_получателей As Byte
                 .Weight = xlThin
             End With
 
-          End If ' Вставляем новую строку Поручения и нумеруем
+          End If ' Р’СЃС‚Р°РІР»СЏРµРј РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РџРѕСЂСѓС‡РµРЅРёСЏ Рё РЅСѓРјРµСЂСѓРµРј
           
-          ' Номер Поручения (№ п/п) - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).VerticalAlignment = xlCenter
+          ' РќРѕРјРµСЂ РџРѕСЂСѓС‡РµРЅРёСЏ (в„– Рї/Рї) - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).VerticalAlignment = xlCenter
 
-          ' Поручение
-          str_Поручениеi = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, 21).Value
+          ' РџРѕСЂСѓС‡РµРЅРёРµ
+          str_РџРѕСЂСѓС‡РµРЅРёРµi = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, 21).Value
           
-          ' Поручение - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Поручение - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).HorizontalAlignment = xlLeft
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).VerticalAlignment = xlTop
-          ' Поручение - высота строки
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).RowHeight = lineHeight(str_Поручениеi, 15, 37) ' 20 - норм
-          ' Поручение - Запись в протокол
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).Value = str_Поручениеi
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).HorizontalAlignment = xlLeft
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).VerticalAlignment = xlTop
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЃРѕС‚Р° СЃС‚СЂРѕРєРё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).RowHeight = lineHeight(str_РџРѕСЂСѓС‡РµРЅРёРµi, 15, 37) ' 20 - РЅРѕСЂРј
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - Р—Р°РїРёСЃСЊ РІ РїСЂРѕС‚РѕРєРѕР»
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).Value = str_РџРѕСЂСѓС‡РµРЅРёРµi
 
-          ' Ответственный
-          ' Вариант 1 - Должность и ФИО
-          ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 4).Value + " " + ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 3).Value
-          ' Вариант 2 - ФИО
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, 19).Value
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+          ' Р’Р°СЂРёР°РЅС‚ 1 - Р”РѕР»Р¶РЅРѕСЃС‚СЊ Рё Р¤РРћ
+          ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 4).Value + " " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 3).Value
+          ' Р’Р°СЂРёР°РЅС‚ 2 - Р¤РРћ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, 19).Value
           
-          ' Ответственный - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Ответственный - выравнивание по вертикали и горизонтали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).VerticalAlignment = xlTop
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).HorizontalAlignment = xlCenter
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»Рё Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).VerticalAlignment = xlTop
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).HorizontalAlignment = xlCenter
           
-          ' Срок исполнения
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).Value = CStr(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, 20).Value)
-          ' Срок исполнения - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).VerticalAlignment = xlTop
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).Value = CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, 20).Value)
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).VerticalAlignment = xlTop
           
         
-        ' Следующая строка
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
         DoEvents
         rowCount = rowCount + 1
       Loop ' Do While
       
     
-    ' Вывести результаты исполнения предидущих поручений из BASE\To-Do у которых Protocol_Number<>"" и Protocol_Number2=""
-    ' Обрабатываем Поручения по офису, где стоят даты
+    ' Р’С‹РІРµСЃС‚Рё СЂРµР·СѓР»СЊС‚Р°С‚С‹ РёСЃРїРѕР»РЅРµРЅРёСЏ РїСЂРµРґРёРґСѓС‰РёС… РїРѕСЂСѓС‡РµРЅРёР№ РёР· BASE\To-Do Сѓ РєРѕС‚РѕСЂС‹С… Protocol_Number<>"" Рё Protocol_Number2=""
+    ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РџРѕСЂСѓС‡РµРЅРёСЏ РїРѕ РѕС„РёСЃСѓ, РіРґРµ СЃС‚РѕСЏС‚ РґР°С‚С‹
     rowCount = 2
-    Do While Trim(Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 1).Value) <> ""
+    Do While Trim(Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 1).Value) <> ""
         
-      ' Если (Protocol_Number<>"" и Protocol_Number2="") ИЛИ (Protocol_Number<>"" и Protocol_Number2=Текущему протоколу)
-      ' If ((Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 13).Value = "")) Or (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("ЕСУП").Range("G2").Value) Then
+      ' Р•СЃР»Рё (Protocol_Number<>"" Рё Protocol_Number2="") РР›Р (Protocol_Number<>"" Рё Protocol_Number2=РўРµРєСѓС‰РµРјСѓ РїСЂРѕС‚РѕРєРѕР»Сѓ)
+      ' If ((Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 13).Value = "")) Or (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value) Then
       
-      ' Вариант2 (выводились поручения с листа ЕСУП и дублировались они же из To-DO)
-      ' Если (Protocol_Number<>"" и Protocol_Number<>Текущему протоколу и Protocol_Number2="") ИЛИ (Protocol_Number<>"" и Protocol_Number2=Текущему протоколу)
-      If ((Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value <> ThisWorkbook.Sheets("ЕСУП").Range("G2").Value) And (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 13).Value = "")) Or (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("ЕСУП").Range("G2").Value) Then
+      ' Р’Р°СЂРёР°РЅС‚2 (РІС‹РІРѕРґРёР»РёСЃСЊ РїРѕСЂСѓС‡РµРЅРёСЏ СЃ Р»РёСЃС‚Р° Р•РЎРЈРџ Рё РґСѓР±Р»РёСЂРѕРІР°Р»РёСЃСЊ РѕРЅРё Р¶Рµ РёР· To-DO)
+      ' Р•СЃР»Рё (Protocol_Number<>"" Рё Protocol_Number<>РўРµРєСѓС‰РµРјСѓ РїСЂРѕС‚РѕРєРѕР»Сѓ Рё Protocol_Number2="") РР›Р (Protocol_Number<>"" Рё Protocol_Number2=РўРµРєСѓС‰РµРјСѓ РїСЂРѕС‚РѕРєРѕР»Сѓ)
+      If ((Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value <> ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value) And (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 13).Value = "")) Or (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value <> "") And (Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value) Then
       
       
-          ' Номер поручения
-          Номер_поручения = Номер_поручения + 1
-          ' Если номер поручения более 6-ти, то вставляем строку
-          If Номер_поручения > 6 Then
+          ' РќРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ
+          РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ + 1
+          ' Р•СЃР»Рё РЅРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ Р±РѕР»РµРµ 6-С‚Рё, С‚Рѕ РІСЃС‚Р°РІР»СЏРµРј СЃС‚СЂРѕРєСѓ
+          If РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ > 6 Then
             
-            ' Вставляем пустую строку в блок "Поручения"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' Р’СЃС‚Р°РІР»СЏРµРј РїСѓСЃС‚СѓСЋ СЃС‚СЂРѕРєСѓ РІ Р±Р»РѕРє "РџРѕСЂСѓС‡РµРЅРёСЏ"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             Selection.Insert Shift:=xlDown, CopyOrigin:=xlFormatFromLeftOrAbove
             
-            ' Нумерация "7." возможна только если формат преобразовать к текстовому ("@")
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).NumberFormat = "@"
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).Value = CStr(Номер_поручения) + "."
+            ' РќСѓРјРµСЂР°С†РёСЏ "7." РІРѕР·РјРѕР¶РЅР° С‚РѕР»СЊРєРѕ РµСЃР»Рё С„РѕСЂРјР°С‚ РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ Рє С‚РµРєСЃС‚РѕРІРѕРјСѓ ("@")
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).NumberFormat = "@"
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).Value = CStr(РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + "."
             
-            ' Объединяем B, С, D
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
+            ' РћР±СЉРµРґРёРЅСЏРµРј B, РЎ, D
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
             
-            ' Объединяем G, Н
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("G" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).MergeCells = True
+            ' РћР±СЉРµРґРёРЅСЏРµРј G, Рќ
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("G" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).MergeCells = True
             
-            ' Рамка
-            Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).Select
+            ' Р Р°РјРєР°
+            Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).Select
             With Selection.Borders(xlEdgeLeft)
                 .LineStyle = xlContinuous
                 .ThemeColor = 3
@@ -1675,747 +1675,747 @@ Dim row_column_Список_получателей, column_Список_получателей As Byte
                 .Weight = xlThin
             End With
 
-          End If ' Вставляем новую строку Поручения и нумеруем
+          End If ' Р’СЃС‚Р°РІР»СЏРµРј РЅРѕРІСѓСЋ СЃС‚СЂРѕРєСѓ РџРѕСЂСѓС‡РµРЅРёСЏ Рё РЅСѓРјРµСЂСѓРµРј
           
-          ' Номер Поручения (№ п/п) - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 1).VerticalAlignment = xlCenter
+          ' РќРѕРјРµСЂ РџРѕСЂСѓС‡РµРЅРёСЏ (в„– Рї/Рї) - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 1).VerticalAlignment = xlCenter
 
-          ' Поручение
-          str_Поручениеi = Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 3).Value
+          ' РџРѕСЂСѓС‡РµРЅРёРµ
+          str_РџРѕСЂСѓС‡РµРЅРёРµi = Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 3).Value
           
-          ' Поручение - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("B" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":D" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Поручение - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).HorizontalAlignment = xlLeft
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).VerticalAlignment = xlTop
-          ' Поручение - высота строки
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range(CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).RowHeight = lineHeight(str_Поручениеi, 15, 37) ' 20 - норм
-          ' Поручение - Запись в протокол
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 2).Value = str_Поручениеi
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("B" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":D" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).HorizontalAlignment = xlLeft
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).VerticalAlignment = xlTop
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - РІС‹СЃРѕС‚Р° СЃС‚СЂРѕРєРё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range(CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).RowHeight = lineHeight(str_РџРѕСЂСѓС‡РµРЅРёРµi, 15, 37) ' 20 - РЅРѕСЂРј
+          ' РџРѕСЂСѓС‡РµРЅРёРµ - Р—Р°РїРёСЃСЊ РІ РїСЂРѕС‚РѕРєРѕР»
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 2).Value = str_РџРѕСЂСѓС‡РµРЅРёРµi
 
-          ' Ответственный
-          ' Вариант 1 - Должность и ФИО
-          ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 4).Value + " " + ThisWorkbook.Sheets("ЕСУП").Cells(К_пор_Row - 1, К_пор_Column - 3).Value
-          ' Вариант 2 - ФИО
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).Value = Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 5).Value
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+          ' Р’Р°СЂРёР°РЅС‚ 1 - Р”РѕР»Р¶РЅРѕСЃС‚СЊ Рё Р¤РРћ
+          ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 4).Value + " " + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(Рљ_РїРѕСЂ_Row - 1, Рљ_РїРѕСЂ_Column - 3).Value
+          ' Р’Р°СЂРёР°РЅС‚ 2 - Р¤РРћ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).Value = Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 5).Value
           
-          ' Ответственный - "Переносить по словам"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":E" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Ответственный - выравнивание по вертикали и горизонтали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).VerticalAlignment = xlTop
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 5).HorizontalAlignment = xlCenter
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":E" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ РІРµСЂС‚РёРєР°Р»Рё Рё РіРѕСЂРёР·РѕРЅС‚Р°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).VerticalAlignment = xlTop
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 5).HorizontalAlignment = xlCenter
           
-          ' Срок исполнения
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).Value = CStr(Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 8).Value)
-          ' Срок исполнения - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 6).VerticalAlignment = xlTop
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).Value = CStr(Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 8).Value)
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 6).VerticalAlignment = xlTop
           
-          ' Статус выполнения/комментарии
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 7).Value = Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 9).Value + " (п. " + CStr(Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 12).Value) + " прот.№" + Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 10).Value + ")"
-          ' Ответственный - "Переносить по словам" для "G39:H39"
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("G" + CStr(12 + Номер_вопроса + 4 + Номер_поручения) + ":H" + CStr(12 + Номер_вопроса + 4 + Номер_поручения)).WrapText = True
-          ' Срок исполнения - выравнивание по центру и по вертикали
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 7).HorizontalAlignment = xlCenter
-          Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(12 + Номер_вопроса + 4 + Номер_поручения, 7).VerticalAlignment = xlCenter
+          ' РЎС‚Р°С‚СѓСЃ РІС‹РїРѕР»РЅРµРЅРёСЏ/РєРѕРјРјРµРЅС‚Р°СЂРёРё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 7).Value = Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 9).Value + " (Рї. " + CStr(Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 12).Value) + " РїСЂРѕС‚.в„–" + Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 10).Value + ")"
+          ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ - "РџРµСЂРµРЅРѕСЃРёС‚СЊ РїРѕ СЃР»РѕРІР°Рј" РґР»СЏ "G39:H39"
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("G" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + ":H" + CStr(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ)).WrapText = True
+          ' РЎСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РІС‹СЂР°РІРЅРёРІР°РЅРёРµ РїРѕ С†РµРЅС‚СЂСѓ Рё РїРѕ РІРµСЂС‚РёРєР°Р»Рё
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 7).HorizontalAlignment = xlCenter
+          Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ, 7).VerticalAlignment = xlCenter
           
-          ' Если статус поручения в ToDo.Task_Status = 0, т.е. задача уже не активна, то вносим в ToDo.Protocol_Number2, ToDo.Protocol_Date2, ToDo.Protocol_Question_number2
-          If Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 7).Value = 0 Then
+          ' Р•СЃР»Рё СЃС‚Р°С‚СѓСЃ РїРѕСЂСѓС‡РµРЅРёСЏ РІ ToDo.Task_Status = 0, С‚.Рµ. Р·Р°РґР°С‡Р° СѓР¶Рµ РЅРµ Р°РєС‚РёРІРЅР°, С‚Рѕ РІРЅРѕСЃРёРј РІ ToDo.Protocol_Number2, ToDo.Protocol_Date2, ToDo.Protocol_Question_number2
+          If Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 7).Value = 0 Then
             
              ' ToDo.Protocol_Number2
-             Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("ЕСУП").Range("G2").Value
+             Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 13).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value
              
              ' ToDo.Protocol_Date2
-             Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 14).Value = getDateFromProtocolNumber(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)
+             Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 14).Value = getDateFromProtocolNumber(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)
              
-             ' ToDo.Protocol_Question_number2 = Номер_поручения
-             Workbooks("ToDo").Sheets("Лист1").Cells(rowCount, 15).Value = Номер_поручения
+             ' ToDo.Protocol_Question_number2 = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ
+             Workbooks("ToDo").Sheets("Р›РёСЃС‚1").Cells(rowCount, 15).Value = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ
              
           End If
           
  
           
-        End If ' Если Protocol_Number<>"" и Protocol_Number2=""
+        End If ' Р•СЃР»Рё Protocol_Number<>"" Рё Protocol_Number2=""
         
-        ' Следующая строка
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
         DoEvents
         rowCount = rowCount + 1
       Loop ' Do While
     
     
-    ' Здесь контролируем номер строки для вывода текущаяСтрокаПротокола
-    If Номер_поручения < 6 Then
-      ' Номер поручения
-      Номер_поручения = 6
+    ' Р—РґРµСЃСЊ РєРѕРЅС‚СЂРѕР»РёСЂСѓРµРј РЅРѕРјРµСЂ СЃС‚СЂРѕРєРё РґР»СЏ РІС‹РІРѕРґР° С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°
+    If РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ < 6 Then
+      ' РќРѕРјРµСЂ РїРѕСЂСѓС‡РµРЅРёСЏ
+      РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = 6
       
-      ' Убираем нумерацию строк в поручениях с
+      ' РЈР±РёСЂР°РµРј РЅСѓРјРµСЂР°С†РёСЋ СЃС‚СЂРѕРє РІ РїРѕСЂСѓС‡РµРЅРёСЏС… СЃ
       
     End If
     
-    ' Моя Подпись под протоколом
-    текущаяСтрокаПротокола = (12 + Номер_вопроса + 4 + Номер_поручения) + 2
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = "Заместитель директора по развитию розничного бизнеса"
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 7).Value = "Прощаев С.Ф."
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+    ' РњРѕСЏ РџРѕРґРїРёСЃСЊ РїРѕРґ РїСЂРѕС‚РѕРєРѕР»РѕРј
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = (12 + РќРѕРјРµСЂ_РІРѕРїСЂРѕСЃР° + 4 + РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ) + 2
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = "Р—Р°РјРµСЃС‚РёС‚РµР»СЊ РґРёСЂРµРєС‚РѕСЂР° РїРѕ СЂР°Р·РІРёС‚РёСЋ СЂРѕР·РЅРёС‡РЅРѕРіРѕ Р±РёР·РЅРµСЃР°"
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 7).Value = "РџСЂРѕС‰Р°РµРІ РЎ.Р¤."
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
     
-    ' С протоколом ознакомлены: (по электронной почте) - направляем присутствующим и отсутствующим
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = "C протоколом ознакомлены (по электронной почте):"
-    ' Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Font.Underline = xlUnderlineStyleSingle
-    текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-    Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+    ' РЎ РїСЂРѕС‚РѕРєРѕР»РѕРј РѕР·РЅР°РєРѕРјР»РµРЅС‹: (РїРѕ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ) - РЅР°РїСЂР°РІР»СЏРµРј РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‰РёРј Рё РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРј
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = "C РїСЂРѕС‚РѕРєРѕР»РѕРј РѕР·РЅР°РєРѕРјР»РµРЅС‹ (РїРѕ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚Рµ):"
+    ' Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Font.Underline = xlUnderlineStyleSingle
+    С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+    Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
     '
-    Присутств_на_Собрании_Range = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Присутств_на_Собрании", 100, 100)
-    Присутств_на_Собрании_Row = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Row
-    Присутств_на_Собрании_Column = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Column
-    rowCount = Присутств_на_Собрании_Row + 1
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column).Value <> "Пригл_на_Собрание"
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё", 100, 100)
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Row
+    РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Column
+    rowCount = РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row + 1
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column).Value <> "РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ"
       
-      ' Если ФИО <>0
-      If ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value <> 0 Then
+      ' Р•СЃР»Рё Р¤РРћ <>0
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value <> 0 Then
 
-        ' Должность_и_ФИО = ThisWorkbook.Sheets("ЕСУП").Cells(RowCount, Присутств_на_Собрании_Column + 4).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(RowCount, Присутств_на_Собрании_Column + 1).Value, 3)
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 2).Value = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 4).Value
-        Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Cells(текущаяСтрокаПротокола, 6).Value = Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value, 3)
-        текущаяСтрокаПротокола = текущаяСтрокаПротокола + 1
-        Call InsertRow_InProtocol(FileProtocolName, "Протокол_Собрания", текущаяСтрокаПротокола)
+        ' Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(RowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 4).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(RowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value, 3)
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 2).Value = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 4).Value
+        Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Cells(С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°, 6).Value = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value, 3)
+        С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° = С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р° + 1
+        Call InsertRow_InProtocol(FileProtocolName, "РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ", С‚РµРєСѓС‰Р°СЏРЎС‚СЂРѕРєР°РџСЂРѕС‚РѕРєРѕР»Р°)
       
       End If
          
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
  
-    ' Формируем список для отправки (в "Список получателей:"):
-    range_Список_получателей = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Список получателей:", 100, 100)
-    row_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Row
-    column_Список_получателей = ThisWorkbook.Sheets("ЕСУП").Range(range_Список_получателей).Column
+    ' Р¤РѕСЂРјРёСЂСѓРµРј СЃРїРёСЃРѕРє РґР»СЏ РѕС‚РїСЂР°РІРєРё (РІ "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:"):
+    range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+    row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Row
+    column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(range_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№).Column
     '
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 2).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП", 2)
-    ThisWorkbook.Sheets("ЕСУП").Cells(row_Список_получателей, column_Список_получателей + 3).Value = " "
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 2).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ", 2)
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(row_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№, column_РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№ + 3).Value = " "
     
-    ' Перемещаем в ячейку A1
-    Workbooks(FileProtocolName).Sheets("Протокол_Собрания").Range("A1").Select
+    ' РџРµСЂРµРјРµС‰Р°РµРј РІ СЏС‡РµР№РєСѓ A1
+    Workbooks(FileProtocolName).Sheets("РџСЂРѕС‚РѕРєРѕР»_РЎРѕР±СЂР°РЅРёСЏ").Range("A1").Select
     
-    ' Закрытие файла с Протоколом Собрания
+    ' Р—Р°РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РџСЂРѕС‚РѕРєРѕР»РѕРј РЎРѕР±СЂР°РЅРёСЏ
     Workbooks(FileProtocolName).Close SaveChanges:=True
     
-    ' Редактируем тему письма
-    ThisWorkbook.Sheets("ЕСУП").Cells(1, 17).Value = "Тюменский РОО: Протокол конференц-колла с офисами №" + ThisWorkbook.Sheets("ЕСУП").Cells(2, 7).Value + " от " + CStr(dateProtocol(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value)) + " г."
+    ' Р РµРґР°РєС‚РёСЂСѓРµРј С‚РµРјСѓ РїРёСЃСЊРјР°
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 17).Value = "РўСЋРјРµРЅСЃРєРёР№ Р РћРћ: РџСЂРѕС‚РѕРєРѕР» РєРѕРЅС„РµСЂРµРЅС†-РєРѕР»Р»Р° СЃ РѕС„РёСЃР°РјРё в„–" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(2, 7).Value + " РѕС‚ " + CStr(dateProtocol(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value)) + " Рі."
     
-    ' Редактируем поля с Тэгами 1 и 2 на листе Есуп
-    ThisWorkbook.Sheets("ЕСУП").Cells(1, 15).Value = "#protocol"
-    ThisWorkbook.Sheets("ЕСУП").Cells(3, 15).Value = "#protocol_" + ThisWorkbook.Sheets("ЕСУП").Cells(2, 7).Value
+    ' Р РµРґР°РєС‚РёСЂСѓРµРј РїРѕР»СЏ СЃ РўСЌРіР°РјРё 1 Рё 2 РЅР° Р»РёСЃС‚Рµ Р•СЃСѓРї
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 15).Value = "#protocol"
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(3, 15).Value = "#protocol_" + ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(2, 7).Value
     
-    ' Закрываем таблицу BASE\ToDo
+    ' Р—Р°РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
     CloseBook ("ToDo")
  
-    ' Сохранение изменений
+    ' РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№
     ThisWorkbook.Save
 
-    MsgBox ("Протокол сформирован!")
+    MsgBox ("РџСЂРѕС‚РѕРєРѕР» СЃС„РѕСЂРјРёСЂРѕРІР°РЅ!")
     
-  End If ' Запрос на формирование
+  End If ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ
   
 End Sub
 
 
-' Добавить красные зоны по месяцу в повестку
+' Р”РѕР±Р°РІРёС‚СЊ РєСЂР°СЃРЅС‹Рµ Р·РѕРЅС‹ РїРѕ РјРµСЃСЏС†Сѓ РІ РїРѕРІРµСЃС‚РєСѓ
 Sub add_Focus()
 Dim rowCount As Integer
   
-  ' Запрос на действие из Лист8 "B5" берем месяц
-  If MsgBox("Добавить в повестку красные зоны " + ИмяМесяца2(DashboardDate()) + "?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ РЅР° РґРµР№СЃС‚РІРёРµ РёР· Р›РёСЃС‚8 "B5" Р±РµСЂРµРј РјРµСЃСЏС†
+  If MsgBox("Р”РѕР±Р°РІРёС‚СЊ РІ РїРѕРІРµСЃС‚РєСѓ РєСЂР°СЃРЅС‹Рµ Р·РѕРЅС‹ " + РРјСЏРњРµСЃСЏС†Р°2(DashboardDate()) + "?", vbYesNo) = vbYes Then
     
-    Application.StatusBar = "Поиск красных зон..."
+    Application.StatusBar = "РџРѕРёСЃРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ..."
     
-    ' Открываем таблицу MBO
-    ' Открываем BASE\Sales
+    ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ MBO
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Sales
     OpenBookInBase ("MBO")
-    ' ThisWorkbook.Sheets("Лист8").Activate
+    ' ThisWorkbook.Sheets("Р›РёСЃС‚8").Activate
 
     
-    ' Обработка DB
-    ' Фокусы_контроля_строка = ""
-    Строка_к_выводу = ""
+    ' РћР±СЂР°Р±РѕС‚РєР° DB
+    ' Р¤РѕРєСѓСЃС‹_РєРѕРЅС‚СЂРѕР»СЏ_СЃС‚СЂРѕРєР° = ""
+    РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
 
-    ' Начало блока офиса
-    Начало_блока_офиса = False
+    ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+    РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
 
-    ' Добавлено вопросов в повестку
-    Добавлено_вопросов = 0
+    ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+    Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = 0
 
-    ' 1. ИЦ
-    продукты_контроля_ИЦ_РОО = "           КК к Ипотеке,            КЛА премия ИЦ"
+    ' 1. РР¦
+    РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РР¦_Р РћРћ = "           РљРљ Рє РРїРѕС‚РµРєРµ,            РљР›Рђ РїСЂРµРјРёСЏ РР¦"
     
-    rowCount = rowByValue(ThisWorkbook.Name, "Лист8", "Итого по РОО «Тюменский»", 500, 500)
-    Do While ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value <> ""
+    rowCount = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»", 500, 500)
+    Do While ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value <> ""
     
-      ' Если начинается раздел офиса, то Строка_к_выводу обнуляем
-      If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Итого по РОО «Тюменский»") <> 0) Then
+      ' Р•СЃР»Рё РЅР°С‡РёРЅР°РµС‚СЃСЏ СЂР°Р·РґРµР» РѕС„РёСЃР°, С‚Рѕ РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ РѕР±РЅСѓР»СЏРµРј
+      If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»") <> 0) Then
         
-        ' Начало блока офиса
-        Начало_блока_офиса = True
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True
         
-        ' Имя офиса
-        Имя_офиса = "ИЦ"
-        Имя_офиса_в_Строке_к_выводу = "ИЦ"
+        ' РРјСЏ РѕС„РёСЃР°
+        РРјСЏ_РѕС„РёСЃР° = "РР¦"
+        РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = "РР¦"
 
-        ' Счетчик красных зон офиса
-        Счетчик_красных_зон_офиса = 0
+        ' РЎС‡РµС‚С‡РёРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ РѕС„РёСЃР°
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = 0
         
       End If
     
-      ' ИЦ: Если прогноз по кварталу есть
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value < 1) And (InStr(продукты_контроля_ИЦ_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) Then
+      ' РР¦: Р•СЃР»Рё РїСЂРѕРіРЅРѕР· РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РµСЃС‚СЊ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РР¦_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) Then
       
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
       
-        ' Строка поручений
-        Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
       
-      
-      End If
-    
-      ' ИЦ Если прогноза по кварталу нет - берем из 20-ой колонки Лист8 прогноз
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value < 1) And (InStr(продукты_контроля_ИЦ_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value = "") Then
-        
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
-        
-        ' Строка поручений
-        Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
       
       End If
     
-    
-      ' Если блок офиса закончился
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value = "Ипотека") Then
+      ' РР¦ Р•СЃР»Рё РїСЂРѕРіРЅРѕР·Р° РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РЅРµС‚ - Р±РµСЂРµРј РёР· 20-РѕР№ РєРѕР»РѕРЅРєРё Р›РёСЃС‚8 РїСЂРѕРіРЅРѕР·
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РР¦_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value = "") Then
         
-        ' Вставить строку в Повестку собрания
-        If Счетчик_красных_зон_офиса <> 0 Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
+        
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
+      
+      End If
+    
+    
+      ' Р•СЃР»Рё Р±Р»РѕРє РѕС„РёСЃР° Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value = "РРїРѕС‚РµРєР°") Then
+        
+        ' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕРІРµСЃС‚РєСѓ СЃРѕР±СЂР°РЅРёСЏ
+        If РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° <> 0 Then
           
-          ' Вставляем вопрос
-          Call Вставка_строки_в_Повестку(Имя_офиса, _
-                                           Имя_офиса_в_Строке_к_выводу + " прогноз исп. БП " + quarterName2(dateDB_Лист_8) + ": " + Строка_к_выводу + " Проект поручения: Выдачи ___, " + Строка_поручений, _
+          ' Р’СЃС‚Р°РІР»СЏРµРј РІРѕРїСЂРѕСЃ
+          Call Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕРІРµСЃС‚РєСѓ(РРјСЏ_РѕС„РёСЃР°, _
+                                           РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " РїСЂРѕРіРЅРѕР· РёСЃРї. Р‘Рџ " + quarterName2(dateDB_Р›РёСЃС‚_8) + ": " + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + " РџСЂРѕРµРєС‚ РїРѕСЂСѓС‡РµРЅРёСЏ: Р’С‹РґР°С‡Рё ___, " + РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№, _
                                              "")
-          ' Добавлено вопросов в повестку
-          Добавлено_вопросов = Добавлено_вопросов + 1
+          ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+          Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ + 1
           
         End If
         
-        ' Начало блока офиса
-        Начало_блока_офиса = False
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
       
-        ' Обнуляем строку
-        Строка_к_выводу = ""
-        Строка_поручений = ""
+        ' РћР±РЅСѓР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = ""
       
       End If
     
-      ' Следующая запись
-      Application.StatusBar = "Анализ прогнозов " + CStr(rowCount) + "..."
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
+      Application.StatusBar = "РђРЅР°Р»РёР· РїСЂРѕРіРЅРѕР·РѕРІ " + CStr(rowCount) + "..."
       rowCount = rowCount + 1
       DoEventsInterval (rowCount)
   
     Loop
 
     
-    ' 2. ОКП =========================================================================================================
-    '  Показатели ОКП
-    продукты_контроля_ОКП_РОО = "Зарплатные карты 18+, Портфель ЗП 18+, шт._Квартал ,            КК к ЗП"
+    ' 2. РћРљРџ =========================================================================================================
+    '  РџРѕРєР°Р·Р°С‚РµР»Рё РћРљРџ
+    РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РћРљРџ_Р РћРћ = "Р—Р°СЂРїР»Р°С‚РЅС‹Рµ РєР°СЂС‚С‹ 18+, РџРѕСЂС‚С„РµР»СЊ Р—Рџ 18+, С€С‚._РљРІР°СЂС‚Р°Р» ,            РљРљ Рє Р—Рџ"
     
-    rowCount = rowByValue(ThisWorkbook.Name, "Лист8", "Итого по РОО «Тюменский»", 500, 500)
-    Do While ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value <> ""
+    rowCount = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»", 500, 500)
+    Do While ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value <> ""
     
-      ' Если начинается раздел офиса, то Строка_к_выводу обнуляем
-      If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Итого по РОО «Тюменский»") <> 0) Then
+      ' Р•СЃР»Рё РЅР°С‡РёРЅР°РµС‚СЃСЏ СЂР°Р·РґРµР» РѕС„РёСЃР°, С‚Рѕ РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ РѕР±РЅСѓР»СЏРµРј
+      If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»") <> 0) Then
         
-        ' Начало блока офиса
-        Начало_блока_офиса = True
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True
         
-        ' Имя офиса
-        Имя_офиса = "ОКП"
-        Имя_офиса_в_Строке_к_выводу = "ОКП"
+        ' РРјСЏ РѕС„РёСЃР°
+        РРјСЏ_РѕС„РёСЃР° = "РћРљРџ"
+        РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = "РћРљРџ"
 
-        ' Счетчик красных зон офиса
-        Счетчик_красных_зон_офиса = 0
+        ' РЎС‡РµС‚С‡РёРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ РѕС„РёСЃР°
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = 0
         
       End If
     
-      ' ОКП: Если прогноз по кварталу есть
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value < 1) And (InStr(продукты_контроля_ОКП_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) Then
+      ' РћРљРџ: Р•СЃР»Рё РїСЂРѕРіРЅРѕР· РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РµСЃС‚СЊ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РћРљРџ_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) Then
       
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
-      
-      End If
-    
-      ' ОКП Если прогноза по кварталу нет - берем из 20-ой колонки Лист8 прогноз
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value < 1) And (InStr(продукты_контроля_ОКП_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value = "") Then
-        
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
       
       End If
     
-    
-      ' Если блок офиса закончился
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value = "Ипотека") Then
+      ' РћРљРџ Р•СЃР»Рё РїСЂРѕРіРЅРѕР·Р° РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РЅРµС‚ - Р±РµСЂРµРј РёР· 20-РѕР№ РєРѕР»РѕРЅРєРё Р›РёСЃС‚8 РїСЂРѕРіРЅРѕР·
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РћРљРџ_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value = "") Then
         
-        ' Вставить строку в Повестку собрания
-        If Счетчик_красных_зон_офиса <> 0 Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
+      
+      End If
+    
+    
+      ' Р•СЃР»Рё Р±Р»РѕРє РѕС„РёСЃР° Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value = "РРїРѕС‚РµРєР°") Then
+        
+        ' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕРІРµСЃС‚РєСѓ СЃРѕР±СЂР°РЅРёСЏ
+        If РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° <> 0 Then
           
-          ' Вставляем вопрос
-          Call Вставка_строки_в_Повестку(Имя_офиса, _
-                                           Имя_офиса_в_Строке_к_выводу + " прогноз исп. БП " + quarterName2(dateDB_Лист_8) + ": " + Строка_к_выводу + " Проект поручения: Заключ.договоров___, Выпуск карт___, Выдача карт___, КК к ЗП___", _
+          ' Р’СЃС‚Р°РІР»СЏРµРј РІРѕРїСЂРѕСЃ
+          Call Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕРІРµСЃС‚РєСѓ(РРјСЏ_РѕС„РёСЃР°, _
+                                           РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " РїСЂРѕРіРЅРѕР· РёСЃРї. Р‘Рџ " + quarterName2(dateDB_Р›РёСЃС‚_8) + ": " + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + " РџСЂРѕРµРєС‚ РїРѕСЂСѓС‡РµРЅРёСЏ: Р—Р°РєР»СЋС‡.РґРѕРіРѕРІРѕСЂРѕРІ___, Р’С‹РїСѓСЃРє РєР°СЂС‚___, Р’С‹РґР°С‡Р° РєР°СЂС‚___, РљРљ Рє Р—Рџ___", _
                                              "")
-          ' Добавлено вопросов в повестку
-          Добавлено_вопросов = Добавлено_вопросов + 1
+          ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+          Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ + 1
           
         End If
         
-        ' Начало блока офиса
-        Начало_блока_офиса = False
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
       
-        ' Обнуляем строку
-        Строка_к_выводу = ""
-        Строка_поручений = ""
+        ' РћР±РЅСѓР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = ""
 
       End If
     
-      ' Следующая запись
-      Application.StatusBar = "Анализ прогнозов " + CStr(rowCount) + "..."
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
+      Application.StatusBar = "РђРЅР°Р»РёР· РїСЂРѕРіРЅРѕР·РѕРІ " + CStr(rowCount) + "..."
       rowCount = rowCount + 1
       DoEventsInterval (rowCount)
   
     Loop
     
     
-    ' 3. ПВО =================================================================================================
-    '  Показатели ПВО
-    продукты_контроля_ПВО_РОО = "в т.ч. ПК DSA,            КК DSA"
+    ' 3. РџР’Рћ =================================================================================================
+    '  РџРѕРєР°Р·Р°С‚РµР»Рё РџР’Рћ
+    РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РџР’Рћ_Р РћРћ = "РІ С‚.С‡. РџРљ DSA,            РљРљ DSA"
     
-    rowCount = rowByValue(ThisWorkbook.Name, "Лист8", "Итого по РОО «Тюменский»", 500, 500)
-    Do While ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value <> ""
+    rowCount = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»", 500, 500)
+    Do While ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value <> ""
     
-      ' Если начинается раздел офиса, то Строка_к_выводу обнуляем
-      If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Итого по РОО «Тюменский»") <> 0) Then
+      ' Р•СЃР»Рё РЅР°С‡РёРЅР°РµС‚СЃСЏ СЂР°Р·РґРµР» РѕС„РёСЃР°, С‚Рѕ РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ РѕР±РЅСѓР»СЏРµРј
+      If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»") <> 0) Then
         
-        ' Начало блока офиса
-        Начало_блока_офиса = True
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True
         
-        ' Имя офиса
-        Имя_офиса = "ПВО"
-        Имя_офиса_в_Строке_к_выводу = "ПВО"
+        ' РРјСЏ РѕС„РёСЃР°
+        РРјСЏ_РѕС„РёСЃР° = "РџР’Рћ"
+        РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = "РџР’Рћ"
 
-        ' Счетчик красных зон офиса
-        Счетчик_красных_зон_офиса = 0
+        ' РЎС‡РµС‚С‡РёРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ РѕС„РёСЃР°
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = 0
         
       End If
     
-      ' ПВО: Если прогноз по кварталу есть
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value < 1) And (InStr(продукты_контроля_ПВО_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) Then
+      ' РџР’Рћ: Р•СЃР»Рё РїСЂРѕРіРЅРѕР· РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РµСЃС‚СЊ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РџР’Рћ_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) Then
       
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
       
-        ' Строка поручений
-        Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
-      
-      End If
-    
-      ' ПВО Если прогноза по кварталу нет - берем из 20-ой колонки Лист8 прогноз
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value < 1) And (InStr(продукты_контроля_ПВО_РОО, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value = "") Then
-        
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
-      
-        ' Строка поручений
-        Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
       
       End If
     
-    
-      ' Если блок офиса закончился
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value = "Ипотека") Then
+      ' РџР’Рћ Р•СЃР»Рё РїСЂРѕРіРЅРѕР·Р° РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РЅРµС‚ - Р±РµСЂРµРј РёР· 20-РѕР№ РєРѕР»РѕРЅРєРё Р›РёСЃС‚8 РїСЂРѕРіРЅРѕР·
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РџР’Рћ_Р РћРћ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value = "") Then
         
-        ' Вставить строку в Повестку собрания
-        If Счетчик_красных_зон_офиса <> 0 Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 20).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
+      
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
+      
+      End If
+    
+    
+      ' Р•СЃР»Рё Р±Р»РѕРє РѕС„РёСЃР° Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value = "РРїРѕС‚РµРєР°") Then
+        
+        ' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕРІРµСЃС‚РєСѓ СЃРѕР±СЂР°РЅРёСЏ
+        If РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° <> 0 Then
           
-          ' Вставляем вопрос
-          Call Вставка_строки_в_Повестку(Имя_офиса, _
-                                           Имя_офиса_в_Строке_к_выводу + " прогноз исп. БП " + quarterName2(dateDB_Лист_8) + ": " + Строка_к_выводу + " Проект поручения: " + Строка_поручений, _
+          ' Р’СЃС‚Р°РІР»СЏРµРј РІРѕРїСЂРѕСЃ
+          Call Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕРІРµСЃС‚РєСѓ(РРјСЏ_РѕС„РёСЃР°, _
+                                           РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " РїСЂРѕРіРЅРѕР· РёСЃРї. Р‘Рџ " + quarterName2(dateDB_Р›РёСЃС‚_8) + ": " + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + " РџСЂРѕРµРєС‚ РїРѕСЂСѓС‡РµРЅРёСЏ: " + РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№, _
                                              "")
-          ' Добавлено вопросов в повестку
-          Добавлено_вопросов = Добавлено_вопросов + 1
+          ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+          Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ + 1
           
         End If
         
-        ' Начало блока офиса
-        Начало_блока_офиса = False
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
       
-        ' Обнуляем строку
-        Строка_к_выводу = ""
-        Строка_поручений = ""
+        ' РћР±РЅСѓР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = ""
 
       End If
     
-      ' Следующая запись
-      Application.StatusBar = "Анализ прогнозов " + CStr(rowCount) + "..."
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
+      Application.StatusBar = "РђРЅР°Р»РёР· РїСЂРѕРіРЅРѕР·РѕРІ " + CStr(rowCount) + "..."
       rowCount = rowCount + 1
       DoEventsInterval (rowCount)
   
     Loop
 
 
-    ' 4. ОО Тюменский (офис) ============================================================
+    ' 4. РћРћ РўСЋРјРµРЅСЃРєРёР№ (РѕС„РёСЃ) ============================================================
     
-    ' Показатели офисного канала Тюмени
-    продукты_контроля_офис_Тюмень = "Потребительские кредиты, в т.ч. КК сеть,            КК OPC, Orange Premium Club, Комиссионный доход, Пассивы, Инвест, Инвест OPC, Инвест Брокер обслуж, Инвест Брокер обслуж OPC"
+    ' РџРѕРєР°Р·Р°С‚РµР»Рё РѕС„РёСЃРЅРѕРіРѕ РєР°РЅР°Р»Р° РўСЋРјРµРЅРё
+    РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РѕС„РёСЃ_РўСЋРјРµРЅСЊ = "РџРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёРµ РєСЂРµРґРёС‚С‹, РІ С‚.С‡. РљРљ СЃРµС‚СЊ,            РљРљ OPC, Orange Premium Club, РљРѕРјРёСЃСЃРёРѕРЅРЅС‹Р№ РґРѕС…РѕРґ, РџР°СЃСЃРёРІС‹, РРЅРІРµСЃС‚, РРЅРІРµСЃС‚ OPC, РРЅРІРµСЃС‚ Р‘СЂРѕРєРµСЂ РѕР±СЃР»СѓР¶, РРЅРІРµСЃС‚ Р‘СЂРѕРєРµСЂ РѕР±СЃР»СѓР¶ OPC"
     
-    rowCount = rowByValue(ThisWorkbook.Name, "Лист8", "Тюменский РОО", 100, 100) + 2
-    Do While (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Интегральный рейтинг по офисам") = 0)
+    rowCount = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РўСЋРјРµРЅСЃРєРёР№ Р РћРћ", 100, 100) + 2
+    Do While (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РРЅС‚РµРіСЂР°Р»СЊРЅС‹Р№ СЂРµР№С‚РёРЅРі РїРѕ РѕС„РёСЃР°Рј") = 0)
     
-      ' Если начинается раздел офиса, то Строка_к_выводу обнуляем
-      If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Тюменский") <> 0) Then
+      ' Р•СЃР»Рё РЅР°С‡РёРЅР°РµС‚СЃСЏ СЂР°Р·РґРµР» РѕС„РёСЃР°, С‚Рѕ РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ РѕР±РЅСѓР»СЏРµРј
+      If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РўСЋРјРµРЅСЃРєРёР№") <> 0) Then
         
-        ' Начало блока офиса
-        Начало_блока_офиса = True
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True
         
-        ' Имя офиса
-        Имя_офиса = cityOfficeName(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value)
-        Имя_офиса_в_Строке_к_выводу = ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value + " (офис)"
+        ' РРјСЏ РѕС„РёСЃР°
+        РРјСЏ_РѕС„РёСЃР° = cityOfficeName(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value)
+        РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value + " (РѕС„РёСЃ)"
 
-        ' Счетчик красных зон офиса
-        Счетчик_красных_зон_офиса = 0
+        ' РЎС‡РµС‚С‡РёРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ РѕС„РёСЃР°
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = 0
         
       End If
     
-      ' Тюмень (офис): Если прогноз по кварталу есть
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value < 1) And (InStr(продукты_контроля_офис_Тюмень, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) Then
+      ' РўСЋРјРµРЅСЊ (РѕС„РёСЃ): Р•СЃР»Рё РїСЂРѕРіРЅРѕР· РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РµСЃС‚СЊ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value < 1) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РѕС„РёСЃ_РўСЋРјРµРЅСЊ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) Then
       
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
-      
-      End If
-    
-      ' Тюмень (офис): Если прогноза по кварталу нет (портфели)
-      If (Начало_блока_офиса = True) And (InStr(продукты_контроля_офис_Тюмень, ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value = "") And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 7).Value < 1) Then
-        
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 7).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
       
       End If
     
-    
-      ' Если блок офиса закончился
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value = "Ипотека") Then
+      ' РўСЋРјРµРЅСЊ (РѕС„РёСЃ): Р•СЃР»Рё РїСЂРѕРіРЅРѕР·Р° РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РЅРµС‚ (РїРѕСЂС‚С„РµР»Рё)
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (InStr(РїСЂРѕРґСѓРєС‚С‹_РєРѕРЅС‚СЂРѕР»СЏ_РѕС„РёСЃ_РўСЋРјРµРЅСЊ, ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) <> 0) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value = "") And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 7).Value < 1) Then
         
-        ' Вставить строку в Повестку собрания
-        If Счетчик_красных_зон_офиса <> 0 Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 7).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
+      
+      End If
+    
+    
+      ' Р•СЃР»Рё Р±Р»РѕРє РѕС„РёСЃР° Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value = "РРїРѕС‚РµРєР°") Then
+        
+        ' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕРІРµСЃС‚РєСѓ СЃРѕР±СЂР°РЅРёСЏ
+        If РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° <> 0 Then
           
-          ' Вставляем вопрос
-          Call Вставка_строки_в_Повестку(Имя_офиса, _
-                                           Имя_офиса_в_Строке_к_выводу + " прогноз исп. БП " + quarterName2(dateDB_Лист_8) + ": " + Строка_к_выводу, _
+          ' Р’СЃС‚Р°РІР»СЏРµРј РІРѕРїСЂРѕСЃ
+          Call Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕРІРµСЃС‚РєСѓ(РРјСЏ_РѕС„РёСЃР°, _
+                                           РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " РїСЂРѕРіРЅРѕР· РёСЃРї. Р‘Рџ " + quarterName2(dateDB_Р›РёСЃС‚_8) + ": " + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ, _
                                              "")
-          ' Добавлено вопросов в повестку
-          Добавлено_вопросов = Добавлено_вопросов + 1
+          ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+          Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ + 1
           
         End If
         
-        ' Начало блока офиса
-        Начало_блока_офиса = False
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
       
-        ' Обнуляем строку
-        Строка_к_выводу = ""
-        Строка_поручений = ""
+        ' РћР±РЅСѓР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = ""
 
       End If
     
-      ' Следующая запись
-      Application.StatusBar = "Анализ прогнозов " + CStr(rowCount) + "..."
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
+      Application.StatusBar = "РђРЅР°Р»РёР· РїСЂРѕРіРЅРѕР·РѕРІ " + CStr(rowCount) + "..."
       rowCount = rowCount + 1
       DoEventsInterval (rowCount)
   
     Loop
 
-    ' 5. Иногородние офисы (Сургут, Нижневартовск, Новый Уренгой, Тарко-Сале) все - Обрабатываем прогнозы по месяцу с нулем на Лист8 ================================================================================================
-    rowCount = rowByValue(ThisWorkbook.Name, "Лист8", "ОО «Сургутский»", 100, 100) - 1
-    Do While (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Интегральный рейтинг по офисам") = 0)
+    ' 5. РРЅРѕРіРѕСЂРѕРґРЅРёРµ РѕС„РёСЃС‹ (РЎСѓСЂРіСѓС‚, РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє, РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№, РўР°СЂРєРѕ-РЎР°Р»Рµ) РІСЃРµ - РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РїСЂРѕРіРЅРѕР·С‹ РїРѕ РјРµСЃСЏС†Сѓ СЃ РЅСѓР»РµРј РЅР° Р›РёСЃС‚8 ================================================================================================
+    rowCount = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»", 100, 100) - 1
+    Do While (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РРЅС‚РµРіСЂР°Р»СЊРЅС‹Р№ СЂРµР№С‚РёРЅРі РїРѕ РѕС„РёСЃР°Рј") = 0)
     
-      ' Если начинается раздел офиса, то Строка_к_выводу обнуляем
-      ' If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Тюменский") <> 0) Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Сургутский") <> 0) Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Нижневартовский") Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Новоуренгойский")) Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Тарко-Сале") <> 0)) Then
-      If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Сургутский") <> 0) Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Нижневартовский") Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Новоуренгойский")) Or (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Тарко-Сале") <> 0)) Then
+      ' Р•СЃР»Рё РЅР°С‡РёРЅР°РµС‚СЃСЏ СЂР°Р·РґРµР» РѕС„РёСЃР°, С‚Рѕ РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ РѕР±РЅСѓР»СЏРµРј
+      ' If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РўСЋРјРµРЅСЃРєРёР№") <> 0) Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0) Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№")) Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0)) Then
+      If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0) Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№")) Or (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0)) Then
         
-        ' Начало блока офиса
-        Начало_блока_офиса = True
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True
         
-        ' Имя офиса
-        Имя_офиса = cityOfficeName(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value)
-        Имя_офиса_в_Строке_к_выводу = ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value
+        ' РРјСЏ РѕС„РёСЃР°
+        РРјСЏ_РѕС„РёСЃР° = cityOfficeName(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value)
+        РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value
 
-        ' По ОО "Тюменский" добавляем "(офис)"
-        ' If (InStr(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value, "Тюменский") <> 0) Then
-        '   Имя_офиса_в_Строке_к_выводу = Имя_офиса_в_Строке_к_выводу + " (офис)"
+        ' РџРѕ РћРћ "РўСЋРјРµРЅСЃРєРёР№" РґРѕР±Р°РІР»СЏРµРј "(РѕС„РёСЃ)"
+        ' If (InStr(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value, "РўСЋРјРµРЅСЃРєРёР№") <> 0) Then
+        '   РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ = РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " (РѕС„РёСЃ)"
         ' End If
 
-        ' Счетчик красных зон офиса
-        Счетчик_красных_зон_офиса = 0
+        ' РЎС‡РµС‚С‡РёРє РєСЂР°СЃРЅС‹С… Р·РѕРЅ РѕС„РёСЃР°
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = 0
         
       End If
     
-      ' Если прогноз по кварталу есть
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value < 1) And ((ThisWorkbook.Sheets("Лист8").Cells(rowCount, 3).Value <> "") Or (Показатель_MBO(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) = True)) Then
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+      ' Р•СЃР»Рё РїСЂРѕРіРЅРѕР· РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РµСЃС‚СЊ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value < 1) And ((ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 3).Value <> "") Or (РџРѕРєР°Р·Р°С‚РµР»СЊ_MBO(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) = True)) Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
         
-        ' Строка поручений
-        Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
         
       End If
     
-      ' Если прогноза по кварталу нет (портфели)
-      If (Начало_блока_офиса = True) And ((ThisWorkbook.Sheets("Лист8").Cells(rowCount, 3).Value <> "") Or (Показатель_MBO(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) = True)) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 8).Value = "") And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 7).Value < 1) Then
-        Строка_к_выводу = Строка_к_выводу + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 7).Value * 100, 0)) + "%), "
-        Счетчик_красных_зон_офиса = Счетчик_красных_зон_офиса + 1
+      ' Р•СЃР»Рё РїСЂРѕРіРЅРѕР·Р° РїРѕ РєРІР°СЂС‚Р°Р»Сѓ РЅРµС‚ (РїРѕСЂС‚С„РµР»Рё)
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And ((ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 3).Value <> "") Or (РџРѕРєР°Р·Р°С‚РµР»СЊ_MBO(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) = True)) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 8).Value = "") And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 7).Value < 1) Then
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 7).Value * 100, 0)) + "%), "
+        РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° = РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° + 1
           
-        ' Строка поручений
-        If ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value <> "" Then
-          Строка_поручений = Строка_поручений + Сокр(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Лист8").Cells(rowCount, 13).Value, 0)) + ")___, "
+        ' РЎС‚СЂРѕРєР° РїРѕСЂСѓС‡РµРЅРёР№
+        If ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value <> "" Then
+          РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ + РЎРѕРєСЂ(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value) + " (+" + CStr(Round(ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 13).Value, 0)) + ")___, "
         End If
   
       End If
     
     
-      ' Если блок офиса закончился
-      If (Начало_блока_офиса = True) And (ThisWorkbook.Sheets("Лист8").Cells(rowCount, 2).Value = "Ипотека") Then
+      ' Р•СЃР»Рё Р±Р»РѕРє РѕС„РёСЃР° Р·Р°РєРѕРЅС‡РёР»СЃСЏ
+      If (РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = True) And (ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowCount, 2).Value = "РРїРѕС‚РµРєР°") Then
         
-        ' Вставить строку в Повестку собрания
-        If Счетчик_красных_зон_офиса <> 0 Then
+        ' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕРІРµСЃС‚РєСѓ СЃРѕР±СЂР°РЅРёСЏ
+        If РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР° <> 0 Then
           
-          ' Вставляем вопрос
-          Call Вставка_строки_в_Повестку(Имя_офиса + " (" + CStr(Счетчик_красных_зон_офиса) + ")", _
-                                           Имя_офиса_в_Строке_к_выводу + " прогноз исп. БП " + quarterName2(dateDB_Лист_8) + ": " + Строка_к_выводу + " Проект поручения: " + Строка_поручений, _
+          ' Р’СЃС‚Р°РІР»СЏРµРј РІРѕРїСЂРѕСЃ
+          Call Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕРІРµСЃС‚РєСѓ(РРјСЏ_РѕС„РёСЃР° + " (" + CStr(РЎС‡РµС‚С‡РёРє_РєСЂР°СЃРЅС‹С…_Р·РѕРЅ_РѕС„РёСЃР°) + ")", _
+                                           РРјСЏ_РѕС„РёСЃР°_РІ_РЎС‚СЂРѕРєРµ_Рє_РІС‹РІРѕРґСѓ + " РїСЂРѕРіРЅРѕР· РёСЃРї. Р‘Рџ " + quarterName2(dateDB_Р›РёСЃС‚_8) + ": " + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + " РџСЂРѕРµРєС‚ РїРѕСЂСѓС‡РµРЅРёСЏ: " + РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№, _
                                              "")
-          ' Добавлено вопросов в повестку
-          Добавлено_вопросов = Добавлено_вопросов + 1
+          ' Р”РѕР±Р°РІР»РµРЅРѕ РІРѕРїСЂРѕСЃРѕРІ РІ РїРѕРІРµСЃС‚РєСѓ
+          Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ = Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ + 1
           
         End If
         
-        ' Начало блока офиса
-        Начало_блока_офиса = False
+        ' РќР°С‡Р°Р»Рѕ Р±Р»РѕРєР° РѕС„РёСЃР°
+        РќР°С‡Р°Р»Рѕ_Р±Р»РѕРєР°_РѕС„РёСЃР° = False
       
-        ' Обнуляем строку
-        Строка_к_выводу = ""
-        Строка_поручений = ""
+        ' РћР±РЅСѓР»СЏРµРј СЃС‚СЂРѕРєСѓ
+        РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ = ""
+        РЎС‚СЂРѕРєР°_РїРѕСЂСѓС‡РµРЅРёР№ = ""
       
       End If
     
-      ' Следующая запись
-      Application.StatusBar = "Анализ прогнозов " + CStr(rowCount) + "..."
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
+      Application.StatusBar = "РђРЅР°Р»РёР· РїСЂРѕРіРЅРѕР·РѕРІ " + CStr(rowCount) + "..."
       rowCount = rowCount + 1
       DoEventsInterval (rowCount)
   
     Loop
   
-    ' Итоги
-    ' Фокусы_контроля_строка = Фокусы_контроля_строка + Строка_к_выводу + Chr(13)
+    ' РС‚РѕРіРё
+    ' Р¤РѕРєСѓСЃС‹_РєРѕРЅС‚СЂРѕР»СЏ_СЃС‚СЂРѕРєР° = Р¤РѕРєСѓСЃС‹_РєРѕРЅС‚СЂРѕР»СЏ_СЃС‚СЂРѕРєР° + РЎС‚СЂРѕРєР°_Рє_РІС‹РІРѕРґСѓ + Chr(13)
   
-    ' Закрываем таблицу MBO
-    ' Закрываем BASE\Sales
+    ' Р—Р°РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ MBO
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Sales
     CloseBook ("MBO")
-    ' ThisWorkbook.Sheets("Лист8").Activate
+    ' ThisWorkbook.Sheets("Р›РёСЃС‚8").Activate
   
     Application.StatusBar = ""
     
-    MsgBox ("Добавлено " + CStr(Добавлено_вопросов) + " вопросов!")
+    MsgBox ("Р”РѕР±Р°РІР»РµРЅРѕ " + CStr(Р”РѕР±Р°РІР»РµРЅРѕ_РІРѕРїСЂРѕСЃРѕРІ) + " РІРѕРїСЂРѕСЃРѕРІ!")
     
   End If
   
 End Sub
 
-' Перемещение вверх по поручениям
+' РџРµСЂРµРјРµС‰РµРЅРёРµ РІРІРµСЂС… РїРѕ РїРѕСЂСѓС‡РµРЅРёСЏРј
 Sub moveInListUp2()
-Dim Ячейка_Поручения_участникам, Текущий_номер, Текущий_ответственный, Текущий_поручение, Текущий_Срок, Текущий_В_To_Do, Цель_номер, Цель_ответственный, Цель_поручение, Цель_Срок, Цель_В_ToDo As String
-Dim НомерСтроки_Повестка_дня, НомерСтолбца_Повестка_дня, Текущий_Row, Текущий_Column As Byte
+Dim РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ, РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№, РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ, РўРµРєСѓС‰РёР№_РЎСЂРѕРє, РўРµРєСѓС‰РёР№_Р’_To_Do, Р¦РµР»СЊ_РЅРѕРјРµСЂ, Р¦РµР»СЊ_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№, Р¦РµР»СЊ_РїРѕСЂСѓС‡РµРЅРёРµ, Р¦РµР»СЊ_РЎСЂРѕРє, Р¦РµР»СЊ_Р’_ToDo As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ, РўРµРєСѓС‰РёР№_Row, РўРµРєСѓС‰РёР№_Column As Byte
 
-  ' Определяем, где находится текущая ячейка
-  Ячейка_Поручения_участникам = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Row
-  НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°
+  РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Поручения_участникам + 2) And (ActiveCell.Row <= НомерСтроки_Поручения_участникам + 52) And (ActiveCell.Column >= НомерСтолбца_Поручения_участникам - 1) And ((ActiveCell.Column <= НомерСтолбца_Поручения_участникам + 13)) Then
-      ' Координаты
-      Текущий_Row = ActiveCell.Row
-      Текущий_Column = ActiveCell.Column
-      ' Запоминаем текущий
-      Текущий_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам - 1).Value
-      Текущий_ответственный = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам).Value
-      Текущий_поручение = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 2).Value
-      Текущий_Срок = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 1).Value
-      Текущий_В_To_Do = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 13).Value
-      ' Запоминаем цель
-      ' Цель_Row = Текущий_Row + 1
-      Цель_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам - 1).Value
-      Цель_ответственный = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам).Value
-      Цель_поручение = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 2).Value
-      Цель_Срок = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 1).Value
-      Цель_В_ToDo = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 13).Value
-      ' Меняем местами:
-      ' Текущий ставим в Цель:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам - 1).Value = Текущий_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам).Value = Текущий_ответственный
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 2).Value = Текущий_поручение
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 1).Value = Текущий_Срок
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, НомерСтолбца_Поручения_участникам + 13).Value = Текущий_В_To_Do
-      ' Цель ставим в Текущий:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам - 1).Value = Цель_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам).Value = Цель_ответственный
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 2).Value = Цель_поручение
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 1).Value = Цель_Срок
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 13).Value = Цель_В_ToDo
-      ' Устанавливаем на строку выше
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row - 1, Текущий_Column).Select
-      ' Производим перенумерацию списка
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13)) Then
+      ' РљРѕРѕСЂРґРёРЅР°С‚С‹
+      РўРµРєСѓС‰РёР№_Row = ActiveCell.Row
+      РўРµРєСѓС‰РёР№_Column = ActiveCell.Column
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰РёР№
+      РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value
+      РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value
+      РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value
+      РўРµРєСѓС‰РёР№_РЎСЂРѕРє = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value
+      РўРµРєСѓС‰РёР№_Р’_To_Do = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С†РµР»СЊ
+      ' Р¦РµР»СЊ_Row = РўРµРєСѓС‰РёР№_Row + 1
+      Р¦РµР»СЊ_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value
+      Р¦РµР»СЊ_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value
+      Р¦РµР»СЊ_РїРѕСЂСѓС‡РµРЅРёРµ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value
+      Р¦РµР»СЊ_РЎСЂРѕРє = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value
+      Р¦РµР»СЊ_Р’_ToDo = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value
+      ' РњРµРЅСЏРµРј РјРµСЃС‚Р°РјРё:
+      ' РўРµРєСѓС‰РёР№ СЃС‚Р°РІРёРј РІ Р¦РµР»СЊ:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = РўРµРєСѓС‰РёР№_РЎСЂРѕРє
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = РўРµРєСѓС‰РёР№_Р’_To_Do
+      ' Р¦РµР»СЊ СЃС‚Р°РІРёРј РІ РўРµРєСѓС‰РёР№:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = Р¦РµР»СЊ_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = Р¦РµР»СЊ_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = Р¦РµР»СЊ_РїРѕСЂСѓС‡РµРЅРёРµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = Р¦РµР»СЊ_РЎСЂРѕРє
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = Р¦РµР»СЊ_Р’_ToDo
+      ' РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР° СЃС‚СЂРѕРєСѓ РІС‹С€Рµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row - 1, РўРµРєСѓС‰РёР№_Column).Select
+      ' РџСЂРѕРёР·РІРѕРґРёРј РїРµСЂРµРЅСѓРјРµСЂР°С†РёСЋ СЃРїРёСЃРєР°
       Call createNumberingTask
     Else
-      MsgBox ("Укажите ячейку в диапазоне Поручения_участникам!")
+      MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј!")
   End If
 End Sub
 
-' Перемещение пункта в повестке собрания вниз
+' РџРµСЂРµРјРµС‰РµРЅРёРµ РїСѓРЅРєС‚Р° РІ РїРѕРІРµСЃС‚РєРµ СЃРѕР±СЂР°РЅРёСЏ РІРЅРёР·
 Sub moveInListDown2()
-Dim Ячейка_Поручения_участникам, Текущий_номер, Текущий_ответственный, Текущий_поручение, Текущий_Срок, Текущий_в_ToDo, Цель_номер, Цель_выступающий, Цель_тема, Цель_HashTag, Цель_Отметка As String
-Dim НомерСтроки_Поручения_участникам, НомерСтолбца_Поручения_участникам, Текущий_Row, Текущий_Column As Byte
+Dim РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ, РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№, РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ, РўРµРєСѓС‰РёР№_РЎСЂРѕРє, РўРµРєСѓС‰РёР№_РІ_ToDo, Р¦РµР»СЊ_РЅРѕРјРµСЂ, Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№, Р¦РµР»СЊ_С‚РµРјР°, Р¦РµР»СЊ_HashTag, Р¦РµР»СЊ_РћС‚РјРµС‚РєР° As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, РўРµРєСѓС‰РёР№_Row, РўРµРєСѓС‰РёР№_Column As Byte
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Поручения_участникам = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Row
-  НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Поручения_участникам + 2) And (ActiveCell.Row <= НомерСтроки_Поручения_участникам + 52) And (ActiveCell.Column >= НомерСтолбца_Поручения_участникам - 1) And ((ActiveCell.Column <= НомерСтолбца_Поручения_участникам + 13)) Then
-      ' Координаты
-      Текущий_Row = ActiveCell.Row
-      Текущий_Column = ActiveCell.Column
-      ' Запоминаем текущий
-      Текущий_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам - 1).Value
-      Текущий_ответственный = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам).Value
-      Текущий_поручение = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 2).Value
-      Текущий_Срок = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 1).Value
-      Текущий_в_ToDo = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 13).Value
-      ' Запоминаем цель
-      ' Цель_Row = Текущий_Row + 1
-      Цель_номер = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам - 1).Value
-      Цель_выступающий = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам).Value
-      Цель_тема = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 2).Value
-      Цель_HashTag = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 1).Value
-      Цель_Отметка = ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 13).Value
-      ' Меняем местами:
-      ' Текущий ставим в Цель:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам - 1).Value = Текущий_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам).Value = Текущий_ответственный
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 2).Value = Текущий_поручение
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 1).Value = Текущий_Срок
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, НомерСтолбца_Поручения_участникам + 13).Value = Текущий_в_ToDo
-      ' Цель ставим в Текущий:
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам - 1).Value = Цель_номер
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам).Value = Цель_выступающий
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 2).Value = Цель_тема
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 1).Value = Цель_HashTag
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row, НомерСтолбца_Поручения_участникам + 13).Value = Цель_Отметка
-      ' Устанавливаем на строку выше
-      ThisWorkbook.Sheets("ЕСУП").Cells(Текущий_Row + 1, Текущий_Column).Select
-      ' Производим перенумерацию списка
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13)) Then
+      ' РљРѕРѕСЂРґРёРЅР°С‚С‹
+      РўРµРєСѓС‰РёР№_Row = ActiveCell.Row
+      РўРµРєСѓС‰РёР№_Column = ActiveCell.Column
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С‚РµРєСѓС‰РёР№
+      РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value
+      РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value
+      РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value
+      РўРµРєСѓС‰РёР№_РЎСЂРѕРє = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value
+      РўРµРєСѓС‰РёР№_РІ_ToDo = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value
+      ' Р—Р°РїРѕРјРёРЅР°РµРј С†РµР»СЊ
+      ' Р¦РµР»СЊ_Row = РўРµРєСѓС‰РёР№_Row + 1
+      Р¦РµР»СЊ_РЅРѕРјРµСЂ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value
+      Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value
+      Р¦РµР»СЊ_С‚РµРјР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value
+      Р¦РµР»СЊ_HashTag = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value
+      Р¦РµР»СЊ_РћС‚РјРµС‚РєР° = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value
+      ' РњРµРЅСЏРµРј РјРµСЃС‚Р°РјРё:
+      ' РўРµРєСѓС‰РёР№ СЃС‚Р°РІРёРј РІ Р¦РµР»СЊ:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = РўРµРєСѓС‰РёР№_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = РўРµРєСѓС‰РёР№_РѕС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = РўРµРєСѓС‰РёР№_РїРѕСЂСѓС‡РµРЅРёРµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = РўРµРєСѓС‰РёР№_РЎСЂРѕРє
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = РўРµРєСѓС‰РёР№_РІ_ToDo
+      ' Р¦РµР»СЊ СЃС‚Р°РІРёРј РІ РўРµРєСѓС‰РёР№:
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = Р¦РµР»СЊ_РЅРѕРјРµСЂ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = Р¦РµР»СЊ_РІС‹СЃС‚СѓРїР°СЋС‰РёР№
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = Р¦РµР»СЊ_С‚РµРјР°
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = Р¦РµР»СЊ_HashTag
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = Р¦РµР»СЊ_РћС‚РјРµС‚РєР°
+      ' РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР° СЃС‚СЂРѕРєСѓ РІС‹С€Рµ
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РўРµРєСѓС‰РёР№_Row + 1, РўРµРєСѓС‰РёР№_Column).Select
+      ' РџСЂРѕРёР·РІРѕРґРёРј РїРµСЂРµРЅСѓРјРµСЂР°С†РёСЋ СЃРїРёСЃРєР°
       Call createNumberingTask
     Else
-      MsgBox ("Укажите ячейку в диапазоне Поручения_участникам!")
+      MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј!")
   End If
 
 End Sub
 
-' Удаление пункта из поручения участников
+' РЈРґР°Р»РµРЅРёРµ РїСѓРЅРєС‚Р° РёР· РїРѕСЂСѓС‡РµРЅРёСЏ СѓС‡Р°СЃС‚РЅРёРєРѕРІ
 Sub deleteFromList2()
-Dim Ячейка_Поручения_участникам As String
-Dim НомерСтроки_Поручения_участникам, НомерСтолбца_Поручения_участникам As Byte
+Dim РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј As Byte
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Поручения_участникам = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Row
-  НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Column
   '
-  If (ActiveCell.Row >= НомерСтроки_Поручения_участникам + 2) And (ActiveCell.Row <= НомерСтроки_Поручения_участникам + 52) And (ActiveCell.Column >= НомерСтолбца_Поручения_участникам - 1) And ((ActiveCell.Column <= НомерСтолбца_Поручения_участникам + 13)) And (ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам + 1).Value <> "") Then
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13)) And (ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value <> "") Then
     '
-    If MsgBox("Удалить вопрос №" + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам - 1).Value) + " из повестки?", vbYesNo) = vbYes Then
-      ' Удаляем
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам - 1).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам + 2).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам + 1).Value = ""
-      ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам + 13).Value = ""
+    If MsgBox("РЈРґР°Р»РёС‚СЊ РІРѕРїСЂРѕСЃ в„–" + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value) + " РёР· РїРѕРІРµСЃС‚РєРё?", vbYesNo) = vbYes Then
+      ' РЈРґР°Р»СЏРµРј
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = ""
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = ""
     End If
   Else
-    MsgBox ("Укажите ячейку в диапазоне Поручения_участникам!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј!")
   End If
   
 End Sub
 
-' Получение Даты из номера протокола NN-ДДММГГГГ
+' РџРѕР»СѓС‡РµРЅРёРµ Р”Р°С‚С‹ РёР· РЅРѕРјРµСЂР° РїСЂРѕС‚РѕРєРѕР»Р° NN-Р”Р”РњРњР“Р“Р“Р“
 Function getDateFromProtocolNumber(In_ProtocolNumber) As Date
   
-  Позиция_тире = InStr(In_ProtocolNumber, "-")
+  РџРѕР·РёС†РёСЏ_С‚РёСЂРµ = InStr(In_ProtocolNumber, "-")
 
-  getDateFromProtocolNumber = CDate(Mid(In_ProtocolNumber, Позиция_тире + 1, 2) + "." + Mid(In_ProtocolNumber, Позиция_тире + 3, 2) + "." + Mid(In_ProtocolNumber, Позиция_тире + 5, 4))
+  getDateFromProtocolNumber = CDate(Mid(In_ProtocolNumber, РџРѕР·РёС†РёСЏ_С‚РёСЂРµ + 1, 2) + "." + Mid(In_ProtocolNumber, РџРѕР·РёС†РёСЏ_С‚РёСЂРµ + 3, 2) + "." + Mid(In_ProtocolNumber, РџРѕР·РёС†РёСЏ_С‚РёСЂРµ + 5, 4))
   
 End Function
 
 
-' Копирование поручений в To-Do
+' РљРѕРїРёСЂРѕРІР°РЅРёРµ РїРѕСЂСѓС‡РµРЅРёР№ РІ To-Do
 Sub copyTaskInToDo()
   
-  ' Запрос
-  If MsgBox("Скопировать поручения в To-Do?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ
+  If MsgBox("РЎРєРѕРїРёСЂРѕРІР°С‚СЊ РїРѕСЂСѓС‡РµРЅРёСЏ РІ To-Do?", vbYesNo) = vbYes Then
     
-    ' Открываем таблицу BASE\ToDo
+    ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
     OpenBookInBase ("ToDo")
 
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("ЕСУП").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Activate
 
-    ' Строка статуса
-    Application.StatusBar = "Копирование..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РљРѕРїРёСЂРѕРІР°РЅРёРµ..."
 
-    ' На всякий случай нумеруем список
+    ' РќР° РІСЃСЏРєРёР№ СЃР»СѓС‡Р°Р№ РЅСѓРјРµСЂСѓРµРј СЃРїРёСЃРѕРє
     ' Call createNumberingTask
 
-    НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)).Row
-    НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)).Column
+    РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)).Row
+    РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)).Column
     
     rowCount = 2
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, 19).Value <> ""
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, 19).Value <> ""
       
-      ' Id_Task из G2 + номер вопроса
-      Id_TaskVar = Replace(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, "-", "") + CStr(ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам - 1).Value)
+      ' Id_Task РёР· G2 + РЅРѕРјРµСЂ РІРѕРїСЂРѕСЃР°
+      Id_TaskVar = Replace(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, "-", "") + CStr(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value)
       
-      ' Вносим данные в BASE\Sales по ПК.
-      Call InsertRecordInBook("ToDo", "Лист1", "Id_Task", Id_TaskVar, _
-                                            "Date_Create", getDateFromProtocolNumber(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value), _
+      ' Р’РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ РІ BASE\Sales РїРѕ РџРљ.
+      Call InsertRecordInBook("ToDo", "Р›РёСЃС‚1", "Id_Task", Id_TaskVar, _
+                                            "Date_Create", getDateFromProtocolNumber(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value), _
                                               "Id_Task", Id_TaskVar, _
-                                                "Task", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам + 2).Value, _
-                                                  "Lotus_subject", ThisWorkbook.Sheets("ЕСУП").Cells(1, 17).Value, _
-                                                    "Responsible", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам).Value, _
+                                                "Task", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2).Value, _
+                                                  "Lotus_subject", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(1, 17).Value, _
+                                                    "Responsible", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value, _
                                                       "Lotus_hashtag", "#" + Id_TaskVar, _
                                                         "Task_Status", 1, _
-                                                          "Date_Control", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам + 1).Value, _
-                                                            "Comment", "В работе", _
-                                                              "Protocol_Number", ThisWorkbook.Sheets("ЕСУП").Range("G2").Value, _
-                                                                "Protocol_Date", getDateFromProtocolNumber(ThisWorkbook.Sheets("ЕСУП").Range("G2").Value), _
-                                                                  "Protocol_Question_number", ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам - 1).Value, _
+                                                          "Date_Control", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value, _
+                                                            "Comment", "Р’ СЂР°Р±РѕС‚Рµ", _
+                                                              "Protocol_Number", ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value, _
+                                                                "Protocol_Date", getDateFromProtocolNumber(ThisWorkbook.Sheets("Р•РЎРЈРџ").Range("G2").Value), _
+                                                                  "Protocol_Question_number", ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1).Value, _
                                                                     "", "", _
                                                                       "", "", _
                                                                         "", "", _
@@ -2424,232 +2424,231 @@ Sub copyTaskInToDo()
                                                                               "", "", _
                                                                                 "", "", _
                                                                                   "", "")
-      ' Отмечаем
-      ThisWorkbook.Sheets("ЕСУП").Cells(НомерСтроки_Поручения_участникам + rowCount, НомерСтолбца_Поручения_участникам + 13).Value = 1
+      ' РћС‚РјРµС‡Р°РµРј
+      ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + rowCount, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13).Value = 1
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
 
 
     
-    Application.StatusBar = "Завершение..."
+    Application.StatusBar = "Р—Р°РІРµСЂС€РµРЅРёРµ..."
     
-    ' Закрываем таблицу BASE\ToDo
+    ' Р—Р°РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\ToDo
     CloseBook ("ToDo")
  
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    MsgBox ("Перенесено " + CStr(rowCount - 2) + " вопросов!")
+    MsgBox ("РџРµСЂРµРЅРµСЃРµРЅРѕ " + CStr(rowCount - 2) + " РІРѕРїСЂРѕСЃРѕРІ!")
     
   End If
   
 End Sub
 
-' Добавить ответственного
-Sub addResponsibleSheet8(In_К_дол)
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Поручения_участникам = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Row
-  НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Column
-  ' Проверяем активную ячейку
-  If (ActiveCell.Row >= НомерСтроки_Поручения_участникам + 2) And (ActiveCell.Row <= НомерСтроки_Поручения_участникам + 52) And (ActiveCell.Column >= НомерСтолбца_Поручения_участникам - 1) And ((ActiveCell.Column <= НомерСтолбца_Поручения_участникам + 13)) Then
-    ' Ответственный:
-    ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам).Value = getFromAddrBook(In_К_дол, 3)
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ
+Sub addResponsibleSheet8(In_Рљ_РґРѕР»)
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Column
+  ' РџСЂРѕРІРµСЂСЏРµРј Р°РєС‚РёРІРЅСѓСЋ СЏС‡РµР№РєСѓ
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13)) Then
+    ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№:
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Value = getFromAddrBook(In_Рљ_РґРѕР», 3)
   Else
-    MsgBox ("Укажите ячейку в диапазоне Поручения_участникам!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј!")
   End If
 End Sub
 
-' Добавить выступающего
-Sub addSpeakerSheet8(In_К_дол)
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Повестка_дня = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Повестка_дня", 100, 100)
-  НомерСтроки_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Row
-  НомерСтолбца_Повестка_дня = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Повестка_дня).Column
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ
+Sub addSpeakerSheet8(In_Рљ_РґРѕР»)
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Column
   
-  ' Проверяем активную ячейку
-  If (ActiveCell.Row >= НомерСтроки_Повестка_дня + 2) And (ActiveCell.Row <= НомерСтроки_Повестка_дня + 52) And (ActiveCell.Column >= НомерСтолбца_Повестка_дня - 1) And ((ActiveCell.Column <= НомерСтолбца_Повестка_дня + 13)) Then
-    ' Ответственный:
-    ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Повестка_дня).Value = getFromAddrBook(In_К_дол, 3)
+  ' РџСЂРѕРІРµСЂСЏРµРј Р°РєС‚РёРІРЅСѓСЋ СЏС‡РµР№РєСѓ
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ + 13)) Then
+    ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№:
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕРІРµСЃС‚РєР°_РґРЅСЏ).Value = getFromAddrBook(In_Рљ_РґРѕР», 3)
   Else
-    MsgBox ("Укажите ячейку в диапазоне Повестка_дня!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕРІРµСЃС‚РєР°_РґРЅСЏ!")
   End If
   
 End Sub
 
 
-' Добавить ответственного РИЦ
-Sub addResponsibleSheet8_РИЦ()
-  Call addResponsibleSheet8("РИЦ")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ Р РР¦
+Sub addResponsibleSheet8_Р РР¦()
+  Call addResponsibleSheet8("Р РР¦")
 End Sub
 
 
-' Добавить ответственного НОКП
-Sub addResponsibleSheet8_НОКП()
-  Call addResponsibleSheet8("НОКП")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћРљРџ
+Sub addResponsibleSheet8_РќРћРљРџ()
+  Call addResponsibleSheet8("РќРћРљРџ")
 End Sub
 
-' Добавить ответственного НОРПиКО1
-Sub addResponsibleSheet8_НОРПиКО1()
-  Call addResponsibleSheet8("НОРПиКО1")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћР РџРёРљРћ1
+Sub addResponsibleSheet8_РќРћР РџРёРљРћ1()
+  Call addResponsibleSheet8("РќРћР РџРёРљРћ1")
 End Sub
 
-' Добавить ответственного УДО2
-Sub addResponsibleSheet8_УДО2()
-  Call addResponsibleSheet8("УДО2")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РЈР”Рћ2
+Sub addResponsibleSheet8_РЈР”Рћ2()
+  Call addResponsibleSheet8("РЈР”Рћ2")
 End Sub
 
-' Добавить ответственного НОРПиКО2
-Sub addResponsibleSheet8_НОРПиКО2()
-  Call addResponsibleSheet8("НОРПиКО2")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћР РџРёРљРћ2
+Sub addResponsibleSheet8_РќРћР РџРёРљРћ2()
+  Call addResponsibleSheet8("РќРћР РџРёРљРћ2")
 End Sub
 
-' Добавить ответственного УДО3
-Sub addResponsibleSheet8_УДО3()
-  Call addResponsibleSheet8("УДО3")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РЈР”Рћ3
+Sub addResponsibleSheet8_РЈР”Рћ3()
+  Call addResponsibleSheet8("РЈР”Рћ3")
 End Sub
 
-' Добавить ответственного НОРПиКО3
-Sub addResponsibleSheet8_НОРПиКО3()
-  Call addResponsibleSheet8("НОРПиКО3")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћР РџРёРљРћ3
+Sub addResponsibleSheet8_РќРћР РџРёРљРћ3()
+  Call addResponsibleSheet8("РќРћР РџРёРљРћ3")
 End Sub
 
-' Добавить ответственного УДО4
-Sub addResponsibleSheet8_УДО4()
-  Call addResponsibleSheet8("УДО4")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РЈР”Рћ4
+Sub addResponsibleSheet8_РЈР”Рћ4()
+  Call addResponsibleSheet8("РЈР”Рћ4")
 End Sub
 
-' Добавить ответственного НОРПиКО4
-Sub addResponsibleSheet8_НОРПиКО4()
-  Call addResponsibleSheet8("НОРПиКО4")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћР РџРёРљРћ4
+Sub addResponsibleSheet8_РќРћР РџРёРљРћ4()
+  Call addResponsibleSheet8("РќРћР РџРёРљРћ4")
 End Sub
 
-' Добавить ответственного УДО5
-Sub addResponsibleSheet8_УДО5()
-  Call addResponsibleSheet8("УДО5")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РЈР”Рћ5
+Sub addResponsibleSheet8_РЈР”Рћ5()
+  Call addResponsibleSheet8("РЈР”Рћ5")
 End Sub
 
-' Добавить ответственного НОРПиКО5
-Sub addResponsibleSheet8_НОРПиКО5()
-  Call addResponsibleSheet8("НОРПиКО5")
+' Р”РѕР±Р°РІРёС‚СЊ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРіРѕ РќРћР РџРёРљРћ5
+Sub addResponsibleSheet8_РќРћР РџРёРљРћ5()
+  Call addResponsibleSheet8("РќРћР РџРёРљРћ5")
 End Sub
 
-' Добавить срок исполнения
+' Р”РѕР±Р°РІРёС‚СЊ СЃСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ
 Sub addDateEndSheet8(In_DateEnd)
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Поручения_участникам = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-  НомерСтроки_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Row
-  НомерСтолбца_Поручения_участникам = ThisWorkbook.Sheets("ЕСУП").Range(Ячейка_Поручения_участникам).Column
-  ' Проверяем активную ячейку
-  If (ActiveCell.Row >= НомерСтроки_Поручения_участникам + 2) And (ActiveCell.Row <= НомерСтроки_Поручения_участникам + 52) And (ActiveCell.Column >= НомерСтолбца_Поручения_участникам - 1) And ((ActiveCell.Column <= НомерСтолбца_Поручения_участникам + 13)) Then
-    ' Ответственный:
-    ThisWorkbook.Sheets("ЕСУП").Cells(ActiveCell.Row, НомерСтолбца_Поручения_участникам + 1).Value = In_DateEnd
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РЇС‡РµР№РєР°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј).Column
+  ' РџСЂРѕРІРµСЂСЏРµРј Р°РєС‚РёРІРЅСѓСЋ СЏС‡РµР№РєСѓ
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 2) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 52) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 13)) Then
+    ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№:
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј + 1).Value = In_DateEnd
   Else
-    MsgBox ("Укажите ячейку в диапазоне Поручения_участникам!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј!")
   End If
 End Sub
 
-' Добавить срок исполнения - до пятницы
-Sub addDateEndSheet8_Пятница()
+' Р”РѕР±Р°РІРёС‚СЊ СЃСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РґРѕ РїСЏС‚РЅРёС†С‹
+Sub addDateEndSheet8_РџСЏС‚РЅРёС†Р°()
   Call addDateEndSheet8(weekEndDate(Date) - 2)
 End Sub
 
-' Добавить срок исполнения - до конца месяца
-Sub addDateEndSheet8_КонецМесяца()
+' Р”РѕР±Р°РІРёС‚СЊ СЃСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РґРѕ РєРѕРЅС†Р° РјРµСЃСЏС†Р°
+Sub addDateEndSheet8_РљРѕРЅРµС†РњРµСЃСЏС†Р°()
   Call addDateEndSheet8(Date_last_day_month(Date))
 End Sub
 
-' Добавить срок исполнения - до конца квартала
-Sub addDateEndSheet8_КонецКвартала()
+' Р”РѕР±Р°РІРёС‚СЊ СЃСЂРѕРє РёСЃРїРѕР»РЅРµРЅРёСЏ - РґРѕ РєРѕРЅС†Р° РєРІР°СЂС‚Р°Р»Р°
+Sub addDateEndSheet8_РљРѕРЅРµС†РљРІР°СЂС‚Р°Р»Р°()
   Call addDateEndSheet8(Date_last_day_quarter(Date))
 End Sub
 
-' Вставить строку в Поручения_участникам
-Sub Вставка_строки_в_Поручения_участникам(In_FIO, In_DateEnd, In_Task)
-Dim НомерСтрокиЛист_ЕСУП, НомерСтолбцаЛист_ЕСУП As Byte
+' Р’СЃС‚Р°РІРёС‚СЊ СЃС‚СЂРѕРєСѓ РІ РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј
+Sub Р’СЃС‚Р°РІРєР°_СЃС‚СЂРѕРєРё_РІ_РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј(In_FIO, In_DateEnd, In_Task)
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРёР›РёСЃС‚_Р•РЎРЈРџ, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ As Byte
 
     
-    НомерСтрокиЛист_ЕСУП = rowByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
-    НомерСтолбцаЛист_ЕСУП = ColumnByValue(ThisWorkbook.Name, "ЕСУП", "Поручения_участникам", 100, 100)
+    РќРѕРјРµСЂРЎС‚СЂРѕРєРёР›РёСЃС‚_Р•РЎРЈРџ = rowByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
+    РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ = ColumnByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџРѕСЂСѓС‡РµРЅРёСЏ_СѓС‡Р°СЃС‚РЅРёРєР°Рј", 100, 100)
     
-    ' Заносим на Лист "ЕСУП"
-    i = НомерСтрокиЛист_ЕСУП + 2
-    Номер_поручения = 0
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП + 2).Value <> ""
-      Номер_поручения = Номер_поручения + 1
+    ' Р—Р°РЅРѕСЃРёРј РЅР° Р›РёСЃС‚ "Р•РЎРЈРџ"
+    i = РќРѕРјРµСЂРЎС‚СЂРѕРєРёР›РёСЃС‚_Р•РЎРЈРџ + 2
+    РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = 0
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ + 2).Value <> ""
+      РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ + 1
       i = i + 1
     Loop
     
-    Номер_поручения = Номер_поручения + 1
+    РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ + 1
     
-    ' № поручения
-    ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП - 1).Value = Номер_поручения
-    ' Ответственный
-    ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП).Value = In_FIO
-    ' Дата контроля
-    ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП + 1).Value = In_DateEnd
-    ' Поручение
-    ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП + 2).Value = In_Task
-    ' Скопировано в To-Do 0/1
-    ThisWorkbook.Sheets("ЕСУП").Cells(i, НомерСтолбцаЛист_ЕСУП + 13).Value = 0
+    ' в„– РїРѕСЂСѓС‡РµРЅРёСЏ
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ - 1).Value = РќРѕРјРµСЂ_РїРѕСЂСѓС‡РµРЅРёСЏ
+    ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ).Value = In_FIO
+    ' Р”Р°С‚Р° РєРѕРЅС‚СЂРѕР»СЏ
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ + 1).Value = In_DateEnd
+    ' РџРѕСЂСѓС‡РµРЅРёРµ
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ + 2).Value = In_Task
+    ' РЎРєРѕРїРёСЂРѕРІР°РЅРѕ РІ To-Do 0/1
+    ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(i, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°Р›РёСЃС‚_Р•РЎРЈРџ + 13).Value = 0
 
 End Sub
 
 
-' Добавить выступающего НОКП
-Sub addSpeakerSheet8_НОКП()
-  Call addSpeakerSheet8("НОКП")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћРљРџ
+Sub addSpeakerSheet8_РќРћРљРџ()
+  Call addSpeakerSheet8("РќРћРљРџ")
 End Sub
 
-' Добавить выступающего РИЦ
-Sub addSpeakerSheet8_РИЦ()
-  Call addSpeakerSheet8("РИЦ")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ Р РР¦
+Sub addSpeakerSheet8_Р РР¦()
+  Call addSpeakerSheet8("Р РР¦")
 End Sub
 
-' Добавить выступающего НОРПиКО1
-Sub addSpeakerSheet8_НОРПиКО1()
-  Call addSpeakerSheet8("НОРПиКО1")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћР РџРёРљРћ1
+Sub addSpeakerSheet8_РќРћР РџРёРљРћ1()
+  Call addSpeakerSheet8("РќРћР РџРёРљРћ1")
 End Sub
 
-' Добавить выступающего УДО2
-Sub addSpeakerSheet8_УДО2()
-  Call addSpeakerSheet8("УДО2")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РЈР”Рћ2
+Sub addSpeakerSheet8_РЈР”Рћ2()
+  Call addSpeakerSheet8("РЈР”Рћ2")
 End Sub
 
-' Добавить выступающего НОРПиКО2
-Sub addSpeakerSheet8_НОРПиКО2()
-  Call addSpeakerSheet8("НОРПиКО2")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћР РџРёРљРћ2
+Sub addSpeakerSheet8_РќРћР РџРёРљРћ2()
+  Call addSpeakerSheet8("РќРћР РџРёРљРћ2")
 End Sub
 
-' Добавить выступающего УДО3
-Sub addSpeakerSheet8_УДО3()
-  Call addSpeakerSheet8("УДО3")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РЈР”Рћ3
+Sub addSpeakerSheet8_РЈР”Рћ3()
+  Call addSpeakerSheet8("РЈР”Рћ3")
 End Sub
 
-' Добавить выступающего НОРПиКО3
-Sub addSpeakerSheet8_НОРПиКО3()
-  Call addSpeakerSheet8("НОРПиКО3")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћР РџРёРљРћ3
+Sub addSpeakerSheet8_РќРћР РџРёРљРћ3()
+  Call addSpeakerSheet8("РќРћР РџРёРљРћ3")
 End Sub
 
-' Добавить выступающего УДО4
-Sub addSpeakerSheet8_УДО4()
-  Call addSpeakerSheet8("УДО4")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РЈР”Рћ4
+Sub addSpeakerSheet8_РЈР”Рћ4()
+  Call addSpeakerSheet8("РЈР”Рћ4")
 End Sub
 
-' Добавить выступающего НОРПиКО4
-Sub addSpeakerSheet8_НОРПиКО4()
-  Call addSpeakerSheet8("НОРПиКО4")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћР РџРёРљРћ4
+Sub addSpeakerSheet8_РќРћР РџРёРљРћ4()
+  Call addSpeakerSheet8("РќРћР РџРёРљРћ4")
 End Sub
 
-' Добавить выступающего УДО5
-Sub addSpeakerSheet8_УДО5()
-  Call addSpeakerSheet8("УДО5")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РЈР”Рћ5
+Sub addSpeakerSheet8_РЈР”Рћ5()
+  Call addSpeakerSheet8("РЈР”Рћ5")
 End Sub
 
-' Добавить выступающего НОРПиКО5
-Sub addSpeakerSheet8_НОРПиКО5()
-  Call addSpeakerSheet8("НОРПиКО5")
+' Р”РѕР±Р°РІРёС‚СЊ РІС‹СЃС‚СѓРїР°СЋС‰РµРіРѕ РќРћР РџРёРљРћ5
+Sub addSpeakerSheet8_РќРћР РџРёРљРћ5()
+  Call addSpeakerSheet8("РќРћР РџРёРљРћ5")
 End Sub
-
