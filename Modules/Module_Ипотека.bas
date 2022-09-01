@@ -1,12 +1,10 @@
-Attribute VB_Name = "Module_Ипотека"
-' Лист Ипотека
-Sub SaveFromИпотека()
+Attribute VB_Name = "Module_РРїРѕС‚РµРєР°"
+' Р›РёСЃС‚ РРїРѕС‚РµРєР°
+Sub SaveFromРРїРѕС‚РµРєР°()
 
-  ' Копируем Лист2
-  ThisWorkbook.Sheets("Ипотека").Copy
+  ' РљРѕРїРёСЂСѓРµРј Р›РёСЃС‚2
+  ThisWorkbook.Sheets("РРїРѕС‚РµРєР°").Copy
 
-  '
-  ' Workbooks("Книга1").Sheets("Лист1").Paste
+  ' Workbooks("РљРЅРёРіР°1").Sheets("Р›РёСЃС‚1").Paste
 
 End Sub
-
