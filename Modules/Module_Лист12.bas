@@ -1,60 +1,60 @@
-Attribute VB_Name = "Module_Лист12"
-' Лист 12
+Attribute VB_Name = "Module_Р›РёСЃС‚12"
+' Р›РёСЃС‚ 12
 
-' Обработка ежедневного отчета от офиса
-Sub getDataFromOffice_Лист12_4()
+' РћР±СЂР°Р±РѕС‚РєР° РµР¶РµРґРЅРµРІРЅРѕРіРѕ РѕС‚С‡РµС‚Р° РѕС‚ РѕС„РёСЃР°
+Sub getDataFromOffice_Р›РёСЃС‚12_4()
   
     
-  ' Открываем файл
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "Открытие файла с отчетом")
+  ' РћС‚РєСЂС‹РІР°РµРј С„Р°Р№Р»
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РѕС‚С‡РµС‚РѕРј")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("Лист12").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р›РёСЃС‚12").Activate
 
-    ' Проверка формы отчета
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
     ' CheckFormatReportResult = CheckFormatReport(ReportName_String, "___", 6, Date)
     ' If CheckFormatReportResult = "OK" Then
     If True Then
       
-      ' Открываем таблицу BASE\Custflow
+      ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\Custflow
       OpenBookInBase ("Custflow")
 
       rowCount = 1
-      Do While InStr(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value, "Итого по РОО") = 0
+      Do While InStr(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value, "РС‚РѕРіРѕ РїРѕ Р РћРћ") = 0
 
-        ' Продажи за:
-        If InStr(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value, "Продажи за:") <> 0 Then
-           Продажи_за = CDate(Mid(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value, 13, 10))
+        ' РџСЂРѕРґР°Р¶Рё Р·Р°:
+        If InStr(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value, "РџСЂРѕРґР°Р¶Рё Р·Р°:") <> 0 Then
+           РџСЂРѕРґР°Р¶Рё_Р·Р° = CDate(Mid(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value, 13, 10))
         End If
    
-        ' Если это "ОО «" и не пусто в строке клиентов
-        If (InStr(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value, "ОО «") <> 0) And (Len(Trim(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 2).Value)) <> 0) Then
+        ' Р•СЃР»Рё СЌС‚Рѕ "РћРћ В«" Рё РЅРµ РїСѓСЃС‚Рѕ РІ СЃС‚СЂРѕРєРµ РєР»РёРµРЅС‚РѕРІ
+        If (InStr(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value, "РћРћ В«") <> 0) And (Len(Trim(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 2).Value)) <> 0) Then
           
           ' ID_Rec
-          ID_RecVar = strDDMMYYYY(Продажи_за) + "-" + cityOfficeName(Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value)
+          ID_RecVar = strDDMMYYYY(РџСЂРѕРґР°Р¶Рё_Р·Р°) + "-" + cityOfficeName(Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value)
           
-          ' Заносим данные в таблицу BASE\Custflow: ID_Rec (Date-Офис), Date, Офис, Клиентопоток, Заявки_ДК, Заявления_ПФР, Подключенные_НС, Консультации_НСЖ, Продажи_НСЖ ИБ_новые_реактивация
-          Call InsertRecordInBook("Custflow", "Лист1", "ID_Rec", ID_RecVar, _
+          ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ BASE\Custflow: ID_Rec (Date-РћС„РёСЃ), Date, РћС„РёСЃ, РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє, Р—Р°СЏРІРєРё_Р”Рљ, Р—Р°СЏРІР»РµРЅРёСЏ_РџР¤Р , РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ_РќРЎ, РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё_РќРЎР–, РџСЂРѕРґР°Р¶Рё_РќРЎР– РР‘_РЅРѕРІС‹Рµ_СЂРµР°РєС‚РёРІР°С†РёСЏ
+          Call InsertRecordInBook("Custflow", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, _
                                           "ID_Rec", ID_RecVar, _
-                                            "Date", Продажи_за, _
-                                              "Офис", Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 1).Value, _
-                                                "Клиентопоток", Workbooks(ReportName_String).Sheets("Ежедневный отчет").Cells(rowCount, 2).Value, _
+                                            "Date", РџСЂРѕРґР°Р¶Рё_Р·Р°, _
+                                              "РћС„РёСЃ", Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 1).Value, _
+                                                "РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє", Workbooks(ReportName_String).Sheets("Р•Р¶РµРґРЅРµРІРЅС‹Р№ РѕС‚С‡РµС‚").Cells(rowCount, 2).Value, _
                                                   "", "", _
                                                     "", "", _
                                                       "", "", _
@@ -74,8 +74,8 @@ Sub getDataFromOffice_Лист12_4()
 
         End If
    
-        ' Обрабатываем присланный отчет
-        ' Следующая запись
+        ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РїСЂРёСЃР»Р°РЅРЅС‹Р№ РѕС‚С‡РµС‚
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
         rowCount = rowCount + 1
         ' Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
         ' DoEventsInterval (rowCount)
@@ -83,194 +83,194 @@ Sub getDataFromOffice_Лист12_4()
       Loop
 
 
-      ' Закрываем базу BASE\Tasks
+      ' Р—Р°РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ BASE\Tasks
       CloseBook ("Custflow")
     
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Переходим в ячейку M2
-    ' ThisWorkbook.Sheets("Лист12").Range("L78").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ' ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("L78").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    ' Call ЗачеркиваемТекстВячейке("Лист0", "D9")
-    ' Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Оперативная справка по _________________", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", "D9")
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћРїРµСЂР°С‚РёРІРЅР°СЏ СЃРїСЂР°РІРєР° РїРѕ _________________", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
   
 End Sub
 
 
-' Напоминание: прислать отчет по отработке вкладов
-Sub toSend_Отправить_отчет_по_клиентопотоку()
+' РќР°РїРѕРјРёРЅР°РЅРёРµ: РїСЂРёСЃР»Р°С‚СЊ РѕС‚С‡РµС‚ РїРѕ РѕС‚СЂР°Р±РѕС‚РєРµ РІРєР»Р°РґРѕРІ
+Sub toSend_РћС‚РїСЂР°РІРёС‚СЊ_РѕС‚С‡РµС‚_РїРѕ_РєР»РёРµРЅС‚РѕРїРѕС‚РѕРєСѓ()
 
-Dim Range_str, Адрес_Ln_кому, Адрес_Ln_копия As String
+Dim Range_str, РђРґСЂРµСЃ_Ln_РєРѕРјСѓ, РђРґСЂРµСЃ_Ln_РєРѕРїРёСЏ As String
 Dim Range_Row, Range_Column, i As Byte
-Dim темаПисьма, текстПисьма, hashTag As String
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag As String
 
   
-    ' Запрос
-    If MsgBox("Отправить себе шаблон отчета по клиентопотоку?", vbYesNo) = vbYes Then
+    ' Р—Р°РїСЂРѕСЃ
+    If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ С€Р°Р±Р»РѕРЅ РѕС‚С‡РµС‚Р° РїРѕ РєР»РёРµРЅС‚РѕРїРѕС‚РѕРєСѓ?", vbYesNo) = vbYes Then
     
-      If MsgBox("Дата отчета " + CStr(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + "?", vbYesNo) = vbYes Then
+      If MsgBox("Р”Р°С‚Р° РѕС‚С‡РµС‚Р° " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + "?", vbYesNo) = vbYes Then
         
       End If
     
-      ' Отправка сообщения
-      ' Адрес_Ln_кому = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5", 2)
-      ' Адрес_Ln_копия = getFromAddrBook("РД", 2)
+      ' РћС‚РїСЂР°РІРєР° СЃРѕРѕР±С‰РµРЅРёСЏ
+      ' РђРґСЂРµСЃ_Ln_РєРѕРјСѓ = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5", 2)
+      ' РђРґСЂРµСЃ_Ln_РєРѕРїРёСЏ = getFromAddrBook("Р Р”", 2)
       
-      ' Тема письма - Тема:
-      темаПисьма = "Отчет по клиентопотоку"
-      ' hashTag - Хэштэг:
-      hashTag = "#клиентопоток"
-      ' Текст письма
-      текстПисьма = "" + Chr(13)
-      текстПисьма = текстПисьма + "Тюмень " + strDDMM(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + ":" + Chr(13)
-      текстПисьма = текстПисьма + "Клиентопоток - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 3).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Заявки ДК - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 4).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Заявления ПФР - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 5).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Подключенные НС - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 6).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Консультации НСЖ - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 7).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Продажи НСЖ - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 8).Value) + Chr(13)
-      текстПисьма = текстПисьма + "ИБ (новые + реакт.) - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 9).Value) + Chr(13)
-      текстПисьма = текстПисьма + "Коробки - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 10).Value) + Chr(13)
-      ' Если за день есть Продажа ИСЖ, то дописываем
-      If ThisWorkbook.Sheets("Лист12").Cells(11, 11).Value <> 0 Then
-        текстПисьма = текстПисьма + "Продажи ИСЖ - " + CStr(ThisWorkbook.Sheets("Лист12").Cells(11, 11).Value) + Chr(13)
+      ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+      С‚РµРјР°РџРёСЃСЊРјР° = "РћС‚С‡РµС‚ РїРѕ РєР»РёРµРЅС‚РѕРїРѕС‚РѕРєСѓ"
+      ' hashTag - РҐСЌС€С‚СЌРі:
+      hashTag = "#РєР»РёРµРЅС‚РѕРїРѕС‚РѕРє"
+      ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РўСЋРјРµРЅСЊ " + strDDMM(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + ":" + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 3).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "Р—Р°СЏРІРєРё Р”Рљ - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 4).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "Р—Р°СЏРІР»РµРЅРёСЏ РџР¤Р  - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 5).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ РќРЎ - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 6).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё РќРЎР– - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 7).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РџСЂРѕРґР°Р¶Рё РќРЎР– - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 8).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РР‘ (РЅРѕРІС‹Рµ + СЂРµР°РєС‚.) - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 9).Value) + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РљРѕСЂРѕР±РєРё - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 10).Value) + Chr(13)
+      ' Р•СЃР»Рё Р·Р° РґРµРЅСЊ РµСЃС‚СЊ РџСЂРѕРґР°Р¶Р° РРЎР–, С‚Рѕ РґРѕРїРёСЃС‹РІР°РµРј
+      If ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 11).Value <> 0 Then
+        С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РџСЂРѕРґР°Р¶Рё РРЎР– - " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(11, 11).Value) + Chr(13)
       End If
       '
-      текстПисьма = текстПисьма + "" + Chr(13)
-      текстПисьма = текстПисьма + "" + Chr(13)
-      ' Визитка (подпись С Ув., )
-      текстПисьма = текстПисьма + ПодписьВПисьме()
-      ' Хэштег
-      текстПисьма = текстПисьма + createBlankStr(35) + hashTag
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+      ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+      ' РҐСЌС€С‚РµРі
+      С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(35) + hashTag
       
-      ' Вызов
-      ' Call send_Lotus_Notes(темаПисьма, Адрес_Ln_кому, Адрес_Ln_копия, текстПисьма, "")
+      ' Р’С‹Р·РѕРІ
+      ' Call send_Lotus_Notes(С‚РµРјР°РџРёСЃСЊРјР°, РђРґСЂРµСЃ_Ln_РєРѕРјСѓ, РђРґСЂРµСЃ_Ln_РєРѕРїРёСЏ, С‚РµРєСЃС‚РџРёСЃСЊРјР°, "")
       
-      ' Вызов с отправкой себе в скрытой копии
-      Call send_Lotus_Notes2(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", текстПисьма, "")
+      ' Р’С‹Р·РѕРІ СЃ РѕС‚РїСЂР°РІРєРѕР№ СЃРµР±Рµ РІ СЃРєСЂС‹С‚РѕР№ РєРѕРїРёРё
+      Call send_Lotus_Notes2(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "", "", С‚РµРєСЃС‚РџРёСЃСЊРјР°, "")
   
-      ' Сообщение
-      MsgBox ("Письмо отправлено!")
+      ' РЎРѕРѕР±С‰РµРЅРёРµ
+      MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
       
     End If
   
 End Sub
 
-' Очистить форму с даными за день
+' РћС‡РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ СЃ РґР°РЅС‹РјРё Р·Р° РґРµРЅСЊ
 Sub clearGrid_Sheet12()
 Dim i, j, new_j As Byte
 
-    ' Запрос
-    If MsgBox("Очистить форму?", vbYesNo) = vbYes Then
+    ' Р—Р°РїСЂРѕСЃ
+    If MsgBox("РћС‡РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ?", vbYesNo) = vbYes Then
     
       For i = 17 To 21
         
         For j = 3 To 11
           
-          ' 1. Очистка - Форма 12.2
-          ThisWorkbook.Sheets("Лист12").Cells(i, j).Value = 0
+          ' 1. РћС‡РёСЃС‚РєР° - Р¤РѕСЂРјР° 12.2
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, j).Value = 0
           
-          ' 2. Очистка - Форма 12.3
-          ' Смещения по Y
+          ' 2. РћС‡РёСЃС‚РєР° - Р¤РѕСЂРјР° 12.3
+          ' РЎРјРµС‰РµРЅРёСЏ РїРѕ Y
           Select Case j
-            Case 3 ' Клиентопоток
+            Case 3 ' РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє
               new_j = 3
-            Case 4 ' Заявки ДК
+            Case 4 ' Р—Р°СЏРІРєРё Р”Рљ
               new_j = 4
-            Case 5 ' Заявления ПФР
+            Case 5 ' Р—Р°СЏРІР»РµРЅРёСЏ РџР¤Р 
               new_j = 8
-            Case 6 ' Подключенные НС
+            Case 6 ' РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ РќРЎ
               new_j = 6
-            Case 7 ' Консультации НСЖ
+            Case 7 ' РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё РќРЎР–
               new_j = 9
-            Case 8 ' Продажи НСЖ
+            Case 8 ' РџСЂРѕРґР°Р¶Рё РќРЎР–
               new_j = 10
-            Case 9 ' ИБ (новые + реакт.)
+            Case 9 ' РР‘ (РЅРѕРІС‹Рµ + СЂРµР°РєС‚.)
               new_j = 11
-            Case 10 ' Коробки
+            Case 10 ' РљРѕСЂРѕР±РєРё
               new_j = 12
-            Case 11 ' Продажи ИСЖ
+            Case 11 ' РџСЂРѕРґР°Р¶Рё РРЎР–
               new_j = 13
           
           End Select
 
-          ThisWorkbook.Sheets("Лист12").Cells(i + 11, new_j).Value = 0
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i + 11, new_j).Value = 0
         Next j
         
       Next i
       
-      ' Обновление итоговой таблицы
+      ' РћР±РЅРѕРІР»РµРЅРёРµ РёС‚РѕРіРѕРІРѕР№ С‚Р°Р±Р»РёС†С‹
       Call reFreshDataFromDay_Sheet12
       
-      ' Сообщение
-      MsgBox ("Форма очищена!")
+      ' РЎРѕРѕР±С‰РµРЅРёРµ
+      MsgBox ("Р¤РѕСЂРјР° РѕС‡РёС‰РµРЅР°!")
   
     End If
     
 End Sub
 
-' Внести данные за день
+' Р’РЅРµСЃС‚Рё РґР°РЅРЅС‹Рµ Р·Р° РґРµРЅСЊ
 Sub insertDataFromDay_Sheet12()
 Dim i, j As Byte
 
-    ' Проходим циклом и суммируем нарастающими итогами
+    ' РџСЂРѕС…РѕРґРёРј С†РёРєР»РѕРј Рё СЃСѓРјРјРёСЂСѓРµРј РЅР°СЂР°СЃС‚Р°СЋС‰РёРјРё РёС‚РѕРіР°РјРё
     
-    ' Отправить письмо?
-    Call toSend_Отправить_отчет_по_клиентопотоку
+    ' РћС‚РїСЂР°РІРёС‚СЊ РїРёСЃСЊРјРѕ?
+    Call toSend_РћС‚РїСЂР°РІРёС‚СЊ_РѕС‚С‡РµС‚_РїРѕ_РєР»РёРµРЅС‚РѕРїРѕС‚РѕРєСѓ
     
-    ' Запрос
-    If MsgBox("Внести данные за " + CStr(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + "?", vbYesNo) = vbYes Then
+    ' Р—Р°РїСЂРѕСЃ
+    If MsgBox("Р’РЅРµСЃС‚Рё РґР°РЅРЅС‹Рµ Р·Р° " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + "?", vbYesNo) = vbYes Then
     
-      ' Открываем таблицу BASE\Custflow
+      ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ BASE\Custflow
       OpenBookInBase ("Custflow")
     
-      ' Итерация №1: прибавляем к данным месяца данные дня
+      ' РС‚РµСЂР°С†РёСЏ в„–1: РїСЂРёР±Р°РІР»СЏРµРј Рє РґР°РЅРЅС‹Рј РјРµСЃСЏС†Р° РґР°РЅРЅС‹Рµ РґРЅСЏ
       For i = 6 To 10
         
-        ' Суммируем день с месяцем
+        ' РЎСѓРјРјРёСЂСѓРµРј РґРµРЅСЊ СЃ РјРµСЃСЏС†РµРј
         For j = 3 To 11
           
-          ' Заносим данные
-          ThisWorkbook.Sheets("Лист12").Cells(i + 11, j).Value = ThisWorkbook.Sheets("Лист12").Cells(i + 11, j).Value + ThisWorkbook.Sheets("Лист12").Cells(i, j).Value
+          ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i + 11, j).Value = ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i + 11, j).Value + ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, j).Value
                     
         Next j
         
-        ' Заносим данные в таблицу BASE\Custflow: ID_Rec (Date-Офис), Date, Офис, Клиентопоток, Заявки_ДК, Заявления_ПФР, Подключенные_НС, Консультации_НСЖ, Продажи_НСЖ ИБ_новые_реактивация
-        Call InsertRecordInBook("Custflow", "Лист1", "ID_Rec", strDDMMYYYY(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + "-" + cityOfficeName(ThisWorkbook.Sheets("Лист12").Cells(i, 2).Value), _
-                                          "ID_Rec", strDDMMYYYY(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + "-" + cityOfficeName(ThisWorkbook.Sheets("Лист12").Cells(i, 2).Value), _
-                                            "Date", ThisWorkbook.Sheets("Лист12").Range("H2").Value, _
-                                              "Офис", ThisWorkbook.Sheets("Лист12").Cells(i, 2).Value, _
-                                                "Клиентопоток", ThisWorkbook.Sheets("Лист12").Cells(i, 3).Value, _
-                                                  "Заявки_ДК", ThisWorkbook.Sheets("Лист12").Cells(i, 4).Value, _
-                                                    "Заявления_ПФР", ThisWorkbook.Sheets("Лист12").Cells(i, 5).Value, _
-                                                      "Подключенные_НС", ThisWorkbook.Sheets("Лист12").Cells(i, 6).Value, _
-                                                        "Консультации_НСЖ", ThisWorkbook.Sheets("Лист12").Cells(i, 7).Value, _
-                                                          "Продажи_НСЖ", ThisWorkbook.Sheets("Лист12").Cells(i, 8).Value, _
-                                                            "ИБ_новые_реактивация", ThisWorkbook.Sheets("Лист12").Cells(i, 9).Value, _
-                                                               "Коробки", ThisWorkbook.Sheets("Лист12").Cells(i, 10).Value, _
-                                                                 "Продажи_ИСЖ", ThisWorkbook.Sheets("Лист12").Cells(i, 11).Value, _
+        ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ РІ С‚Р°Р±Р»РёС†Сѓ BASE\Custflow: ID_Rec (Date-РћС„РёСЃ), Date, РћС„РёСЃ, РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє, Р—Р°СЏРІРєРё_Р”Рљ, Р—Р°СЏРІР»РµРЅРёСЏ_РџР¤Р , РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ_РќРЎ, РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё_РќРЎР–, РџСЂРѕРґР°Р¶Рё_РќРЎР– РР‘_РЅРѕРІС‹Рµ_СЂРµР°РєС‚РёРІР°С†РёСЏ
+        Call InsertRecordInBook("Custflow", "Р›РёСЃС‚1", "ID_Rec", strDDMMYYYY(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + "-" + cityOfficeName(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 2).Value), _
+                                          "ID_Rec", strDDMMYYYY(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + "-" + cityOfficeName(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 2).Value), _
+                                            "Date", ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value, _
+                                              "РћС„РёСЃ", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 2).Value, _
+                                                "РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 3).Value, _
+                                                  "Р—Р°СЏРІРєРё_Р”Рљ", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 4).Value, _
+                                                    "Р—Р°СЏРІР»РµРЅРёСЏ_РџР¤Р ", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 5).Value, _
+                                                      "РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ_РќРЎ", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 6).Value, _
+                                                        "РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё_РќРЎР–", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 7).Value, _
+                                                          "РџСЂРѕРґР°Р¶Рё_РќРЎР–", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 8).Value, _
+                                                            "РР‘_РЅРѕРІС‹Рµ_СЂРµР°РєС‚РёРІР°С†РёСЏ", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 9).Value, _
+                                                               "РљРѕСЂРѕР±РєРё", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 10).Value, _
+                                                                 "РџСЂРѕРґР°Р¶Рё_РРЎР–", ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 11).Value, _
                                                                    "", "", _
                                                                      "", "", _
                                                                        "", "", _
@@ -284,112 +284,112 @@ Dim i, j As Byte
         
       Next i
       
-      ' Итерация №2: очищаем форму
+      ' РС‚РµСЂР°С†РёСЏ в„–2: РѕС‡РёС‰Р°РµРј С„РѕСЂРјСѓ
       For i = 6 To 10
         
         For j = 3 To 11
           
-          ' Обнуляем ячейку ввода - на период теста не обнуляем
-          ThisWorkbook.Sheets("Лист12").Cells(i, j).Value = 0
+          ' РћР±РЅСѓР»СЏРµРј СЏС‡РµР№РєСѓ РІРІРѕРґР° - РЅР° РїРµСЂРёРѕРґ С‚РµСЃС‚Р° РЅРµ РѕР±РЅСѓР»СЏРµРј
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, j).Value = 0
           
         Next j
         
       Next i
       
-      ' Закрываем базу BASE\Tasks
+      ' Р—Р°РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ BASE\Tasks
       CloseBook ("Custflow")
 
-      ' Обновляем накопительным за месяц
+      ' РћР±РЅРѕРІР»СЏРµРј РЅР°РєРѕРїРёС‚РµР»СЊРЅС‹Рј Р·Р° РјРµСЃСЏС†
       Call reFreshDataFromDay_Sheet12
       
-      ' Зачеркнуть на листе 0 "Клиентопоток и продажи"
-      Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Клиентопоток и продажи", 100, 100))
+      ' Р—Р°С‡РµСЂРєРЅСѓС‚СЊ РЅР° Р»РёСЃС‚Рµ 0 "РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє Рё РїСЂРѕРґР°Р¶Рё"
+      Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє Рё РїСЂРѕРґР°Р¶Рё", 100, 100))
 
-      ' Сообщение
-      MsgBox ("Данные за " + CStr(ThisWorkbook.Sheets("Лист12").Range("H2").Value) + " успешно внесены!")
+      ' РЎРѕРѕР±С‰РµРЅРёРµ
+      MsgBox ("Р”Р°РЅРЅС‹Рµ Р·Р° " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Range("H2").Value) + " СѓСЃРїРµС€РЅРѕ РІРЅРµСЃРµРЅС‹!")
   
     End If
   
 End Sub
 
-' Обновить данные
+' РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ
 Sub reFreshDataFromDay_Sheet12()
 Dim i, j, new_j As Byte
 
-  ' Запрос
-  If MsgBox("Обновить данные?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ
+  If MsgBox("РћР±РЅРѕРІРёС‚СЊ РґР°РЅРЅС‹Рµ?", vbYesNo) = vbYes Then
     
-    ' Очищаем таблицу с C27 до K32
-    Call clearСontents2(ThisWorkbook.Name, "Лист12", "C28", "M32")
+    ' РћС‡РёС‰Р°РµРј С‚Р°Р±Р»РёС†Сѓ СЃ C27 РґРѕ K32
+    Call clearРЎontents2(ThisWorkbook.Name, "Р›РёСЃС‚12", "C28", "M32")
     
-    ' в B24: "Оперативная бизнес-справка клиентопоток и кросс-продажи за май 2020 г. (на 26.05.2020)"
-    ThisWorkbook.Sheets("Лист12").Cells(24, 2).Value = "Оперативная бизнес-справка клиентопоток и кросс-продажи за " + ИмяМесяца(ThisWorkbook.Sheets("Лист12").Cells(2, 8).Value) + " (на " + CStr(ThisWorkbook.Sheets("Лист12").Cells(2, 8).Value) + ")"
+    ' РІ B24: "РћРїРµСЂР°С‚РёРІРЅР°СЏ Р±РёР·РЅРµСЃ-СЃРїСЂР°РІРєР° РєР»РёРµРЅС‚РѕРїРѕС‚РѕРє Рё РєСЂРѕСЃСЃ-РїСЂРѕРґР°Р¶Рё Р·Р° РјР°Р№ 2020 Рі. (РЅР° 26.05.2020)"
+    ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(24, 2).Value = "РћРїРµСЂР°С‚РёРІРЅР°СЏ Р±РёР·РЅРµСЃ-СЃРїСЂР°РІРєР° РєР»РёРµРЅС‚РѕРїРѕС‚РѕРє Рё РєСЂРѕСЃСЃ-РїСЂРѕРґР°Р¶Рё Р·Р° " + РРјСЏРњРµСЃСЏС†Р°(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(2, 8).Value) + " (РЅР° " + CStr(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(2, 8).Value) + ")"
     
-    ' Заносим данные
-      ' Итерация №1: прибавляем к данным месяца данные дня
+    ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ
+      ' РС‚РµСЂР°С†РёСЏ в„–1: РїСЂРёР±Р°РІР»СЏРµРј Рє РґР°РЅРЅС‹Рј РјРµСЃСЏС†Р° РґР°РЅРЅС‹Рµ РґРЅСЏ
       For i = 28 To 32
         
-        ' Суммируем день с месяцем
+        ' РЎСѓРјРјРёСЂСѓРµРј РґРµРЅСЊ СЃ РјРµСЃСЏС†РµРј
         For j = 3 To 11
           
-          ' Смещения по Y
+          ' РЎРјРµС‰РµРЅРёСЏ РїРѕ Y
           Select Case j
-            Case 3 ' Клиентопоток
+            Case 3 ' РљР»РёРµРЅС‚РѕРїРѕС‚РѕРє
               new_j = 3
-            Case 4 ' Заявки ДК
+            Case 4 ' Р—Р°СЏРІРєРё Р”Рљ
               new_j = 4
-            Case 5 ' Заявления ПФР
+            Case 5 ' Р—Р°СЏРІР»РµРЅРёСЏ РџР¤Р 
               new_j = 8
-            Case 6 ' Подключенные НС
+            Case 6 ' РџРѕРґРєР»СЋС‡РµРЅРЅС‹Рµ РќРЎ
               new_j = 6
-            Case 7 ' Консультации НСЖ
+            Case 7 ' РљРѕРЅСЃСѓР»СЊС‚Р°С†РёРё РќРЎР–
               new_j = 9
-            Case 8 ' Продажи НСЖ
+            Case 8 ' РџСЂРѕРґР°Р¶Рё РќРЎР–
               new_j = 10
-            Case 9 ' ИБ (новые + реакт.)
+            Case 9 ' РР‘ (РЅРѕРІС‹Рµ + СЂРµР°РєС‚.)
               new_j = 11
-            Case 10 ' Коробки
+            Case 10 ' РљРѕСЂРѕР±РєРё
               new_j = 12
-            Case 11 ' Продажи ИСЖ
+            Case 11 ' РџСЂРѕРґР°Р¶Рё РРЎР–
               new_j = 13
               
           End Select
 
-          ' Заносим данные
-          ThisWorkbook.Sheets("Лист12").Cells(i, new_j).Value = ThisWorkbook.Sheets("Лист12").Cells(i - 11, j).Value
-          ThisWorkbook.Sheets("Лист12").Cells(i, new_j).HorizontalAlignment = xlRight
+          ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, new_j).Value = ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i - 11, j).Value
+          ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, new_j).HorizontalAlignment = xlRight
                     
         Next j
       
       Next i
          
-    ' Делаем расчет метрик
+    ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚ РјРµС‚СЂРёРє
     For i = 28 To 32
       
-      ' Заявки ДК
-      ThisWorkbook.Sheets("Лист12").Cells(i, 5).Value = РассчетДоли(ThisWorkbook.Sheets("Лист12").Cells(i, 3).Value, ThisWorkbook.Sheets("Лист12").Cells(i, 4).Value, 3)
-      ThisWorkbook.Sheets("Лист12").Cells(i, 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Лист12").Cells(i, 5).Value)
-      ThisWorkbook.Sheets("Лист12").Cells(i, 5).HorizontalAlignment = xlRight
-      ' Окраска ячейки СФЕТОФОР: если
-      Call Full_Color_RangeII("Лист12", i, 5, (РассчетДоли(ThisWorkbook.Sheets("Лист12").Cells(i, 3).Value, ThisWorkbook.Sheets("Лист12").Cells(i, 4).Value, 3) * 100), 15)
+      ' Р—Р°СЏРІРєРё Р”Рљ
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 5).Value = Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 4).Value, 3)
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 5).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 5).Value)
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 5).HorizontalAlignment = xlRight
+      ' РћРєСЂР°СЃРєР° СЏС‡РµР№РєРё РЎР¤Р•РўРћР¤РћР : РµСЃР»Рё
+      Call Full_Color_RangeII("Р›РёСЃС‚12", i, 5, (Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 4).Value, 3) * 100), 15)
       
-      ' НС
-      ThisWorkbook.Sheets("Лист12").Cells(i, 7).Value = РассчетДоли(ThisWorkbook.Sheets("Лист12").Cells(i, 3).Value, ThisWorkbook.Sheets("Лист12").Cells(i, 6).Value, 3)
-      ThisWorkbook.Sheets("Лист12").Cells(i, 7).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Лист12").Cells(i, 7).Value)
-      ThisWorkbook.Sheets("Лист12").Cells(i, 7).HorizontalAlignment = xlRight
-      ' Окраска ячейки СФЕТОФОР: если
-      Call Full_Color_RangeII("Лист12", i, 7, (РассчетДоли(ThisWorkbook.Sheets("Лист12").Cells(i, 3).Value, ThisWorkbook.Sheets("Лист12").Cells(i, 6).Value, 3) * 100), 15)
+      ' РќРЎ
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 7).Value = Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 6).Value, 3)
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 7).NumberFormat = cellsNumberFormat(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 7).Value)
+      ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 7).HorizontalAlignment = xlRight
+      ' РћРєСЂР°СЃРєР° СЏС‡РµР№РєРё РЎР¤Р•РўРћР¤РћР : РµСЃР»Рё
+      Call Full_Color_RangeII("Р›РёСЃС‚12", i, 7, (Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 3).Value, ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 6).Value, 3) * 100), 15)
       
-      ' ПФР нули
-      ' Окраска ячейки СФЕТОФОР: если
-      If ThisWorkbook.Sheets("Лист12").Cells(i, 8).Value = 0 Then
-        Call Full_Color_RangeII("Лист12", i, 8, 0, 100)
+      ' РџР¤Р  РЅСѓР»Рё
+      ' РћРєСЂР°СЃРєР° СЏС‡РµР№РєРё РЎР¤Р•РўРћР¤РћР : РµСЃР»Рё
+      If ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 8).Value = 0 Then
+        Call Full_Color_RangeII("Р›РёСЃС‚12", i, 8, 0, 100)
       End If
       
-      ' Коробки нули
-      ' Окраска ячейки СФЕТОФОР: если
-      If ThisWorkbook.Sheets("Лист12").Cells(i, 12).Value = 0 Then
-        Call Full_Color_RangeII("Лист12", i, 12, 0, 100)
+      ' РљРѕСЂРѕР±РєРё РЅСѓР»Рё
+      ' РћРєСЂР°СЃРєР° СЏС‡РµР№РєРё РЎР¤Р•РўРћР¤РћР : РµСЃР»Рё
+      If ThisWorkbook.Sheets("Р›РёСЃС‚12").Cells(i, 12).Value = 0 Then
+        Call Full_Color_RangeII("Р›РёСЃС‚12", i, 12, 0, 100)
       End If
       
     Next i
@@ -398,42 +398,42 @@ Dim i, j, new_j As Byte
 
 End Sub
 
-' Офистить форму Форма 12.4
-Sub clearForm2_Лист12_4()
-  ' Запрос
-  If MsgBox("Очистить форму?", vbYesNo) = vbYes Then
+' РћС„РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ Р¤РѕСЂРјР° 12.4
+Sub clearForm2_Р›РёСЃС‚12_4()
+  ' Р—Р°РїСЂРѕСЃ
+  If MsgBox("РћС‡РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ?", vbYesNo) = vbYes Then
     
-    Call clearСontents2(ThisWorkbook.Name, "Лист12", "C44", "M48")
+    Call clearРЎontents2(ThisWorkbook.Name, "Р›РёСЃС‚12", "C44", "M48")
     
-    ' Сообщение
-    MsgBox ("Форма очищена!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("Р¤РѕСЂРјР° РѕС‡РёС‰РµРЅР°!")
     
   End If
 End Sub
 
-' Офистить форму Форма 12.5
-Sub clearForm2_Лист12_5()
-  ' Запрос
-  ' If MsgBox("Очистить форму?", vbYesNo) = vbYes Then
+' РћС„РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ Р¤РѕСЂРјР° 12.5
+Sub clearForm2_Р›РёСЃС‚12_5()
+  ' Р—Р°РїСЂРѕСЃ
+  ' If MsgBox("РћС‡РёСЃС‚РёС‚СЊ С„РѕСЂРјСѓ?", vbYesNo) = vbYes Then
     
-    Call clearСontents2(ThisWorkbook.Name, "Лист12", "C55", "M59")
+    Call clearРЎontents2(ThisWorkbook.Name, "Р›РёСЃС‚12", "C55", "M59")
     
-    ' Сообщение
-    ' MsgBox ("Форма очищена!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    ' MsgBox ("Р¤РѕСЂРјР° РѕС‡РёС‰РµРЅР°!")
     
   ' End If
 End Sub
 
 
 
-' Отправить отчет
-Sub sendReport_Лист12()
-  ' Запрос
-  If MsgBox("Отправить отчет?", vbYesNo) = vbYes Then
+' РћС‚РїСЂР°РІРёС‚СЊ РѕС‚С‡РµС‚
+Sub sendReport_Р›РёСЃС‚12()
+  ' Р—Р°РїСЂРѕСЃ
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ РѕС‚С‡РµС‚?", vbYesNo) = vbYes Then
         
     
-    ' Сообщение
-    MsgBox ("Отчет отправлен!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РћС‚С‡РµС‚ РѕС‚РїСЂР°РІР»РµРЅ!")
         
   End If
 End Sub
