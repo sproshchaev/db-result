@@ -1,255 +1,255 @@
-Attribute VB_Name = "Module_Лист16"
-' Просрочки в CRM - обработка отчета "Продукты по статусам"
-Sub Обработка_Продукты_по_статусам()
+Attribute VB_Name = "Module_Р›РёСЃС‚16"
+' РџСЂРѕСЃСЂРѕС‡РєРё РІ CRM - РѕР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° "РџСЂРѕРґСѓРєС‚С‹ РїРѕ СЃС‚Р°С‚СѓСЃР°Рј"
+Sub РћР±СЂР°Р±РѕС‚РєР°_РџСЂРѕРґСѓРєС‚С‹_РїРѕ_СЃС‚Р°С‚СѓСЃР°Рј()
   
-' Описание переменных
+' РћРїРёСЃР°РЅРёРµ РїРµСЂРµРјРµРЅРЅС‹С…
 Dim ReportName_String, officeNameInReport, CheckFormatReportResult As String
 Dim i, rowCount As Integer
 Dim finishProcess As Boolean
     
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "Открытие файла с отчетом")
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РѕС‚С‡РµС‚РѕРј")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' В "S3" вносим наименование отчета:
-    ThisWorkbook.Sheets("Лист16").Range("S3").Value = FileName
+    ' Р’ "S3" РІРЅРѕСЃРёРј РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС‚С‡РµС‚Р°:
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("S3").Value = FileName
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("Лист16").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Activate
 
-    ' Проверка формы отчета
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
     ' CheckFormatReportResult = CheckFormatReport(ReportName_String, "___", 6, Date)
     ' If CheckFormatReportResult = "OK" Then
     If True Then
             
-      ' Файл с отчетом
-      ThisWorkbook.Sheets("Лист16").Range("Q3").Value = FileName
+      ' Р¤Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("Q3").Value = FileName
       
-      ' Обновляем список получателей
-      ThisWorkbook.Sheets("Лист16").Cells(rowByValue(ThisWorkbook.Name, "Лист16", "Список получателей:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Список получателей:", 100, 100) + 2).Value = _
-         getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5", 2)
+      ' РћР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100) + 2).Value = _
+         getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5", 2)
 
-      ' Тема
-      ThisWorkbook.Sheets("Лист16").Range("P2").Value = "CRM Dynamics 365 - Продукты по статусам " + CStr(Date)
+      ' РўРµРјР°
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("P2").Value = "CRM Dynamics 365 - РџСЂРѕРґСѓРєС‚С‹ РїРѕ СЃС‚Р°С‚СѓСЃР°Рј " + CStr(Date)
                   
-      ' Очистка таблицы
-      Call clearСontents2(ThisWorkbook.Name, "Лист16", "C7", "H11")
+      ' РћС‡РёСЃС‚РєР° С‚Р°Р±Р»РёС†С‹
+      Call clearРЎontents2(ThisWorkbook.Name, "Р›РёСЃС‚16", "C7", "H11")
             
-      ' Получаем имя Листа в файле "Продукты по статусам"
+      ' РџРѕР»СѓС‡Р°РµРј РёРјСЏ Р›РёСЃС‚Р° РІ С„Р°Р№Р»Рµ "РџСЂРѕРґСѓРєС‚С‹ РїРѕ СЃС‚Р°С‚СѓСЃР°Рј"
       Sheet_Name_In_Report = Workbooks(ReportName_String).Sheets(1).Name
 
-      ' Столбцы в отчете
-      Column_Допофис = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Доп. офис", 100, 100)
-      Column_Продукт_оформлен = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Продукт оформлен", 100, 100)
-      Column_Менеджер = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Менеджер", 100, 100)
-      Column_Встреча_просрочена = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Встреча просрочена", 100, 100)
-      Column_Думает_после_встречи = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Думает после встречи", 100, 100)
-      Column_Думает_после_звонка = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Думает после звонка", 100, 100)
-      Column_Менеджер_назначен_нет_активностей = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Менеджер назначен, нет активностей", 100, 100)
+      ' РЎС‚РѕР»Р±С†С‹ РІ РѕС‚С‡РµС‚Рµ
+      Column_Р”РѕРїРѕС„РёСЃ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р”РѕРї. РѕС„РёСЃ", 100, 100)
+      Column_РџСЂРѕРґСѓРєС‚_РѕС„РѕСЂРјР»РµРЅ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РџСЂРѕРґСѓРєС‚ РѕС„РѕСЂРјР»РµРЅ", 100, 100)
+      Column_РњРµРЅРµРґР¶РµСЂ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РњРµРЅРµРґР¶РµСЂ", 100, 100)
+      Column_Р’СЃС‚СЂРµС‡Р°_РїСЂРѕСЃСЂРѕС‡РµРЅР° = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р’СЃС‚СЂРµС‡Р° РїСЂРѕСЃСЂРѕС‡РµРЅР°", 100, 100)
+      Column_Р”СѓРјР°РµС‚_РїРѕСЃР»Рµ_РІСЃС‚СЂРµС‡Рё = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р”СѓРјР°РµС‚ РїРѕСЃР»Рµ РІСЃС‚СЂРµС‡Рё", 100, 100)
+      Column_Р”СѓРјР°РµС‚_РїРѕСЃР»Рµ_Р·РІРѕРЅРєР° = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р”СѓРјР°РµС‚ РїРѕСЃР»Рµ Р·РІРѕРЅРєР°", 100, 100)
+      Column_РњРµРЅРµРґР¶РµСЂ_РЅР°Р·РЅР°С‡РµРЅ_РЅРµС‚_Р°РєС‚РёРІРЅРѕСЃС‚РµР№ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РњРµРЅРµРґР¶РµСЂ РЅР°Р·РЅР°С‡РµРЅ, РЅРµС‚ Р°РєС‚РёРІРЅРѕСЃС‚РµР№", 100, 100)
       
-      ' Обрабатываем отчет
-      ' Цикл по 5-ти офисам
-      ' Обработка отчета
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚С‡РµС‚
+      ' Р¦РёРєР» РїРѕ 5-С‚Рё РѕС„РёСЃР°Рј
+      ' РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°
       For i = 1 To 5
-        ' Номера офисов от 1 до 5
+        ' РќРѕРјРµСЂР° РѕС„РёСЃРѕРІ РѕС‚ 1 РґРѕ 5
         Select Case i
-          Case 1 ' ОО «Тюменский»
-            officeNameInReport = "Тюменский"
-          Case 2 ' ОО «Сургутский»
-            officeNameInReport = "Сургутский"
-          Case 3 ' ОО «Нижневартовский»
-            officeNameInReport = "Нижневартовский"
-          Case 4 ' ОО «Новоуренгойский»
-            officeNameInReport = "Новоуренгойский"
-          Case 5 ' ОО «Тарко-Сале»
-            officeNameInReport = "Тарко-Сале"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            officeNameInReport = "РўСЋРјРµРЅСЃРєРёР№"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            officeNameInReport = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            officeNameInReport = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            officeNameInReport = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            officeNameInReport = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
         End Select
 
         rowCount = 2
         ThisOffice = False
-        Do While Not IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Продукт_оформлен + 2).Value)
+        Do While Not IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_РџСЂРѕРґСѓРєС‚_РѕС„РѕСЂРјР»РµРЅ + 2).Value)
         
-          ' Если это текущий офис - взводим тригер
-          If InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, officeNameInReport) <> 0 Then
+          ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РѕС„РёСЃ - РІР·РІРѕРґРёРј С‚СЂРёРіРµСЂ
+          If InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, officeNameInReport) <> 0 Then
             
             ThisOffice = True
                 
           End If
         
-          ' Если это текущий Офис ThisOffice = True и ячейки В и С пустые - берем значения для этого офиса из строки
-          If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Менеджер).Value)) Then
+          ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РћС„РёСЃ ThisOffice = True Рё СЏС‡РµР№РєРё Р’ Рё РЎ РїСѓСЃС‚С‹Рµ - Р±РµСЂРµРј Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ СЌС‚РѕРіРѕ РѕС„РёСЃР° РёР· СЃС‚СЂРѕРєРё
+          If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_РњРµРЅРµРґР¶РµСЂ).Value)) Then
             
-            ' Выводим данные:
-            ' В очереди - Встреча просрочена. Красим в красный цвет, если не ноль!
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ:
+            ' Р’ РѕС‡РµСЂРµРґРё - Р’СЃС‚СЂРµС‡Р° РїСЂРѕСЃСЂРѕС‡РµРЅР°. РљСЂР°СЃРёРј РІ РєСЂР°СЃРЅС‹Р№ С†РІРµС‚, РµСЃР»Рё РЅРµ РЅРѕР»СЊ!
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Встреча_просрочена, _
+                                  Column_Р’СЃС‚СЂРµС‡Р°_РїСЂРѕСЃСЂРѕС‡РµРЅР°, _
                                     6 + i, _
                                       3, _
                                         1)
                                       
             
-            ' В работе - Думает после встречи
-            ' ThisWorkbook.Sheets("Лист16").Cells(6 + i, 4).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 8).Value
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’ СЂР°Р±РѕС‚Рµ - Р”СѓРјР°РµС‚ РїРѕСЃР»Рµ РІСЃС‚СЂРµС‡Рё
+            ' ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(6 + i, 4).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 8).Value
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Думает_после_встречи, _
+                                  Column_Р”СѓРјР°РµС‚_РїРѕСЃР»Рµ_РІСЃС‚СЂРµС‡Рё, _
                                     6 + i, _
                                       4, _
                                         0)
             
             
-            ' В работе - Думает после звонка
-            ' ThisWorkbook.Sheets("Лист16").Cells(6 + i, 5).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 9).Value
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’ СЂР°Р±РѕС‚Рµ - Р”СѓРјР°РµС‚ РїРѕСЃР»Рµ Р·РІРѕРЅРєР°
+            ' ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(6 + i, 5).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 9).Value
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Думает_после_звонка, _
+                                  Column_Р”СѓРјР°РµС‚_РїРѕСЃР»Рµ_Р·РІРѕРЅРєР°, _
                                     6 + i, _
                                       5, _
                                         0)
 
             
-            ' В работе - Менеджер назначен, нет активностей. Красим в красный цвет, если не ноль!
-            ' ThisWorkbook.Sheets("Лист16").Cells(6 + i, 6).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 11).Value
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’ СЂР°Р±РѕС‚Рµ - РњРµРЅРµРґР¶РµСЂ РЅР°Р·РЅР°С‡РµРЅ, РЅРµС‚ Р°РєС‚РёРІРЅРѕСЃС‚РµР№. РљСЂР°СЃРёРј РІ РєСЂР°СЃРЅС‹Р№ С†РІРµС‚, РµСЃР»Рё РЅРµ РЅРѕР»СЊ!
+            ' ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(6 + i, 6).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 11).Value
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Менеджер_назначен_нет_активностей, _
+                                  Column_РњРµРЅРµРґР¶РµСЂ_РЅР°Р·РЅР°С‡РµРЅ_РЅРµС‚_Р°РєС‚РёРІРЅРѕСЃС‚РµР№, _
                                     6 + i, _
                                       6, _
                                         1)
 
-            ' Всего (Продукт оформлен + 2)
-            ' ThisWorkbook.Sheets("Лист16").Cells(6 + i, 7).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(Column_Допофис1).Value
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’СЃРµРіРѕ (РџСЂРѕРґСѓРєС‚ РѕС„РѕСЂРјР»РµРЅ + 2)
+            ' ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(6 + i, 7).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(Column_Р”РѕРїРѕС„РёСЃ1).Value
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Продукт_оформлен + 2, _
+                                  Column_РџСЂРѕРґСѓРєС‚_РѕС„РѕСЂРјР»РµРЅ + 2, _
                                     6 + i, _
                                       7, _
                                        0)
             
             
-            ' Продукт оформлен
-            ' ThisWorkbook.Sheets("Лист16").Cells(6 + i, 8).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 19).Value
-            Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' РџСЂРѕРґСѓРєС‚ РѕС„РѕСЂРјР»РµРЅ
+            ' ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(6 + i, 8).Value = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, 19).Value
+            Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
                                 rowCount, _
-                                  Column_Продукт_оформлен, _
+                                  Column_РџСЂРѕРґСѓРєС‚_РѕС„РѕСЂРјР»РµРЅ, _
                                     6 + i, _
                                       8, _
                                         0)
 
             
-            ' Сбрасываем тригер
+            ' РЎР±СЂР°СЃС‹РІР°РµРј С‚СЂРёРіРµСЂ
             ThisOffice = False
                 
           End If
           
           
         
-          ' Следующая запись
+          ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
           rowCount = rowCount + 1
           Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
           DoEventsInterval (rowCount)
         Loop
    
-        ' Выводим данные по офису
+        ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ РїРѕ РѕС„РёСЃСѓ
       
-      Next i ' Следующий офис
+      Next i ' РЎР»РµРґСѓСЋС‰РёР№ РѕС„РёСЃ
       
-      ' Выводим итоги обработки
+      ' Р’С‹РІРѕРґРёРј РёС‚РѕРіРё РѕР±СЂР°Р±РѕС‚РєРё
       
       ' ----------------------------------------------------------------------------------------------------------------------------------
-      ' Чертим горизонтальную линию 2 (указываем предидущее значение строки + 1)
-      Call gorizontalLineII(ThisWorkbook.Name, "Лист16", 12, 2, 9)
+      ' Р§РµСЂС‚РёРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ Р»РёРЅРёСЋ 2 (СѓРєР°Р·С‹РІР°РµРј РїСЂРµРґРёРґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ СЃС‚СЂРѕРєРё + 1)
+      Call gorizontalLineII(ThisWorkbook.Name, "Р›РёСЃС‚16", 12, 2, 9)
       ' ----------------------------------------------------------------------------------------------------------------------------------
       
-      ' Сохранение изменений
+      ' РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№
       ThisWorkbook.Save
     
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Переходим в ячейку M2
-    ThisWorkbook.Sheets("Лист16").Range("A1").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("A1").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Просрочки CRM", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РџСЂРѕСЃСЂРѕС‡РєРё CRM", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
 End Sub
 
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе:
-Sub Отправка_Lotus_Notes_Лист16()
-Dim темаПисьма, текстПисьма, hashTag, attachmentFile As String
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ:
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚16()
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag, attachmentFile As String
 Dim i As Byte
   
-  If MsgBox("Отправить себе Шаблон письма?", vbYesNo) = vbYes Then
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР°?", vbYesNo) = vbYes Then
     
-    ' Тема письма - Тема:
-    ' темаПисьма = ThisWorkbook.Sheets("Лист16").Cells(RowByValue(ThisWorkbook.Name, "Лист16", "Тема:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Тема:", 100, 100) + 1).Value
-    темаПисьма = subjectFromSheet("Лист16")
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    ' С‚РµРјР°РџРёСЃСЊРјР° = ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РўРµРјР°:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РўРµРјР°:", 100, 100) + 1).Value
+    С‚РµРјР°РџРёСЃСЊРјР° = subjectFromSheet("Р›РёСЃС‚16")
 
-    ' hashTag - Хэштэг:
-    ' hashTag = ThisWorkbook.Sheets("Лист16").Cells(RowByValue(ThisWorkbook.Name, "Лист16", "Хэштэг:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Хэштэг:", 100, 100) + 1).Value
-    ' hashTag - Хэштэг:
-    hashTag = hashTagFromSheet("Лист16")
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    ' hashTag = ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РҐСЌС€С‚СЌРі:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РҐСЌС€С‚СЌРі:", 100, 100) + 1).Value
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = hashTagFromSheet("Р›РёСЃС‚16")
 
-    ' Файл-вложение (!!!)
-    attachmentFile = ThisWorkbook.Sheets("Лист16").Cells(3, 17).Value
+    ' Р¤Р°Р№Р»-РІР»РѕР¶РµРЅРёРµ (!!!)
+    attachmentFile = ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(3, 17).Value
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + ThisWorkbook.Sheets("Лист16").Cells(rowByValue(ThisWorkbook.Name, "Лист16", "Список получателей:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Список получателей:", 100, 100) + 2).Value + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("РД", 2) + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Уважаемые руководители," + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Прошу отработать в офисах контакты с просроченными встречами и отсутствием активности!" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Нормативы отработки маркетинговых кампаний: доля думающих - 40%, доля отказов- 70%, доля выдач - 30% , доля просроченных - 20%." + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(27) + hashTag
-    ' Вызов
-    Call send_Lotus_Notes(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", текстПисьма, attachmentFile)
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100) + 2).Value + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("Р Р”", 2) + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РЈРІР°Р¶Р°РµРјС‹Рµ СЂСѓРєРѕРІРѕРґРёС‚РµР»Рё," + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РџСЂРѕС€Сѓ РѕС‚СЂР°Р±РѕС‚Р°С‚СЊ РІ РѕС„РёСЃР°С… РєРѕРЅС‚Р°РєС‚С‹ СЃ РїСЂРѕСЃСЂРѕС‡РµРЅРЅС‹РјРё РІСЃС‚СЂРµС‡Р°РјРё Рё РѕС‚СЃСѓС‚СЃС‚РІРёРµРј Р°РєС‚РёРІРЅРѕСЃС‚Рё!" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РќРѕСЂРјР°С‚РёРІС‹ РѕС‚СЂР°Р±РѕС‚РєРё РјР°СЂРєРµС‚РёРЅРіРѕРІС‹С… РєР°РјРїР°РЅРёР№: РґРѕР»СЏ РґСѓРјР°СЋС‰РёС… - 40%, РґРѕР»СЏ РѕС‚РєР°Р·РѕРІ- 70%, РґРѕР»СЏ РІС‹РґР°С‡ - 30% , РґРѕР»СЏ РїСЂРѕСЃСЂРѕС‡РµРЅРЅС‹С… - 20%." + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(27) + hashTag
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", С‚РµРєСЃС‚РџРёСЃСЊРјР°, attachmentFile)
   
-    ' Сообщение
-    MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   End If
   
@@ -257,214 +257,214 @@ End Sub
 
 
             
-' Выводим данные
-Sub Write_Лист16(In_ReportName_String, In_Sheet_Name_In_Report, In_rowCount, In_columnCount, In_rowCount_Лист16, In_columnCount_Лист16, In_Color) ' 6 + i, 3)
+' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ
+Sub Write_Р›РёСЃС‚16(In_ReportName_String, In_Sheet_Name_In_Report, In_rowCount, In_columnCount, In_rowCount_Р›РёСЃС‚16, In_columnCount_Р›РёСЃС‚16, In_Color) ' 6 + i, 3)
            
             If IsEmpty(Workbooks(In_ReportName_String).Sheets(In_Sheet_Name_In_Report).Cells(In_rowCount, In_columnCount).Value) = False Then
               
-              ' В очереди - Встреча просрочена
-              ThisWorkbook.Sheets("Лист16").Cells(In_rowCount_Лист16, In_columnCount_Лист16).Value = Workbooks(In_ReportName_String).Sheets(In_Sheet_Name_In_Report).Cells(In_rowCount, In_columnCount).Value
+              ' Р’ РѕС‡РµСЂРµРґРё - Р’СЃС‚СЂРµС‡Р° РїСЂРѕСЃСЂРѕС‡РµРЅР°
+              ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(In_rowCount_Р›РёСЃС‚16, In_columnCount_Р›РёСЃС‚16).Value = Workbooks(In_ReportName_String).Sheets(In_Sheet_Name_In_Report).Cells(In_rowCount, In_columnCount).Value
               
-              ' Если переменная In_Color = 1, то красим в желтый если ячейка не нулевая!
+              ' Р•СЃР»Рё РїРµСЂРµРјРµРЅРЅР°СЏ In_Color = 1, С‚Рѕ РєСЂР°СЃРёРј РІ Р¶РµР»С‚С‹Р№ РµСЃР»Рё СЏС‡РµР№РєР° РЅРµ РЅСѓР»РµРІР°СЏ!
               If In_Color = 1 Then
-                ThisWorkbook.Sheets("Лист16").Cells(In_rowCount_Лист16, In_columnCount_Лист16).Interior.Color = vbYellow
+                ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(In_rowCount_Р›РёСЃС‚16, In_columnCount_Р›РёСЃС‚16).Interior.Color = vbYellow
               End If
               
             Else
               
-              ' Если ячейка была пустая, то записываем 0 в нее
-              ThisWorkbook.Sheets("Лист16").Cells(In_rowCount_Лист16, In_columnCount_Лист16).Value = 0
+              ' Р•СЃР»Рё СЏС‡РµР№РєР° Р±С‹Р»Р° РїСѓСЃС‚Р°СЏ, С‚Рѕ Р·Р°РїРёСЃС‹РІР°РµРј 0 РІ РЅРµРµ
+              ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(In_rowCount_Р›РёСЃС‚16, In_columnCount_Р›РёСЃС‚16).Value = 0
               
             End If
             
-            ' Центруем
-            ThisWorkbook.Sheets("Лист16").Cells(In_rowCount_Лист16, In_columnCount_Лист16).HorizontalAlignment = xlCenter
+            ' Р¦РµРЅС‚СЂСѓРµРј
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(In_rowCount_Р›РёСЃС‚16, In_columnCount_Р›РёСЃС‚16).HorizontalAlignment = xlCenter
 
 End Sub
 
 
-' Переход в браузере по ссылке на странице, в конце ставить "/" для перехода в категорию
-Sub goToURL_Лист16()
+' РџРµСЂРµС…РѕРґ РІ Р±СЂР°СѓР·РµСЂРµ РїРѕ СЃСЃС‹Р»РєРµ РЅР° СЃС‚СЂР°РЅРёС†Рµ, РІ РєРѕРЅС†Рµ СЃС‚Р°РІРёС‚СЊ "/" РґР»СЏ РїРµСЂРµС…РѕРґР° РІ РєР°С‚РµРіРѕСЂРёСЋ
+Sub goToURL_Р›РёСЃС‚16()
   
   ' SheetsVar = ThisWorkbook.ActiveSheet.Name
-  ' rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "Ссылка:", 100, 100)
-  ' columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "Ссылка:", 100, 100) + 1
+  ' rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°:", 100, 100)
+  ' columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°:", 100, 100) + 1
   
   ' ThisWorkbook.FollowHyperlink ("http://isrb.psbnk.msk.ru/inf/6601/6622/ejednevnii_otchet_po_prodajam/")
-  ThisWorkbook.FollowHyperlink (ThisWorkbook.Sheets("Лист16").Range("T32").Value)
+  ThisWorkbook.FollowHyperlink (ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("T32").Value)
   
 End Sub
 
 
-' Активности по сотруднику (звонки)
-Sub Обработка_Активности_по_сотруднику()
+' РђРєС‚РёРІРЅРѕСЃС‚Рё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєСѓ (Р·РІРѕРЅРєРё)
+Sub РћР±СЂР°Р±РѕС‚РєР°_РђРєС‚РёРІРЅРѕСЃС‚Рё_РїРѕ_СЃРѕС‚СЂСѓРґРЅРёРєСѓ()
 Dim ReportName_String, officeNameInReport, CheckFormatReportResult As String
 Dim i, rowCount As Integer
 Dim finishProcess As Boolean
-Dim Дата_отчета As Date
+Dim Р”Р°С‚Р°_РѕС‚С‡РµС‚Р° As Date
     
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "Открытие файла с отчетом")
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РѕС‚С‡РµС‚РѕРј")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' В "S3" вносим наименование отчета:
-    ThisWorkbook.Sheets("Лист16").Range("S17").Value = FileName
+    ' Р’ "S3" РІРЅРѕСЃРёРј РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС‚С‡РµС‚Р°:
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("S17").Value = FileName
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("Лист16").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Activate
 
-    ' Проверка формы отчета
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
     ' CheckFormatReportResult = CheckFormatReport(ReportName_String, "___", 6, Date)
     ' If CheckFormatReportResult = "OK" Then
     If True Then
             
-      ' Файл с отчетом
-      ThisWorkbook.Sheets("Лист16").Range("Q17").Value = FileName
+      ' Р¤Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("Q17").Value = FileName
       
-      ' Обновляем список получателей
-      ThisWorkbook.Sheets("Лист16").Cells(rowByValue(ThisWorkbook.Name, "Лист16", "Список получателей2:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Список получателей2:", 100, 100) + 2).Value = _
-         getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5", 2)
+      ' РћР±РЅРѕРІР»СЏРµРј СЃРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100) + 2).Value = _
+         getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5", 2)
 
-      ' Тема
-      ThisWorkbook.Sheets("Лист16").Range("P16").Value = "CRM Dynamics 365 - Активности по сотрудникам " + CStr(Date)
+      ' РўРµРјР°
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("P16").Value = "CRM Dynamics 365 - РђРєС‚РёРІРЅРѕСЃС‚Рё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°Рј " + CStr(Date)
                   
-      ' Очистка таблицы
-      Call clearСontents2(ThisWorkbook.Name, "Лист16", "D20", "D24")
+      ' РћС‡РёСЃС‚РєР° С‚Р°Р±Р»РёС†С‹
+      Call clearРЎontents2(ThisWorkbook.Name, "Р›РёСЃС‚16", "D20", "D24")
             
-      ' Получаем имя Листа в файле "Продукты по статусам"
+      ' РџРѕР»СѓС‡Р°РµРј РёРјСЏ Р›РёСЃС‚Р° РІ С„Р°Р№Р»Рµ "РџСЂРѕРґСѓРєС‚С‹ РїРѕ СЃС‚Р°С‚СѓСЃР°Рј"
       Sheet_Name_In_Report = Workbooks(ReportName_String).Sheets(1).Name
 
-      ' Столбцы в отчете
-      Column_Допофис = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Доп. офис", 100, 100)
-      Column_Менеджер = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Менеджер", 100, 100)
-      Column_Активность = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Активность", 100, 100)
-      Column_Категория_продукта = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Категория продукта", 100, 100)
-      Column_Продукт = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Продукт", 100, 100)
-      Column_Активность_состоялась = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Активность состоялась", 100, 100)
-      Column_Продажа = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Продажа", 100, 100)
-      Column_Дата = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Дата", 100, 100)
+      ' РЎС‚РѕР»Р±С†С‹ РІ РѕС‚С‡РµС‚Рµ
+      Column_Р”РѕРїРѕС„РёСЃ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р”РѕРї. РѕС„РёСЃ", 100, 100)
+      Column_РњРµРЅРµРґР¶РµСЂ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РњРµРЅРµРґР¶РµСЂ", 100, 100)
+      Column_РђРєС‚РёРІРЅРѕСЃС‚СЊ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РђРєС‚РёРІРЅРѕСЃС‚СЊ", 100, 100)
+      Column_РљР°С‚РµРіРѕСЂРёСЏ_РїСЂРѕРґСѓРєС‚Р° = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РљР°С‚РµРіРѕСЂРёСЏ РїСЂРѕРґСѓРєС‚Р°", 100, 100)
+      Column_РџСЂРѕРґСѓРєС‚ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РџСЂРѕРґСѓРєС‚", 100, 100)
+      Column_РђРєС‚РёРІРЅРѕСЃС‚СЊ_СЃРѕСЃС‚РѕСЏР»Р°СЃСЊ = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РђРєС‚РёРІРЅРѕСЃС‚СЊ СЃРѕСЃС‚РѕСЏР»Р°СЃСЊ", 100, 100)
+      Column_РџСЂРѕРґР°Р¶Р° = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "РџСЂРѕРґР°Р¶Р°", 100, 100)
+      Column_Р”Р°С‚Р° = ColumnByValue(ReportName_String, Sheet_Name_In_Report, "Р”Р°С‚Р°", 100, 100)
       
-      ' Строки на "Лист16"
-      row_Форма_16_2 = rowByValue(ThisWorkbook.Name, "Лист16", "Форма 16.2", 100, 100)
+      ' РЎС‚СЂРѕРєРё РЅР° "Р›РёСЃС‚16"
+      row_Р¤РѕСЂРјР°_16_2 = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "Р¤РѕСЂРјР° 16.2", 100, 100)
       
-      ' Обрабатываем отчет
-      ' Цикл по 5-ти офисам
-      ' Обработка отчета
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚С‡РµС‚
+      ' Р¦РёРєР» РїРѕ 5-С‚Рё РѕС„РёСЃР°Рј
+      ' РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°
       For i = 1 To 5
-        ' Номера офисов от 1 до 5
+        ' РќРѕРјРµСЂР° РѕС„РёСЃРѕРІ РѕС‚ 1 РґРѕ 5
         Select Case i
-          Case 1 ' ОО «Тюменский»
-            officeNameInReport = "Тюменский"
-          Case 2 ' ОО «Сургутский»
-            officeNameInReport = "Сургутский"
-          Case 3 ' ОО «Нижневартовский»
-            officeNameInReport = "Нижневартовский"
-          Case 4 ' ОО «Новоуренгойский»
-            officeNameInReport = "Новоуренгойский"
-          Case 5 ' ОО «Тарко-Сале»
-            officeNameInReport = "Тарко-Сале"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            officeNameInReport = "РўСЋРјРµРЅСЃРєРёР№"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            officeNameInReport = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            officeNameInReport = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            officeNameInReport = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            officeNameInReport = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
         End Select
 
-        ' Ставим 0
-        ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).Value = 0
-        ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).NumberFormat = "#,##0"
-        ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).HorizontalAlignment = xlCenter
+        ' РЎС‚Р°РІРёРј 0
+        ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).Value = 0
+        ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).NumberFormat = "#,##0"
+        ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).HorizontalAlignment = xlCenter
 
         rowCount = 2
         ThisOffice = False
-        ' Do While rowCount < 300 ' "Всего:" в 6-ом столбце
-        Do While InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Продукт).Value, "Всего:") = 0
+        ' Do While rowCount < 300 ' "Р’СЃРµРіРѕ:" РІ 6-РѕРј СЃС‚РѕР»Р±С†Рµ
+        Do While InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_РџСЂРѕРґСѓРєС‚).Value, "Р’СЃРµРіРѕ:") = 0
         
-          ' Из Column_Дата берем дату
-          If Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Дата).Value <> "" Then
-            Дата_отчета = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Дата).Value
+          ' РР· Column_Р”Р°С‚Р° Р±РµСЂРµРј РґР°С‚Сѓ
+          If Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”Р°С‚Р°).Value <> "" Then
+            Р”Р°С‚Р°_РѕС‚С‡РµС‚Р° = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”Р°С‚Р°).Value
           End If
         
-          ' Если это текущий офис - взводим тригер
-          If (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, officeNameInReport) <> 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, "ИЦ") = 0) Then
+          ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РѕС„РёСЃ - РІР·РІРѕРґРёРј С‚СЂРёРіРµСЂ
+          If (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, officeNameInReport) <> 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, "РР¦") = 0) Then
             
-            ' t0 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value
+            ' t0 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value
             
-            Итого_звонков_по_офису = 0
+            РС‚РѕРіРѕ_Р·РІРѕРЅРєРѕРІ_РїРѕ_РѕС„РёСЃСѓ = 0
             
             ThisOffice = True
                 
           End If
         
-          ' Если новая секция с офисом B, С, D, E, F, то сбрасываем. Можно еще по цветам - комбинация столбец-цвет, столбец2-цвет2 и т.п.
-          ' If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 1).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Value) = False) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, officeNameInReport) = 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, "ИЦ") = 0) Then
+          ' Р•СЃР»Рё РЅРѕРІР°СЏ СЃРµРєС†РёСЏ СЃ РѕС„РёСЃРѕРј B, РЎ, D, E, F, С‚Рѕ СЃР±СЂР°СЃС‹РІР°РµРј. РњРѕР¶РЅРѕ РµС‰Рµ РїРѕ С†РІРµС‚Р°Рј - РєРѕРјР±РёРЅР°С†РёСЏ СЃС‚РѕР»Р±РµС†-С†РІРµС‚, СЃС‚РѕР»Р±РµС†2-С†РІРµС‚2 Рё С‚.Рї.
+          ' If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 1).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Value) = False) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Value) = False) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, officeNameInReport) = 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, "РР¦") = 0) Then
           If (ThisOffice = True) And _
-               (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 1).Interior.Color = 15128749) And _
-                 (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Interior.Color = 15128749) And _
-                   (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Interior.Color = 15128749) And _
-                     (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Interior.Color = 16777215) Then
+               (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 1).Interior.Color = 15128749) And _
+                 (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Interior.Color = 15128749) And _
+                   (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Interior.Color = 15128749) And _
+                     (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Interior.Color = 16777215) Then
             
-            t0 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value
+            t0 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value
             
             ThisOffice = False
                 
-            ' Заносим число сотрудников
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 3).Value = Число_сотрудников_в_офисе_Лист7(i)
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 3).NumberFormat = "#,##0"
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 3).HorizontalAlignment = xlCenter
+            ' Р—Р°РЅРѕСЃРёРј С‡РёСЃР»Рѕ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 3).Value = Р§РёСЃР»Рѕ_СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ_РІ_РѕС„РёСЃРµ_Р›РёСЃС‚7(i)
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 3).NumberFormat = "#,##0"
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 3).HorizontalAlignment = xlCenter
                 
-            ' Заносим итоги
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).Value = Итого_звонков_по_офису
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).NumberFormat = "#,##0"
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).HorizontalAlignment = xlCenter
+            ' Р—Р°РЅРѕСЃРёРј РёС‚РѕРіРё
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).Value = РС‚РѕРіРѕ_Р·РІРѕРЅРєРѕРІ_РїРѕ_РѕС„РёСЃСѓ
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).NumberFormat = "#,##0"
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).HorizontalAlignment = xlCenter
                 
-            ' Выполнение норматива дня
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).Value = (ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).Value) / (ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 3).Value * 20)
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).NumberFormat = "0%"
-            ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).HorizontalAlignment = xlCenter
+            ' Р’С‹РїРѕР»РЅРµРЅРёРµ РЅРѕСЂРјР°С‚РёРІР° РґРЅСЏ
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).Value = (ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).Value) / (ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 3).Value * 20)
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).NumberFormat = "0%"
+            ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).HorizontalAlignment = xlCenter
                 
           End If
           
         
-          ' Если это текущий Офис ThisOffice = True и ячейки D, E, F пустые - берем значения для этого офиса из строки
+          ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РћС„РёСЃ ThisOffice = True Рё СЏС‡РµР№РєРё D, E, F РїСѓСЃС‚С‹Рµ - Р±РµСЂРµРј Р·РЅР°С‡РµРЅРёСЏ РґР»СЏ СЌС‚РѕРіРѕ РѕС„РёСЃР° РёР· СЃС‚СЂРѕРєРё
           If (ThisOffice = True) And _
-               (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 1).Interior.Color = 15128749) And _
-                 (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Interior.Color = 15658671) And _
-                   (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Interior.Color = 15658671) And _
-                     (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Interior.Color = 16777215) Then
+               (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 1).Interior.Color = 15128749) And _
+                 (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Interior.Color = 15658671) And _
+                   (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Interior.Color = 15658671) And _
+                     (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Interior.Color = 16777215) Then
           
-          ' If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Value)) And (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Interior.Color = 16777215) Then
-          ' If (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, officeNameInReport) <> 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис).Value, "ИЦ") = 0) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Value)) Then
+          ' If (ThisOffice = True) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Value)) And (Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Interior.Color = 16777215) Then
+          ' If (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, officeNameInReport) <> 0) And (InStr(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ).Value, "РР¦") = 0) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Value)) And (IsEmpty(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Value)) Then
             
-            ' Итого_звонков_по_офису
-            Итого_звонков_по_офису = Итого_звонков_по_офису + CheckData(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Активность_состоялась).Value)
+            ' РС‚РѕРіРѕ_Р·РІРѕРЅРєРѕРІ_РїРѕ_РѕС„РёСЃСѓ
+            РС‚РѕРіРѕ_Р·РІРѕРЅРєРѕРІ_РїРѕ_РѕС„РёСЃСѓ = РС‚РѕРіРѕ_Р·РІРѕРЅРєРѕРІ_РїРѕ_РѕС„РёСЃСѓ + CheckData(Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_РђРєС‚РёРІРЅРѕСЃС‚СЊ_СЃРѕСЃС‚РѕСЏР»Р°СЃСЊ).Value)
             
             t1 = rowCount
             
-            t2 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 2).Value
-            t3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 3).Value
-            t3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Value
-            t4 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Interior.Color
-            t5 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Допофис + 4).Interior.Pattern
+            t2 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 2).Value
+            t3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 3).Value
+            t3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Value
+            t4 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Interior.Color
+            t5 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(rowCount, Column_Р”РѕРїРѕС„РёСЃ + 4).Interior.Pattern
         
             ' .Pattern = xlSolid ' .PatternColorIndex = xlAutomatic ' .Color = 65535 ' .TintAndShade = 0 ' .PatternTintAndShade = 0
             
-            ' Итоги по сотруднику (цвета ячеек в строке)
+            ' РС‚РѕРіРё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєСѓ (С†РІРµС‚Р° СЏС‡РµРµРє РІ СЃС‚СЂРѕРєРµ)
             t_3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(35, 3).Interior.Color
             t_4 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(35, 4).Interior.Color
             t_5 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(35, 5).Interior.Color
             t_6 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(35, 6).Interior.Color
             
-            ' Итоги по офису (цвета ячеек в строке)
+            ' РС‚РѕРіРё РїРѕ РѕС„РёСЃСѓ (С†РІРµС‚Р° СЏС‡РµРµРє РІ СЃС‚СЂРѕРєРµ)
             t__3 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(36, 3).Interior.Color
             t__4 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(36, 4).Interior.Color
             t__5 = Workbooks(ReportName_String).Sheets(Sheet_Name_In_Report).Cells(36, 5).Interior.Color
@@ -473,137 +473,137 @@ Dim Дата_отчета As Date
             t4 = 0
             
         
-            ' Выводим данные:
-            ' В очереди - Встреча просрочена. Красим в красный цвет, если не ноль!
-            ' Call Write_Лист16(ReportName_String, Sheet_Name_In_Report, _
+            ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ:
+            ' Р’ РѕС‡РµСЂРµРґРё - Р’СЃС‚СЂРµС‡Р° РїСЂРѕСЃСЂРѕС‡РµРЅР°. РљСЂР°СЃРёРј РІ РєСЂР°СЃРЅС‹Р№ С†РІРµС‚, РµСЃР»Рё РЅРµ РЅРѕР»СЊ!
+            ' Call Write_Р›РёСЃС‚16(ReportName_String, Sheet_Name_In_Report, _
             '                    rowCount, _
-            '                      Column_Встреча_просрочена, _
+            '                      Column_Р’СЃС‚СЂРµС‡Р°_РїСЂРѕСЃСЂРѕС‡РµРЅР°, _
             '                        6 + i, _
             '                          3, _
             '                            1)
                                       
             
-            ' Сбрасываем тригер
+            ' РЎР±СЂР°СЃС‹РІР°РµРј С‚СЂРёРіРµСЂ
             ' ThisOffice = False
                 
           End If
           
           
         
-          ' Следующая запись
+          ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
           rowCount = rowCount + 1
           Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
           DoEventsInterval (rowCount)
         Loop
    
-        ' Выводим данные по офису
+        ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ РїРѕ РѕС„РёСЃСѓ
       
-      Next i ' Следующий офис
+      Next i ' РЎР»РµРґСѓСЋС‰РёР№ РѕС„РёСЃ
       
-      ' Выводим итоги обработки
+      ' Р’С‹РІРѕРґРёРј РёС‚РѕРіРё РѕР±СЂР°Р±РѕС‚РєРё
       
       ' ----------------------------------------------------------------------------------------------------------------------------------
-      ' Чертим горизонтальную линию 2 (указываем предидущее значение строки + 1)
-      Call gorizontalLineII(ThisWorkbook.Name, "Лист16", 25, 2, 5)
+      ' Р§РµСЂС‚РёРј РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅСѓСЋ Р»РёРЅРёСЋ 2 (СѓРєР°Р·С‹РІР°РµРј РїСЂРµРґРёРґСѓС‰РµРµ Р·РЅР°С‡РµРЅРёРµ СЃС‚СЂРѕРєРё + 1)
+      Call gorizontalLineII(ThisWorkbook.Name, "Р›РёСЃС‚16", 25, 2, 5)
       ' ----------------------------------------------------------------------------------------------------------------------------------
       
-      ' Выполнение норматива дня
-      ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).Value = (ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 4).Value) / (ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 3).Value * 20)
-      ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).NumberFormat = "0%"
-      ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 + 2 + i, 5).HorizontalAlignment = xlCenter
+      ' Р’С‹РїРѕР»РЅРµРЅРёРµ РЅРѕСЂРјР°С‚РёРІР° РґРЅСЏ
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).Value = (ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 4).Value) / (ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 3).Value * 20)
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).NumberFormat = "0%"
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 + 2 + i, 5).HorizontalAlignment = xlCenter
       
-      ' Дата_отчета
-      Дата_отчета = CDate(Mid(CStr(Дата_отчета), 1, 10))
-      ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 - 1, 2).Value = "CRM Dynamics 365 Активности по сотруднику за " + CStr(Дата_отчета) + " г."
-      ThisWorkbook.Sheets("Лист16").Range("P16").Value = "CRM Dynamics 365 - Активности по сотрудникам (звонки) " + CStr(Дата_отчета)
+      ' Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°
+      Р”Р°С‚Р°_РѕС‚С‡РµС‚Р° = CDate(Mid(CStr(Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°), 1, 10))
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 - 1, 2).Value = "CRM Dynamics 365 РђРєС‚РёРІРЅРѕСЃС‚Рё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєСѓ Р·Р° " + CStr(Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°) + " Рі."
+      ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("P16").Value = "CRM Dynamics 365 - РђРєС‚РёРІРЅРѕСЃС‚Рё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєР°Рј (Р·РІРѕРЅРєРё) " + CStr(Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°)
             
-      ' Сохранение изменений
+      ' РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№
       ThisWorkbook.Save
     
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Переходим в ячейку M2
-    ThisWorkbook.Sheets("Лист16").Range("A1").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("A1").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Просрочки CRM", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РџСЂРѕСЃСЂРѕС‡РєРё CRM", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
 End Sub
 
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе:
-Sub Отправка_Lotus_Notes_Лист16_Активность_по_звонкам()
-Dim темаПисьма, текстПисьма, hashTag, attachmentFile As String
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ:
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚16_РђРєС‚РёРІРЅРѕСЃС‚СЊ_РїРѕ_Р·РІРѕРЅРєР°Рј()
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag, attachmentFile As String
 Dim i As Byte
   
-  If MsgBox("Отправить себе Шаблон письма?", vbYesNo) = vbYes Then
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР°?", vbYesNo) = vbYes Then
     
-    ' Тема письма - Тема:
-    ' темаПисьма = ThisWorkbook.Sheets("Лист16").Cells(RowByValue(ThisWorkbook.Name, "Лист16", "Тема:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Тема:", 100, 100) + 1).Value
-    темаПисьма = subjectFromSheetII("Лист16", 2)
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    ' С‚РµРјР°РџРёСЃСЊРјР° = ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РўРµРјР°:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РўРµРјР°:", 100, 100) + 1).Value
+    С‚РµРјР°РџРёСЃСЊРјР° = subjectFromSheetII("Р›РёСЃС‚16", 2)
 
-    ' hashTag - Хэштэг:
-    ' hashTag = ThisWorkbook.Sheets("Лист16").Cells(RowByValue(ThisWorkbook.Name, "Лист16", "Хэштэг:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Хэштэг:", 100, 100) + 1).Value
-    ' hashTag - Хэштэг:
-    hashTag = hashTagFromSheetII("Лист16", 2)
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    ' hashTag = ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РҐСЌС€С‚СЌРі:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РҐСЌС€С‚СЌРі:", 100, 100) + 1).Value
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = hashTagFromSheetII("Р›РёСЃС‚16", 2)
 
-    ' Файл-вложение (!!!)
-    attachmentFile = ThisWorkbook.Sheets("Лист16").Range("Q17").Value
+    ' Р¤Р°Р№Р»-РІР»РѕР¶РµРЅРёРµ (!!!)
+    attachmentFile = ThisWorkbook.Sheets("Р›РёСЃС‚16").Range("Q17").Value
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + ThisWorkbook.Sheets("Лист16").Cells(rowByValue(ThisWorkbook.Name, "Лист16", "Список получателей2:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист16", "Список получателей2:", 100, 100) + 2).Value + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("РД", 2) + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Уважаемые руководители," + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Выполнение норматива по исходящим звонкам за " + CStr(Дата_отчета_Форма_16_2()) + " г." + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(27) + hashTag
-    ' Вызов
-    Call send_Lotus_Notes(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", текстПисьма, attachmentFile)
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100) + 2).Value + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("Р Р”", 2) + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РЈРІР°Р¶Р°РµРјС‹Рµ СЂСѓРєРѕРІРѕРґРёС‚РµР»Рё," + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "Р’С‹РїРѕР»РЅРµРЅРёРµ РЅРѕСЂРјР°С‚РёРІР° РїРѕ РёСЃС…РѕРґСЏС‰РёРј Р·РІРѕРЅРєР°Рј Р·Р° " + CStr(Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°_Р¤РѕСЂРјР°_16_2()) + " Рі." + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(27) + hashTag
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", С‚РµРєСЃС‚РџРёСЃСЊРјР°, attachmentFile)
   
-    ' Сообщение
-    MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   End If
   
 End Sub
 
-' Дата
-Function Дата_отчета_Форма_16_2() As Date
+' Р”Р°С‚Р°
+Function Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°_Р¤РѕСЂРјР°_16_2() As Date
 
-  ' Строки на "Лист16"
-  row_Форма_16_2 = rowByValue(ThisWorkbook.Name, "Лист16", "Форма 16.2", 100, 100)
+  ' РЎС‚СЂРѕРєРё РЅР° "Р›РёСЃС‚16"
+  row_Р¤РѕСЂРјР°_16_2 = rowByValue(ThisWorkbook.Name, "Р›РёСЃС‚16", "Р¤РѕСЂРјР° 16.2", 100, 100)
 
-  ' Дата_отчета "CRM Dynamics 365 Активности по сотруднику за " + CStr(Дата_отчета) + " г."
-  ' t = Mid(ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 - 1, 2).Value, 46, 10)
-  Дата_отчета_Форма_16_2 = CDate(Mid(ThisWorkbook.Sheets("Лист16").Cells(row_Форма_16_2 - 1, 2).Value, 46, 10))
+  ' Р”Р°С‚Р°_РѕС‚С‡РµС‚Р° "CRM Dynamics 365 РђРєС‚РёРІРЅРѕСЃС‚Рё РїРѕ СЃРѕС‚СЂСѓРґРЅРёРєСѓ Р·Р° " + CStr(Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°) + " Рі."
+  ' t = Mid(ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 - 1, 2).Value, 46, 10)
+  Р”Р°С‚Р°_РѕС‚С‡РµС‚Р°_Р¤РѕСЂРјР°_16_2 = CDate(Mid(ThisWorkbook.Sheets("Р›РёСЃС‚16").Cells(row_Р¤РѕСЂРјР°_16_2 - 1, 2).Value, 46, 10))
   
 End Function
