@@ -1,160 +1,160 @@
-Attribute VB_Name = "Module_План"
-' План
+Attribute VB_Name = "Module_РџР»Р°РЅ"
+' РџР»Р°РЅ
 
-' Шаблон_обработки_5_офисов
-Sub Декомпозиция_планов_продаж_на_квартал()
+' РЁР°Р±Р»РѕРЅ_РѕР±СЂР°Р±РѕС‚РєРё_5_РѕС„РёСЃРѕРІ
+Sub Р”РµРєРѕРјРїРѕР·РёС†РёСЏ_РїР»Р°РЅРѕРІ_РїСЂРѕРґР°Р¶_РЅР°_РєРІР°СЂС‚Р°Р»()
 Dim ReportName_String, officeNameInReport, CheckFormatReportResult As String
 Dim i, rowCount As Integer
 Dim finishProcess As Boolean
 Dim monthInQuarter1, monthInQuarter2, monthInQuarter3 As String
     
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "Открытие файла с Декомпозицией")
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xlsx), *.xlsx", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ Р”РµРєРѕРјРїРѕР·РёС†РёРµР№")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("План").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("РџР»Р°РЅ").Activate
 
-    ' Проверка формы отчета
-    CheckFormatReportResult = CheckFormatReport(ReportName_String, "ПК", 10, Date)
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
+    CheckFormatReportResult = CheckFormatReport(ReportName_String, "РџРљ", 10, Date)
     
     If CheckFormatReportResult = "OK" Then
       
-      ' 1. ПК Заполняем переменные названия месяцев: monthInQuarter1, monthInQuarter2, monthInQuarter3 - Апрель  Май Июнь
-      monthInQuarter1 = Workbooks(ReportName_String).Sheets("ПК").Cells(2, 5).Value
-      monthInQuarter2 = Workbooks(ReportName_String).Sheets("ПК").Cells(2, 6).Value
-      monthInQuarter3 = Workbooks(ReportName_String).Sheets("ПК").Cells(2, 7).Value
+      ' 1. РџРљ Р—Р°РїРѕР»РЅСЏРµРј РїРµСЂРµРјРµРЅРЅС‹Рµ РЅР°Р·РІР°РЅРёСЏ РјРµСЃСЏС†РµРІ: monthInQuarter1, monthInQuarter2, monthInQuarter3 - РђРїСЂРµР»СЊ  РњР°Р№ РСЋРЅСЊ
+      monthInQuarter1 = Workbooks(ReportName_String).Sheets("РџРљ").Cells(2, 5).Value
+      monthInQuarter2 = Workbooks(ReportName_String).Sheets("РџРљ").Cells(2, 6).Value
+      monthInQuarter3 = Workbooks(ReportName_String).Sheets("РџРљ").Cells(2, 7).Value
       
-      ' Обрабатываем отчет
-      ' Цикл по 5-ти офисам
-      ' Обработка отчета
+      ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј РѕС‚С‡РµС‚
+      ' Р¦РёРєР» РїРѕ 5-С‚Рё РѕС„РёСЃР°Рј
+      ' РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°
       For i = 1 To 5
-        ' Номера офисов от 1 до 5
+        ' РќРѕРјРµСЂР° РѕС„РёСЃРѕРІ РѕС‚ 1 РґРѕ 5
         Select Case i
-          Case 1 ' ОО «Тюменский»
-            officeNameInReport = "Тюменский"
-          Case 2 ' ОО «Сургутский»
-            officeNameInReport = "Сургутский"
-          Case 3 ' ОО «Нижневартовский»
-            officeNameInReport = "Нижневартовский"
-          Case 4 ' ОО «Новоуренгойский»
-            officeNameInReport = "Новоуренгойский"
-          Case 5 ' ОО «Тарко-Сале»
-            officeNameInReport = "Тарко-Сале"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            officeNameInReport = "РўСЋРјРµРЅСЃРєРёР№"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            officeNameInReport = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            officeNameInReport = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            officeNameInReport = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            officeNameInReport = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
         End Select
 
         rowCount = 3
-        Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("ПК").Cells(rowCount, 4).Value)
+        Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("РџРљ").Cells(rowCount, 4).Value)
         
-          ' Если это текущий офис
-          If InStr(Workbooks(ReportName_String).Sheets("ПК").Cells(rowCount, 4).Value, officeNameInReport) <> 0 Then
+          ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РѕС„РёСЃ
+          If InStr(Workbooks(ReportName_String).Sheets("РџРљ").Cells(rowCount, 4).Value, officeNameInReport) <> 0 Then
             
-            ' План 1-го месяца
-            ThisWorkbook.Sheets("План").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("ПК").Cells(rowCount, 5).Value
+            ' РџР»Р°РЅ 1-РіРѕ РјРµСЃСЏС†Р°
+            ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РџРљ").Cells(rowCount, 5).Value
             
-            ' План 2-го месяца
-            ThisWorkbook.Sheets("План").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("ПК").Cells(rowCount, 6).Value
+            ' РџР»Р°РЅ 2-РіРѕ РјРµСЃСЏС†Р°
+            ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РџРљ").Cells(rowCount, 6).Value
             
-            ' План 3-го месяца
-            ThisWorkbook.Sheets("План").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("ПК").Cells(rowCount, 7).Value
+            ' РџР»Р°РЅ 3-РіРѕ РјРµСЃСЏС†Р°
+            ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(5 + i, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РџРљ").Cells(rowCount, 7).Value
             
           End If
         
-          ' Следующая запись
+          ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
           rowCount = rowCount + 1
           Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
           DoEventsInterval (rowCount)
         Loop
    
-        ' Выводим данные по офису
+        ' Р’С‹РІРѕРґРёРј РґР°РЅРЅС‹Рµ РїРѕ РѕС„РёСЃСѓ
       
-      Next i ' Следующий офис
+      Next i ' РЎР»РµРґСѓСЋС‰РёР№ РѕС„РёСЃ
       
-      ' 2. Ипотека
+      ' 2. РРїРѕС‚РµРєР°
       rowCount = 3
-      Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 3).Value)
+      Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 3).Value)
         
-        ' Если это текущий офис ОО "Тюменский"
-        If (InStr(Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 3).Value, "Тюменский") <> 0) Then
+        ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РѕС„РёСЃ РћРћ "РўСЋРјРµРЅСЃРєРёР№"
+        If (InStr(Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 3).Value, "РўСЋРјРµРЅСЃРєРёР№") <> 0) Then
             
-          ' План 1-го месяца
-          ThisWorkbook.Sheets("План").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 4).Value
+          ' РџР»Р°РЅ 1-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 4).Value
             
-          ' План 2-го месяца
-          ThisWorkbook.Sheets("План").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 5).Value
+          ' РџР»Р°РЅ 2-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 5).Value
             
-          ' План 3-го месяца
-          ThisWorkbook.Sheets("План").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 6).Value
+          ' РџР»Р°РЅ 3-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(15, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 6).Value
             
         End If
         
-        ' Если это текущий офис ОО2"Сургутский"
-        If (InStr(Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 3).Value, "Сургутский") <> 0) Then
+        ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ РѕС„РёСЃ РћРћ2"РЎСѓСЂРіСѓС‚СЃРєРёР№"
+        If (InStr(Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 3).Value, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0) Then
             
-          ' План 1-го месяца
-          ThisWorkbook.Sheets("План").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 4).Value
+          ' РџР»Р°РЅ 1-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter1, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 4).Value
             
-          ' План 2-го месяца
-          ThisWorkbook.Sheets("План").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 5).Value
+          ' РџР»Р°РЅ 2-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter2, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 5).Value
             
-          ' План 3-го месяца
-          ThisWorkbook.Sheets("План").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "План", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("Ипотека").Cells(rowCount, 6).Value
+          ' РџР»Р°РЅ 3-РіРѕ РјРµСЃСЏС†Р°
+          ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(16, ColumnByNameAndNumber(ThisWorkbook.Name, "РџР»Р°РЅ", 4, monthInQuarter3, 1, 32)).Value = Workbooks(ReportName_String).Sheets("РРїРѕС‚РµРєР°").Cells(rowCount, 6).Value
             
         End If
         
         
-        ' Следующая запись
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
         rowCount = rowCount + 1
-        Application.StatusBar = "ИЦ: " + CStr(rowCount) + "..."
+        Application.StatusBar = "РР¦: " + CStr(rowCount) + "..."
         DoEventsInterval (rowCount)
       
       Loop
       
     
-      ' Выводим итоги обработки
+      ' Р’С‹РІРѕРґРёРј РёС‚РѕРіРё РѕР±СЂР°Р±РѕС‚РєРё
       
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Переходим в ячейку M2
-    ThisWorkbook.Sheets("План").Range("A1").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ThisWorkbook.Sheets("РџР»Р°РЅ").Range("A1").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    ' Call ЗачеркиваемТекстВячейке("Лист0", "D9")
-    ' Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Оперативная справка по _________________", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", "D9")
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћРїРµСЂР°С‚РёРІРЅР°СЏ СЃРїСЂР°РІРєР° РїРѕ _________________", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
 End Sub
 
