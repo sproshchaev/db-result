@@ -1,270 +1,269 @@
-Attribute VB_Name = "Module_Подотчет"
-' Лист "Подотчет"
-Sub Сформировать_Авансовый_отчет()
+Attribute VB_Name = "Module_РџРѕРґРѕС‚С‡РµС‚"
+' Р›РёСЃС‚ "РџРѕРґРѕС‚С‡РµС‚"
+Sub РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ_РђРІР°РЅСЃРѕРІС‹Р№_РѕС‚С‡РµС‚()
 
-Dim Ячейка_Представительские_расходы, expenseReportName, Строка_участников_мероприятия As String
-Dim НомерСтроки_Представительские_расходы, НомерСтолбца_Представительские_расходы, i As Byte
+Dim РЇС‡РµР№РєР°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹, expenseReportName, РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ As String
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹, i As Byte
 Dim expenseReportDate As Date
-Dim Строка_Подотчета_row As Integer
+Dim РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row As Integer
 
-  ' Определяем, где находится текущая ячейка. Должен быть диапазон A62:N90 (в относительных от "Повестка_дня" координатах)
-  Ячейка_Представительские_расходы = RangeByValue(ThisWorkbook.Name, "Подотчет", "Представительские расходы", 100, 100)
-  НомерСтроки_Представительские_расходы = ThisWorkbook.Sheets("Подотчет").Range(Ячейка_Представительские_расходы).Row
-  НомерСтолбца_Представительские_расходы = ThisWorkbook.Sheets("Подотчет").Range(Ячейка_Представительские_расходы).Column
+  ' РћРїСЂРµРґРµР»СЏРµРј, РіРґРµ РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСѓС‰Р°СЏ СЏС‡РµР№РєР°. Р”РѕР»Р¶РµРЅ Р±С‹С‚СЊ РґРёР°РїР°Р·РѕРЅ A62:N90 (РІ РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅС‹С… РѕС‚ "РџРѕРІРµСЃС‚РєР°_РґРЅСЏ" РєРѕРѕСЂРґРёРЅР°С‚Р°С…)
+  РЇС‡РµР№РєР°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ = RangeByValue(ThisWorkbook.Name, "РџРѕРґРѕС‚С‡РµС‚", "РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹", 100, 100)
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Range(РЇС‡РµР№РєР°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹).Row
+  РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Range(РЇС‡РµР№РєР°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹).Column
   
-  ' Проверка диапазона
-  If (ActiveCell.Row >= НомерСтроки_Представительские_расходы + 4) And (ActiveCell.Row <= НомерСтроки_Представительские_расходы + 20) And (ActiveCell.Column >= НомерСтолбца_Представительские_расходы - 1) And ((ActiveCell.Column <= НомерСтолбца_Представительские_расходы + 30)) And (ThisWorkbook.Sheets("Подотчет").Cells(ActiveCell.Row, НомерСтолбца_Представительские_расходы + 1).Value <> "") Then
+  ' РџСЂРѕРІРµСЂРєР° РґРёР°РїР°Р·РѕРЅР°
+  If (ActiveCell.Row >= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 4) And (ActiveCell.Row <= РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 20) And (ActiveCell.Column >= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ - 1) And ((ActiveCell.Column <= РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 30)) And (ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 1).Value <> "") Then
     
-    ' Запрос на формирование
-    If MsgBox("Сформировать Авансовый отчет за " + CStr(ThisWorkbook.Sheets("Подотчет").Cells(ActiveCell.Row, НомерСтолбца_Представительские_расходы).Value) + "?", vbYesNo) = vbYes Then
+    ' Р—Р°РїСЂРѕСЃ РЅР° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ
+    If MsgBox("РЎС„РѕСЂРјРёСЂРѕРІР°С‚СЊ РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ Р·Р° " + CStr(ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹).Value) + "?", vbYesNo) = vbYes Then
       
-      ' Строка
-      Строка_Подотчета_row = ActiveCell.Row
+      ' РЎС‚СЂРѕРєР°
+      РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row = ActiveCell.Row
       
-      ' Дата авансового отчета
-      expenseReportDate = CDate(ThisWorkbook.Sheets("Подотчет").Cells(ActiveCell.Row, НомерСтолбца_Представительские_расходы).Value)
+      ' Р”Р°С‚Р° Р°РІР°РЅСЃРѕРІРѕРіРѕ РѕС‚С‡РµС‚Р°
+      expenseReportDate = CDate(ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(ActiveCell.Row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹).Value)
       
-      ' Открываем шаблон Протокола из C:\Users\...\Documents\#VBA\DB_Result\Templates
-      Workbooks.Open (ThisWorkbook.Path + "\Templates\Авансовый отчет.xlsx")
+      ' РћС‚РєСЂС‹РІР°РµРј С€Р°Р±Р»РѕРЅ РџСЂРѕС‚РѕРєРѕР»Р° РёР· C:\Users\...\Documents\#VBA\DB_Result\Templates
+      Workbooks.Open (ThisWorkbook.Path + "\Templates\РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚.xlsx")
       
-      ' Имя файла
-      expenseReportName = "Авансовый отчет Акт Смета за " + ИмяМесяцаГод(expenseReportDate) + " (представительские расходы ДРПКК ст.1637)" + ".xlsx"
+      ' РРјСЏ С„Р°Р№Р»Р°
+      expenseReportName = "РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ РђРєС‚ РЎРјРµС‚Р° Р·Р° " + РРјСЏРњРµСЃСЏС†Р°Р“РѕРґ(expenseReportDate) + " (РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹ Р”Р РџРљРљ СЃС‚.1637)" + ".xlsx"
       
-      ' Сохраняем Файл с Авансовым отчетом
-      Workbooks("Авансовый отчет.xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + expenseReportName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
+      ' РЎРѕС…СЂР°РЅСЏРµРј Р¤Р°Р№Р» СЃ РђРІР°РЅСЃРѕРІС‹Рј РѕС‚С‡РµС‚РѕРј
+      Workbooks("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚.xlsx").SaveAs FileName:=ThisWorkbook.Path + "\Out\" + expenseReportName, FileFormat:=xlOpenXMLWorkbook, createBackUp:=False
       
-      ' Заполняем поля
+      ' Р—Р°РїРѕР»РЅСЏРµРј РїРѕР»СЏ
     
-      ' Руководитель
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AV13").Value = "Региональный директор"
-      ' Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AV13").Value = "Заместитель регионального директора по развитию розничного бизнеса"
-      Workbooks(expenseReportName).Sheets("Акт").Range("G4").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AV13").Value
-      Workbooks(expenseReportName).Sheets("Смета").Range("G4").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AV13").Value
+      ' Р СѓРєРѕРІРѕРґРёС‚РµР»СЊ
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AV13").Value = "Р РµРіРёРѕРЅР°Р»СЊРЅС‹Р№ РґРёСЂРµРєС‚РѕСЂ"
+      ' Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AV13").Value = "Р—Р°РјРµСЃС‚РёС‚РµР»СЊ СЂРµРіРёРѕРЅР°Р»СЊРЅРѕРіРѕ РґРёСЂРµРєС‚РѕСЂР° РїРѕ СЂР°Р·РІРёС‚РёСЋ СЂРѕР·РЅРёС‡РЅРѕРіРѕ Р±РёР·РЅРµСЃР°"
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("G4").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AV13").Value
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("G4").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AV13").Value
       
-      ' ФИО Руководителя
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AX15").Value = "Шевелев А.Ю."
-      ' Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AX15").Value = "Прощаев С.Ф."
-      Workbooks(expenseReportName).Sheets("Акт").Range("I6").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AX15").Value
-      Workbooks(expenseReportName).Sheets("Смета").Range("I6").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AX15").Value
+      ' Р¤РРћ Р СѓРєРѕРІРѕРґРёС‚РµР»СЏ
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AX15").Value = "РЁРµРІРµР»РµРІ Рђ.Р®."
+      ' Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AX15").Value = "РџСЂРѕС‰Р°РµРІ РЎ.Р¤."
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("I6").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AX15").Value
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("I6").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AX15").Value
       
-      ' Дата
-      Workbooks(expenseReportName).Sheets("Акт").Range("D10").Value = "от " + CStr(expenseReportDate) + " г."
-      Workbooks(expenseReportName).Sheets("Акт").Range("B16").Value = CStr(expenseReportDate) + " г."
-      Workbooks(expenseReportName).Sheets("Смета").Range("D14").Value = CStr(expenseReportDate) + " г."
+      ' Р”Р°С‚Р°
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("D10").Value = "РѕС‚ " + CStr(expenseReportDate) + " Рі."
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B16").Value = CStr(expenseReportDate) + " Рі."
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("D14").Value = CStr(expenseReportDate) + " Рі."
       
-      ' Месяц
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AS17").Value = ИмяМесяца2(expenseReportDate)
+      ' РњРµСЃСЏС†
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AS17").Value = РРјСЏРњРµСЃСЏС†Р°2(expenseReportDate)
       
-      ' Год
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("BC17").Value = CStr(Year(expenseReportDate))
+      ' Р“РѕРґ
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("BC17").Value = CStr(Year(expenseReportDate))
       
-      ' Назначение аванса
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AR24").Value = "представительские расходы"
+      ' РќР°Р·РЅР°С‡РµРЅРёРµ Р°РІР°РЅСЃР°
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AR24").Value = "РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹"
       
-      ' Итого получено
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH33").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 9).Value
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH35").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH33").Value
+      ' РС‚РѕРіРѕ РїРѕР»СѓС‡РµРЅРѕ
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH33").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 9).Value
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH35").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH33").Value
       
-      ' Израсходовано
-      Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 31).Value
+      ' РР·СЂР°СЃС…РѕРґРѕРІР°РЅРѕ
+      Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 31).Value
       
-      ' Остаток AH37 или перерасход AH38
-      If (Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH33").Value - Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value) >= 0 Then
-        ' остаток AH37
-        Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH37").Value = (Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH33").Value - Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value)
+      ' РћСЃС‚Р°С‚РѕРє AH37 РёР»Рё РїРµСЂРµСЂР°СЃС…РѕРґ AH38
+      If (Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH33").Value - Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value) >= 0 Then
+        ' РѕСЃС‚Р°С‚РѕРє AH37
+        Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH37").Value = (Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH33").Value - Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value)
         
       Else
-        ' перерасход AH38
-        Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH38").Value = Abs((Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH33").Value - Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value))
+        ' РїРµСЂРµСЂР°СЃС…РѕРґ AH38
+        Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH38").Value = Abs((Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH33").Value - Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value))
         
       End If
             
-      ' Лист "Авансовый отчет (оборот)"
-      ' Обработка отчета
+      ' Р›РёСЃС‚ "РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)"
+      ' РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°
       For i = 1 To 5
 
-        If ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 18 + (3 * (i - 1))).Value <> 0 Then
+        If ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 18 + (3 * (i - 1))).Value <> 0 Then
 
-          ' Номер строки в Авансовом отчете
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 1).Value = CStr(i)
+          ' РќРѕРјРµСЂ СЃС‚СЂРѕРєРё РІ РђРІР°РЅСЃРѕРІРѕРј РѕС‚С‡РµС‚Рµ
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 1).Value = CStr(i)
         
-          ' Документы, подтверждающие расходы: Дата1. с 16
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 4).Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 16 + (3 * (i - 1))).Value
+          ' Р”РѕРєСѓРјРµРЅС‚С‹, РїРѕРґС‚РІРµСЂР¶РґР°СЋС‰РёРµ СЂР°СЃС…РѕРґС‹: Р”Р°С‚Р°1. СЃ 16
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 4).Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 16 + (3 * (i - 1))).Value
       
-          ' Документы, подтверждающие расходы: Номер1. с 17
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 11).Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 17 + (3 * (i - 1))).Value
+          ' Р”РѕРєСѓРјРµРЅС‚С‹, РїРѕРґС‚РІРµСЂР¶РґР°СЋС‰РёРµ СЂР°СЃС…РѕРґС‹: РќРѕРјРµСЂ1. СЃ 17
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 11).Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 17 + (3 * (i - 1))).Value
             
-          ' Документы, подтверждающие расходы: Сумма1. с 18
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 29).Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 18 + (3 * (i - 1))).Value
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 43).Value = Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 29).Value
+          ' Р”РѕРєСѓРјРµРЅС‚С‹, РїРѕРґС‚РІРµСЂР¶РґР°СЋС‰РёРµ СЂР°СЃС…РѕРґС‹: РЎСѓРјРјР°1. СЃ 18
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 29).Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 18 + (3 * (i - 1))).Value
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 43).Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 29).Value
         
-          ' Документы, подтверждающие расходы: Наименование документа R7
-          Workbooks(expenseReportName).Sheets("Авансовый отчет (оборот)").Cells(6 + i, 18).Value = "Кассовый чек"
+          ' Р”РѕРєСѓРјРµРЅС‚С‹, РїРѕРґС‚РІРµСЂР¶РґР°СЋС‰РёРµ СЂР°СЃС…РѕРґС‹: РќР°РёРјРµРЅРѕРІР°РЅРёРµ РґРѕРєСѓРјРµРЅС‚Р° R7
+          Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ (РѕР±РѕСЂРѕС‚)").Cells(6 + i, 18).Value = "РљР°СЃСЃРѕРІС‹Р№ С‡РµРє"
         
-        End If ' Если сумма чека <>0
+        End If ' Р•СЃР»Рё СЃСѓРјРјР° С‡РµРєР° <>0
         
       Next i
             
-      ' --- Акт ---
-      ' Тема D16
-      Workbooks(expenseReportName).Sheets("Акт").Range("D16").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 1).Value
+      ' --- РђРєС‚ ---
+      ' РўРµРјР° D16
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("D16").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 1).Value
       
-      ' Участники H16
-      Строка_участников_мероприятия = ""
+      ' РЈС‡Р°СЃС‚РЅРёРєРё H16
+      РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ = ""
       For i = 1 To 6
         
-        If Строка_участников_мероприятия = "" Then
-          Строка_участников_мероприятия = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 9 + i).Value
+        If РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ = "" Then
+          РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 9 + i).Value
         Else
-          Строка_участников_мероприятия = Строка_участников_мероприятия + ", " + ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 9 + i).Value
+          РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ = РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ + ", " + ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 9 + i).Value
         End If
         
       Next i
       
-      ' Заносим участников
-      Workbooks(expenseReportName).Sheets("Акт").Range("H16").Value = Строка_участников_мероприятия
-      Workbooks(expenseReportName).Sheets("Акт").Range("16:16").RowHeight = lineHeight(Строка_участников_мероприятия, 15, 40)
+      ' Р—Р°РЅРѕСЃРёРј СѓС‡Р°СЃС‚РЅРёРєРѕРІ
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("H16").Value = РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("16:16").RowHeight = lineHeight(РЎС‚СЂРѕРєР°_СѓС‡Р°СЃС‚РЅРёРєРѕРІ_РјРµСЂРѕРїСЂРёСЏС‚РёСЏ, 15, 40)
       
-      ' Вывод:
-      Workbooks(expenseReportName).Sheets("Акт").Range("B19").Value = "В результате проверки предоставленных Прощаевым С.Ф. документов установлено, что представительские расходы на мероприятие " + CStr(expenseReportDate) + " г. составили сумму " + CStr(Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value) + " руб."
-      ' Заключение:
-      Workbooks(expenseReportName).Sheets("Акт").Range("B25").Value = "1. Признать обоснованными представительские расходы, произведенные " + CStr(expenseReportDate) + " г. в сумме " + CStr(Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value) + " руб."
+      ' Р’С‹РІРѕРґ:
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B19").Value = "Р’ СЂРµР·СѓР»СЊС‚Р°С‚Рµ РїСЂРѕРІРµСЂРєРё РїСЂРµРґРѕСЃС‚Р°РІР»РµРЅРЅС‹С… РџСЂРѕС‰Р°РµРІС‹Рј РЎ.Р¤. РґРѕРєСѓРјРµРЅС‚РѕРІ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ, С‡С‚Рѕ РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹ РЅР° РјРµСЂРѕРїСЂРёСЏС‚РёРµ " + CStr(expenseReportDate) + " Рі. СЃРѕСЃС‚Р°РІРёР»Рё СЃСѓРјРјСѓ " + CStr(Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value) + " СЂСѓР±."
+      ' Р—Р°РєР»СЋС‡РµРЅРёРµ:
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B25").Value = "1. РџСЂРёР·РЅР°С‚СЊ РѕР±РѕСЃРЅРѕРІР°РЅРЅС‹РјРё РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹, РїСЂРѕРёР·РІРµРґРµРЅРЅС‹Рµ " + CStr(expenseReportDate) + " Рі. РІ СЃСѓРјРјРµ " + CStr(Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value) + " СЂСѓР±."
       
-      ' Участники
-      Workbooks(expenseReportName).Sheets("Акт").Range("B35").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 13).Value
-      Workbooks(expenseReportName).Sheets("Акт").Range("B39").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 14).Value
-      Workbooks(expenseReportName).Sheets("Акт").Range("B41").Value = ThisWorkbook.Sheets("Подотчет").Cells(Строка_Подотчета_row, НомерСтолбца_Представительские_расходы + 15).Value
+      ' РЈС‡Р°СЃС‚РЅРёРєРё
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B35").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 13).Value
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B39").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 14).Value
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("B41").Value = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Cells(РЎС‚СЂРѕРєР°_РџРѕРґРѕС‚С‡РµС‚Р°_row, РќРѕРјРµСЂРЎС‚РѕР»Р±С†Р°_РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ_СЂР°СЃС…РѕРґС‹ + 15).Value
       ' "___________"
-      Workbooks(expenseReportName).Sheets("Акт").Range("H35").Value = "___________"
-      Workbooks(expenseReportName).Sheets("Акт").Range("H39").Value = "___________"
-      Workbooks(expenseReportName).Sheets("Акт").Range("H41").Value = "___________"
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("H35").Value = "___________"
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("H39").Value = "___________"
+      Workbooks(expenseReportName).Sheets("РђРєС‚").Range("H41").Value = "___________"
              
-      ' Отчет сформирован
+      ' РћС‚С‡РµС‚ СЃС„РѕСЂРјРёСЂРѕРІР°РЅ
       
-      ' --- Смета ---
-      ' Место:
-      Workbooks(expenseReportName).Sheets("Смета").Range("D16").Value = "Тюмень, ул.Советская 51/1"
-      ' Предполагаемое количество участников:
-      Workbooks(expenseReportName).Sheets("Смета").Range("F18").Value = "6"
-      ' Сумма - Приобретение продуктов питания
-      Workbooks(expenseReportName).Sheets("Смета").Range("E25").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
-      Workbooks(expenseReportName).Sheets("Смета").Range("H25").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
-      ' Итого протокольное обслуживание:
-      Workbooks(expenseReportName).Sheets("Смета").Range("E29").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
-      Workbooks(expenseReportName).Sheets("Смета").Range("H29").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
-      ' Итого
-      Workbooks(expenseReportName).Sheets("Смета").Range("E38").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
-      Workbooks(expenseReportName).Sheets("Смета").Range("H38").Value = Workbooks(expenseReportName).Sheets("Авансовый отчет").Range("AH36").Value
+      ' --- РЎРјРµС‚Р° ---
+      ' РњРµСЃС‚Рѕ:
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("D16").Value = "РўСЋРјРµРЅСЊ, СѓР».РЎРѕРІРµС‚СЃРєР°СЏ 51/1"
+      ' РџСЂРµРґРїРѕР»Р°РіР°РµРјРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СѓС‡Р°СЃС‚РЅРёРєРѕРІ:
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("F18").Value = "6"
+      ' РЎСѓРјРјР° - РџСЂРёРѕР±СЂРµС‚РµРЅРёРµ РїСЂРѕРґСѓРєС‚РѕРІ РїРёС‚Р°РЅРёСЏ
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("E25").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("H25").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
+      ' РС‚РѕРіРѕ РїСЂРѕС‚РѕРєРѕР»СЊРЅРѕРµ РѕР±СЃР»СѓР¶РёРІР°РЅРёРµ:
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("E29").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("H29").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
+      ' РС‚РѕРіРѕ
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("E38").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
+      Workbooks(expenseReportName).Sheets("РЎРјРµС‚Р°").Range("H38").Value = Workbooks(expenseReportName).Sheets("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚").Range("AH36").Value
       
-      ' Закрытие файла с Авансовым отчетом
+      ' Р—Р°РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РђРІР°РЅСЃРѕРІС‹Рј РѕС‚С‡РµС‚РѕРј
       Workbooks(expenseReportName).Close SaveChanges:=True
      
-      ' Формирование
-      ' Авансовый Отчет
+      ' Р¤РѕСЂРјРёСЂРѕРІР°РЅРёРµ
+      ' РђРІР°РЅСЃРѕРІС‹Р№ РћС‚С‡РµС‚
 
-      ' ФИО и подразделение «Прощаев Сергей Федорович» 
+      ' Р¤РРћ Рё РїРѕРґСЂР°Р·РґРµР»РµРЅРёРµ В«РџСЂРѕС‰Р°РµРІ РЎРµСЂРіРµР№ Р¤РµРґРѕСЂРѕРІРёС‡В»В 
 
-      ' Сумма «9899,82»
+      ' РЎСѓРјРјР° В«9899,82В»
 
-      ' Число чеков (обязательно в рамках 223-ФЗ)  «1»
+      ' Р§РёСЃР»Рѕ С‡РµРєРѕРІ (РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РІ СЂР°РјРєР°С… 223-Р¤Р—)  В«1В»
 
-      ' ПФМ/ССП «3004600100»
+      ' РџР¤Рњ/РЎРЎРџ В«3004600100В»
 
-      ' ФинПозиция/Статья «1637»
+      ' Р¤РёРЅРџРѕР·РёС†РёСЏ/РЎС‚Р°С‚СЊСЏ В«1637В»
 
-      ' Проект «000026»
+      ' РџСЂРѕРµРєС‚ В«000026В»
 
-      ' Код функциональной сферы* «»
+      ' РљРѕРґ С„СѓРЅРєС†РёРѕРЅР°Р»СЊРЅРѕР№ СЃС„РµСЂС‹* В«В»
 
-      ' Наименование/Код проблемного клиента** «»
+      ' РќР°РёРјРµРЅРѕРІР°РЅРёРµ/РљРѕРґ РїСЂРѕР±Р»РµРјРЅРѕРіРѕ РєР»РёРµРЅС‚Р°** В«В»
 
-      ' Примечание:
+      ' РџСЂРёРјРµС‡Р°РЅРёРµ:
 
-      ' !!!Обязательно вложить:
+      ' !!!РћР±СЏР·Р°С‚РµР»СЊРЅРѕ РІР»РѕР¶РёС‚СЊ:
 
-      ' • Заполненный Авансовый отчет в формате файла Excel 
+      ' вЂў Р—Р°РїРѕР»РЅРµРЅРЅС‹Р№ РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ РІ С„РѕСЂРјР°С‚Рµ С„Р°Р№Р»Р° ExcelВ 
 
-      ' • Копии первичных документов
+      ' вЂў РљРѕРїРёРё РїРµСЂРІРёС‡РЅС‹С… РґРѕРєСѓРјРµРЅС‚РѕРІ
 
-      ' • Акт (Отчет) о представительских расходах - для Авансовых отчетов по представительским расходам
+      ' вЂў РђРєС‚ (РћС‚С‡РµС‚) Рѕ РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёС… СЂР°СЃС…РѕРґР°С… - РґР»СЏ РђРІР°РЅСЃРѕРІС‹С… РѕС‚С‡РµС‚РѕРІ РїРѕ РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРј СЂР°СЃС…РѕРґР°Рј
 
-      ' *Заполняется обязательно для автотранспортных расходов
+      ' *Р—Р°РїРѕР»РЅСЏРµС‚СЃСЏ РѕР±СЏР·Р°С‚РµР»СЊРЅРѕ РґР»СЏ Р°РІС‚РѕС‚СЂР°РЅСЃРїРѕСЂС‚РЅС‹С… СЂР°СЃС…РѕРґРѕРІ
 
-      ' ВАЖНО! Оригинал А/О распечатывается после дозаполнения его со стороны сотрудников бухгалтерии и вместе со всеми потдверждающими документами должен быть передан в подразделение ответственное за формирование документов дня
+      ' Р’РђР–РќРћ! РћСЂРёРіРёРЅР°Р» Рђ/Рћ СЂР°СЃРїРµС‡Р°С‚С‹РІР°РµС‚СЃСЏ РїРѕСЃР»Рµ РґРѕР·Р°РїРѕР»РЅРµРЅРёСЏ РµРіРѕ СЃРѕ СЃС‚РѕСЂРѕРЅС‹ СЃРѕС‚СЂСѓРґРЅРёРєРѕРІ Р±СѓС…РіР°Р»С‚РµСЂРёРё Рё РІРјРµСЃС‚Рµ СЃРѕ РІСЃРµРјРё РїРѕС‚РґРІРµСЂР¶РґР°СЋС‰РёРјРё РґРѕРєСѓРјРµРЅС‚Р°РјРё РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ РїРµСЂРµРґР°РЅ РІ РїРѕРґСЂР°Р·РґРµР»РµРЅРёРµ РѕС‚РІРµС‚СЃС‚РІРµРЅРЅРѕРµ Р·Р° С„РѕСЂРјРёСЂРѕРІР°РЅРёРµ РґРѕРєСѓРјРµРЅС‚РѕРІ РґРЅСЏ
     
-      ' Сообщение
-      MsgBox ("Авансовый отчет " + ThisWorkbook.Path + "\Out\" + expenseReportName + " сформирован!")
+      ' РЎРѕРѕР±С‰РµРЅРёРµ
+      MsgBox ("РђРІР°РЅСЃРѕРІС‹Р№ РѕС‚С‡РµС‚ " + ThisWorkbook.Path + "\Out\" + expenseReportName + " СЃС„РѕСЂРјРёСЂРѕРІР°РЅ!")
 
     End If
   Else
-    MsgBox ("Укажите ячейку в диапазоне Таблицы!")
+    MsgBox ("РЈРєР°Р¶РёС‚Рµ СЏС‡РµР№РєСѓ РІ РґРёР°РїР°Р·РѕРЅРµ РўР°Р±Р»РёС†С‹!")
   End If
 
 
 End Sub
 
-' Открыть Файл с отчетом: "O:\DirectSales\01_ЗП Проекты\Представительские расходы\Учет представительских расходов.xlsx"
-Sub Подотчет_Открыть_Файл_с_отчетом()
+' РћС‚РєСЂС‹С‚СЊ Р¤Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј: "O:\DirectSales\01_Р—Рџ РџСЂРѕРµРєС‚С‹\РџСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ СЂР°СЃС…РѕРґС‹\РЈС‡РµС‚ РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёС… СЂР°СЃС…РѕРґРѕРІ.xlsx"
+Sub РџРѕРґРѕС‚С‡РµС‚_РћС‚РєСЂС‹С‚СЊ_Р¤Р°Р№Р»_СЃ_РѕС‚С‡РµС‚РѕРј()
     
-    ' Открыть файл с отчетом
-    FileName = ThisWorkbook.Sheets("Подотчет").Range("H2").Value
+    ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+    FileName = ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Range("H2").Value
 
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
 
 End Sub
 
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе:
-Sub Отправка_Lotus_Notes_Подотчет()
-Dim темаПисьма, текстПисьма, hashTag, attachmentFile As String
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ:
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_РџРѕРґРѕС‚С‡РµС‚()
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag, attachmentFile As String
 Dim i As Byte
   
-  ' Запрос
-  If MsgBox("Отправить себе Шаблон письма?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ
+  If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР°?", vbYesNo) = vbYes Then
     
-    ' Тема письма - Тема:
-    темаПисьма = "Проведение клиентского мероприятия"
-    ' темаПисьма = subjectFromSheet("Лист8")
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    С‚РµРјР°РџРёСЃСЊРјР° = "РџСЂРѕРІРµРґРµРЅРёРµ РєР»РёРµРЅС‚СЃРєРѕРіРѕ РјРµСЂРѕРїСЂРёСЏС‚РёСЏ"
+    ' С‚РµРјР°РџРёСЃСЊРјР° = subjectFromSheet("Р›РёСЃС‚8")
 
-    ' hashTag - Хэштэг:
-    ' hashTag = ThisWorkbook.Sheets("Лист8").Cells(RowByValue(ThisWorkbook.Name, "Лист8", "Хэштэг:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист8", "Хэштэг:", 100, 100) + 1).Value
-    ' hashTag - Хэштэг:
-    hashTag = "#подотчет #представительские"
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    ' hashTag = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РҐСЌС€С‚СЌРі:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РҐСЌС€С‚СЌРі:", 100, 100) + 1).Value
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = "#РїРѕРґРѕС‚С‡РµС‚ #РїСЂРµРґСЃС‚Р°РІРёС‚РµР»СЊСЃРєРёРµ"
 
-    ' Файл-вложение (!!!)
-    attachmentFile = "" ' ThisWorkbook.Sheets("Лист8").Cells(3, 17).Value
+    ' Р¤Р°Р№Р»-РІР»РѕР¶РµРЅРёРµ (!!!)
+    attachmentFile = "" ' ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(3, 17).Value
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("НОКП, РРКК", 2) + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + getFromAddrBook("РД", 2) + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Уважаемые сотрудники," + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "По итогам проведения клиентского мероприятия прошу каждого внести в форму внутренного учета проведенные активности с указанием: " + Chr(13)
-    текстПисьма = текстПисьма + " - ФИО" + Chr(13)
-    текстПисьма = текстПисьма + " - Должности" + Chr(13)
-    текстПисьма = текстПисьма + " - Наименования компании и ИНН" + Chr(13)
-    текстПисьма = текстПисьма + " - Что было передано" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Файл с формой внутреннего учета: " + ThisWorkbook.Sheets("Подотчет").Range("H2").Value + Chr(13)
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("РќРћРљРџ, Р Р РљРљ", 2) + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + getFromAddrBook("Р Р”", 2) + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РЈРІР°Р¶Р°РµРјС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРё," + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РџРѕ РёС‚РѕРіР°Рј РїСЂРѕРІРµРґРµРЅРёСЏ РєР»РёРµРЅС‚СЃРєРѕРіРѕ РјРµСЂРѕРїСЂРёСЏС‚РёСЏ РїСЂРѕС€Сѓ РєР°Р¶РґРѕРіРѕ РІРЅРµСЃС‚Рё РІ С„РѕСЂРјСѓ РІРЅСѓС‚СЂРµРЅРЅРѕРіРѕ СѓС‡РµС‚Р° РїСЂРѕРІРµРґРµРЅРЅС‹Рµ Р°РєС‚РёРІРЅРѕСЃС‚Рё СЃ СѓРєР°Р·Р°РЅРёРµРј: " + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + " - Р¤РРћ" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + " - Р”РѕР»Р¶РЅРѕСЃС‚Рё" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + " - РќР°РёРјРµРЅРѕРІР°РЅРёСЏ РєРѕРјРїР°РЅРёРё Рё РРќРќ" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + " - Р§С‚Рѕ Р±С‹Р»Рѕ РїРµСЂРµРґР°РЅРѕ" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "Р¤Р°Р№Р» СЃ С„РѕСЂРјРѕР№ РІРЅСѓС‚СЂРµРЅРЅРµРіРѕ СѓС‡РµС‚Р°: " + ThisWorkbook.Sheets("РџРѕРґРѕС‚С‡РµС‚").Range("H2").Value + Chr(13)
         
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(27) + hashTag
-    ' Вызов
-    Call send_Lotus_Notes(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", текстПисьма, attachmentFile)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(27) + hashTag
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", С‚РµРєСЃС‚РџРёСЃСЊРјР°, attachmentFile)
   
-    ' Зачеркнуть
-    Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "DashBoard (при наличии)", 100, 100))
+    ' Р—Р°С‡РµСЂРєРЅСѓС‚СЊ
+    Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "DashBoard (РїСЂРё РЅР°Р»РёС‡РёРё)", 100, 100))
   
-    ' Сообщение
-    MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   End If
   
 End Sub
-
