@@ -1,230 +1,229 @@
-Attribute VB_Name = "Module_СМОТ"
-' *** Лист 17 (СМОТ) ***
+Attribute VB_Name = "Module_РЎРњРћРў"
+' *** Р›РёСЃС‚ 17 (РЎРњРћРў) ***
 
-' *** Глобальные переменные ***
-' Public numStr_Лист17 As Integer
+' *** Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ ***
+' Public numStr_Р›РёСЃС‚17 As Integer
 ' ***                       ***
 
-' Разделение файла СМОТ на несколько файлов для отправки на согласование
-Sub Разделение_файла_СМОТ()
-' Описание переменных
+' Р Р°Р·РґРµР»РµРЅРёРµ С„Р°Р№Р»Р° РЎРњРћРў РЅР° РЅРµСЃРєРѕР»СЊРєРѕ С„Р°Р№Р»РѕРІ РґР»СЏ РѕС‚РїСЂР°РІРєРё РЅР° СЃРѕРіР»Р°СЃРѕРІР°РЅРёРµ
+Sub Р Р°Р·РґРµР»РµРЅРёРµ_С„Р°Р№Р»Р°_РЎРњРћРў()
+' РћРїРёСЃР°РЅРёРµ РїРµСЂРµРјРµРЅРЅС‹С…
 Dim ReportName_String, officeNameInReport, CheckFormatReportResult As String
 Dim i, rowCount As Integer
 Dim finishProcess As Boolean
     
-  ' Открыть файл с отчетом
-  FileName = Application.GetOpenFilename("Excel Files (*.xls), *.xls", , "Открытие файла с отчетом")
+  ' РћС‚РєСЂС‹С‚СЊ С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј
+  FileName = Application.GetOpenFilename("Excel Files (*.xls), *.xls", , "РћС‚РєСЂС‹С‚РёРµ С„Р°Р№Р»Р° СЃ РѕС‚С‡РµС‚РѕРј")
 
-  ' Если файл был выбран
+  ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
   If (Len(FileName) > 5) Then
   
-    ' Строка статуса
-    Application.StatusBar = "Обработка отчета..."
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
+    Application.StatusBar = "РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р°..."
   
-    ' Переменная начала обработки
+    ' РџРµСЂРµРјРµРЅРЅР°СЏ РЅР°С‡Р°Р»Р° РѕР±СЂР°Р±РѕС‚РєРё
     finishProcess = False
 
-    ' Выводим для инфо данные об имени файла
+    ' Р’С‹РІРѕРґРёРј РґР»СЏ РёРЅС„Рѕ РґР°РЅРЅС‹Рµ РѕР± РёРјРµРЅРё С„Р°Р№Р»Р°
     ReportName_String = Dir(FileName)
   
-    ' Открываем выбранную книгу (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј РІС‹Р±СЂР°РЅРЅСѓСЋ РєРЅРёРіСѓ (UpdateLinks:=0)
     Workbooks.Open FileName, 0
       
-    ' Переходим на окно DB
-    ThisWorkbook.Sheets("СМОТ").Activate
+    ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ DB
+    ThisWorkbook.Sheets("РЎРњРћРў").Activate
 
-    ' Проверка формы отчета
+    ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
     ' CheckFormatReportResult = CheckFormatReport(ReportName_String, "___", 6, Date)
     ' If CheckFormatReportResult = "OK" Then
     If True Then
       
-      ' Очистка таблицы
-      Call clearСontents2(ThisWorkbook.Name, "СМОТ", "A7", "I50")
-      записьНаЛистСМОТ = 6
-      номер = 0
+      ' РћС‡РёСЃС‚РєР° С‚Р°Р±Р»РёС†С‹
+      Call clearРЎontents2(ThisWorkbook.Name, "РЎРњРћРў", "A7", "I50")
+      Р·Р°РїРёСЃСЊРќР°Р›РёСЃС‚РЎРњРћРў = 6
+      РЅРѕРјРµСЂ = 0
 
-      ' Имя файла без расширения
-      ИмяФайлаБезРасширения = Mid(ReportName_String, 1, InStr(ReportName_String, ".") - 1)
+      ' РРјСЏ С„Р°Р№Р»Р° Р±РµР· СЂР°СЃС€РёСЂРµРЅРёСЏ
+      РРјСЏР¤Р°Р№Р»Р°Р‘РµР·Р Р°СЃС€РёСЂРµРЅРёСЏ = Mid(ReportName_String, 1, InStr(ReportName_String, ".") - 1)
 
-      ' Тема
-      ThisWorkbook.Sheets("СМОТ").Range("P2").Value = "СМОТ на согласование " + ИмяФайлаБезРасширения
+      ' РўРµРјР°
+      ThisWorkbook.Sheets("РЎРњРћРў").Range("P2").Value = "РЎРњРћРў РЅР° СЃРѕРіР»Р°СЃРѕРІР°РЅРёРµ " + РРјСЏР¤Р°Р№Р»Р°Р‘РµР·Р Р°СЃС€РёСЂРµРЅРёСЏ
 
-      ' Находим столбец "Симв."
-      Column_Симв = ColumnByValue(ReportName_String, "Лист1", "Симв.", 100, 100)
-      ' Может
-      Column_Фамилия_Имя_Отчество = ColumnByValue(ReportName_String, "Лист1", "Фамилия Имя Отчество", 100, 100)
-      If Column_Фамилия_Имя_Отчество = 0 Then
-        Column_Фамилия_Имя_Отчество = ColumnByValue(ReportName_String, "Лист1", "ФИО", 100, 100) ' ФИО
+      ' РќР°С…РѕРґРёРј СЃС‚РѕР»Р±РµС† "РЎРёРјРІ."
+      Column_РЎРёРјРІ = ColumnByValue(ReportName_String, "Р›РёСЃС‚1", "РЎРёРјРІ.", 100, 100)
+      ' РњРѕР¶РµС‚
+      Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ = ColumnByValue(ReportName_String, "Р›РёСЃС‚1", "Р¤Р°РјРёР»РёСЏ РРјСЏ РћС‚С‡РµСЃС‚РІРѕ", 100, 100)
+      If Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ = 0 Then
+        Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ = ColumnByValue(ReportName_String, "Р›РёСЃС‚1", "Р¤РРћ", 100, 100) ' Р¤РРћ
       End If
 
       rowCount = 1
-      Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, 1).Value)
+      Do While Not IsEmpty(Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, 1).Value)
         
-        ' Если это текущий сотрудник
-        ' If InStr(Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Симв).Value, "Китог") <> 0 Then
-        If (InStr(Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Симв).Value, "Китог") <> 0) Or ((InStr(Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Симв).Value, "Итог") <> 0)) Then
+        ' Р•СЃР»Рё СЌС‚Рѕ С‚РµРєСѓС‰РёР№ СЃРѕС‚СЂСѓРґРЅРёРє
+        ' If InStr(Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_РЎРёРјРІ).Value, "РљРёС‚РѕРі") <> 0 Then
+        If (InStr(Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_РЎРёРјРІ).Value, "РљРёС‚РѕРі") <> 0) Or ((InStr(Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_РЎРёРјРІ).Value, "РС‚РѕРі") <> 0)) Then
             
-          ' ФИО сотрудника
-          nameStaff = Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Фамилия_Имя_Отчество).Value
-          fullNameStaff = (Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Фамилия_Имя_Отчество).Value)
-          ' Нумерация на листе СМОТ
-          записьНаЛистСМОТ = записьНаЛистСМОТ + 1
-          номер = номер + 1
-          ' Вывод данных на Лист
-          ThisWorkbook.Sheets("СМОТ").Cells(записьНаЛистСМОТ, 1).Value = CStr(номер)
-          ThisWorkbook.Sheets("СМОТ").Cells(записьНаЛистСМОТ, 2).Value = Фамилия_и_Имя(nameStaff, 3)
+          ' Р¤РРћ СЃРѕС‚СЂСѓРґРЅРёРєР°
+          nameStaff = Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ).Value
+          fullNameStaff = (Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ).Value)
+          ' РќСѓРјРµСЂР°С†РёСЏ РЅР° Р»РёСЃС‚Рµ РЎРњРћРў
+          Р·Р°РїРёСЃСЊРќР°Р›РёСЃС‚РЎРњРћРў = Р·Р°РїРёСЃСЊРќР°Р›РёСЃС‚РЎРњРћРў + 1
+          РЅРѕРјРµСЂ = РЅРѕРјРµСЂ + 1
+          ' Р’С‹РІРѕРґ РґР°РЅРЅС‹С… РЅР° Р›РёСЃС‚
+          ThisWorkbook.Sheets("РЎРњРћРў").Cells(Р·Р°РїРёСЃСЊРќР°Р›РёСЃС‚РЎРњРћРў, 1).Value = CStr(РЅРѕРјРµСЂ)
+          ThisWorkbook.Sheets("РЎРњРћРў").Cells(Р·Р°РїРёСЃСЊРќР°Р›РёСЃС‚РЎРњРћРў, 2).Value = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(nameStaff, 3)
             
-          ' Статус обработки
-          Application.StatusBar = Фамилия_и_Имя(nameStaff, 3) + "..."
+          ' РЎС‚Р°С‚СѓСЃ РѕР±СЂР°Р±РѕС‚РєРё
+          Application.StatusBar = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(nameStaff, 3) + "..."
             
-          ' Сохраняем новый файл
-          FileNewVar = ThisWorkbook.Path + "\Out\" + ИмяФайлаБезРасширения + "_" + Фамилия_и_Имя(Workbooks(ReportName_String).Sheets("Лист1").Cells(rowCount, Column_Фамилия_Имя_Отчество).Value, 3) + ".xls"
+          ' РЎРѕС…СЂР°РЅСЏРµРј РЅРѕРІС‹Р№ С„Р°Р№Р»
+          FileNewVar = ThisWorkbook.Path + "\Out\" + РРјСЏР¤Р°Р№Р»Р°Р‘РµР·Р Р°СЃС€РёСЂРµРЅРёСЏ + "_" + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(Workbooks(ReportName_String).Sheets("Р›РёСЃС‚1").Cells(rowCount, Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ).Value, 3) + ".xls"
           Workbooks(ReportName_String).SaveCopyAs FileName:=FileNewVar
           shortFileNewVar = Dir(FileNewVar)
-          ' Открываем этот файл (UpdateLinks:=0)
+          ' РћС‚РєСЂС‹РІР°РµРј СЌС‚РѕС‚ С„Р°Р№Р» (UpdateLinks:=0)
           Workbooks.Open FileNewVar, 0
 
-          ' Строка с именами файлов для архивирования
+          ' РЎС‚СЂРѕРєР° СЃ РёРјРµРЅР°РјРё С„Р°Р№Р»РѕРІ РґР»СЏ Р°СЂС…РёРІРёСЂРѕРІР°РЅРёСЏ
           ' strFileNewVar_Office = strFileNewVar_Office + ThisWorkbook.Path + "\Out\" + FileNewVar + " "
           
-          ' Обработка файла
-          ' Проходим по файлу с самого начала (со 2-ой) и удаляем
+          ' РћР±СЂР°Р±РѕС‚РєР° С„Р°Р№Р»Р°
+          ' РџСЂРѕС…РѕРґРёРј РїРѕ С„Р°Р№Р»Сѓ СЃ СЃР°РјРѕРіРѕ РЅР°С‡Р°Р»Р° (СЃРѕ 2-РѕР№) Рё СѓРґР°Р»СЏРµРј
           rowCount2 = 2
-          Do While Not IsEmpty(Workbooks(shortFileNewVar).Sheets("Лист1").Cells(rowCount2, 1).Value)
+          Do While Not IsEmpty(Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Cells(rowCount2, 1).Value)
             
-            ' Если это не ФИО текущего сотрудника - то удаляем запись
-            If InStr(Workbooks(shortFileNewVar).Sheets("Лист1").Cells(rowCount2, Column_Фамилия_Имя_Отчество).Value, nameStaff) = 0 Then
+            ' Р•СЃР»Рё СЌС‚Рѕ РЅРµ Р¤РРћ С‚РµРєСѓС‰РµРіРѕ СЃРѕС‚СЂСѓРґРЅРёРєР° - С‚Рѕ СѓРґР°Р»СЏРµРј Р·Р°РїРёСЃСЊ
+            If InStr(Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Cells(rowCount2, Column_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ).Value, nameStaff) = 0 Then
               
-              ' Удаляем текущую запись в файле - это работает, но окно нельзя закрывать
-              ' Workbooks(shortFileNewVar).Sheets("Лист1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Select
+              ' РЈРґР°Р»СЏРµРј С‚РµРєСѓС‰СѓСЋ Р·Р°РїРёСЃСЊ РІ С„Р°Р№Р»Рµ - СЌС‚Рѕ СЂР°Р±РѕС‚Р°РµС‚, РЅРѕ РѕРєРЅРѕ РЅРµР»СЊР·СЏ Р·Р°РєСЂС‹РІР°С‚СЊ
+              ' Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Select
               ' Selection.Delete Shift:=xlUp
               
-              ' Вариант 2
-              ' Workbooks(shortFileNewVar).Sheets("Лист1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Select
-              Workbooks(shortFileNewVar).Sheets("Лист1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Delete Shift:=xlUp
+              ' Р’Р°СЂРёР°РЅС‚ 2
+              ' Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Select
+              Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Rows(CStr(rowCount2) + ":" + CStr(rowCount2)).Delete Shift:=xlUp
               
-              ' Если удадили запись, то стоим на ней же
+              ' Р•СЃР»Рё СѓРґР°РґРёР»Рё Р·Р°РїРёСЃСЊ, С‚Рѕ СЃС‚РѕРёРј РЅР° РЅРµР№ Р¶Рµ
               rowCount2 = rowCount2 - 1
               
             End If
             
             
-            ' Следующая запись
+            ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
             rowCount2 = rowCount2 + 1
             DoEventsInterval (rowCount)
           Loop
           
-          ' Устанавливаем курсор на первую запись
-          ' Workbooks(shortFileNewVar).Sheets("Лист1").Range("C1").Select
+          ' РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РєСѓСЂСЃРѕСЂ РЅР° РїРµСЂРІСѓСЋ Р·Р°РїРёСЃСЊ
+          ' Workbooks(shortFileNewVar).Sheets("Р›РёСЃС‚1").Range("C1").Select
           
-          ' Закрываем файл
+          ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р»
           Workbooks(shortFileNewVar).Close SaveChanges:=True
           
-          ' Отправка файла в почте отдельными файлами если это УДО, НОРПиКО, НОКП, РРКК
-          Call Отправка_Lotus_Notes_ЛистСМОТ(fullNameStaff, FileNewVar)
+          ' РћС‚РїСЂР°РІРєР° С„Р°Р№Р»Р° РІ РїРѕС‡С‚Рµ РѕС‚РґРµР»СЊРЅС‹РјРё С„Р°Р№Р»Р°РјРё РµСЃР»Рё СЌС‚Рѕ РЈР”Рћ, РќРћР РџРёРљРћ, РќРћРљРџ, Р Р РљРљ
+          Call РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚РЎРњРћРў(fullNameStaff, FileNewVar)
           
-          ' Переходим на окно СМОТ
-          ThisWorkbook.Sheets("СМОТ").Activate
+          ' РџРµСЂРµС…РѕРґРёРј РЅР° РѕРєРЅРѕ РЎРњРћРў
+          ThisWorkbook.Sheets("РЎРњРћРў").Activate
           
                        
         End If
         
         
-        ' Следующая запись
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
         rowCount = rowCount + 1
         ' Application.StatusBar = officeNameInReport + ": " + CStr(rowCount) + "..."
         DoEventsInterval (rowCount)
       Loop
    
-      ' Статус обработки
+      ' РЎС‚Р°С‚СѓСЃ РѕР±СЂР°Р±РѕС‚РєРё
       Application.StatusBar = ""
       
-      ' Выводим итоги обработки
+      ' Р’С‹РІРѕРґРёРј РёС‚РѕРіРё РѕР±СЂР°Р±РѕС‚РєРё
       
-      ' Сохранение изменений
+      ' РЎРѕС…СЂР°РЅРµРЅРёРµ РёР·РјРµРЅРµРЅРёР№
       ThisWorkbook.Save
     
-      ' Переменная завершения обработки
+      ' РџРµСЂРµРјРµРЅРЅР°СЏ Р·Р°РІРµСЂС€РµРЅРёСЏ РѕР±СЂР°Р±РѕС‚РєРё
       finishProcess = True
     Else
-      ' Сообщение о неверном формате отчета или даты
-      MsgBox ("Проверьте отчет: " + CheckFormatReportResult + "!")
-    End If ' Проверка формы отчета
+      ' РЎРѕРѕР±С‰РµРЅРёРµ Рѕ РЅРµРІРµСЂРЅРѕРј С„РѕСЂРјР°С‚Рµ РѕС‚С‡РµС‚Р° РёР»Рё РґР°С‚С‹
+      MsgBox ("РџСЂРѕРІРµСЂСЊС‚Рµ РѕС‚С‡РµС‚: " + CheckFormatReportResult + "!")
+    End If ' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјС‹ РѕС‚С‡РµС‚Р°
 
-    ' Закрываем файл с отчетом без сохранения изменений (параметр SaveChanges:=False)
+    ' Р—Р°РєСЂС‹РІР°РµРј С„Р°Р№Р» СЃ РѕС‚С‡РµС‚РѕРј Р±РµР· СЃРѕС…СЂР°РЅРµРЅРёСЏ РёР·РјРµРЅРµРЅРёР№ (РїР°СЂР°РјРµС‚СЂ SaveChanges:=False)
     Workbooks(Dir(FileName)).Close SaveChanges:=False
     
-    ' Переходим в ячейку M2
-    ThisWorkbook.Sheets("СМОТ").Range("A1").Select
+    ' РџРµСЂРµС…РѕРґРёРј РІ СЏС‡РµР№РєСѓ M2
+    ThisWorkbook.Sheets("РЎРњРћРў").Range("A1").Select
 
-    ' Строка статуса
+    ' РЎС‚СЂРѕРєР° СЃС‚Р°С‚СѓСЃР°
     Application.StatusBar = ""
 
-    ' Зачеркиваем пункт меню на стартовой страницы
-    ' Call ЗачеркиваемТекстВячейке("Лист0", "D9")
-    ' Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "Оперативная справка по _________________", 100, 100))
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", "D9")
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "РћРїРµСЂР°С‚РёРІРЅР°СЏ СЃРїСЂР°РІРєР° РїРѕ _________________", 100, 100))
     
-    ' Итоговое сообщение
+    ' РС‚РѕРіРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
     If finishProcess = True Then
-      MsgBox ("Обработка " + Dir(ReportName_String) + " завершена!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° " + Dir(ReportName_String) + " Р·Р°РІРµСЂС€РµРЅР°!")
     Else
-      MsgBox ("Обработка отчета была прервана!")
+      MsgBox ("РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° Р±С‹Р»Р° РїСЂРµСЂРІР°РЅР°!")
     End If
 
-  End If ' Если файл был выбран
+  End If ' Р•СЃР»Рё С„Р°Р№Р» Р±С‹Р» РІС‹Р±СЂР°РЅ
 
 End Sub
 
-' Отправка письма: отправляю шаблон самому себе для последующей отправки в сеть письма на его основе:
-Sub Отправка_Lotus_Notes_ЛистСМОТ(In_ФИО, In_СМОТFileName)
-Dim темаПисьма, текстПисьма, hashTag, attachmentFile As String
+' РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР°: РѕС‚РїСЂР°РІР»СЏСЋ С€Р°Р±Р»РѕРЅ СЃР°РјРѕРјСѓ СЃРµР±Рµ РґР»СЏ РїРѕСЃР»РµРґСѓСЋС‰РµР№ РѕС‚РїСЂР°РІРєРё РІ СЃРµС‚СЊ РїРёСЃСЊРјР° РЅР° РµРіРѕ РѕСЃРЅРѕРІРµ:
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes_Р›РёСЃС‚РЎРњРћРў(In_Р¤РРћ, In_РЎРњРћРўFileName)
+Dim С‚РµРјР°РџРёСЃСЊРјР°, С‚РµРєСЃС‚РџРёСЃСЊРјР°, hashTag, attachmentFile As String
 Dim i As Byte
   
-  ' Запрос
-  ' If MsgBox("Отправить себе Шаблон письма с фокусами контроля '" + ПериодКонтроля + "'?", vbYesNo) = vbYes Then
+  ' Р—Р°РїСЂРѕСЃ
+  ' If MsgBox("РћС‚РїСЂР°РІРёС‚СЊ СЃРµР±Рµ РЁР°Р±Р»РѕРЅ РїРёСЃСЊРјР° СЃ С„РѕРєСѓСЃР°РјРё РєРѕРЅС‚СЂРѕР»СЏ '" + РџРµСЂРёРѕРґРљРѕРЅС‚СЂРѕР»СЏ + "'?", vbYesNo) = vbYes Then
     
-    ' Адрес_получателя = ThisWorkbook.Sheets("Лист8").Cells(rowByValue(ThisWorkbook.Name, "СМОТ", "Список получателей:", 100, 100), ColumnByValue(ThisWorkbook.Name, "СМОТ", "Список получателей:", 100, 100) + 2).Value
-    Адрес_получателя = getFromAddrBook3(In_ФИО)
+    ' РђРґСЂРµСЃ_РїРѕР»СѓС‡Р°С‚РµР»СЏ = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(rowByValue(ThisWorkbook.Name, "РЎРњРћРў", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100), ColumnByValue(ThisWorkbook.Name, "РЎРњРћРў", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100) + 2).Value
+    РђРґСЂРµСЃ_РїРѕР»СѓС‡Р°С‚РµР»СЏ = getFromAddrBook3(In_Р¤РРћ)
     
-    ' Тема письма - Тема:
-    ' темаПисьма = ThisWorkbook.Sheets("Лист8").Cells(RowByValue(ThisWorkbook.Name, "Лист8", "Тема:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист8", "Тема:", 100, 100) + 1).Value
-    темаПисьма = subjectFromSheet("СМОТ")
+    ' РўРµРјР° РїРёСЃСЊРјР° - РўРµРјР°:
+    ' С‚РµРјР°РџРёСЃСЊРјР° = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РўРµРјР°:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РўРµРјР°:", 100, 100) + 1).Value
+    С‚РµРјР°РџРёСЃСЊРјР° = subjectFromSheet("РЎРњРћРў")
 
-    ' hashTag - Хэштэг:
-    ' hashTag = ThisWorkbook.Sheets("Лист8").Cells(RowByValue(ThisWorkbook.Name, "Лист8", "Хэштэг:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Лист8", "Хэштэг:", 100, 100) + 1).Value
-    ' hashTag - Хэштэг:
-    hashTag = hashTagFromSheet("СМОТ")
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    ' hashTag = ThisWorkbook.Sheets("Р›РёСЃС‚8").Cells(RowByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РҐСЌС€С‚СЌРі:", 100, 100), ColumnByValue(ThisWorkbook.Name, "Р›РёСЃС‚8", "РҐСЌС€С‚СЌРі:", 100, 100) + 1).Value
+    ' hashTag - РҐСЌС€С‚СЌРі:
+    hashTag = hashTagFromSheet("РЎРњРћРў")
 
-    ' Файл-вложение (!!!)
-    attachmentFile = In_СМОТFileName
+    ' Р¤Р°Р№Р»-РІР»РѕР¶РµРЅРёРµ (!!!)
+    attachmentFile = In_РЎРњРћРўFileName
     
-    ' Текст письма
-    текстПисьма = "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Адрес_получателя + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Добрый день!" + Chr(13)
-    текстПисьма = текстПисьма + "" + Chr(13)
-    текстПисьма = текстПисьма + "Направляю расчет СМОТ для согласования" + Chr(13)
-    ' текстПисьма = текстПисьма + "" + Chr(13)
-    ' текстПисьма = текстПисьма + "" + Chr(13)
-    ' текстПисьма = текстПисьма + "" + Chr(13)
-    ' текстПисьма = текстПисьма + "" + Chr(13)
-    ' текстПисьма = текстПисьма + "" + Chr(13)
-    ' Визитка (подпись С Ув., )
-    текстПисьма = текстПисьма + ПодписьВПисьме()
-    ' Хэштег
-    текстПисьма = текстПисьма + createBlankStr(27) + hashTag
-    ' Вызов
-    Call send_Lotus_Notes(темаПисьма, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", текстПисьма, attachmentFile)
+    ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + РђРґСЂРµСЃ_РїРѕР»СѓС‡Р°С‚РµР»СЏ + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "Р”РѕР±СЂС‹Р№ РґРµРЅСЊ!" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РќР°РїСЂР°РІР»СЏСЋ СЂР°СЃС‡РµС‚ РЎРњРћРў РґР»СЏ СЃРѕРіР»Р°СЃРѕРІР°РЅРёСЏ" + Chr(13)
+    ' С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+    ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+    ' РҐСЌС€С‚РµРі
+    С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + createBlankStr(27) + hashTag
+    ' Р’С‹Р·РѕРІ
+    Call send_Lotus_Notes(С‚РµРјР°РџРёСЃСЊРјР°, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", С‚РµРєСЃС‚РџРёСЃСЊРјР°, attachmentFile)
   
-    ' Зачеркнуть
-    ' Call ЗачеркиваемТекстВячейке("Лист0", RangeByValue(ThisWorkbook.Name, "Лист0", "DashBoard (при наличии)", 100, 100))
+    ' Р—Р°С‡РµСЂРєРЅСѓС‚СЊ
+    ' Call Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ("Р›РёСЃС‚0", RangeByValue(ThisWorkbook.Name, "Р›РёСЃС‚0", "DashBoard (РїСЂРё РЅР°Р»РёС‡РёРё)", 100, 100))
   
-    ' Сообщение
-    ' MsgBox ("Письмо отправлено!")
+    ' РЎРѕРѕР±С‰РµРЅРёРµ
+    ' MsgBox ("РџРёСЃСЊРјРѕ РѕС‚РїСЂР°РІР»РµРЅРѕ!")
      
   ' End If
   
 End Sub
-
