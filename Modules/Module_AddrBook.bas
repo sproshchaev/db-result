@@ -1,157 +1,156 @@
 Attribute VB_Name = "Module_AddrBook"
 ' Addr.Book
 
-' Создание списка адресов УДО+НОРПиКО
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ РЈР”Рћ+РќРћР РџРёРљРћ
 Sub list_creation_1()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Создание списка адресов УДО+НОРПиКО+МРК+ПМ
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ РЈР”Рћ+РќРћР РџРёРљРћ+РњР Рљ+РџРњ
 Sub list_creation_2()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Создание списка адресов УДО+НОРПиКО+МРК+ПМ+ОКП
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ РЈР”Рћ+РќРћР РџРёРљРћ+РњР Рљ+РџРњ+РћРљРџ
 Sub list_creation_3()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Создание списка адресов ОКП
-Sub list_creation_ОКП()
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ РћРљРџ
+Sub list_creation_РћРљРџ()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("НОКП,РРКК,МПП", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РќРћРљРџ,Р Р РљРљ,РњРџРџ", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Создание списка адресов ИЦ
-Sub list_creation_ИЦ()
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ РР¦
+Sub list_creation_РР¦()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("РРИЦ,РИЦ,СотрИЦ", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("Р Р РР¦,Р РР¦,РЎРѕС‚СЂРР¦", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Создание списка адресов Весь РБ
-Sub list_creation_Весь_РБ()
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° Р°РґСЂРµСЃРѕРІ Р’РµСЃСЊ Р Р‘
+Sub list_creation_Р’РµСЃСЊ_Р Р‘()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП,РРИЦ,РИЦ,СотрИЦ", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ,Р Р РР¦,Р РР¦,РЎРѕС‚СЂРР¦", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
-' Адресная книга: Нумеровать список
+' РђРґСЂРµСЃРЅР°СЏ РєРЅРёРіР°: РќСѓРјРµСЂРѕРІР°С‚СЊ СЃРїРёСЃРѕРє
 Sub createNumberingAddrBook()
-Dim НомерСтроки_Адресная_книга, rowCount As Integer
+Dim РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РђРґСЂРµСЃРЅР°СЏ_РєРЅРёРіР°, rowCount As Integer
 
-  НомерСтроки_Адресная_книга = ThisWorkbook.Sheets("Addr.Book").Range(RangeByValue(ThisWorkbook.Name, "Addr.Book", "Адресная книга", 100, 100)).Row
+  РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РђРґСЂРµСЃРЅР°СЏ_РєРЅРёРіР° = ThisWorkbook.Sheets("Addr.Book").Range(RangeByValue(ThisWorkbook.Name, "Addr.Book", "РђРґСЂРµСЃРЅР°СЏ РєРЅРёРіР°", 100, 100)).Row
   rowCount = 1
-  Do While ThisWorkbook.Sheets("Addr.Book").Cells(НомерСтроки_Адресная_книга + 4 + rowCount, 2).Value <> ""
+  Do While ThisWorkbook.Sheets("Addr.Book").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РђРґСЂРµСЃРЅР°СЏ_РєРЅРёРіР° + 4 + rowCount, 2).Value <> ""
     
-    ThisWorkbook.Sheets("Addr.Book").Cells(НомерСтроки_Адресная_книга + 4 + rowCount, 1).Value = rowCount
+    ThisWorkbook.Sheets("Addr.Book").Cells(РќРѕРјРµСЂРЎС‚СЂРѕРєРё_РђРґСЂРµСЃРЅР°СЏ_РєРЅРёРіР° + 4 + rowCount, 1).Value = rowCount
     
-    ' Следующая строка
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
     rowCount = rowCount + 1
   
   Loop
 
 End Sub
 
-' Создание списка Кураторы РГС
-Sub list_creation_Кураторы_РГС()
+' РЎРѕР·РґР°РЅРёРµ СЃРїРёСЃРєР° РљСѓСЂР°С‚РѕСЂС‹ Р Р“РЎ
+Sub list_creation_РљСѓСЂР°С‚РѕСЂС‹_Р Р“РЎ()
 '
-Dim Список_получателей_Range_str As String
-Dim Список_получателей_Range_Row, Список_получателей_Range_Column As Byte
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str As String
+Dim РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column As Byte
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
 
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = getFromAddrBook("КРГС", 2)
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = getFromAddrBook("РљР Р“РЎ", 2)
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 End Sub
 
 
-' Копировать адрес сотрудника в буфер
-Sub Копировать_адрес_сотрудника()
+' РљРѕРїРёСЂРѕРІР°С‚СЊ Р°РґСЂРµСЃ СЃРѕС‚СЂСѓРґРЅРёРєР° РІ Р±СѓС„РµСЂ
+Sub РљРѕРїРёСЂРѕРІР°С‚СЊ_Р°РґСЂРµСЃ_СЃРѕС‚СЂСѓРґРЅРёРєР°()
       
       
-  ' Копируем Хэштег в буффер обмена
+  ' РљРѕРїРёСЂСѓРµРј РҐСЌС€С‚РµРі РІ Р±СѓС„С„РµСЂ РѕР±РјРµРЅР°
   ' ThisWorkbook.Sheets("To-Do").Cells(ActiveCell.Row, 5).Copy
 
-  ' Находим ячейку (например G41), в которой записано значение In_К_пор
-  Список_получателей_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "Список получателей:", 100, 100)
-  Список_получателей_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Row
-  Список_получателей_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(Список_получателей_Range_str).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ In_Рљ_РїРѕСЂ
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str = RangeByValue(ThisWorkbook.Name, "Addr.Book", "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Row
+  РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column = Workbooks(ThisWorkbook.Name).Sheets("Addr.Book").Range(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_str).Column
   '
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Value = ThisWorkbook.Sheets("Addr.Book").Cells(ActiveCell.Row, 10).Value
-  ThisWorkbook.Sheets("Addr.Book").Cells(Список_получателей_Range_Row, Список_получателей_Range_Column + 1).Copy
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Value = ThisWorkbook.Sheets("Addr.Book").Cells(ActiveCell.Row, 10).Value
+  ThisWorkbook.Sheets("Addr.Book").Cells(РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Row, РЎРїРёСЃРѕРє_РїРѕР»СѓС‡Р°С‚РµР»РµР№_Range_Column + 1).Copy
 
 
 End Sub
-
