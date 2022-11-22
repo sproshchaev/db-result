@@ -1,80 +1,80 @@
 Attribute VB_Name = "Module_Charts"
-' *** Лист Charts (Графики) ***
+' *** Р›РёСЃС‚ Charts (Р“СЂР°С„РёРєРё) ***
 
-' *** Глобальные переменные ***
-' Public numStr_Лист8 As Integer
+' *** Р“Р»РѕР±Р°Р»СЊРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ ***
+' Public numStr_Р›РёСЃС‚8 As Integer
 
 
 ' ***                       ***
 
-' Создать график по данным из таблицы
-Sub Создать_график()
-Attribute Создать_график.VB_ProcData.VB_Invoke_Func = " \n14"
+' РЎРѕР·РґР°С‚СЊ РіСЂР°С„РёРє РїРѕ РґР°РЅРЅС‹Рј РёР· С‚Р°Р±Р»РёС†С‹
+Sub РЎРѕР·РґР°С‚СЊ_РіСЂР°С„РёРє()
+Attribute РЎРѕР·РґР°С‚СЊ_РіСЂР°С„РёРє.VB_ProcData.VB_Invoke_Func = " \n14"
 
-    ' Выбор диапазона с данныйми по Y Range("C8:I9").Select
+    ' Р’С‹Р±РѕСЂ РґРёР°РїР°Р·РѕРЅР° СЃ РґР°РЅРЅС‹Р№РјРё РїРѕ Y Range("C8:I9").Select
     ThisWorkbook.Sheets("Charts").Range("C9:I9").Select
     
-    ' Добавление графика
+    ' Р”РѕР±Р°РІР»РµРЅРёРµ РіСЂР°С„РёРєР°
     ActiveSheet.Shapes.AddChart2(332, xlLineMarkers, 1000, 150).Select
     
-    ' ActiveChart.SetSourceData Source:=Range("Графики!$C$8:$I$9")
+    ' ActiveChart.SetSourceData Source:=Range("Р“СЂР°С„РёРєРё!$C$8:$I$9")
     ActiveChart.SetSourceData Source:=ThisWorkbook.Sheets("Charts").Range("Charts!$C$8:$I$9")
     
     ActiveChart.ChartTitle.Select
     ActiveChart.Axes(xlValue).MajorGridlines.Select
     
-    ' Надпись наименования графика
-    ActiveChart.ChartTitle.Text = "Выдача ПК"
-    ActiveChart.ChartTitle.Format.TextFrame2.TextRange.Characters.Text = "Выдача ПК"
+    ' РќР°РґРїРёСЃСЊ РЅР°РёРјРµРЅРѕРІР°РЅРёСЏ РіСЂР°С„РёРєР°
+    ActiveChart.ChartTitle.Text = "Р’С‹РґР°С‡Р° РџРљ"
+    ActiveChart.ChartTitle.Format.TextFrame2.TextRange.Characters.Text = "Р’С‹РґР°С‡Р° РџРљ"
     
-    ' Наименование первого ряда
-    ActiveChart.FullSeriesCollection(1).Name = "=""Ряд_1"""
+    ' РќР°РёРјРµРЅРѕРІР°РЅРёРµ РїРµСЂРІРѕРіРѕ СЂСЏРґР°
+    ActiveChart.FullSeriesCollection(1).Name = "=""Р СЏРґ_1"""
     
-    ' Добавление второго ряда
+    ' Р”РѕР±Р°РІР»РµРЅРёРµ РІС‚РѕСЂРѕРіРѕ СЂСЏРґР°
     ActiveChart.PlotArea.Select
     ActiveChart.SeriesCollection.NewSeries
-    ActiveChart.FullSeriesCollection(2).Name = "=""Ряд_2"""
+    ActiveChart.FullSeriesCollection(2).Name = "=""Р СЏРґ_2"""
     ActiveChart.FullSeriesCollection(2).Values = "=Charts!$C$10:$I$10"
     
-    ' Добавление третьего ряда - индекс ряда нужно увеличить FullSeriesCollection(2, затем 3 и т.д.)
+    ' Р”РѕР±Р°РІР»РµРЅРёРµ С‚СЂРµС‚СЊРµРіРѕ СЂСЏРґР° - РёРЅРґРµРєСЃ СЂСЏРґР° РЅСѓР¶РЅРѕ СѓРІРµР»РёС‡РёС‚СЊ FullSeriesCollection(2, Р·Р°С‚РµРј 3 Рё С‚.Рґ.)
     ActiveChart.PlotArea.Select
     ActiveChart.SeriesCollection.NewSeries
-    ActiveChart.FullSeriesCollection(3).Name = "=""Ряд_3"""
+    ActiveChart.FullSeriesCollection(3).Name = "=""Р СЏРґ_3"""
     ActiveChart.FullSeriesCollection(3).Values = "=Charts!$C$11:$I$11"
     
-    ' Добавление легенды
-    ' ActiveSheet.ChartObjects("Диаграмма 23").Activate
+    ' Р”РѕР±Р°РІР»РµРЅРёРµ Р»РµРіРµРЅРґС‹
+    ' ActiveSheet.ChartObjects("Р”РёР°РіСЂР°РјРјР° 23").Activate
     ActiveChart.SetElement (msoElementLegendRight)
-    ' ActiveSheet.ChartObjects("Диаграмма 23").Activate
+    ' ActiveSheet.ChartObjects("Р”РёР°РіСЂР°РјРјР° 23").Activate
     ' ActiveChart.Legend.Select
     ' ActiveChart.Legend.LegendEntries(1).Select
     ' Application.CommandBars("Format Object").Visible = False
 
     
 End Sub
-Sub Макрос4()
-Attribute Макрос4.VB_ProcData.VB_Invoke_Func = " \n14"
+Sub РњР°РєСЂРѕСЃ4()
+Attribute РњР°РєСЂРѕСЃ4.VB_ProcData.VB_Invoke_Func = " \n14"
 '
-' Макрос4 Макрос
+' РњР°РєСЂРѕСЃ4 РњР°РєСЂРѕСЃ
 '
 
 '
-    ActiveSheet.ChartObjects("Диаграмма 9").Activate
+    ActiveSheet.ChartObjects("Р”РёР°РіСЂР°РјРјР° 9").Activate
     ActiveChart.PlotArea.Select
     ActiveChart.SeriesCollection.NewSeries
-    ActiveChart.FullSeriesCollection(2).Name = "=""Ряд2"""
+    ActiveChart.FullSeriesCollection(2).Name = "=""Р СЏРґ2"""
     ActiveChart.FullSeriesCollection(2).Values = "=Charts!$C$10:$I$10"
 End Sub
-Sub Макрос5()
-Attribute Макрос5.VB_ProcData.VB_Invoke_Func = " \n14"
+Sub РњР°РєСЂРѕСЃ5()
+Attribute РњР°РєСЂРѕСЃ5.VB_ProcData.VB_Invoke_Func = " \n14"
 '
-' Макрос5 Макрос
+' РњР°РєСЂРѕСЃ5 РњР°РєСЂРѕСЃ
 '
 
 '
-    ActiveSheet.ChartObjects("Диаграмма 23").Activate
+    ActiveSheet.ChartObjects("Р”РёР°РіСЂР°РјРјР° 23").Activate
     ActiveChart.SetElement (msoElementLegendRight)
-    ActiveSheet.ChartObjects("Диаграмма 23").Activate
+    ActiveSheet.ChartObjects("Р”РёР°РіСЂР°РјРјР° 23").Activate
     ActiveChart.Legend.Select
     ActiveChart.Legend.LegendEntries(1).Select
     Application.CommandBars("Format Object").Visible = False
