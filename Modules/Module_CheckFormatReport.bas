@@ -1,50 +1,50 @@
 Attribute VB_Name = "Module_CheckFormatReport"
-' Проверка формата открываемых файлов (перенесено сюда из Module_DLL)
+' РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° РѕС‚РєСЂС‹РІР°РµРјС‹С… С„Р°Р№Р»РѕРІ (РїРµСЂРµРЅРµСЃРµРЅРѕ СЃСЋРґР° РёР· Module_DLL)
 
-' 34. Проверка формата открываемых отчетов
+' 34. РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° РѕС‚РєСЂС‹РІР°РµРјС‹С… РѕС‚С‡РµС‚РѕРІ
 Function CheckFormatReport(In_Workbooks, In_Sheets, In_TypeReport, In_Date) As String
 
 Dim find_office_1, find_office_2, find_office_3, find_office_4, find_office_5, stop_process As Boolean
 
   CheckFormatReport = ""
 
-  ' 1 - DB: в на листе "Оглавление" в A1="Отчет по состоянию на 04.08.2020"
+  ' 1 - DB: РІ РЅР° Р»РёСЃС‚Рµ "РћРіР»Р°РІР»РµРЅРёРµ" РІ A1="РћС‚С‡РµС‚ РїРѕ СЃРѕСЃС‚РѕСЏРЅРёСЋ РЅР° 04.08.2020"
   If In_TypeReport = 1 Then
             
-    ' Если на листе F1 в "A1" находится "Тип карт", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ F1 РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "РўРёРї РєР°СЂС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Отчет по состоянию на") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "РћС‚С‡РµС‚ РїРѕ СЃРѕСЃС‚РѕСЏРЅРёСЋ РЅР°") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
 
   
   ' 2 - ML
   
-  ' 3 - Объем кредитного портфеля с изменениями за период
+  ' 3 - РћР±СЉРµРј РєСЂРµРґРёС‚РЅРѕРіРѕ РїРѕСЂС‚С„РµР»СЏ СЃ РёР·РјРµРЅРµРЅРёСЏРјРё Р·Р° РїРµСЂРёРѕРґ
   If In_TypeReport = 3 Then
     
-    ' Если в A1 "Объем кредитного портфеля с учетом изменений за период c 01.01.2020 по 17.03.2020"
+    ' Р•СЃР»Рё РІ A1 "РћР±СЉРµРј РєСЂРµРґРёС‚РЅРѕРіРѕ РїРѕСЂС‚С„РµР»СЏ СЃ СѓС‡РµС‚РѕРј РёР·РјРµРЅРµРЅРёР№ Р·Р° РїРµСЂРёРѕРґ c 01.01.2020 РїРѕ 17.03.2020"
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
     
-      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Объем кредитного портфеля с учетом изменений за период") <> 0 Then
+      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "РћР±СЉРµРј РєСЂРµРґРёС‚РЅРѕРіРѕ РїРѕСЂС‚С„РµР»СЏ СЃ СѓС‡РµС‚РѕРј РёР·РјРµРЅРµРЅРёР№ Р·Р° РїРµСЂРёРѕРґ") <> 0 Then
       
-        ' Проверяем дату отчета - в A2  "За период с 01.01.2020 по 12.03.2020"
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р° - РІ A2  "Р—Р° РїРµСЂРёРѕРґ СЃ 01.01.2020 РїРѕ 12.03.2020"
         If (CDate(Mid(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, 58, 10)) = YearStartDate(In_Date)) And (CDate(Mid(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, 72, 10)) = In_Date) Then
           
           
@@ -58,28 +58,28 @@ Dim find_office_1, find_office_2, find_office_3, find_office_4, find_office_5, s
           RecCount = 8
           Do While (Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value <> "") And (stop_process = False)
             
-            ' Проверяем офис
-            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "Тюменский") <> 0 Then
+            ' РџСЂРѕРІРµСЂСЏРµРј РѕС„РёСЃ
+            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "РўСЋРјРµРЅСЃРєРёР№") <> 0 Then
               find_office_1 = True
             End If
-            ' Проверяем офис 2
-            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "Сургутский") <> 0 Then
+            ' РџСЂРѕРІРµСЂСЏРµРј РѕС„РёСЃ 2
+            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0 Then
               find_office_2 = True
             End If
-            ' Проверяем офис 3
-            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "Нижневартовский") <> 0 Then
+            ' РџСЂРѕРІРµСЂСЏРµРј РѕС„РёСЃ 3
+            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") <> 0 Then
               find_office_3 = True
             End If
-            ' Проверяем офис 4
-            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "Новоуренгойский") <> 0 Then
+            ' РџСЂРѕРІРµСЂСЏРµРј РѕС„РёСЃ 4
+            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№") <> 0 Then
               find_office_4 = True
             End If
-            ' Проверяем офис 5
-            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "Тарко-Сале") <> 0 Then
+            ' РџСЂРѕРІРµСЂСЏРµРј РѕС„РёСЃ 5
+            If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RecCount, 2).Value, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0 Then
               find_office_5 = True
             End If
             
-            ' Если нашли все 5, то останавливаем процесс
+            ' Р•СЃР»Рё РЅР°С€Р»Рё РІСЃРµ 5, С‚Рѕ РѕСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїСЂРѕС†РµСЃСЃ
             If (find_office_1 = True) And (find_office_2 = True) And (find_office_3 = True) And (find_office_4 = True) And (find_office_5 = True) Then
               stop_process = True
             End If
@@ -87,444 +87,442 @@ Dim find_office_1, find_office_2, find_office_3, find_office_4, find_office_5, s
             RecCount = RecCount + 1
           Loop
           
-          ' Здесь проверяем наличе 5-ти офисов
+          ' Р—РґРµСЃСЊ РїСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡Рµ 5-С‚Рё РѕС„РёСЃРѕРІ
           If (find_office_1 = True) And (find_office_2 = True) And (find_office_3 = True) And (find_office_4 = True) And (find_office_5 = True) Then
-              ' Значит отчет верный и правильная дата
+              ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
               CheckFormatReport = "OK"
             Else
               
-              ' Значит в отчете нет всех офисов
-              CheckFormatReport = "Не все офисы в отчете!"
+              ' Р—РЅР°С‡РёС‚ РІ РѕС‚С‡РµС‚Рµ РЅРµС‚ РІСЃРµС… РѕС„РёСЃРѕРІ
+              CheckFormatReport = "РќРµ РІСЃРµ РѕС„РёСЃС‹ РІ РѕС‚С‡РµС‚Рµ!"
             
           End If
           
         Else
           
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
       
   End If
   
 
-  ' 4 - Договора к закрытию в течение 30 дней
+  ' 4 - Р”РѕРіРѕРІРѕСЂР° Рє Р·Р°РєСЂС‹С‚РёСЋ РІ С‚РµС‡РµРЅРёРµ 30 РґРЅРµР№
  
-  ' 5 - Отчет об эмиссии банковских карт доп. офисами филиала
+  ' 5 - РћС‚С‡РµС‚ РѕР± СЌРјРёСЃСЃРёРё Р±Р°РЅРєРѕРІСЃРєРёС… РєР°СЂС‚ РґРѕРї. РѕС„РёСЃР°РјРё С„РёР»РёР°Р»Р°
   If In_TypeReport = 5 Then
     
-    ' Если в A1 "Отчет об эмиссии банковских карт доп. офисами филиала"
+    ' Р•СЃР»Рё РІ A1 "РћС‚С‡РµС‚ РѕР± СЌРјРёСЃСЃРёРё Р±Р°РЅРєРѕРІСЃРєРёС… РєР°СЂС‚ РґРѕРї. РѕС„РёСЃР°РјРё С„РёР»РёР°Р»Р°"
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
-      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value = "Отчет об эмиссии банковских карт доп. офисами филиала") Then
-        ' Проверяем дату отчета - в A2  "За период с 01.01.2020 по 12.03.2020"
+      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value = "РћС‚С‡РµС‚ РѕР± СЌРјРёСЃСЃРёРё Р±Р°РЅРєРѕРІСЃРєРёС… РєР°СЂС‚ РґРѕРї. РѕС„РёСЃР°РјРё С„РёР»РёР°Р»Р°") Then
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р° - РІ A2  "Р—Р° РїРµСЂРёРѕРґ СЃ 01.01.2020 РїРѕ 12.03.2020"
         If (CDate(Mid(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A2").Value, 28, 10)) = In_Date) And (Mid(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A2").Value, 14, 10) = "01.01." + Mid(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A2").Value, 34, 4)) Then
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
       
   End If
   
-  ' 6 - Кредитный портфель в аналитике для физ.лиц (по доп. офисам)
+  ' 6 - РљСЂРµРґРёС‚РЅС‹Р№ РїРѕСЂС‚С„РµР»СЊ РІ Р°РЅР°Р»РёС‚РёРєРµ РґР»СЏ С„РёР·.Р»РёС† (РїРѕ РґРѕРї. РѕС„РёСЃР°Рј)
   If In_TypeReport = 6 Then
-    ' Если в A1 "Кредитный портфель в аналитике на "
+    ' Р•СЃР»Рё РІ A1 "РљСЂРµРґРёС‚РЅС‹Р№ РїРѕСЂС‚С„РµР»СЊ РІ Р°РЅР°Р»РёС‚РёРєРµ РЅР° "
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
-      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value = "Кредитный портфель в аналитике на ") Then
-        ' Проверяем дату отчета
+      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value = "РљСЂРµРґРёС‚РЅС‹Р№ РїРѕСЂС‚С„РµР»СЊ РІ Р°РЅР°Р»РёС‚РёРєРµ РЅР° ") Then
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date Then
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
-  ' --- 6 - Кредитный портфель в аналитике для физ.лиц (по доп. офисам)
+  ' --- 6 - РљСЂРµРґРёС‚РЅС‹Р№ РїРѕСЂС‚С„РµР»СЊ РІ Р°РЅР°Р»РёС‚РёРєРµ РґР»СЏ С„РёР·.Р»РёС† (РїРѕ РґРѕРї. РѕС„РёСЃР°Рј)
   
-  ' 7 - Отчет Capacity
+  ' 7 - РћС‚С‡РµС‚ Capacity
   If In_TypeReport = 7 Then
-    ' Если в A1 "Кредитный портфель в аналитике на "
+    ' Р•СЃР»Рё РІ A1 "РљСЂРµРґРёС‚РЅС‹Р№ РїРѕСЂС‚С„РµР»СЊ РІ Р°РЅР°Р»РёС‚РёРєРµ РЅР° "
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       
-      ' Иногда бывает пустая строка
-      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B6").Value = "Кол-во клиентов") Or (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B7").Value = "Кол-во клиентов") Then
-        ' Проверяем дату отчета
+      ' РРЅРѕРіРґР° Р±С‹РІР°РµС‚ РїСѓСЃС‚Р°СЏ СЃС‚СЂРѕРєР°
+      If (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B6").Value = "РљРѕР»-РІРѕ РєР»РёРµРЅС‚РѕРІ") Or (Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B7").Value = "РљРѕР»-РІРѕ РєР»РёРµРЅС‚РѕРІ") Then
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 8 - Отчет План/Факт за ДД.ММ.ГГГГ по продуктам ИСЖ_НСЖ
+  ' 8 - РћС‚С‡РµС‚ РџР»Р°РЅ/Р¤Р°РєС‚ Р·Р° Р”Р”.РњРњ.Р“Р“Р“Р“ РїРѕ РїСЂРѕРґСѓРєС‚Р°Рј РРЎР–_РќРЎР–
   If In_TypeReport = 8 Then
     
-    ' Если в E2 "Отчет обновлен на 19.03.2020 за 18.03.2020 (полный день)"
+    ' Р•СЃР»Рё РІ E2 "РћС‚С‡РµС‚ РѕР±РЅРѕРІР»РµРЅ РЅР° 19.03.2020 Р·Р° 18.03.2020 (РїРѕР»РЅС‹Р№ РґРµРЅСЊ)"
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("E2").Value, "Отчет обновлен на ") <> 0 Then
+      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("E2").Value, "РћС‚С‡РµС‚ РѕР±РЅРѕРІР»РµРЅ РЅР° ") <> 0 Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 9 - Отчетность ЕСУП_итог 15.03.2020 (от Карэна)
+  ' 9 - РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ_РёС‚РѕРі 15.03.2020 (РѕС‚ РљР°СЂСЌРЅР°)
   If In_TypeReport = 9 Then
     
-    ' Если в C2 находится текст: Данный отчет позволяет проанализировать количество выкладываемых документов  в папки по Регулярным управленческим процедурам  в "Файловом хранилище руководителя"
+    ' Р•СЃР»Рё РІ C2 РЅР°С…РѕРґРёС‚СЃСЏ С‚РµРєСЃС‚: Р”Р°РЅРЅС‹Р№ РѕС‚С‡РµС‚ РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕР°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹РєР»Р°РґС‹РІР°РµРјС‹С… РґРѕРєСѓРјРµРЅС‚РѕРІ  РІ РїР°РїРєРё РїРѕ Р РµРіСѓР»СЏСЂРЅС‹Рј СѓРїСЂР°РІР»РµРЅС‡РµСЃРєРёРј РїСЂРѕС†РµРґСѓСЂР°Рј  РІ "Р¤Р°Р№Р»РѕРІРѕРј С…СЂР°РЅРёР»РёС‰Рµ СЂСѓРєРѕРІРѕРґРёС‚РµР»СЏ"
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C2").Value, "Данный отчет позволяет проанализировать количество выкладываемых документов") <> 0 Then
+      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C2").Value, "Р”Р°РЅРЅС‹Р№ РѕС‚С‡РµС‚ РїРѕР·РІРѕР»СЏРµС‚ РїСЂРѕР°РЅР°Р»РёР·РёСЂРѕРІР°С‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РІС‹РєР»Р°РґС‹РІР°РµРјС‹С… РґРѕРєСѓРјРµРЅС‚РѕРІ") <> 0 Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
   
-  ' 10 - "Декомпозиция планов продаж_Xкв.20YY" + " возможные дополнения"
+  ' 10 - "Р”РµРєРѕРјРїРѕР·РёС†РёСЏ РїР»Р°РЅРѕРІ РїСЂРѕРґР°Р¶_XРєРІ.20YY" + " РІРѕР·РјРѕР¶РЅС‹Рµ РґРѕРїРѕР»РЅРµРЅРёСЏ"
   If In_TypeReport = 10 Then
     
-    ' Если в "B1" находится "ПК МРК/МК, тыс. руб."
+    ' Р•СЃР»Рё РІ "B1" РЅР°С…РѕРґРёС‚СЃСЏ "РџРљ РњР Рљ/РњРљ, С‚С‹СЃ. СЂСѓР±."
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      ' If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B1").Value, "ПК МРК/МК, тыс. руб.") <> 0 Then
-      ' C 2021 года "ПК МРК/МК (Офис+ИБ), тыс. руб."
-      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B1").Value, "ПК МРК/МК (Офис+ИБ), тыс. руб.") <> 0 Then
+      ' If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B1").Value, "РџРљ РњР Рљ/РњРљ, С‚С‹СЃ. СЂСѓР±.") <> 0 Then
+      ' C 2021 РіРѕРґР° "РџРљ РњР Рљ/РњРљ (РћС„РёСЃ+РР‘), С‚С‹СЃ. СЂСѓР±."
+      If InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B1").Value, "РџРљ РњР Рљ/РњРљ (РћС„РёСЃ+РР‘), С‚С‹СЃ. СЂСѓР±.") <> 0 Then
       
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 11 - "Выданные кредиты по прескриннингу"
+  ' 11 - "Р’С‹РґР°РЅРЅС‹Рµ РєСЂРµРґРёС‚С‹ РїРѕ РїСЂРµСЃРєСЂРёРЅРЅРёРЅРіСѓ"
   If In_TypeReport = 11 Then
     
-    ' Дата начала периода отчета
-    ' 01.01.2020 => "01 января 2020"
-    dateInStringFormat1 = "01 января " + CStr(Year(In_Date)) + " г."
+    ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РїРµСЂРёРѕРґР° РѕС‚С‡РµС‚Р°
+    ' 01.01.2020 => "01 СЏРЅРІР°СЂСЏ 2020"
+    dateInStringFormat1 = "01 СЏРЅРІР°СЂСЏ " + CStr(Year(In_Date)) + " Рі."
     
-    ' 01.01.2020 => "01 января 2020"
-    dateInStringFormat2 = CStr(Day(In_Date)) + " " + ИмяМесяца2(In_Date) + " " + CStr(Year(In_Date)) + " г."
+    ' 01.01.2020 => "01 СЏРЅРІР°СЂСЏ 2020"
+    dateInStringFormat2 = CStr(Day(In_Date)) + " " + РРјСЏРњРµСЃСЏС†Р°2(In_Date) + " " + CStr(Year(In_Date)) + " Рі."
         
-    ' Если в "A1" находится "Выданные кредиты по прескриннингу за период с 01 января 2020 г. по 06 июля 2020 г."
+    ' Р•СЃР»Рё РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "Р’С‹РґР°РЅРЅС‹Рµ РєСЂРµРґРёС‚С‹ РїРѕ РїСЂРµСЃРєСЂРёРЅРЅРёРЅРіСѓ Р·Р° РїРµСЂРёРѕРґ СЃ 01 СЏРЅРІР°СЂСЏ 2020 Рі. РїРѕ 06 РёСЋР»СЏ 2020 Рі."
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
       If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, dateInStringFormat1) <> 0) And ((InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, dateInStringFormat2) <> 0)) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 12 - Cards_emisssion_ДД_ММ_ГГ_(2019)_2
+  ' 12 - Cards_emisssion_Р”Р”_РњРњ_Р“Р“_(2019)_2
   If In_TypeReport = 12 Then
             
-    ' Если на листе F1 в "A1" находится "Тип карт", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ F1 РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "РўРёРї РєР°СЂС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Тип карт") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "РўРёРї РєР°СЂС‚") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 14 - Выписка из Протоколов (Исполнено/Не исполнено)
+  ' 14 - Р’С‹РїРёСЃРєР° РёР· РџСЂРѕС‚РѕРєРѕР»РѕРІ (РСЃРїРѕР»РЅРµРЅРѕ/РќРµ РёСЃРїРѕР»РЅРµРЅРѕ)
   If In_TypeReport = 14 Then
             
-    ' Если на листе F1 в "A1" находится "Тип карт", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ F1 РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "РўРёРї РєР°СЂС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value, "Выписка из Протоколов") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value, "Р’С‹РїРёСЃРєР° РёР· РџСЂРѕС‚РѕРєРѕР»РѕРІ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 15 - Воронка
+  ' 15 - Р’РѕСЂРѕРЅРєР°
   If In_TypeReport = 15 Then
             
-    ' Если на листе F1 в "A1" находится "Тип карт", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ F1 РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "РўРёРї РєР°СЂС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
       If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Flag_action") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
   ' 16 - PL
   If In_TypeReport = 16 Then
             
-    ' Если на листе F1 в "A1" находится "Тип карт", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ F1 РІ "A1" РЅР°С…РѕРґРёС‚СЃСЏ "РўРёРї РєР°СЂС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B2").Value, "Оглавление") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("B2").Value, "РћРіР»Р°РІР»РµРЅРёРµ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
   
-  ' 17 - Обработка отчета http://isrb.psbnk.msk.ru/inf/6601/6622/otchet_zp_org/
+  ' 17 - РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° http://isrb.psbnk.msk.ru/inf/6601/6622/otchet_zp_org/
   If In_TypeReport = 17 Then
             
-    ' Если на листе "сводная по ТП" в "A4" находится "бакет по численности орг", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ "СЃРІРѕРґРЅР°СЏ РїРѕ РўРџ" РІ "A4" РЅР°С…РѕРґРёС‚СЃСЏ "Р±Р°РєРµС‚ РїРѕ С‡РёСЃР»РµРЅРЅРѕСЃС‚Рё РѕСЂРі", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      ' If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A4").Value, "бакет по численности орг") <> 0) Then
+      ' If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A4").Value, "Р±Р°РєРµС‚ РїРѕ С‡РёСЃР»РµРЅРЅРѕСЃС‚Рё РѕСЂРі") <> 0) Then
       
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A4").Value, "категория") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A4").Value, "РєР°С‚РµРіРѕСЂРёСЏ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
     
-  ' 18 - Обработка отчета "Отчётность по входящему потоку с PA" http://isrb.psbnk.msk.ru/inf/6601/6622/ochet_PA/
+  ' 18 - РћР±СЂР°Р±РѕС‚РєР° РѕС‚С‡РµС‚Р° "РћС‚С‡С‘С‚РЅРѕСЃС‚СЊ РїРѕ РІС…РѕРґСЏС‰РµРјСѓ РїРѕС‚РѕРєСѓ СЃ PA" http://isrb.psbnk.msk.ru/inf/6601/6622/ochet_PA/
   If In_TypeReport = 18 Then
             
-    ' Если на листе "Вх. поток с РА-ПК (мес)" в "A6" находится "Таргет", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ "Р’С…. РїРѕС‚РѕРє СЃ Р Рђ-РџРљ (РјРµСЃ)" РІ "A6" РЅР°С…РѕРґРёС‚СЃСЏ "РўР°СЂРіРµС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A6").Value, "Таргет") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A6").Value, "РўР°СЂРіРµС‚") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
     
-  ' 19 - Новый Capacity (Capacity_new)
+  ' 19 - РќРѕРІС‹Р№ Capacity (Capacity_new)
   If In_TypeReport = 19 Then
             
-    ' Если на листе "Вх. поток с РА-ПК (мес)" в "A6" находится "Таргет", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ "Р’С…. РїРѕС‚РѕРє СЃ Р Рђ-РџРљ (РјРµСЃ)" РІ "A6" РЅР°С…РѕРґРёС‚СЃСЏ "РўР°СЂРіРµС‚", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Гр-КПС") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Р“СЂ-РљРџРЎ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
     
-  ' 20 - Отчет по ЗП_Nкв_YYYY_DD.MM.YYYY_v1 (1)
+  ' 20 - РћС‚С‡РµС‚ РїРѕ Р—Рџ_NРєРІ_YYYY_DD.MM.YYYY_v1 (1)
   If In_TypeReport = 20 Then
             
-    ' Если на листе "Сотр. прод." в "A" находится "Квартал Год", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ "РЎРѕС‚СЂ. РїСЂРѕРґ." РІ "A" РЅР°С…РѕРґРёС‚СЃСЏ "РљРІР°СЂС‚Р°Р» Р“РѕРґ", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Квартал Год") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "РљРІР°СЂС‚Р°Р» Р“РѕРґ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
     
-  ' 21 - Pipe ЗП
+  ' 21 - Pipe Р—Рџ
   If In_TypeReport = 21 Then
             
-    ' Если на листе "Сотр. прод." в "A" находится "Квартал Год", то считаем, что формат верный
+    ' Р•СЃР»Рё РЅР° Р»РёСЃС‚Рµ "РЎРѕС‚СЂ. РїСЂРѕРґ." РІ "A" РЅР°С…РѕРґРёС‚СЃСЏ "РљРІР°СЂС‚Р°Р» Р“РѕРґ", С‚Рѕ СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С„РѕСЂРјР°С‚ РІРµСЂРЅС‹Р№
     If Sheets_Exist2(In_Workbooks, In_Sheets) = True Then
       '
-      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Регион") <> 0) Then
+      If (InStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("A1").Value, "Р РµРіРёРѕРЅ") <> 0) Then
         
-        ' Проверяем дату отчета
+        ' РџСЂРѕРІРµСЂСЏРµРј РґР°С‚Сѓ РѕС‚С‡РµС‚Р°
         If True Then ' CDate(Workbooks(In_Workbooks).Sheets(In_Sheets).Range("C1").Value) = In_Date
-          ' Значит отчет верный и правильная дата
+          ' Р—РЅР°С‡РёС‚ РѕС‚С‡РµС‚ РІРµСЂРЅС‹Р№ Рё РїСЂР°РІРёР»СЊРЅР°СЏ РґР°С‚Р°
           CheckFormatReport = "OK"
         Else
-          CheckFormatReport = "неверная дата в отчёте"
+          CheckFormatReport = "РЅРµРІРµСЂРЅР°СЏ РґР°С‚Р° РІ РѕС‚С‡С‘С‚Рµ"
         End If
       Else
-        ' Если в книге нет в заданной ячейки заданного значения
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РєРЅРёРіРµ РЅРµС‚ РІ Р·Р°РґР°РЅРЅРѕР№ СЏС‡РµР№РєРё Р·Р°РґР°РЅРЅРѕРіРѕ Р·РЅР°С‡РµРЅРёСЏ
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
       End If
     Else
-        ' Если в Книге нет Листа с таким именем
-        CheckFormatReport = "выбран неверный формат"
+        ' Р•СЃР»Рё РІ РљРЅРёРіРµ РЅРµС‚ Р›РёСЃС‚Р° СЃ С‚Р°РєРёРј РёРјРµРЅРµРј
+        CheckFormatReport = "РІС‹Р±СЂР°РЅ РЅРµРІРµСЂРЅС‹Р№ С„РѕСЂРјР°С‚"
     End If
   End If
     
-    
 End Function
-
