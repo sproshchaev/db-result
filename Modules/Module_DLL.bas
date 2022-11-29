@@ -1,212 +1,212 @@
 Attribute VB_Name = "Module_DLL"
 ' ----------------------------------------------------------------------------------------------------------------
-' Здесь хранятся все пользовательские процедуры и функции, которые затем можно перенести в надстройку *
+' Р—РґРµСЃСЊ С…СЂР°РЅСЏС‚СЃСЏ РІСЃРµ РїРѕР»СЊР·РѕРІР°С‚РµР»СЊСЃРєРёРµ РїСЂРѕС†РµРґСѓСЂС‹ Рё С„СѓРЅРєС†РёРё, РєРѕС‚РѕСЂС‹Рµ Р·Р°С‚РµРј РјРѕР¶РЅРѕ РїРµСЂРµРЅРµСЃС‚Рё РІ РЅР°РґСЃС‚СЂРѕР№РєСѓ *
 '
-' * Создание надстроек: https://excelpedia.ru/bez-rubriki/kak-sozdat-polzovatelskuyu-funkciyu-v-excel-ispolzuya-vba
+' * РЎРѕР·РґР°РЅРёРµ РЅР°РґСЃС‚СЂРѕРµРє: https://excelpedia.ru/bez-rubriki/kak-sozdat-polzovatelskuyu-funkciyu-v-excel-ispolzuya-vba
 '
 ' ----------------------------------------------------------------------------------------------------------------
 
-' 1. Определение даты начала недели
+' 1. РћРїСЂРµРґРµР»РµРЅРёРµ РґР°С‚С‹ РЅР°С‡Р°Р»Р° РЅРµРґРµР»Рё
 Function weekStartDate(In_Date) As Date
-  ' Иницииализация результата
+  ' РРЅРёС†РёРёР°Р»РёР·Р°С†РёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р°
   weekStartDate = In_Date
-  ' От текущей даты In_Date отнимаем один день, пока не получим понедельник
+  ' РћС‚ С‚РµРєСѓС‰РµР№ РґР°С‚С‹ In_Date РѕС‚РЅРёРјР°РµРј РѕРґРёРЅ РґРµРЅСЊ, РїРѕРєР° РЅРµ РїРѕР»СѓС‡РёРј РїРѕРЅРµРґРµР»СЊРЅРёРє
   Do While Weekday(weekStartDate, vbMonday) <> 1
     weekStartDate = weekStartDate - 1
   Loop
 End Function
 
-' 2. Дата конца недели
+' 2. Р”Р°С‚Р° РєРѕРЅС†Р° РЅРµРґРµР»Рё
 Function weekEndDate(In_Date) As Date
-  ' Иницииализация результата
+  ' РРЅРёС†РёРёР°Р»РёР·Р°С†РёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р°
   weekEndDate = In_Date
-  ' От текущей даты In_Date отнимаем один день, пока не получим понедельник
+  ' РћС‚ С‚РµРєСѓС‰РµР№ РґР°С‚С‹ In_Date РѕС‚РЅРёРјР°РµРј РѕРґРёРЅ РґРµРЅСЊ, РїРѕРєР° РЅРµ РїРѕР»СѓС‡РёРј РїРѕРЅРµРґРµР»СЊРЅРёРє
   Do While Weekday(weekEndDate, vbMonday) <> 7
     weekEndDate = weekEndDate + 1
   Loop
-  ' Из цикла выходим на субботе прибавляем +1 день
+  ' РР· С†РёРєР»Р° РІС‹С…РѕРґРёРј РЅР° СЃСѓР±Р±РѕС‚Рµ РїСЂРёР±Р°РІР»СЏРµРј +1 РґРµРЅСЊ
   ' weekEndDate = weekEndDate + 1
 End Function
 
-' 3. Подстрока ДД.ММ из Даты
+' 3. РџРѕРґСЃС‚СЂРѕРєР° Р”Р”.РњРњ РёР· Р”Р°С‚С‹
 Function strDDMM(In_Date) As String
   strDDMM = Mid(CStr(In_Date), 1, 5)
 End Function
 
-' 4. Подстрока ДДММГГГГ из Даты
+' 4. РџРѕРґСЃС‚СЂРѕРєР° Р”Р”РњРњР“Р“Р“Р“ РёР· Р”Р°С‚С‹
 Function strDDMMYYYY(In_Date) As String
   strDDMMYYYY = Mid(CStr(In_Date), 1, 2) + Mid(CStr(In_Date), 4, 2) + Mid(CStr(In_Date), 7, 4)
 End Function
 
-' 4. Подстрока ДДММГГ из Даты
+' 4. РџРѕРґСЃС‚СЂРѕРєР° Р”Р”РњРњР“Р“ РёР· Р”Р°С‚С‹
 Function strDDMMYY(In_Date) As String
   strDDMMYY = Mid(CStr(In_Date), 1, 2) + Mid(CStr(In_Date), 4, 2) + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.1 Подстрока ММГГ из Даты
+' 4.1 РџРѕРґСЃС‚СЂРѕРєР° РњРњР“Р“ РёР· Р”Р°С‚С‹
 Function strMMYY(In_Date) As String
   strMMYY = Mid(CStr(In_Date), 4, 2) + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.1 Подстрока ГГ из Даты
+' 4.1 РџРѕРґСЃС‚СЂРѕРєР° Р“Р“ РёР· Р”Р°С‚С‹
 Function strYY(In_Date) As String
   strYY = Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.1.1 Дата начала месяца из Подстроки ММГГ
-Function dateBeginFromStrMMYY(In_ММГГ) As Date
-  dateBeginFromStrMMYY = CDate("01." + Mid(CStr(In_ММГГ), 1, 2) + ".20" + Mid(CStr(In_ММГГ), 3, 2))
+' 4.1.1 Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р° РёР· РџРѕРґСЃС‚СЂРѕРєРё РњРњР“Р“
+Function dateBeginFromStrMMYY(In_РњРњР“Р“) As Date
+  dateBeginFromStrMMYY = CDate("01." + Mid(CStr(In_РњРњР“Р“), 1, 2) + ".20" + Mid(CStr(In_РњРњР“Р“), 3, 2))
 End Function
 
-' 4.1.2 Дата конца месяца из Подстроки ММГГ
-Function dateEndFromStrMMYY(In_ММГГ) As Date
-  dateEndFromStrMMYY = Date_last_day_month(CDate("01." + Mid(CStr(In_ММГГ), 1, 2) + ".20" + Mid(CStr(In_ММГГ), 3, 2)))
+' 4.1.2 Р”Р°С‚Р° РєРѕРЅС†Р° РјРµСЃСЏС†Р° РёР· РџРѕРґСЃС‚СЂРѕРєРё РњРњР“Р“
+Function dateEndFromStrMMYY(In_РњРњР“Р“) As Date
+  dateEndFromStrMMYY = Date_last_day_month(CDate("01." + Mid(CStr(In_РњРњР“Р“), 1, 2) + ".20" + Mid(CStr(In_РњРњР“Р“), 3, 2)))
 End Function
 
-' 4.2. Функция firstMonthYear_strMMYY возвращает из 06.08.2020 строку "0120"
+' 4.2. Р¤СѓРЅРєС†РёСЏ firstMonthYear_strMMYY РІРѕР·РІСЂР°С‰Р°РµС‚ РёР· 06.08.2020 СЃС‚СЂРѕРєСѓ "0120"
 Function firstMonthYear_strMMYY(In_Date) As String
   firstMonthYear_strMMYY = "01" + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.3 Если сейчас 06.08.2020, то функция вернет 0720
+' 4.3 Р•СЃР»Рё СЃРµР№С‡Р°СЃ 06.08.2020, С‚Рѕ С„СѓРЅРєС†РёСЏ РІРµСЂРЅРµС‚ 0720
 Function pastMonth_strMMYY(In_Date) As String
-  Месяц = Month(In_Date)
-  ' Номер предидущего месяца
-  Месяц = Месяц - 1
-  ' Cтавим "0" перед месяцем, если месяц от 1 до 9
-  If Месяц < 10 Then
-    Месяц_str = "0" + CStr(Месяц)
+  РњРµСЃСЏС† = Month(In_Date)
+  ' РќРѕРјРµСЂ РїСЂРµРґРёРґСѓС‰РµРіРѕ РјРµСЃСЏС†Р°
+  РњРµСЃСЏС† = РњРµСЃСЏС† - 1
+  ' CС‚Р°РІРёРј "0" РїРµСЂРµРґ РјРµСЃСЏС†РµРј, РµСЃР»Рё РјРµСЃСЏС† РѕС‚ 1 РґРѕ 9
+  If РњРµСЃСЏС† < 10 Then
+    РњРµСЃСЏС†_str = "0" + CStr(РњРµСЃСЏС†)
   Else
-    Месяц_str = CStr(Месяц)
+    РњРµСЃСЏС†_str = CStr(РњРµСЃСЏС†)
   End If
-  pastMonth_strMMYY = Месяц_str + Mid(CStr(In_Date), 9, 2)
+  pastMonth_strMMYY = РњРµСЃСЏС†_str + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.4 Подстрока ДД-ММ-ГГ из Даты
-Function strДД_MM_YY(In_Date) As String
-  strДД_MM_YY = Mid(CStr(In_Date), 1, 2) + "-" + Mid(CStr(In_Date), 4, 2) + "-" + Mid(CStr(In_Date), 9, 2)
+' 4.4 РџРѕРґСЃС‚СЂРѕРєР° Р”Р”-РњРњ-Р“Р“ РёР· Р”Р°С‚С‹
+Function strР”Р”_MM_YY(In_Date) As String
+  strР”Р”_MM_YY = Mid(CStr(In_Date), 1, 2) + "-" + Mid(CStr(In_Date), 4, 2) + "-" + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.4.1 Подстрока ДД.ММ.ГГ из Даты
-Function strДД_MM_YY2(In_Date) As String
-  strДД_MM_YY2 = Mid(CStr(In_Date), 1, 2) + "." + Mid(CStr(In_Date), 4, 2) + "." + Mid(CStr(In_Date), 9, 2)
+' 4.4.1 РџРѕРґСЃС‚СЂРѕРєР° Р”Р”.РњРњ.Р“Р“ РёР· Р”Р°С‚С‹
+Function strР”Р”_MM_YY2(In_Date) As String
+  strР”Р”_MM_YY2 = Mid(CStr(In_Date), 1, 2) + "." + Mid(CStr(In_Date), 4, 2) + "." + Mid(CStr(In_Date), 9, 2)
 End Function
 
-' 4.5 Подстрока ДД-ММ-ГГГГ из Даты
-Function strДД_MM_YYYY(In_Date) As String
-  strДД_MM_YYYY = Mid(CStr(In_Date), 1, 2) + "-" + Mid(CStr(In_Date), 4, 2) + "-" + Mid(CStr(In_Date), 7, 4)
+' 4.5 РџРѕРґСЃС‚СЂРѕРєР° Р”Р”-РњРњ-Р“Р“Р“Р“ РёР· Р”Р°С‚С‹
+Function strР”Р”_MM_YYYY(In_Date) As String
+  strР”Р”_MM_YYYY = Mid(CStr(In_Date), 1, 2) + "-" + Mid(CStr(In_Date), 4, 2) + "-" + Mid(CStr(In_Date), 7, 4)
 End Function
 
-' 5. Определение числа рабочих дней в полном месяца
+' 5. РћРїСЂРµРґРµР»РµРЅРёРµ С‡РёСЃР»Р° СЂР°Р±РѕС‡РёС… РґРЅРµР№ РІ РїРѕР»РЅРѕРј РјРµСЃСЏС†Р°
 Function Working_days_in_the_FullMonth(In_Date, In_working_days_in_the_week) As Integer
-  ' Декодируем дату In_Date
-  ' Месяц
-  Месяц = Month(In_Date)
-  ' Год
-  Год = Year(In_Date)
-  ' Первый день следующего месяца
-  If Месяц = 12 Then
-    Месяц = 0
-    Год = Год + 1
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_Date
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
+  ' РџРµСЂРІС‹Р№ РґРµРЅСЊ СЃР»РµРґСѓСЋС‰РµРіРѕ РјРµСЃСЏС†Р°
+  If РњРµСЃСЏС† = 12 Then
+    РњРµСЃСЏС† = 0
+    Р“РѕРґ = Р“РѕРґ + 1
   End If
   
-  Первый_день_следующего_месяца = CDate("01." + CStr(Месяц + 1) + "." + CStr(Год))
-  ' Дата начала месяца
-  Текущая_дата_рассчета = CDate("01." + Mid(CStr(In_Date), 4, 7))
+  РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° = CDate("01." + CStr(РњРµСЃСЏС† + 1) + "." + CStr(Р“РѕРґ))
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р°
+  РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = CDate("01." + Mid(CStr(In_Date), 4, 7))
   
-  ' Делаем рассчет по датам
+  ' Р”РµР»Р°РµРј СЂР°СЃСЃС‡РµС‚ РїРѕ РґР°С‚Р°Рј
   Working_days_in_the_FullMonth = 0
-  Do While Текущая_дата_рассчета < Первый_день_следующего_месяца
-    ' Если Текущая_дата_рассчета не суббота
+  Do While РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° < РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р°
+    ' Р•СЃР»Рё РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° РЅРµ СЃСѓР±Р±РѕС‚Р°
     If In_working_days_in_the_week = 5 Then
-      ' Если пятидневка
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 6) And (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё РїСЏС‚РёРґРЅРµРІРєР°
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 6) And (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_in_the_FullMonth = Working_days_in_the_FullMonth + 1
       End If
     Else
-      ' Если шестидневка - In_working_days_in_the_week = 6
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё С€РµСЃС‚РёРґРЅРµРІРєР° - In_working_days_in_the_week = 6
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_in_the_FullMonth = Working_days_in_the_FullMonth + 1
       End If
     End If
-    ' Следующая дата
-    Текущая_дата_рассчета = Текущая_дата_рассчета + 1
-  Loop ' Следующая дата
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
+  Loop ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
 End Function
 
-' 6. Число рабочих дней между двумя датами
+' 6. Р§РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ РјРµР¶РґСѓ РґРІСѓРјСЏ РґР°С‚Р°РјРё
 Function Working_days_between_dates(In_DateStart, In_DateEnd, In_working_days_in_the_week) As Integer
-  ' Инициализация счетчика числа рабочих дней
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‡РµС‚С‡РёРєР° С‡РёСЃР»Р° СЂР°Р±РѕС‡РёС… РґРЅРµР№
   Working_days_between_dates = 0
   
-  ' Дата начала месяца
-  Текущая_дата_рассчета = In_DateStart
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р°
+  РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_DateStart
   
-  ' Делаем рассчет по датам
-  Do While Текущая_дата_рассчета <= In_DateEnd
+  ' Р”РµР»Р°РµРј СЂР°СЃСЃС‡РµС‚ РїРѕ РґР°С‚Р°Рј
+  Do While РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° <= In_DateEnd
   
-    ' Если Текущая_дата_рассчета не суббота
+    ' Р•СЃР»Рё РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° РЅРµ СЃСѓР±Р±РѕС‚Р°
     If In_working_days_in_the_week = 5 Then
-      ' Если пятидневка
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 6) And (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё РїСЏС‚РёРґРЅРµРІРєР°
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 6) And (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_between_dates = Working_days_between_dates + 1
       End If
     Else
-      ' Если шестидневка - In_working_days_in_the_week = 6
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё С€РµСЃС‚РёРґРЅРµРІРєР° - In_working_days_in_the_week = 6
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_between_dates = Working_days_between_dates + 1
       End If
     End If
     
-    ' Следующая дата
-    Текущая_дата_рассчета = Текущая_дата_рассчета + 1
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
   
-  Loop ' Следующая дата
+  Loop ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
   
 End Function
 
-' 6.1. Число рабочих дней между двумя датами с учетом праздников
+' 6.1. Р§РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ РјРµР¶РґСѓ РґРІСѓРјСЏ РґР°С‚Р°РјРё СЃ СѓС‡РµС‚РѕРј РїСЂР°Р·РґРЅРёРєРѕРІ
 Function Working_days_between_datesII(In_DateStart, In_DateEnd, In_working_days_in_the_week) As Integer
   
-  ' Инициализация счетчика числа рабочих дней
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‡РµС‚С‡РёРєР° С‡РёСЃР»Р° СЂР°Р±РѕС‡РёС… РґРЅРµР№
   Working_days_between_datesII = 0
   
-  ' Открываем таблицу нерабочих дней NonWorkingDays
-  ' Открываем BASE\NonWorkingDays
+  ' РћС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ РЅРµСЂР°Р±РѕС‡РёС… РґРЅРµР№ NonWorkingDays
+  ' РћС‚РєСЂС‹РІР°РµРј BASE\NonWorkingDays
   OpenBookInBase ("NonWorkingDays")
 
-  ' Убираем фильтр, иначе поиск не по всей таблице
-  If Workbooks("NonWorkingDays").Sheets("Лист1").AutoFilterMode = True Then
-    ' Выключаем Автофильтр
-    Workbooks("NonWorkingDays").Sheets("Лист1").Cells(1, 1).AutoFilter
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+  If Workbooks("NonWorkingDays").Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+    Workbooks("NonWorkingDays").Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
   End If
 
 
-  ' Дата начала месяца
-  Текущая_дата_рассчета = In_DateStart
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р°
+  РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_DateStart
   
-  ' Делаем рассчет по датам
-  Do While Текущая_дата_рассчета <= In_DateEnd
+  ' Р”РµР»Р°РµРј СЂР°СЃСЃС‡РµС‚ РїРѕ РґР°С‚Р°Рј
+  Do While РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° <= In_DateEnd
   
-    ' Выполняем поиск - Текущая_дата_рассчета есть в BASE\NonWorkingDays?
-    Set searchResults = Workbooks("NonWorkingDays").Sheets("Лист1").Columns("A:A").Find(Текущая_дата_рассчета, LookAt:=xlWhole)
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє - РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° РµСЃС‚СЊ РІ BASE\NonWorkingDays?
+    Set searchResults = Workbooks("NonWorkingDays").Sheets("Р›РёСЃС‚1").Columns("A:A").Find(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, LookAt:=xlWhole)
   
-    ' Проверяем - есть ли такая дата, если нет, то добавляем
+    ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
     If searchResults Is Nothing Then
-      ' Если не найдена - вставляем
-      Праздничный_день = False
+      ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР° - РІСЃС‚Р°РІР»СЏРµРј
+      РџСЂР°Р·РґРЅРёС‡РЅС‹Р№_РґРµРЅСЊ = False
     Else
-      ' Если найдена
-      Праздничный_день = True
+      ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°
+      РџСЂР°Р·РґРЅРёС‡РЅС‹Р№_РґРµРЅСЊ = True
     End If
 
-    ' Если Текущая_дата_рассчета не суббота
+    ' Р•СЃР»Рё РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° РЅРµ СЃСѓР±Р±РѕС‚Р°
     If In_working_days_in_the_week = 5 Then
       
-      ' Если пятидневка
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 6) And (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё РїСЏС‚РёРґРЅРµРІРєР°
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 6) And (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         
-        If Праздничный_день = False Then
+        If РџСЂР°Р·РґРЅРёС‡РЅС‹Р№_РґРµРЅСЊ = False Then
           Working_days_between_datesII = Working_days_between_datesII + 1
         End If
       
@@ -214,10 +214,10 @@ Function Working_days_between_datesII(In_DateStart, In_DateEnd, In_working_days_
     
     Else
       
-      ' Если шестидневка - In_working_days_in_the_week = 6
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё С€РµСЃС‚РёРґРЅРµРІРєР° - In_working_days_in_the_week = 6
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         
-        If Праздничный_день = False Then
+        If РџСЂР°Р·РґРЅРёС‡РЅС‹Р№_РґРµРЅСЊ = False Then
           Working_days_between_datesII = Working_days_between_datesII + 1
         End If
         
@@ -225,125 +225,125 @@ Function Working_days_between_datesII(In_DateStart, In_DateEnd, In_working_days_
     
     End If
     
-    ' Следующая дата
-    Текущая_дата_рассчета = Текущая_дата_рассчета + 1
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
   
-  Loop ' Следующая дата
+  Loop ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
   
-  ' Закрываем BASE\NonWorkingDays
+  ' Р—Р°РєСЂС‹РІР°РµРј BASE\NonWorkingDays
   CloseBook ("NonWorkingDays")
   
 End Function
 
 
-' 7. Дата последнего дня месяца. Последний день месяца
+' 7. Р”Р°С‚Р° РїРѕСЃР»РµРґРЅРµРіРѕ РґРЅСЏ РјРµСЃСЏС†Р°. РџРѕСЃР»РµРґРЅРёР№ РґРµРЅСЊ РјРµСЃСЏС†Р°
 Function Date_last_day_month(In_Date) As Date
-Dim Первый_день_следующего_месяца As Date
-  ' Декодируем дату In_DateNow
-  ' Месяц
-  Месяц = Month(In_Date)
-  ' Год
-  Год = Year(In_Date)
-  ' Первый день следующего месяца
-  If Месяц = 12 Then
-    Месяц = 0
-    Год = Год + 1
+Dim РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° As Date
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_DateNow
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
+  ' РџРµСЂРІС‹Р№ РґРµРЅСЊ СЃР»РµРґСѓСЋС‰РµРіРѕ РјРµСЃСЏС†Р°
+  If РњРµСЃСЏС† = 12 Then
+    РњРµСЃСЏС† = 0
+    Р“РѕРґ = Р“РѕРґ + 1
   End If
-  Первый_день_следующего_месяца = CDate("01." + CStr(Месяц + 1) + "." + CStr(Год))
-  Date_last_day_month = Первый_день_следующего_месяца - 1
+  РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° = CDate("01." + CStr(РњРµСЃСЏС† + 1) + "." + CStr(Р“РѕРґ))
+  Date_last_day_month = РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° - 1
 End Function
 
-' 7.1 Дата первого дня месяца (первый день месяца)
+' 7.1 Р”Р°С‚Р° РїРµСЂРІРѕРіРѕ РґРЅСЏ РјРµСЃСЏС†Р° (РїРµСЂРІС‹Р№ РґРµРЅСЊ РјРµСЃСЏС†Р°)
 Function Date_begin_day_month(In_Date) As Date
-Dim Первый_день_следующего_месяца As Date
-  ' Декодируем дату In_DateNow
-  ' Месяц
-  Месяц = Month(In_Date)
-  ' Год
-  Год = Year(In_Date)
-  ' Генерируем дату первого дня месяца
-  Date_begin_day_month = CDate("01." + CStr(Месяц) + "." + CStr(Год))
+Dim РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° As Date
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_DateNow
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
+  ' Р“РµРЅРµСЂРёСЂСѓРµРј РґР°С‚Сѓ РїРµСЂРІРѕРіРѕ РґРЅСЏ РјРµСЃСЏС†Р°
+  Date_begin_day_month = CDate("01." + CStr(РњРµСЃСЏС†) + "." + CStr(Р“РѕРґ))
 End Function
 
 
-' 7.2.0 Дата первого дня квартала
+' 7.2.0 Р”Р°С‚Р° РїРµСЂРІРѕРіРѕ РґРЅСЏ РєРІР°СЂС‚Р°Р»Р°
 Function Date_begin_day_quarter(In_Date) As Date
   
-  ' Декодируем дату In_Date
-  ' Месяц
-  Месяц = Month(In_Date)
-  ' Год
-  Год = Year(In_Date)
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_Date
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
   
-  ' Месяц преобразуем в первый месяц квартала
-  Select Case Месяц
-        ' 1 кв. - 01.01.YYYY
+  ' РњРµСЃСЏС† РїСЂРµРѕР±СЂР°Р·СѓРµРј РІ РїРµСЂРІС‹Р№ РјРµСЃСЏС† РєРІР°СЂС‚Р°Р»Р°
+  Select Case РњРµСЃСЏС†
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
-          Месяц_str = "01"
-        ' 2 кв. - 01.04.YYYY
+          РњРµСЃСЏС†_str = "01"
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
-          Месяц_str = "04"
-        ' 3 кв. - 01.07.YYYY
+          РњРµСЃСЏС†_str = "04"
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
-          Месяц_str = "07"
-        ' 4 кв. - 01.10.YYYY
+          РњРµСЃСЏС†_str = "07"
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
-          Месяц_str = "10"
+          РњРµСЃСЏС†_str = "10"
   End Select
   
-  Date_begin_day_quarter = CDate("01." + Месяц_str + "." + CStr(Год))
+  Date_begin_day_quarter = CDate("01." + РњРµСЃСЏС†_str + "." + CStr(Р“РѕРґ))
   
 End Function
 
-' 7.2.1 Дата последнего дня квартала
+' 7.2.1 Р”Р°С‚Р° РїРѕСЃР»РµРґРЅРµРіРѕ РґРЅСЏ РєРІР°СЂС‚Р°Р»Р°
 Function Date_last_day_quarter(In_Date) As Date
-Dim Первый_день_следующего_месяца As Date
-  ' Декодируем дату In_Date
-  ' Месяц
-  Месяц = Month(In_Date)
-  ' Год
-  Год = Year(In_Date)
+Dim РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° As Date
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_Date
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
   
-  ' Месяц преобразуем в последний месяц квартала
-  Select Case Месяц
-        ' 1 кв. - 01.01.YYYY
+  ' РњРµСЃСЏС† РїСЂРµРѕР±СЂР°Р·СѓРµРј РІ РїРѕСЃР»РµРґРЅРёР№ РјРµСЃСЏС† РєРІР°СЂС‚Р°Р»Р°
+  Select Case РњРµСЃСЏС†
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
-          Месяц = 3
-        ' 2 кв. - 01.04.YYYY
+          РњРµСЃСЏС† = 3
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
-          Месяц = 6
-        ' 3 кв. - 01.07.YYYY
+          РњРµСЃСЏС† = 6
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
-          Месяц = 9
-        ' 4 кв. - 01.10.YYYY
+          РњРµСЃСЏС† = 9
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
-          Месяц = 12
+          РњРµСЃСЏС† = 12
   End Select
 
-  ' Первый день следующего месяца
-  If Месяц = 12 Then
-    Месяц = 0
-    Год = Год + 1
+  ' РџРµСЂРІС‹Р№ РґРµРЅСЊ СЃР»РµРґСѓСЋС‰РµРіРѕ РјРµСЃСЏС†Р°
+  If РњРµСЃСЏС† = 12 Then
+    РњРµСЃСЏС† = 0
+    Р“РѕРґ = Р“РѕРґ + 1
   End If
-  Первый_день_следующего_месяца = CDate("01." + CStr(Месяц + 1) + "." + CStr(Год))
-  Date_last_day_quarter = Первый_день_следующего_месяца - 1
+  РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° = CDate("01." + CStr(РњРµСЃСЏС† + 1) + "." + CStr(Р“РѕРґ))
+  Date_last_day_quarter = РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° - 1
 End Function
 
-' 7.3 Преобразование номера месяца квартала в строку: Номер месяца в квартале: 1-"", 2-"2", 3-"3"
+' 7.3 РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РЅРѕРјРµСЂР° РјРµСЃСЏС†Р° РєРІР°СЂС‚Р°Р»Р° РІ СЃС‚СЂРѕРєСѓ: РќРѕРјРµСЂ РјРµСЃСЏС†Р° РІ РєРІР°СЂС‚Р°Р»Рµ: 1-"", 2-"2", 3-"3"
 Function Nom_mes_quarter_str(In_Date) As String
   
-  ' Месяц
-  Месяц = Month(In_Date)
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_Date)
   
-  ' Месяц преобразуем в последний месяц квартала
-  Select Case Месяц
-        ' 1-ый месяц в квартале
+  ' РњРµСЃСЏС† РїСЂРµРѕР±СЂР°Р·СѓРµРј РІ РїРѕСЃР»РµРґРЅРёР№ РјРµСЃСЏС† РєРІР°СЂС‚Р°Р»Р°
+  Select Case РњРµСЃСЏС†
+        ' 1-С‹Р№ РјРµСЃСЏС† РІ РєРІР°СЂС‚Р°Р»Рµ
         Case 1, 4, 7, 10
           Nom_mes_quarter_str = ""
-        ' 2-ый месяц в квартале
+        ' 2-С‹Р№ РјРµСЃСЏС† РІ РєРІР°СЂС‚Р°Р»Рµ
         Case 2, 5, 8, 11
           Nom_mes_quarter_str = "2"
-        ' 3-ый месяц в квартале
+        ' 3-С‹Р№ РјРµСЃСЏС† РІ РєРІР°СЂС‚Р°Р»Рµ
         Case 3, 6, 9, 12
           Nom_mes_quarter_str = "3"
   
@@ -351,14 +351,14 @@ Function Nom_mes_quarter_str(In_Date) As String
 
 End Function
 
-' 7.4 Книга открыта?
+' 7.4 РљРЅРёРіР° РѕС‚РєСЂС‹С‚Р°?
 Function BookIsOpen(In_BookName) As Boolean
 Dim wbBook As Workbook
 
-  ' Книга уже открыта?
+  ' РљРЅРёРіР° СѓР¶Рµ РѕС‚РєСЂС‹С‚Р°?
   BookIsOpen = False
   
-  ' Поиск по окнам - есть ли среди открытых?
+  ' РџРѕРёСЃРє РїРѕ РѕРєРЅР°Рј - РµСЃС‚СЊ Р»Рё СЃСЂРµРґРё РѕС‚РєСЂС‹С‚С‹С…?
   For Each wbBook In Workbooks
     If Windows(wbBook.Name).Visible Then
       
@@ -374,45 +374,45 @@ Dim wbBook As Workbook
 
 End Function
 
-' 8. Открытие Книги из каталога BASE\
+' 8. РћС‚РєСЂС‹С‚РёРµ РљРЅРёРіРё РёР· РєР°С‚Р°Р»РѕРіР° BASE\
 Sub OpenBookInBase(In_BookName)
 Dim wbBook As Workbook
   
-  ' Книга уже открыта?
-  Книга_открыта = False
+  ' РљРЅРёРіР° СѓР¶Рµ РѕС‚РєСЂС‹С‚Р°?
+  РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = False
   
-  ' Поиск по окнам - есть ли среди открытых?
+  ' РџРѕРёСЃРє РїРѕ РѕРєРЅР°Рј - РµСЃС‚СЊ Р»Рё СЃСЂРµРґРё РѕС‚РєСЂС‹С‚С‹С…?
   For Each wbBook In Workbooks
     If Windows(wbBook.Name).Visible Then
       
-      ' If wbBook.Name = wbName Then Книга_открыта = True: Exit For
-      If InStr(wbBook.Name, In_BookName + ".") <> 0 Then Книга_открыта = True: Exit For
+      ' If wbBook.Name = wbName Then РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = True: Exit For
+      If InStr(wbBook.Name, In_BookName + ".") <> 0 Then РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = True: Exit For
       
     End If
   Next wbBook
   
   
-  ' Если не открыта, то открываем Книгу
-  If Книга_открыта = False Then
+  ' Р•СЃР»Рё РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј РљРЅРёРіСѓ
+  If РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = False Then
     
-    ' Открываем базу BASE\Indicators.xlsx
+    ' РћС‚РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ BASE\Indicators.xlsx
     ' Workbooks.Open (ThisWorkbook.Path + "\Base\" + In_BookName + ".xlsx")
     
-    ' Открываем базу BASE\Indicators.xlsx (UpdateLinks:=0)
+    ' РћС‚РєСЂС‹РІР°РµРј Р±Р°Р·Сѓ BASE\Indicators.xlsx (UpdateLinks:=0)
     Workbooks.Open (ThisWorkbook.Path + "\Base\" + In_BookName + ".xlsx"), 0
     
-    ' Открытие Книги в фоновом режиме - работает, но при ошибках придется закрывать весь Excel, чтобы переоткрыть заново или же проверять - открыта такая Книга или нет!
+    ' РћС‚РєСЂС‹С‚РёРµ РљРЅРёРіРё РІ С„РѕРЅРѕРІРѕРј СЂРµР¶РёРјРµ - СЂР°Р±РѕС‚Р°РµС‚, РЅРѕ РїСЂРё РѕС€РёР±РєР°С… РїСЂРёРґРµС‚СЃСЏ Р·Р°РєСЂС‹РІР°С‚СЊ РІРµСЃСЊ Excel, С‡С‚РѕР±С‹ РїРµСЂРµРѕС‚РєСЂС‹С‚СЊ Р·Р°РЅРѕРІРѕ РёР»Рё Р¶Рµ РїСЂРѕРІРµСЂСЏС‚СЊ - РѕС‚РєСЂС‹С‚Р° С‚Р°РєР°СЏ РљРЅРёРіР° РёР»Рё РЅРµС‚!
     ' Windows(In_BookName).Visible = True
     ThisWorkbook.Activate
   
-    ' Если в открываемой Книге есть "Лист1", то убираем на нем Автофильтр (Например в Пр. календарь 2021 такого листа нет!)
-    SheetName_String = FindNameSheet(In_BookName, "Лист1")
+    ' Р•СЃР»Рё РІ РѕС‚РєСЂС‹РІР°РµРјРѕР№ РљРЅРёРіРµ РµСЃС‚СЊ "Р›РёСЃС‚1", С‚Рѕ СѓР±РёСЂР°РµРј РЅР° РЅРµРј РђРІС‚РѕС„РёР»СЊС‚СЂ (РќР°РїСЂРёРјРµСЂ РІ РџСЂ. РєР°Р»РµРЅРґР°СЂСЊ 2021 С‚Р°РєРѕРіРѕ Р»РёСЃС‚Р° РЅРµС‚!)
+    SheetName_String = FindNameSheet(In_BookName, "Р›РёСЃС‚1")
     If SheetName_String <> "" Then
 
-      ' Убираем фильтр, иначе поиск не по всей таблице
-      If Workbooks(In_BookName).Sheets("Лист1").AutoFilterMode = True Then
-        ' Выключаем Автофильтр
-        Workbooks(In_BookName).Sheets("Лист1").Cells(1, 1).AutoFilter
+      ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+      If Workbooks(In_BookName).Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+        ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+        Workbooks(In_BookName).Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
       End If
   
     End If
@@ -421,65 +421,65 @@ Dim wbBook As Workbook
   
 End Sub
 
-' 9. Закрытие Книги в каталоге BASE\
+' 9. Р—Р°РєСЂС‹С‚РёРµ РљРЅРёРіРё РІ РєР°С‚Р°Р»РѕРіРµ BASE\
 Sub CloseBook(In_BookName)
 Dim wbBook As Workbook
 
-  ' Проверить - открыта ли Книга?
+  ' РџСЂРѕРІРµСЂРёС‚СЊ - РѕС‚РєСЂС‹С‚Р° Р»Рё РљРЅРёРіР°?
   
-  ' Книга открыта?
-  Книга_открыта = False
+  ' РљРЅРёРіР° РѕС‚РєСЂС‹С‚Р°?
+  РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = False
   
-  ' Поиск по окнам - есть ли среди открытых?
+  ' РџРѕРёСЃРє РїРѕ РѕРєРЅР°Рј - РµСЃС‚СЊ Р»Рё СЃСЂРµРґРё РѕС‚РєСЂС‹С‚С‹С…?
   For Each wbBook In Workbooks
     If Windows(wbBook.Name).Visible Then
       
-      ' If wbBook.Name = wbName Then Книга_открыта = True: Exit For
-      If InStr(wbBook.Name, In_BookName + ".") <> 0 Then Книга_открыта = True: Exit For
+      ' If wbBook.Name = wbName Then РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = True: Exit For
+      If InStr(wbBook.Name, In_BookName + ".") <> 0 Then РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = True: Exit For
       
     End If
   Next wbBook
   
   
-  ' Если не открыта, то открываем Книгу
-  If Книга_открыта = True Then
+  ' Р•СЃР»Рё РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј РљРЅРёРіСѓ
+  If РљРЅРёРіР°_РѕС‚РєСЂС‹С‚Р° = True Then
   
-    ' Закрытие Книги
+    ' Р—Р°РєСЂС‹С‚РёРµ РљРЅРёРіРё
     Workbooks(In_BookName).Close SaveChanges:=True
     
   End If
   
 End Sub
 
-' 10. Вставка записи в открытую книгу до 20 полей
+' 10. Р’СЃС‚Р°РІРєР° Р·Р°РїРёСЃРё РІ РѕС‚РєСЂС‹С‚СѓСЋ РєРЅРёРіСѓ РґРѕ 20 РїРѕР»РµР№
 Sub InsertRecordInBook(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_FieldValue1, In_FieldName2, In_FieldValue2, In_FieldName3, In_FieldValue3, In_FieldName4, In_FieldValue4, In_FieldName5, In_FieldValue5, In_FieldName6, In_FieldValue6, In_FieldName7, In_FieldValue7, In_FieldName8, In_FieldValue8, In_FieldName9, In_FieldValue9, In_FieldName10, In_FieldValue10, In_FieldName11, In_FieldValue11, In_FieldName12, In_FieldValue12, In_FieldName13, In_FieldValue13, In_FieldName14, In_FieldValue14, In_FieldName15, In_FieldValue15, In_FieldName16, In_FieldValue16, In_FieldName17, In_FieldValue17, In_FieldName18, In_FieldValue18, In_FieldName19, In_FieldValue19, In_FieldName20, In_FieldValue20)
 Dim rowCount As Integer
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
   If Workbooks(In_BookName).Sheets(In_Sheet).AutoFilterMode = True Then
-    ' Выключаем Автофильтр
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(1, 1).AutoFilter
   End If
  
-  ' Проверяем наличие записи In_FieldKeyName - In_FieldKeyValue
-  Литера_столбца = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
-  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Литера_столбца + ":" + Литера_столбца).Find(In_FieldKeyValue, LookAt:=xlWhole)
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ Р·Р°РїРёСЃРё In_FieldKeyName - In_FieldKeyValue
+  Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
+  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° + ":" + Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р°).Find(In_FieldKeyValue, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена - вставляем
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР° - РІСЃС‚Р°РІР»СЏРµРј
     rowCount = 2
     ' t = ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName).Value
     Do While Not IsEmpty(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, 1))
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
   Else
-    ' Если найдена, то апдейтим
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°, С‚Рѕ Р°РїРґРµР№С‚РёРј
     rowCount = searchResults.Row
   End If
 
-  ' Заносим данные - In_FieldName1
+  ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ - In_FieldName1
   If In_FieldName1 <> "" Then
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnByName(In_BookName, In_Sheet, 1, In_FieldName1)).Value = In_FieldValue1
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnByName(In_BookName, In_Sheet, 1, In_FieldName1)).WrapText = False
@@ -563,35 +563,35 @@ Dim rowCount As Integer
   
 End Sub
 
-' 10.1 Вставка записи в открытую книгу до 28 полей
+' 10.1 Р’СЃС‚Р°РІРєР° Р·Р°РїРёСЃРё РІ РѕС‚РєСЂС‹С‚СѓСЋ РєРЅРёРіСѓ РґРѕ 28 РїРѕР»РµР№
 Sub InsertRecordInBook2(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_FieldValue1, In_FieldName2, In_FieldValue2, In_FieldName3, In_FieldValue3, In_FieldName4, In_FieldValue4, In_FieldName5, In_FieldValue5, In_FieldName6, In_FieldValue6, In_FieldName7, In_FieldValue7, In_FieldName8, In_FieldValue8, In_FieldName9, In_FieldValue9, In_FieldName10, In_FieldValue10, In_FieldName11, In_FieldValue11, In_FieldName12, In_FieldValue12, In_FieldName13, In_FieldValue13, In_FieldName14, In_FieldValue14, In_FieldName15, In_FieldValue15, In_FieldName16, In_FieldValue16, In_FieldName17, In_FieldValue17, In_FieldName18, In_FieldValue18, In_FieldName19, In_FieldValue19, In_FieldName20, In_FieldValue20, In_FieldName21, In_FieldValue21, In_FieldName22, In_FieldValue22, In_FieldName23, In_FieldValue23, In_FieldName24, In_FieldValue24, In_FieldName25, In_FieldValue25, In_FieldName26, In_FieldValue26, In_FieldName27, In_FieldValue27, In_FieldName28, In_FieldValue28)
 Dim rowCount As Integer
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
   If Workbooks(In_BookName).Sheets(In_Sheet).AutoFilterMode = True Then
-    ' Выключаем Автофильтр
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(1, 1).AutoFilter
   End If
   
-  ' Проверяем наличие записи In_FieldKeyName - In_FieldKeyValue
-  Литера_столбца = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
-  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Литера_столбца + ":" + Литера_столбца).Find(In_FieldKeyValue, LookAt:=xlWhole)
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ Р·Р°РїРёСЃРё In_FieldKeyName - In_FieldKeyValue
+  Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
+  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° + ":" + Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р°).Find(In_FieldKeyValue, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена - вставляем
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР° - РІСЃС‚Р°РІР»СЏРµРј
     rowCount = 2
     ' t = ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName).Value
     Do While Not IsEmpty(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, 1))
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
   Else
-    ' Если найдена, то апдейтим
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°, С‚Рѕ Р°РїРґРµР№С‚РёРј
     rowCount = searchResults.Row
   End If
 
-  ' Заносим данные - In_FieldName1
+  ' Р—Р°РЅРѕСЃРёРј РґР°РЅРЅС‹Рµ - In_FieldName1
   If In_FieldName1 <> "" Then
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnByName(In_BookName, In_Sheet, 1, In_FieldName1)).Value = In_FieldValue1
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnByName(In_BookName, In_Sheet, 1, In_FieldName1)).WrapText = False
@@ -708,36 +708,36 @@ Dim rowCount As Integer
 End Sub
 
 
-' 11. Номер недели в году по Дате (по календарю Лотуса совпадает, по календарям в Интернете нужно от номера недели отнимать 1)
+' 11. РќРѕРјРµСЂ РЅРµРґРµР»Рё РІ РіРѕРґСѓ РїРѕ Р”Р°С‚Рµ (РїРѕ РєР°Р»РµРЅРґР°СЂСЋ Р›РѕС‚СѓСЃР° СЃРѕРІРїР°РґР°РµС‚, РїРѕ РєР°Р»РµРЅРґР°СЂСЏРј РІ РРЅС‚РµСЂРЅРµС‚Рµ РЅСѓР¶РЅРѕ РѕС‚ РЅРѕРјРµСЂР° РЅРµРґРµР»Рё РѕС‚РЅРёРјР°С‚СЊ 1)
 Function WeekNumber(In_Date) As Integer
 Dim CurrDate As Date
-  ' Дата начала года - есть первая неделя
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РіРѕРґР° - РµСЃС‚СЊ РїРµСЂРІР°СЏ РЅРµРґРµР»СЏ
   CurrDate = CDate("01.01." + CStr(Year(In_Date)))
   
-  ' В календаре Лотуса первая неделя не зависимо от того с какого дня она начинается - считается, как первая! В календарях Интернета первая неделя считается с первого понедельника
+  ' Р’ РєР°Р»РµРЅРґР°СЂРµ Р›РѕС‚СѓСЃР° РїРµСЂРІР°СЏ РЅРµРґРµР»СЏ РЅРµ Р·Р°РІРёСЃРёРјРѕ РѕС‚ С‚РѕРіРѕ СЃ РєР°РєРѕРіРѕ РґРЅСЏ РѕРЅР° РЅР°С‡РёРЅР°РµС‚СЃСЏ - СЃС‡РёС‚Р°РµС‚СЃСЏ, РєР°Рє РїРµСЂРІР°СЏ! Р’ РєР°Р»РµРЅРґР°СЂСЏС… РРЅС‚РµСЂРЅРµС‚Р° РїРµСЂРІР°СЏ РЅРµРґРµР»СЏ СЃС‡РёС‚Р°РµС‚СЃСЏ СЃ РїРµСЂРІРѕРіРѕ РїРѕРЅРµРґРµР»СЊРЅРёРєР°
   WeekNumber = 1
   
   Do While CurrDate <= In_Date
-    ' Если текущая дата CurrDate это понедельник, то считаем плюс неделю
+    ' Р•СЃР»Рё С‚РµРєСѓС‰Р°СЏ РґР°С‚Р° CurrDate СЌС‚Рѕ РїРѕРЅРµРґРµР»СЊРЅРёРє, С‚Рѕ СЃС‡РёС‚Р°РµРј РїР»СЋСЃ РЅРµРґРµР»СЋ
     If Weekday(CurrDate, vbMonday) = 1 Then
       WeekNumber = WeekNumber + 1
     End If
-    ' Следующая дата
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
     CurrDate = CurrDate + 1
   Loop
 End Function
 
-' 11.0 Псевдонимы функции на русском
-Function Номер_недели(In_Date) As Integer
-  Номер_недели = WeekNumber(In_Date)
+' 11.0 РџСЃРµРІРґРѕРЅРёРјС‹ С„СѓРЅРєС†РёРё РЅР° СЂСѓСЃСЃРєРѕРј
+Function РќРѕРјРµСЂ_РЅРµРґРµР»Рё(In_Date) As Integer
+  РќРѕРјРµСЂ_РЅРµРґРµР»Рё = WeekNumber(In_Date)
 End Function
 
-' 11.1 Дата понедельника по номеру недели
+' 11.1 Р”Р°С‚Р° РїРѕРЅРµРґРµР»СЊРЅРёРєР° РїРѕ РЅРѕРјРµСЂСѓ РЅРµРґРµР»Рё
 Function MondayDateByWeekNumber(In_WeekNumber, In_Year) As Date
 Dim CurrDate As Date
 Dim WeekNumber As Byte
   
-  ' Берем 01 января текущего года - это первая неделя
+  ' Р‘РµСЂРµРј 01 СЏРЅРІР°СЂСЏ С‚РµРєСѓС‰РµРіРѕ РіРѕРґР° - СЌС‚Рѕ РїРµСЂРІР°СЏ РЅРµРґРµР»СЏ
   CurrDate = CDate("01.01." + CStr(In_Year))
   MondayDateByWeekNumber = CurrDate
   
@@ -745,7 +745,7 @@ Dim WeekNumber As Byte
   
   Do While WeekNumber <= In_WeekNumber
     
-    ' Если текущая дата CurrDate это понедельник, то считаем плюс неделю
+    ' Р•СЃР»Рё С‚РµРєСѓС‰Р°СЏ РґР°С‚Р° CurrDate СЌС‚Рѕ РїРѕРЅРµРґРµР»СЊРЅРёРє, С‚Рѕ СЃС‡РёС‚Р°РµРј РїР»СЋСЃ РЅРµРґРµР»СЋ
     If Weekday(CurrDate, vbMonday) = 1 Then
       WeekNumber = WeekNumber + 1
       '
@@ -755,7 +755,7 @@ Dim WeekNumber As Byte
       
     End If
     
-    ' Следующая дата
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
     CurrDate = CurrDate + 1
     
   Loop
@@ -763,52 +763,52 @@ Dim WeekNumber As Byte
 End Function
 
 
-' 12. Наименование дня недели по дате
-Function ДеньНедели(In_Date) As String
-  ' День недели
+' 12. РќР°РёРјРµРЅРѕРІР°РЅРёРµ РґРЅСЏ РЅРµРґРµР»Рё РїРѕ РґР°С‚Рµ
+Function Р”РµРЅСЊРќРµРґРµР»Рё(In_Date) As String
+  ' Р”РµРЅСЊ РЅРµРґРµР»Рё
   Select Case Weekday(In_Date, vbMonday)
     Case 1
-          ДеньНедели = "понедельник"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "РїРѕРЅРµРґРµР»СЊРЅРёРє"
         Case 2
-          ДеньНедели = "вторник"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "РІС‚РѕСЂРЅРёРє"
         Case 3
-          ДеньНедели = "среда"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "СЃСЂРµРґР°"
         Case 4
-          ДеньНедели = "четверг"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "С‡РµС‚РІРµСЂРі"
         Case 5
-          ДеньНедели = "пятница"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "РїСЏС‚РЅРёС†Р°"
         Case 6
-          ДеньНедели = "суббота"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "СЃСѓР±Р±РѕС‚Р°"
         Case 7
-          ДеньНедели = "воскресенье"
+          Р”РµРЅСЊРќРµРґРµР»Рё = "РІРѕСЃРєСЂРµСЃРµРЅСЊРµ"
       End Select
 End Function
 
-' 12.1 Наименование дня недели по дате
-Function День_Недели(In_Date) As String
+' 12.1 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РґРЅСЏ РЅРµРґРµР»Рё РїРѕ РґР°С‚Рµ
+Function Р”РµРЅСЊ_РќРµРґРµР»Рё(In_Date) As String
   
-  День_Недели = ДеньНедели(In_Date)
+  Р”РµРЅСЊ_РќРµРґРµР»Рё = Р”РµРЅСЊРќРµРґРµР»Рё(In_Date)
   
 End Function
 
 
-' 12.1 Остаток рабочих дней недели - строкой
+' 12.1 РћСЃС‚Р°С‚РѕРє СЂР°Р±РѕС‡РёС… РґРЅРµР№ РЅРµРґРµР»Рё - СЃС‚СЂРѕРєРѕР№
 Function remDayWorkWeek(In_Date) As String
   
   remDayWorkWeek = ""
   
-  ' День недели
+  ' Р”РµРЅСЊ РЅРµРґРµР»Рё
   Select Case Weekday(In_Date, vbMonday)
     Case 1
-          remDayWorkWeek = "неделю"
+          remDayWorkWeek = "РЅРµРґРµР»СЋ"
         Case 2
-          remDayWorkWeek = "4 дня"
+          remDayWorkWeek = "4 РґРЅСЏ"
         Case 3
-          remDayWorkWeek = "3 дня"
+          remDayWorkWeek = "3 РґРЅСЏ"
         Case 4
-          remDayWorkWeek = "2 оставшихся дня"
+          remDayWorkWeek = "2 РѕСЃС‚Р°РІС€РёС…СЃСЏ РґРЅСЏ"
         Case 5
-          remDayWorkWeek = "сегодня"
+          remDayWorkWeek = "СЃРµРіРѕРґРЅСЏ"
         Case 6
           remDayWorkWeek = ""
         Case 7
@@ -818,125 +818,125 @@ Function remDayWorkWeek(In_Date) As String
 End Function
 
 
-' 13. Наименование месяца по дате
-Function ИмяМесяца(In_Date) As String
-  ' Месяц
+' 13. РќР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµСЃСЏС†Р° РїРѕ РґР°С‚Рµ
+Function РРјСЏРњРµСЃСЏС†Р°(In_Date) As String
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
     Case 1
-          ИмяМесяца = "январь"
+          РРјСЏРњРµСЃСЏС†Р° = "СЏРЅРІР°СЂСЊ"
         Case 2
-          ИмяМесяца = "февраль"
+          РРјСЏРњРµСЃСЏС†Р° = "С„РµРІСЂР°Р»СЊ"
         Case 3
-          ИмяМесяца = "март"
+          РРјСЏРњРµСЃСЏС†Р° = "РјР°СЂС‚"
         Case 4
-          ИмяМесяца = "апрель"
+          РРјСЏРњРµСЃСЏС†Р° = "Р°РїСЂРµР»СЊ"
         Case 5
-          ИмяМесяца = "май"
+          РРјСЏРњРµСЃСЏС†Р° = "РјР°Р№"
         Case 6
-          ИмяМесяца = "июнь"
+          РРјСЏРњРµСЃСЏС†Р° = "РёСЋРЅСЊ"
         Case 7
-          ИмяМесяца = "июль"
+          РРјСЏРњРµСЃСЏС†Р° = "РёСЋР»СЊ"
         Case 8
-          ИмяМесяца = "август"
+          РРјСЏРњРµСЃСЏС†Р° = "Р°РІРіСѓСЃС‚"
         Case 9
-          ИмяМесяца = "сентябрь"
+          РРјСЏРњРµСЃСЏС†Р° = "СЃРµРЅС‚СЏР±СЂСЊ"
         Case 10
-          ИмяМесяца = "октябрь"
+          РРјСЏРњРµСЃСЏС†Р° = "РѕРєС‚СЏР±СЂСЊ"
         Case 11
-          ИмяМесяца = "ноябрь"
+          РРјСЏРњРµСЃСЏС†Р° = "РЅРѕСЏР±СЂСЊ"
         Case 12
-          ИмяМесяца = "декабрь"
+          РРјСЏРњРµСЃСЏС†Р° = "РґРµРєР°Р±СЂСЊ"
       End Select
 End Function
 
-' 13.2 Наименование месяца по дате
-Function ИмяМесяца2(In_Date) As String
-  ' Месяц
+' 13.2 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµСЃСЏС†Р° РїРѕ РґР°С‚Рµ
+Function РРјСЏРњРµСЃСЏС†Р°2(In_Date) As String
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
     Case 1
-          ИмяМесяца2 = "января"
+          РРјСЏРњРµСЃСЏС†Р°2 = "СЏРЅРІР°СЂСЏ"
         Case 2
-          ИмяМесяца2 = "февраля"
+          РРјСЏРњРµСЃСЏС†Р°2 = "С„РµРІСЂР°Р»СЏ"
         Case 3
-          ИмяМесяца2 = "марта"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РјР°СЂС‚Р°"
         Case 4
-          ИмяМесяца2 = "апреля"
+          РРјСЏРњРµСЃСЏС†Р°2 = "Р°РїСЂРµР»СЏ"
         Case 5
-          ИмяМесяца2 = "мая"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РјР°СЏ"
         Case 6
-          ИмяМесяца2 = "июня"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РёСЋРЅСЏ"
         Case 7
-          ИмяМесяца2 = "июля"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РёСЋР»СЏ"
         Case 8
-          ИмяМесяца2 = "августа"
+          РРјСЏРњРµСЃСЏС†Р°2 = "Р°РІРіСѓСЃС‚Р°"
         Case 9
-          ИмяМесяца2 = "сентября"
+          РРјСЏРњРµСЃСЏС†Р°2 = "СЃРµРЅС‚СЏР±СЂСЏ"
         Case 10
-          ИмяМесяца2 = "октября"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РѕРєС‚СЏР±СЂСЏ"
         Case 11
-          ИмяМесяца2 = "ноября"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РЅРѕСЏР±СЂСЏ"
         Case 12
-          ИмяМесяца2 = "декабря"
+          РРјСЏРњРµСЃСЏС†Р°2 = "РґРµРєР°Р±СЂСЏ"
       End Select
 End Function
 
-' 13.3 Наименование месяца по дате
-Function ИмяМесяца3(In_Date) As String
-  ' Месяц
+' 13.3 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµСЃСЏС†Р° РїРѕ РґР°С‚Рµ
+Function РРјСЏРњРµСЃСЏС†Р°3(In_Date) As String
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
     Case 1
-          ИмяМесяца3 = "Январь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РЇРЅРІР°СЂСЊ"
         Case 2
-          ИмяМесяца3 = "Февраль"
+          РРјСЏРњРµСЃСЏС†Р°3 = "Р¤РµРІСЂР°Р»СЊ"
         Case 3
-          ИмяМесяца3 = "Март"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РњР°СЂС‚"
         Case 4
-          ИмяМесяца3 = "Апрель"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РђРїСЂРµР»СЊ"
         Case 5
-          ИмяМесяца3 = "Май"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РњР°Р№"
         Case 6
-          ИмяМесяца3 = "Июнь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РСЋРЅСЊ"
         Case 7
-          ИмяМесяца3 = "Июль"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РСЋР»СЊ"
         Case 8
-          ИмяМесяца3 = "Август"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РђРІРіСѓСЃС‚"
         Case 9
-          ИмяМесяца3 = "Сентябрь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РЎРµРЅС‚СЏР±СЂСЊ"
         Case 10
-          ИмяМесяца3 = "Октябрь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РћРєС‚СЏР±СЂСЊ"
         Case 11
-          ИмяМесяца3 = "Ноябрь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "РќРѕСЏР±СЂСЊ"
         Case 12
-          ИмяМесяца3 = "Декабрь"
+          РРјСЏРњРµСЃСЏС†Р°3 = "Р”РµРєР°Р±СЂСЊ"
       End Select
 End Function
 
 
-' 13.2 Наименование месяца и год по дате
-Function ИмяМесяцаГод(In_Date) As String
-  ИмяМесяцаГод = ИмяМесяца(In_Date) + " " + CStr(Year(In_Date)) + " г."
+' 13.2 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµСЃСЏС†Р° Рё РіРѕРґ РїРѕ РґР°С‚Рµ
+Function РРјСЏРњРµСЃСЏС†Р°Р“РѕРґ(In_Date) As String
+  РРјСЏРњРµСЃСЏС†Р°Р“РѕРґ = РРјСЏРњРµСЃСЏС†Р°(In_Date) + " " + CStr(Year(In_Date)) + " Рі."
 End Function
 
-' 13.3 Наименование месяца и год по дате
-Function ДеньМесяцГод(In_Date) As String
-  ДеньМесяцГод = CStr(Day(In_Date)) + " " + ИмяМесяца2(In_Date) + " " + CStr(Year(In_Date)) + " г."
+' 13.3 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РјРµСЃСЏС†Р° Рё РіРѕРґ РїРѕ РґР°С‚Рµ
+Function Р”РµРЅСЊРњРµСЃСЏС†Р“РѕРґ(In_Date) As String
+  Р”РµРЅСЊРњРµСЃСЏС†Р“РѕРґ = CStr(Day(In_Date)) + " " + РРјСЏРњРµСЃСЏС†Р°2(In_Date) + " " + CStr(Year(In_Date)) + " Рі."
 End Function
 
 
 ' 14. DoEvents
 Function DoEventsInterval(In_Value)
   ' If InStr(CStr(In_Value / 100), ",") = 0 Then
-  ' Получаем остаток от деления и если он равен нулю, запускаем DoEvents
+  ' РџРѕР»СѓС‡Р°РµРј РѕСЃС‚Р°С‚РѕРє РѕС‚ РґРµР»РµРЅРёСЏ Рё РµСЃР»Рё РѕРЅ СЂР°РІРµРЅ РЅСѓР»СЋ, Р·Р°РїСѓСЃРєР°РµРј DoEvents
   If x Mod 100 = 0 Then
     DoEvents
   End If
 End Function
 
-' 15. Зачеркиваем текст в ячейке
-Sub ЗачеркиваемТекстВячейке(In_Sheets, In_Range)
-    ' Зачеркиваем пункт меню на стартовой страницы
+' 15. Р—Р°С‡РµСЂРєРёРІР°РµРј С‚РµРєСЃС‚ РІ СЏС‡РµР№РєРµ
+Sub Р—Р°С‡РµСЂРєРёРІР°РµРјРўРµРєСЃС‚Р’СЏС‡РµР№РєРµ(In_Sheets, In_Range)
+    ' Р—Р°С‡РµСЂРєРёРІР°РµРј РїСѓРЅРєС‚ РјРµРЅСЋ РЅР° СЃС‚Р°СЂС‚РѕРІРѕР№ СЃС‚СЂР°РЅРёС†С‹
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Name = "Calibri"
-    ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.FontStyle = "полужирный"
+    ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.FontStyle = "РїРѕР»СѓР¶РёСЂРЅС‹Р№"
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Size = 12
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Strikethrough = True
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Superscript = False
@@ -950,10 +950,10 @@ Sub ЗачеркиваемТекстВячейке(In_Sheets, In_Range)
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Bold = False
 End Sub
 
-' 16. Выделение жирным текста в ячейке
-Sub ВыделениеЖирнымТекстаВячейке(In_Sheets, In_Range)
+' 16. Р’С‹РґРµР»РµРЅРёРµ Р¶РёСЂРЅС‹Рј С‚РµРєСЃС‚Р° РІ СЏС‡РµР№РєРµ
+Sub Р’С‹РґРµР»РµРЅРёРµР–РёСЂРЅС‹РјРўРµРєСЃС‚Р°Р’СЏС‡РµР№РєРµ(In_Sheets, In_Range)
   ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Name = "Calibri"
-  ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.FontStyle = "обычный"
+  ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.FontStyle = "РѕР±С‹С‡РЅС‹Р№"
   ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Size = 12
   ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Strikethrough = False
   ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Superscript = False
@@ -967,14 +967,14 @@ Sub ВыделениеЖирнымТекстаВячейке(In_Sheets, In_Range)
   ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Bold = True
 End Sub
 
-' 17. Выделение бледным текста в ячейки
-Sub ВыделениеБледнымТекстаВячейке(In_Sheets, In_Range)
+' 17. Р’С‹РґРµР»РµРЅРёРµ Р±Р»РµРґРЅС‹Рј С‚РµРєСЃС‚Р° РІ СЏС‡РµР№РєРё
+Sub Р’С‹РґРµР»РµРЅРёРµР‘Р»РµРґРЅС‹РјРўРµРєСЃС‚Р°Р’СЏС‡РµР№РєРµ(In_Sheets, In_Range)
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.Bold = False
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.ThemeColor = xlThemeColorDark1
     ThisWorkbook.Sheets(In_Sheets).Range(In_Range).Font.TintAndShade = -4.99893185216834E-02
 End Sub
 
-' 18. Отправка почтой
+' 18. РћС‚РїСЂР°РІРєР° РїРѕС‡С‚РѕР№
 Sub send_Lotus_Notes(In_Subject, In_Address, In_AddressCopy, In_body, strpath As String)
 
   Dim Session As Object
@@ -994,16 +994,16 @@ Sub send_Lotus_Notes(In_Subject, In_Address, In_AddressCopy, In_body, strpath As
   If Dir.IsOpen = False Then Call Dir.OpenMail
   Set Doc = Dir.CREATEDOCUMENT
 
-  ' Тема
-  Doc.Subject = In_Subject ' "Тест"
-  ' Адрес
+  ' РўРµРјР°
+  Doc.Subject = In_Subject ' "РўРµСЃС‚"
+  ' РђРґСЂРµСЃ
   Doc.SendTo = In_Address ' "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru"
   Doc.CopyTo = In_AddressCopy
-  ' BlindCopyTo - это взял из примера, проверить!
+  ' BlindCopyTo - СЌС‚Рѕ РІР·СЏР» РёР· РїСЂРёРјРµСЂР°, РїСЂРѕРІРµСЂРёС‚СЊ!
   ' Doc.BlindCopyTo = ""
   
-  ' Письмо
-  Doc.body = In_body ' "Добрый день!"
+  ' РџРёСЃСЊРјРѕ
+  Doc.body = In_body ' "Р”РѕР±СЂС‹Р№ РґРµРЅСЊ!"
 
   Attachment = strpath
   If Attachment <> "" Then
@@ -1013,7 +1013,7 @@ Sub send_Lotus_Notes(In_Subject, In_Address, In_AddressCopy, In_body, strpath As
 
   Doc.SAVEMESSAGEONSEND = SaveIt
   
-  ' Если ремарим это - будет отправка?
+  ' Р•СЃР»Рё СЂРµРјР°СЂРёРј СЌС‚Рѕ - Р±СѓРґРµС‚ РѕС‚РїСЂР°РІРєР°?
   Doc.send 0, In_Address ' "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru"
 
   Set Session = Nothing
@@ -1024,7 +1024,7 @@ Sub send_Lotus_Notes(In_Subject, In_Address, In_AddressCopy, In_body, strpath As
 
 End Sub
 
-' 18.1 Отправка почтой
+' 18.1 РћС‚РїСЂР°РІРєР° РїРѕС‡С‚РѕР№
 Sub send_Lotus_Notes2(In_Subject, In_Address, In_AddressCopy, In_AddressBlind, In_body, strpath As String)
 
   Dim Session As Object
@@ -1044,16 +1044,16 @@ Sub send_Lotus_Notes2(In_Subject, In_Address, In_AddressCopy, In_AddressBlind, I
   If Dir.IsOpen = False Then Call Dir.OpenMail
   Set Doc = Dir.CREATEDOCUMENT
 
-  ' Тема
-  Doc.Subject = In_Subject ' "Тест"
-  ' Адрес
+  ' РўРµРјР°
+  Doc.Subject = In_Subject ' "РўРµСЃС‚"
+  ' РђРґСЂРµСЃ
   Doc.SendTo = In_Address ' "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru"
   Doc.CopyTo = In_AddressCopy
-  ' BlindCopyTo - это взял из примера, проверить!
+  ' BlindCopyTo - СЌС‚Рѕ РІР·СЏР» РёР· РїСЂРёРјРµСЂР°, РїСЂРѕРІРµСЂРёС‚СЊ!
   Doc.BlindCopyTo = In_AddressBlind
   
-  ' Письмо
-  Doc.body = In_body ' "Добрый день!"
+  ' РџРёСЃСЊРјРѕ
+  Doc.body = In_body ' "Р”РѕР±СЂС‹Р№ РґРµРЅСЊ!"
 
   Attachment = strpath
   If Attachment <> "" Then
@@ -1063,7 +1063,7 @@ Sub send_Lotus_Notes2(In_Subject, In_Address, In_AddressCopy, In_AddressBlind, I
 
   Doc.SAVEMESSAGEONSEND = SaveIt
   
-  ' Если ремарим это - будет отправка?
+  ' Р•СЃР»Рё СЂРµРјР°СЂРёРј СЌС‚Рѕ - Р±СѓРґРµС‚ РѕС‚РїСЂР°РІРєР°?
   Doc.send 0, In_Address ' "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru"
 
   Set Session = Nothing
@@ -1075,206 +1075,206 @@ Sub send_Lotus_Notes2(In_Subject, In_Address, In_AddressCopy, In_AddressBlind, I
 End Sub
 
 
-' 19 Подпись для письма
-Function ПодписьВПисьме() As String
-  ' Визитка
-  ПодписьВПисьме = ПодписьВПисьме + "" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "С уважением, Прощаев Сергей Федорович" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "Заместитель регионального директора" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "Региональный Операционный Офис «Тюменский»" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "ПАО «Промсвязьбанк»" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "e-mail: proschaevsf@ tyumen.psbank.ru" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "тел.: вн. 71-5913" + Chr(13)
-  ПодписьВПисьме = ПодписьВПисьме + "моб.: +7 (922) 00-88-253" + Chr(13)
-  ' ПодписьВПисьме = ПодписьВПисьме + "" + Chr(13)
+' 19 РџРѕРґРїРёСЃСЊ РґР»СЏ РїРёСЃСЊРјР°
+Function РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ() As String
+  ' Р’РёР·РёС‚РєР°
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "РЎ СѓРІР°Р¶РµРЅРёРµРј, РџСЂРѕС‰Р°РµРІ РЎРµСЂРіРµР№ Р¤РµРґРѕСЂРѕРІРёС‡" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "Р—Р°РјРµСЃС‚РёС‚РµР»СЊ СЂРµРіРёРѕРЅР°Р»СЊРЅРѕРіРѕ РґРёСЂРµРєС‚РѕСЂР°" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "Р РµРіРёРѕРЅР°Р»СЊРЅС‹Р№ РћРїРµСЂР°С†РёРѕРЅРЅС‹Р№ РћС„РёСЃ В«РўСЋРјРµРЅСЃРєРёР№В»" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "РџРђРћ В«РџСЂРѕРјСЃРІСЏР·СЊР±Р°РЅРєВ»" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "e-mail: proschaevsf@ tyumen.psbank.ru" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "С‚РµР».: РІРЅ. 71-5913" + Chr(13)
+  РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "РјРѕР±.: +7 (922) 00-88-253" + Chr(13)
+  ' РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ = РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ + "" + Chr(13)
 End Function
 
-' 20. Номер столбца в таблице по "Названию"
+' 20. РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° РІ С‚Р°Р±Р»РёС†Рµ РїРѕ "РќР°Р·РІР°РЅРёСЋ"
 Function ColumnByName(In_Workbooks, In_Sheets, In_Row, In_ColumnName) As Integer
 Dim i As Integer
   ColumnByName = 0
-  ' Выполняем поиск номера столбца
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє РЅРѕРјРµСЂР° СЃС‚РѕР»Р±С†Р°
   i = 1
-  Найден_столбец = False
-  Do While (Not IsEmpty(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, i).Value)) And (Найден_столбец = False)
-    ' Проверяем - значение столбца и имя которое ищем
+  РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = False
+  Do While (Not IsEmpty(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, i).Value)) And (РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = False)
+    ' РџСЂРѕРІРµСЂСЏРµРј - Р·РЅР°С‡РµРЅРёРµ СЃС‚РѕР»Р±С†Р° Рё РёРјСЏ РєРѕС‚РѕСЂРѕРµ РёС‰РµРј
     If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, i).Value) = Trim(In_ColumnName) Then
-      Найден_столбец = True
+      РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = True
       ColumnByName = i
     End If
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     i = i + 1
   Loop
 End Function
 
-' 20.1 Номер столбца в таблице по "Названию" и по номеру такого названия с начала: План, План, План, План
+' 20.1 РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° РІ С‚Р°Р±Р»РёС†Рµ РїРѕ "РќР°Р·РІР°РЅРёСЋ" Рё РїРѕ РЅРѕРјРµСЂСѓ С‚Р°РєРѕРіРѕ РЅР°Р·РІР°РЅРёСЏ СЃ РЅР°С‡Р°Р»Р°: РџР»Р°РЅ, РџР»Р°РЅ, РџР»Р°РЅ, РџР»Р°РЅ
 Function ColumnByNameAndNumber(In_Workbooks, In_Sheets, In_Row, In_ColumnName, In_ColumnNameCount, In_maxColumnInSheet) As Integer
 Dim i As Integer
   ColumnByNameAndNumber = 0
-  ' Выполняем поиск номера столбца
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє РЅРѕРјРµСЂР° СЃС‚РѕР»Р±С†Р°
   i = 1
-  Найден_столбец = False
-  ' Число найденых столбцов с таким именем (In_ColumnName)
-  ЧислоНайденыхСтолбцов = 0
-  Do While (i < In_maxColumnInSheet) And (Найден_столбец = False)
-    ' Проверяем - значение столбца и имя которое ищем
+  РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = False
+  ' Р§РёСЃР»Рѕ РЅР°Р№РґРµРЅС‹С… СЃС‚РѕР»Р±С†РѕРІ СЃ С‚Р°РєРёРј РёРјРµРЅРµРј (In_ColumnName)
+  Р§РёСЃР»РѕРќР°Р№РґРµРЅС‹С…РЎС‚РѕР»Р±С†РѕРІ = 0
+  Do While (i < In_maxColumnInSheet) And (РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = False)
+    ' РџСЂРѕРІРµСЂСЏРµРј - Р·РЅР°С‡РµРЅРёРµ СЃС‚РѕР»Р±С†Р° Рё РёРјСЏ РєРѕС‚РѕСЂРѕРµ РёС‰РµРј
     If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, i).Value) = Trim(In_ColumnName) Then
-      ЧислоНайденыхСтолбцов = ЧислоНайденыхСтолбцов + 1
-      ' Число найденых таких столбцов
-      If ЧислоНайденыхСтолбцов = In_ColumnNameCount Then
-        ' Заканчиваем поиск
-        Найден_столбец = True
+      Р§РёСЃР»РѕРќР°Р№РґРµРЅС‹С…РЎС‚РѕР»Р±С†РѕРІ = Р§РёСЃР»РѕРќР°Р№РґРµРЅС‹С…РЎС‚РѕР»Р±С†РѕРІ + 1
+      ' Р§РёСЃР»Рѕ РЅР°Р№РґРµРЅС‹С… С‚Р°РєРёС… СЃС‚РѕР»Р±С†РѕРІ
+      If Р§РёСЃР»РѕРќР°Р№РґРµРЅС‹С…РЎС‚РѕР»Р±С†РѕРІ = In_ColumnNameCount Then
+        ' Р—Р°РєР°РЅС‡РёРІР°РµРј РїРѕРёСЃРє
+        РќР°Р№РґРµРЅ_СЃС‚РѕР»Р±РµС† = True
       End If
       ColumnByNameAndNumber = i
     End If
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     i = i + 1
   Loop
 End Function
 
-' 21. Определение строки ячейки в которой находится заданное значение (текст)
+' 21. РћРїСЂРµРґРµР»РµРЅРёРµ СЃС‚СЂРѕРєРё СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚)
 Function rowByValue(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet) As Integer
   rowByValue = 0
   ColumnCount = 1
-  Найдено_значение = False
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
   
-  ' Двигаемся сначала по столбцу, потом по строке
-  ' 23.12.2020 Do While (ColumnCount < In_maxColumnInSheet) And (Найдено_значение = False)
-  Do While (ColumnCount <= In_maxColumnInSheet) And (Найдено_значение = False)
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  ' 23.12.2020 Do While (ColumnCount < In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+  Do While (ColumnCount <= In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
   
-    ' По срокам
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
     
-    ' 23.12.2020 Do While (rowCount < In_maxRowInSheet) And (Найдено_значение = False)
-    Do While (rowCount <= In_maxRowInSheet) And (Найдено_значение = False)
+    ' 23.12.2020 Do While (rowCount < In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    Do While (rowCount <= In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       ' t = Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value
       ' t2 = InStr(CStr(t), "Error")
       If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(In_Value) Then
       ' If Trim(t) = Trim(In_Value) Then
         rowByValue = rowCount
-        Найдено_значение = True
+        РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
-' 21.1 Определение строки ячейки в которой находится заданное значение (текст)
+' 21.1 РћРїСЂРµРґРµР»РµРЅРёРµ СЃС‚СЂРѕРєРё СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚)
 Function rowByValue2(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet, In_Count) As Integer
   rowByValue2 = 0
   ColumnCount = 1
-  Найдено_значение = False
-  Число_найденных = 0
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = 0
   
-  ' Двигаемся сначала по столбцу, потом по строке
-  ' 23.12.2020 Do While (ColumnCount < In_maxColumnInSheet) And (Найдено_значение = False)
-  Do While (ColumnCount <= In_maxColumnInSheet) And (Найдено_значение = False)
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  ' 23.12.2020 Do While (ColumnCount < In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+  Do While (ColumnCount <= In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
   
-    ' По срокам
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
     
-    ' 23.12.2020 Do While (rowCount < In_maxRowInSheet) And (Найдено_значение = False)
-    Do While (rowCount <= In_maxRowInSheet) And (Найдено_значение = False)
+    ' 23.12.2020 Do While (rowCount < In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    Do While (rowCount <= In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
     
       If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value) = Trim(In_Value) Then
         rowByValue2 = rowCount
-        Число_найденных = Число_найденных + 1
-        If Число_найденных = In_Count Then
-          Найдено_значение = True
+        Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… + 1
+        If Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = In_Count Then
+          РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
         End If
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
 
-' 22. Определение колонки ячейки в которой находится заданное значение (текст)
+' 22. РћРїСЂРµРґРµР»РµРЅРёРµ РєРѕР»РѕРЅРєРё СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚)
 Function ColumnByValue(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet) As Integer
   ColumnByValue = 0
   ColumnCount = 1
-  Найдено_значение = False
-  ' Двигаемся сначала по столбцу, потом по строке
-  Do While (ColumnCount <= In_maxColumnInSheet) And (Найдено_значение = False)
-    ' По срокам
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  Do While (ColumnCount <= In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
-    Do While (rowCount <= In_maxRowInSheet) And (Найдено_значение = False)
+    Do While (rowCount <= In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       ' If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value) = Trim(In_Value) Then
       If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(CStr(In_Value)) Then
         ColumnByValue = ColumnCount
-        Найдено_значение = True
+        РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
-' 22.1 Определение колонки ячейки в которой находится заданное значение (текст) и на листе может их быть несколько In_Count = 1-ый, 2-ой и т.д.
+' 22.1 РћРїСЂРµРґРµР»РµРЅРёРµ РєРѕР»РѕРЅРєРё СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚) Рё РЅР° Р»РёСЃС‚Рµ РјРѕР¶РµС‚ РёС… Р±С‹С‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ In_Count = 1-С‹Р№, 2-РѕР№ Рё С‚.Рґ.
 Function ColumnByValue2(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet, In_Count) As Integer
   ColumnByValue2 = 0
   ColumnCount = 1
-  Найдено_значение = False
-  Число_найденных = 0
-  ' Двигаемся сначала по столбцу, потом по строке
-  Do While (ColumnCount <= In_maxColumnInSheet) And (Найдено_значение = False)
-    ' По срокам
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = 0
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  Do While (ColumnCount <= In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
-    Do While (rowCount <= In_maxRowInSheet) And (Найдено_значение = False)
+    Do While (rowCount <= In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       
       ' If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value) = Trim(In_Value) Then
       If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(CStr(In_Value)) Then
         ColumnByValue2 = ColumnCount
-        Число_найденных = Число_найденных + 1
+        Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… + 1
         
-        ' Проверяем по счету чсло которые нашли на Листе
-        If Число_найденных = In_Count Then
-          Найдено_значение = True
+        ' РџСЂРѕРІРµСЂСЏРµРј РїРѕ СЃС‡РµС‚Сѓ С‡СЃР»Рѕ РєРѕС‚РѕСЂС‹Рµ РЅР°С€Р»Рё РЅР° Р›РёСЃС‚Рµ
+        If Р§РёСЃР»Рѕ_РЅР°Р№РґРµРЅРЅС‹С… = In_Count Then
+          РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
         End If
         
       End If
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
-' 22.2 Определение колонки ячейки в которой находится заданное значение (текст) - входящие и исходящие пробелы не удаляем!
+' 22.2 РћРїСЂРµРґРµР»РµРЅРёРµ РєРѕР»РѕРЅРєРё СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚) - РІС…РѕРґСЏС‰РёРµ Рё РёСЃС…РѕРґСЏС‰РёРµ РїСЂРѕР±РµР»С‹ РЅРµ СѓРґР°Р»СЏРµРј!
 Function ColumnByValue3(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet) As Integer
   ColumnByValue3 = 0
   ColumnCount = 1
-  Найдено_значение = False
-  ' Двигаемся сначала по столбцу, потом по строке
-  Do While (ColumnCount <= In_maxColumnInSheet) And (Найдено_значение = False)
-    ' По срокам
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  Do While (ColumnCount <= In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
-    Do While (rowCount <= In_maxRowInSheet) And (Найдено_значение = False)
+    Do While (rowCount <= In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       ' If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(CStr(In_Value)) Then
       If (CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = (CStr(In_Value)) Then
         ColumnByValue3 = ColumnCount
-        Найдено_значение = True
+        РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
       End If
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
 
-' 23. Получение Буквы по номеру столбца (взято из Интернет)
+' 23. РџРѕР»СѓС‡РµРЅРёРµ Р‘СѓРєРІС‹ РїРѕ РЅРѕРјРµСЂСѓ СЃС‚РѕР»Р±С†Р° (РІР·СЏС‚Рѕ РёР· РРЅС‚РµСЂРЅРµС‚)
 Function ConvertToLetter(iCol) As String
    Dim iAlpha As Integer
    Dim iRemainder As Integer
@@ -1288,98 +1288,98 @@ Function ConvertToLetter(iCol) As String
    End If
 End Function
 
-' 24. Определение ячейки в которой находится заданное значение (текст), например G11
+' 24. РћРїСЂРµРґРµР»РµРЅРёРµ СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚), РЅР°РїСЂРёРјРµСЂ G11
 Function RangeByValue(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet) As String
   RangeByValue = ""
   ColumnCount = 1
-  Найдено_значение = False
-  ' Двигаемся сначала по столбцу, потом по строке
-  Do While (ColumnCount < In_maxColumnInSheet) And (Найдено_значение = False)
-    ' По срокам
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  Do While (ColumnCount < In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
-    Do While (rowCount < In_maxRowInSheet) And (Найдено_значение = False)
+    Do While (rowCount < In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       
       ' If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RowCount, ColumnCount).Value) = Trim(In_Value) Then
       If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(In_Value) Then
         RangeByValue = ConvertToLetter(ColumnCount) + CStr(rowCount)
-        Найдено_значение = True
+        РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
       End If
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
-' 24.1 Определение ячейки в которой находится заданное значение (текст), например G11. Возвращает переменную "row-column"
+' 24.1 РћРїСЂРµРґРµР»РµРЅРёРµ СЏС‡РµР№РєРё РІ РєРѕС‚РѕСЂРѕР№ РЅР°С…РѕРґРёС‚СЃСЏ Р·Р°РґР°РЅРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ (С‚РµРєСЃС‚), РЅР°РїСЂРёРјРµСЂ G11. Р’РѕР·РІСЂР°С‰Р°РµС‚ РїРµСЂРµРјРµРЅРЅСѓСЋ "row-column"
 Function cellByValue(In_Workbooks, In_Sheets, In_Value, In_maxRowInSheet, In_maxColumnInSheet) As String
   cellByValue = ""
   ColumnCount = 1
-  Найдено_значение = False
-  ' Двигаемся сначала по столбцу, потом по строке
-  Do While (ColumnCount < In_maxColumnInSheet) And (Найдено_значение = False)
-    ' По срокам
+  РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
+  Do While (ColumnCount < In_maxColumnInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = 1
-    Do While (rowCount < In_maxRowInSheet) And (Найдено_значение = False)
+    Do While (rowCount < In_maxRowInSheet) And (РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = False)
       
       ' If Trim(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RowCount, ColumnCount).Value) = Trim(In_Value) Then
       If Trim(CStr(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(rowCount, ColumnCount).Value)) = Trim(In_Value) Then
         cellByValue = CStr(rowCount) + "-" + CStr(ColumnCount)
-        Найдено_значение = True
+        РќР°Р№РґРµРЅРѕ_Р·РЅР°С‡РµРЅРёРµ = True
       End If
       
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
 End Function
 
-' 24.2 Из переменной "row-column" получаем row
+' 24.2 РР· РїРµСЂРµРјРµРЅРЅРѕР№ "row-column" РїРѕР»СѓС‡Р°РµРј row
 Function row_cellByValue(In_row_column) As Integer
   row_cellByValue = CInt(Mid(In_row_column, 1, InStr(In_row_column, "-") - 1))
 End Function
 
-' 24.3 Из переменной "row-column" получаем column
+' 24.3 РР· РїРµСЂРµРјРµРЅРЅРѕР№ "row-column" РїРѕР»СѓС‡Р°РµРј column
 Function column_cellByValue(In_row_column) As Integer
   column_cellByValue = CInt(Mid(In_row_column, InStr(In_row_column, "-") + 1, Len(In_row_column) - InStr(In_row_column, "-")))
 End Function
 
 
-' 25. Расчет плана на неделю
-Function ПланНаНеделю(In_ПланМесяца, In_ФактМесяца, In_DateNow, In_WorkingDayInWeek)
+' 25. Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РЅР° РЅРµРґРµР»СЋ
+Function РџР»Р°РЅРќР°РќРµРґРµР»СЋ(In_РџР»Р°РЅРњРµСЃСЏС†Р°, In_Р¤Р°РєС‚РњРµСЃСЏС†Р°, In_DateNow, In_WorkingDayInWeek)
 Dim dateBeginWeek, dateEndWeek As Date
-  ' Дата начала недели
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РЅРµРґРµР»Рё
   dateBeginWeek = weekStartDate(In_DateNow)
-  ' Дата конца недели
+  ' Р”Р°С‚Р° РєРѕРЅС†Р° РЅРµРґРµР»Рё
   dateEndWeek = weekEndDate(In_DateNow)
-  ' Число рабочих дней в месяце
-  ' workingDaysMonth = Working_days_in_the_FullMonth(максимальная_Дата_выдачи_кредита, 6)
-  ' Делаем расчет
-  ПланНаНеделю = (In_ПланМесяца - In_ФактМесяца) / Working_days_between_dates(dateBeginWeek, Date_last_day_month(In_DateNow), In_WorkingDayInWeek) * Working_days_between_dates(dateBeginWeek, dateEndWeek, In_WorkingDayInWeek)
-  ' Если план на неделю меньше нуля, то выполнять план на этой неделе не надо больше
-  If ПланНаНеделю < 0 Then
-    ПланНаНеделю = 0
+  ' Р§РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ РІ РјРµСЃСЏС†Рµ
+  ' workingDaysMonth = Working_days_in_the_FullMonth(РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ_Р”Р°С‚Р°_РІС‹РґР°С‡Рё_РєСЂРµРґРёС‚Р°, 6)
+  ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚
+  РџР»Р°РЅРќР°РќРµРґРµР»СЋ = (In_РџР»Р°РЅРњРµСЃСЏС†Р° - In_Р¤Р°РєС‚РњРµСЃСЏС†Р°) / Working_days_between_dates(dateBeginWeek, Date_last_day_month(In_DateNow), In_WorkingDayInWeek) * Working_days_between_dates(dateBeginWeek, dateEndWeek, In_WorkingDayInWeek)
+  ' Р•СЃР»Рё РїР»Р°РЅ РЅР° РЅРµРґРµР»СЋ РјРµРЅСЊС€Рµ РЅСѓР»СЏ, С‚Рѕ РІС‹РїРѕР»РЅСЏС‚СЊ РїР»Р°РЅ РЅР° СЌС‚РѕР№ РЅРµРґРµР»Рµ РЅРµ РЅР°РґРѕ Р±РѕР»СЊС€Рµ
+  If РџР»Р°РЅРќР°РќРµРґРµР»СЋ < 0 Then
+    РџР»Р°РЅРќР°РќРµРґРµР»СЋ = 0
   End If
 End Function
 
-' 25.1 Расчет плана на неделю из плана квартала
-Function ПланНаНеделю_Q(In_ПланКвартал, In_ФактКвартал, In_DateNow, In_WorkingDayInWeek)
+' 25.1 Р Р°СЃС‡РµС‚ РїР»Р°РЅР° РЅР° РЅРµРґРµР»СЋ РёР· РїР»Р°РЅР° РєРІР°СЂС‚Р°Р»Р°
+Function РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Q(In_РџР»Р°РЅРљРІР°СЂС‚Р°Р», In_Р¤Р°РєС‚РљРІР°СЂС‚Р°Р», In_DateNow, In_WorkingDayInWeek)
 Dim dateBeginWeek, dateEndWeek As Date
   
-  ' Дата начала недели
+  ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РЅРµРґРµР»Рё
   dateBeginWeek = weekStartDate(In_DateNow)
-  ' Дата конца недели
+  ' Р”Р°С‚Р° РєРѕРЅС†Р° РЅРµРґРµР»Рё
   dateEndWeek = weekEndDate(In_DateNow)
   
-  ' Число рабочих дней в месяце
-  ' workingDaysMonth = Working_days_in_the_FullMonth(максимальная_Дата_выдачи_кредита, 6)
+  ' Р§РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ РІ РјРµСЃСЏС†Рµ
+  ' workingDaysMonth = Working_days_in_the_FullMonth(РјР°РєСЃРёРјР°Р»СЊРЅР°СЏ_Р”Р°С‚Р°_РІС‹РґР°С‡Рё_РєСЂРµРґРёС‚Р°, 6)
   
-  ' Делаем расчет
-  ПланНаНеделю_Q = (In_ПланКвартал - In_ФактКвартал) / Working_days_between_dates(dateBeginWeek, Date_last_day_quarter(In_DateNow), In_WorkingDayInWeek) * Working_days_between_dates(dateBeginWeek, dateEndWeek, In_WorkingDayInWeek)
+  ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚
+  РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Q = (In_РџР»Р°РЅРљРІР°СЂС‚Р°Р» - In_Р¤Р°РєС‚РљРІР°СЂС‚Р°Р») / Working_days_between_dates(dateBeginWeek, Date_last_day_quarter(In_DateNow), In_WorkingDayInWeek) * Working_days_between_dates(dateBeginWeek, dateEndWeek, In_WorkingDayInWeek)
   
   ' ***
   t0 = Working_days_between_dates(dateBeginWeek, Date_last_day_quarter(In_DateNow), In_WorkingDayInWeek)
@@ -1387,113 +1387,113 @@ Dim dateBeginWeek, dateEndWeek As Date
   t02 = Working_days_between_dates(dateBeginWeek, dateEndWeek, In_WorkingDayInWeek)
   ' ***
   
-  ' Если план на неделю меньше нуля, то выполнять план на этой неделе не надо больше
-  If ПланНаНеделю_Q < 0 Then
-    ПланНаНеделю_Q = 0
+  ' Р•СЃР»Рё РїР»Р°РЅ РЅР° РЅРµРґРµР»СЋ РјРµРЅСЊС€Рµ РЅСѓР»СЏ, С‚Рѕ РІС‹РїРѕР»РЅСЏС‚СЊ РїР»Р°РЅ РЅР° СЌС‚РѕР№ РЅРµРґРµР»Рµ РЅРµ РЅР°РґРѕ Р±РѕР»СЊС€Рµ
+  If РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Q < 0 Then
+    РџР»Р°РЅРќР°РќРµРґРµР»СЋ_Q = 0
   End If
   
 End Function
 
 
-' 26. Преобразование подстроки Ватрушкина Ираида Семеновна (НК: 12345678) => Ватрушкина И.С. (НК: 12345678)
-Function ПреобразованиеФИОиНК(In_ФИО_и_НК) As String
-  ПреобразованиеФИОиНК = ""
-  Позиция_первой_скобки = InStr(In_ФИО_и_НК, "(")
-  Подстрока_1 = Mid(In_ФИО_и_НК, 1, Позиция_первой_скобки)
-  Подстрока_2 = Mid(In_ФИО_и_НК, Позиция_первой_скобки, Len(In_ФИО_и_НК) - Позиция_первой_скобки + 1)
-  ПреобразованиеФИОиНК = Фамилия_и_Имя(Подстрока_1, 3) + " " + Подстрока_2
+' 26. РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё Р’Р°С‚СЂСѓС€РєРёРЅР° РСЂР°РёРґР° РЎРµРјРµРЅРѕРІРЅР° (РќРљ: 12345678) => Р’Р°С‚СЂСѓС€РєРёРЅР° Р.РЎ. (РќРљ: 12345678)
+Function РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ(In_Р¤РРћ_Рё_РќРљ) As String
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ = ""
+  РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё = InStr(In_Р¤РРћ_Рё_РќРљ, "(")
+  РџРѕРґСЃС‚СЂРѕРєР°_1 = Mid(In_Р¤РРћ_Рё_РќРљ, 1, РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё)
+  РџРѕРґСЃС‚СЂРѕРєР°_2 = Mid(In_Р¤РРћ_Рё_РќРљ, РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё, Len(In_Р¤РРћ_Рё_РќРљ) - РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё + 1)
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(РџРѕРґСЃС‚СЂРѕРєР°_1, 3) + " " + РџРѕРґСЃС‚СЂРѕРєР°_2
 End Function
 
-' 26.1 Преобразование подстроки Ватрушкина Ираида Семеновна (НК: 12345678) => 12345678
-Function ПреобразованиеФИОиНК2(In_ФИО_и_НК) As String
-Dim Позиция_первой_скобки, Позиция_второй_скобки As Byte
-  ПреобразованиеФИОиНК2 = ""
-  Позиция_первой_скобки = InStr(In_ФИО_и_НК, "(")
-  Позиция_второй_скобки = InStr(In_ФИО_и_НК, ")")
-  ПреобразованиеФИОиНК2 = Trim(Mid(In_ФИО_и_НК, Позиция_первой_скобки + 4, Позиция_второй_скобки - Позиция_первой_скобки - 4))
+' 26.1 РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё Р’Р°С‚СЂСѓС€РєРёРЅР° РСЂР°РёРґР° РЎРµРјРµРЅРѕРІРЅР° (РќРљ: 12345678) => 12345678
+Function РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ2(In_Р¤РРћ_Рё_РќРљ) As String
+Dim РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё, РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕР№_СЃРєРѕР±РєРё As Byte
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ2 = ""
+  РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё = InStr(In_Р¤РРћ_Рё_РќРљ, "(")
+  РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕР№_СЃРєРѕР±РєРё = InStr(In_Р¤РРћ_Рё_РќРљ, ")")
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ2 = Trim(Mid(In_Р¤РРћ_Рё_РќРљ, РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё + 4, РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕР№_СЃРєРѕР±РєРё - РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё - 4))
 End Function
 
-' 26.2 Преобразование подстроки Ватрушкина Ираида Семеновна (НК: 12345678) => Ватрушкина
-Function ПреобразованиеФИОиНК3(In_ФИО_и_НК) As String
+' 26.2 РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё Р’Р°С‚СЂСѓС€РєРёРЅР° РСЂР°РёРґР° РЎРµРјРµРЅРѕРІРЅР° (РќРљ: 12345678) => Р’Р°С‚СЂСѓС€РєРёРЅР°
+Function РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ3(In_Р¤РРћ_Рё_РќРљ) As String
 
-  ПреобразованиеФИОиНК3 = Trim(Mid(In_ФИО_и_НК, 1, InStr(In_ФИО_и_НК, " ") - 1))
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ3 = Trim(Mid(In_Р¤РРћ_Рё_РќРљ, 1, InStr(In_Р¤РРћ_Рё_РќРљ, " ") - 1))
   
 End Function
 
-' 26.3 Преобразование подстроки Ватрушкина Ираида Семеновна (НК: 12345678) => Ираида
-Function ПреобразованиеФИОиНК4(In_ФИО_и_НК) As String
+' 26.3 РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё Р’Р°С‚СЂСѓС€РєРёРЅР° РСЂР°РёРґР° РЎРµРјРµРЅРѕРІРЅР° (РќРљ: 12345678) => РСЂР°РёРґР°
+Function РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ4(In_Р¤РРћ_Рё_РќРљ) As String
 
-  Позиция_первго_пробела = InStr(In_ФИО_и_НК, " ")
-  Имя_Отчество = Mid(In_ФИО_и_НК, Позиция_первго_пробела + 1, Len(In_ФИО_и_НК) - Позиция_первго_пробела)
-  ПреобразованиеФИОиНК4 = Trim(Mid(Имя_Отчество, 1, InStr(Имя_Отчество, " ")))
-  
-End Function
-
-
-' 26.4 Преобразование подстроки Ватрушкина Ираида Семеновна (НК: 12345678) => Семеновна
-Function ПреобразованиеФИОиНК5(In_ФИО_и_НК) As String
-Dim Позиция_первой_скобки, Позиция_второй_скобки As Byte
-  
-  Позиция_первго_пробела = InStr(In_ФИО_и_НК, " ")
-  Имя_Отчество = Mid(In_ФИО_и_НК, Позиция_первго_пробела + 1, Len(In_ФИО_и_НК) - Позиция_первго_пробела)
-  Позиция_второго_пробела = Позиция_первго_пробела + InStr(Имя_Отчество, " ")
-  Позиция_первой_скобки = InStr(In_ФИО_и_НК, "(")
-  Позиция_второй_скобки = InStr(In_ФИО_и_НК, ")")
-  ПреобразованиеФИОиНК5 = Trim(Mid(In_ФИО_и_НК, Позиция_второго_пробела + 1, Позиция_первой_скобки - Позиция_второго_пробела - 1))
+  РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р° = InStr(In_Р¤РРћ_Рё_РќРљ, " ")
+  РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ = Mid(In_Р¤РРћ_Рё_РќРљ, РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р° + 1, Len(In_Р¤РРћ_Рё_РќРљ) - РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р°)
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ4 = Trim(Mid(РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, InStr(РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, " ")))
   
 End Function
 
 
-
-' 27. Запись К_пор на лист ЕСУП
-Sub setК_порInЕСУП(In_Workbooks, In_Sheets, In_К_пор, In_К_порValue, In_К_порDate, In_Size, In_К_порDetailing)
-Dim RangeК_пор, Id_TaskVar, PersonVar As String
-Dim RangeК_пор_Row, RangeК_пор_Column, OfficeNumberVar As Byte
+' 26.4 РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµ РїРѕРґСЃС‚СЂРѕРєРё Р’Р°С‚СЂСѓС€РєРёРЅР° РСЂР°РёРґР° РЎРµРјРµРЅРѕРІРЅР° (РќРљ: 12345678) => РЎРµРјРµРЅРѕРІРЅР°
+Function РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ5(In_Р¤РРћ_Рё_РќРљ) As String
+Dim РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё, РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕР№_СЃРєРѕР±РєРё As Byte
   
-  ' На странице ЕСУП заносим в первую таблицу "Поручения недели:"
+  РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р° = InStr(In_Р¤РРћ_Рё_РќРљ, " ")
+  РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ = Mid(In_Р¤РРћ_Рё_РќРљ, РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р° + 1, Len(In_Р¤РРћ_Рё_РќРљ) - РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р°)
+  РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕРіРѕ_РїСЂРѕР±РµР»Р° = РџРѕР·РёС†РёСЏ_РїРµСЂРІРіРѕ_РїСЂРѕР±РµР»Р° + InStr(РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, " ")
+  РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё = InStr(In_Р¤РРћ_Рё_РќРљ, "(")
+  РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕР№_СЃРєРѕР±РєРё = InStr(In_Р¤РРћ_Рё_РќРљ, ")")
+  РџСЂРµРѕР±СЂР°Р·РѕРІР°РЅРёРµР¤РРћРёРќРљ5 = Trim(Mid(In_Р¤РРћ_Рё_РќРљ, РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕРіРѕ_РїСЂРѕР±РµР»Р° + 1, РџРѕР·РёС†РёСЏ_РїРµСЂРІРѕР№_СЃРєРѕР±РєРё - РџРѕР·РёС†РёСЏ_РІС‚РѕСЂРѕРіРѕ_РїСЂРѕР±РµР»Р° - 1))
+  
+End Function
+
+
+
+' 27. Р—Р°РїРёСЃСЊ Рљ_РїРѕСЂ РЅР° Р»РёСЃС‚ Р•РЎРЈРџ
+Sub setРљ_РїРѕСЂInР•РЎРЈРџ(In_Workbooks, In_Sheets, In_Рљ_РїРѕСЂ, In_Рљ_РїРѕСЂValue, In_Рљ_РїРѕСЂDate, In_Size, In_Рљ_РїРѕСЂDetailing)
+Dim RangeРљ_РїРѕСЂ, Id_TaskVar, PersonVar As String
+Dim RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column, OfficeNumberVar As Byte
+  
+  ' РќР° СЃС‚СЂР°РЅРёС†Рµ Р•РЎРЈРџ Р·Р°РЅРѕСЃРёРј РІ РїРµСЂРІСѓСЋ С‚Р°Р±Р»РёС†Сѓ "РџРѕСЂСѓС‡РµРЅРёСЏ РЅРµРґРµР»Рё:"
   ' ?
   
-  ' Находим ячейку (например G41), в которой записано значение ЗДК1
-  RangeК_пор = RangeByValue(In_Workbooks, In_Sheets, In_К_пор, 100, 100)
-  RangeК_пор_Row = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeК_пор).Row
-  RangeК_пор_Column = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeК_пор).Column
-  If In_К_порDetailing <> "" Then
-      Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column - 5).Value = In_К_порDetailing
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ Р—Р”Рљ1
+  RangeРљ_РїРѕСЂ = RangeByValue(In_Workbooks, In_Sheets, In_Рљ_РїРѕСЂ, 100, 100)
+  RangeРљ_РїРѕСЂ_Row = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeРљ_РїРѕСЂ).Row
+  RangeРљ_РїРѕСЂ_Column = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeРљ_РїРѕСЂ).Column
+  If In_Рљ_РїРѕСЂDetailing <> "" Then
+      Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column - 5).Value = In_Рљ_РїРѕСЂDetailing
   End If
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 1).Value = In_К_порDate
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 2).Value = In_К_порValue
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 3).Value = In_Size
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 1).Value = In_Рљ_РїРѕСЂDate
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 2).Value = In_Рљ_РїРѕСЂValue
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 3).Value = In_Size
   
-  ' Записываем поручение в BASE\Tasks, где поле Id_Task = Неделя-год-ЗДКi (10-2020-ЗДК1) - новая запись
-  ' Внимание! Должна быть открыта таблица BASE\Tasks
-  ' через InsertRecordInBook
-  Id_TaskVar = CStr(WeekNumber(In_К_порDate)) + "-" + CStr(Year(In_К_порDate)) + "-" + In_К_пор
-  ' Номер офиса (1..5)
-  OfficeNumberVar = CInt(Mid(In_К_пор, Len(In_К_пор), 1))
+  ' Р—Р°РїРёСЃС‹РІР°РµРј РїРѕСЂСѓС‡РµРЅРёРµ РІ BASE\Tasks, РіРґРµ РїРѕР»Рµ Id_Task = РќРµРґРµР»СЏ-РіРѕРґ-Р—Р”Рљi (10-2020-Р—Р”Рљ1) - РЅРѕРІР°СЏ Р·Р°РїРёСЃСЊ
+  ' Р’РЅРёРјР°РЅРёРµ! Р”РѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚РєСЂС‹С‚Р° С‚Р°Р±Р»РёС†Р° BASE\Tasks
+  ' С‡РµСЂРµР· InsertRecordInBook
+  Id_TaskVar = CStr(WeekNumber(In_Рљ_РїРѕСЂDate)) + "-" + CStr(Year(In_Рљ_РїРѕСЂDate)) + "-" + In_Рљ_РїРѕСЂ
+  ' РќРѕРјРµСЂ РѕС„РёСЃР° (1..5)
+  OfficeNumberVar = CInt(Mid(In_Рљ_РїРѕСЂ, Len(In_Рљ_РїРѕСЂ), 1))
   
-  ' Ответственный за поручение - если это Офисы с 1 по 5
+  ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ Р·Р° РїРѕСЂСѓС‡РµРЅРёРµ - РµСЃР»Рё СЌС‚Рѕ РћС„РёСЃС‹ СЃ 1 РїРѕ 5
   If OfficeNumberVar = 1 Then
-    PersonVar = getFromAddrBook("НОРПиКО1", 3)
+    PersonVar = getFromAddrBook("РќРћР РџРёРљРћ1", 3)
   Else
-    PersonVar = getFromAddrBook("УДО" + CStr(OfficeNumberVar), 3)
+    PersonVar = getFromAddrBook("РЈР”Рћ" + CStr(OfficeNumberVar), 3)
   End If
-  ' Ответственный за поручение - если это ИЦ: ВИК1, ВИК2
-  If Mid(In_К_пор, 1, 3) = "ВИК" Then
-    PersonVar = getFromAddrBook("РИЦ", 3)
+  ' РћС‚РІРµС‚СЃС‚РІРµРЅРЅС‹Р№ Р·Р° РїРѕСЂСѓС‡РµРЅРёРµ - РµСЃР»Рё СЌС‚Рѕ РР¦: Р’РРљ1, Р’РРљ2
+  If Mid(In_Рљ_РїРѕСЂ, 1, 3) = "Р’РРљ" Then
+    PersonVar = getFromAddrBook("Р РР¦", 3)
   End If
   
-  ' Вызов InsertRecordInBook
-  Call InsertRecordInBook("Tasks", "Лист1", "Id_Task", Id_TaskVar, _
-                                            "Date", In_К_порDate, _
-                                              "Protocol", CStr(WeekNumber(In_К_порDate)) + "-" + strDDMMYYYY(In_К_порDate), _
+  ' Р’С‹Р·РѕРІ InsertRecordInBook
+  Call InsertRecordInBook("Tasks", "Р›РёСЃС‚1", "Id_Task", Id_TaskVar, _
+                                            "Date", In_Рљ_РїРѕСЂDate, _
+                                              "Protocol", CStr(WeekNumber(In_Рљ_РїРѕСЂDate)) + "-" + strDDMMYYYY(In_Рљ_РїРѕСЂDate), _
                                                 "Id_Task", Id_TaskVar, _
                                                   "Division", getNameOfficeByNumber(OfficeNumberVar), _
                                                     "Person", PersonVar, _
-                                                      "Description_task", Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column - 5).Value, _
-                                                        "К_пор", In_К_пор, _
-                                                          "Value", In_К_порValue, _
+                                                      "Description_task", Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column - 5).Value, _
+                                                        "Рљ_РїРѕСЂ", In_Рљ_РїРѕСЂ, _
+                                                          "Value", In_Рљ_РїРѕСЂValue, _
                                                             "Unit", In_Size, _
-                                                              "Date_finish", weekEndDate(In_К_порDate), _
+                                                              "Date_finish", weekEndDate(In_Рљ_РїРѕСЂDate), _
                                                                 "", "", _
                                                                   "", "", _
                                                                     "", "", _
@@ -1508,34 +1508,34 @@ Dim RangeК_пор_Row, RangeК_пор_Column, OfficeNumberVar As Byte
   
 End Sub
 
-' 28. Запись Факт исполнения К_пор на лист ЕСУП
-Sub currentК_порInЕСУП(In_Workbooks, In_Sheets, In_К_пор, In_К_порDate, In_К_порValue, In_Size)
-Dim RangeК_пор As String
-Dim RangeК_пор_Row, RangeК_пор_Column As Byte
+' 28. Р—Р°РїРёСЃСЊ Р¤Р°РєС‚ РёСЃРїРѕР»РЅРµРЅРёСЏ Рљ_РїРѕСЂ РЅР° Р»РёСЃС‚ Р•РЎРЈРџ
+Sub currentРљ_РїРѕСЂInР•РЎРЈРџ(In_Workbooks, In_Sheets, In_Рљ_РїРѕСЂ, In_Рљ_РїРѕСЂDate, In_Рљ_РїРѕСЂValue, In_Size)
+Dim RangeРљ_РїРѕСЂ As String
+Dim RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column As Byte
   
-  ' Находим ячейку (например G41), в которой записано значение ЗДК1
-  RangeК_пор = RangeByValue(In_Workbooks, In_Sheets, In_К_пор, 100, 100)
-  RangeК_пор_Row = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeК_пор).Row
-  RangeК_пор_Column = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeК_пор).Column
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ (РЅР°РїСЂРёРјРµСЂ G41), РІ РєРѕС‚РѕСЂРѕР№ Р·Р°РїРёСЃР°РЅРѕ Р·РЅР°С‡РµРЅРёРµ Р—Р”Рљ1
+  RangeРљ_РїРѕСЂ = RangeByValue(In_Workbooks, In_Sheets, In_Рљ_РїРѕСЂ, 100, 100)
+  RangeРљ_РїРѕСЂ_Row = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeРљ_РїРѕСЂ).Row
+  RangeРљ_РїРѕСЂ_Column = Workbooks(In_Workbooks).Sheets(In_Sheets).Range(RangeРљ_РїРѕСЂ).Column
   
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 4).Value = In_К_порDate
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 5).Value = In_К_порValue
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 6).Value = In_Size
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 4).Value = In_Рљ_РїРѕСЂDate
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 5).Value = In_Рљ_РїРѕСЂValue
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 6).Value = In_Size
   
-  ' ПроцентВыполнения
-  ' t = Round(ПроцентВыполнения(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 2).Value, In_К_порValue), 1)
-  ' t2 = Round(ПроцентВыполнения(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 2).Value, In_К_порValue), 2)
-  ' t3 = ПроцентВыполнения(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 2).Value, In_К_порValue)
+  ' РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ
+  ' t = Round(РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 2).Value, In_Рљ_РїРѕСЂValue), 1)
+  ' t2 = Round(РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 2).Value, In_Рљ_РїРѕСЂValue), 2)
+  ' t3 = РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 2).Value, In_Рљ_РїРѕСЂValue)
   
-  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 7).Value = Round(ПроцентВыполнения(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeК_пор_Row, RangeК_пор_Column + 2).Value, In_К_порValue), 2)
+  Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 7).Value = Round(РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ(Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(RangeРљ_РїРѕСЂ_Row, RangeРљ_РїРѕСЂ_Column + 2).Value, In_Рљ_РїРѕСЂValue), 2)
   
-  ' Апдейт значений для поручения в BASE\Tasks, где поле Id_Task = Неделя-год-ЗДКi (10-2020-ЗДК1): Last_Date, Last_Value, Status_persent, Status
-  ' Внимание! Должна быть открыта таблица BASE\Tasks
-  ' через InsertRecordInBook апдейтим по ключу Id_Task
-  Id_TaskVar = CStr(WeekNumber(In_К_порDate)) + "-" + CStr(Year(In_К_порDate)) + "-" + In_К_пор
-  Call InsertRecordInBook("Tasks", "Лист1", "Id_Task", Id_TaskVar, _
-                                            "Last_Date", In_К_порDate, _
-                                              "Last_Value", In_К_порValue, _
+  ' РђРїРґРµР№С‚ Р·РЅР°С‡РµРЅРёР№ РґР»СЏ РїРѕСЂСѓС‡РµРЅРёСЏ РІ BASE\Tasks, РіРґРµ РїРѕР»Рµ Id_Task = РќРµРґРµР»СЏ-РіРѕРґ-Р—Р”Рљi (10-2020-Р—Р”Рљ1): Last_Date, Last_Value, Status_persent, Status
+  ' Р’РЅРёРјР°РЅРёРµ! Р”РѕР»Р¶РЅР° Р±С‹С‚СЊ РѕС‚РєСЂС‹С‚Р° С‚Р°Р±Р»РёС†Р° BASE\Tasks
+  ' С‡РµСЂРµР· InsertRecordInBook Р°РїРґРµР№С‚РёРј РїРѕ РєР»СЋС‡Сѓ Id_Task
+  Id_TaskVar = CStr(WeekNumber(In_Рљ_РїРѕСЂDate)) + "-" + CStr(Year(In_Рљ_РїРѕСЂDate)) + "-" + In_Рљ_РїРѕСЂ
+  Call InsertRecordInBook("Tasks", "Р›РёСЃС‚1", "Id_Task", Id_TaskVar, _
+                                            "Last_Date", In_Рљ_РїРѕСЂDate, _
+                                              "Last_Value", In_Рљ_РїРѕСЂValue, _
                                                 "", "", _
                                                   "", "", _
                                                     "", "", _
@@ -1557,80 +1557,80 @@ Dim RangeК_пор_Row, RangeК_пор_Column As Byte
   
 End Sub
 
-' 29. Прирост в % между двумя числами
-Function Прирост_в_процентах(In_Start, In_End) As Double
-  ' Прирост в процентах составляет % = (B-A)/A*100 A = Исходное значение B = Конечное значение
+' 29. РџСЂРёСЂРѕСЃС‚ РІ % РјРµР¶РґСѓ РґРІСѓРјСЏ С‡РёСЃР»Р°РјРё
+Function РџСЂРёСЂРѕСЃС‚_РІ_РїСЂРѕС†РµРЅС‚Р°С…(In_Start, In_End) As Double
+  ' РџСЂРёСЂРѕСЃС‚ РІ РїСЂРѕС†РµРЅС‚Р°С… СЃРѕСЃС‚Р°РІР»СЏРµС‚ % = (B-A)/A*100 A = РСЃС…РѕРґРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ B = РљРѕРЅРµС‡РЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
   If In_Start <> 0 Then
-    Прирост_в_процентах = ((In_End - In_Start) / In_Start * 100) / 100
+    РџСЂРёСЂРѕСЃС‚_РІ_РїСЂРѕС†РµРЅС‚Р°С… = ((In_End - In_Start) / In_Start * 100) / 100
   Else
-    Прирост_в_процентах = 1
+    РџСЂРёСЂРѕСЃС‚_РІ_РїСЂРѕС†РµРЅС‚Р°С… = 1
   End If
 End Function
 
-' 30. Процент выполнения от Плана и Факта (https://calc.by/math-calculators/percent-calculator.html)
-Function ПроцентВыполнения(In_План, In_Факт) As String
-  If In_План > 0 Then
-    ПроцентВыполнения = (In_Факт / In_План)
+' 30. РџСЂРѕС†РµРЅС‚ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕС‚ РџР»Р°РЅР° Рё Р¤Р°РєС‚Р° (https://calc.by/math-calculators/percent-calculator.html)
+Function РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ(In_РџР»Р°РЅ, In_Р¤Р°РєС‚) As String
+  If In_РџР»Р°РЅ > 0 Then
+    РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ = (In_Р¤Р°РєС‚ / In_РџР»Р°РЅ)
   Else
-    ПроцентВыполнения = 1
+    РџСЂРѕС†РµРЅС‚Р’С‹РїРѕР»РЅРµРЅРёСЏ = 1
   End If
 End Function
 
-' 31. Неделя на ЛистN
-Function НеделяНаЛистеN(In_Sheet) As Integer
+' 31. РќРµРґРµР»СЏ РЅР° Р›РёСЃС‚N
+Function РќРµРґРµР»СЏРќР°Р›РёСЃС‚РµN(In_Sheet) As Integer
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
-  ' Находим ячейку в которой на листе ЕСУП записана "Неделя:"
-  Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Неделя:", 100, 100)
+  ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ РІ РєРѕС‚РѕСЂРѕР№ РЅР° Р»РёСЃС‚Рµ Р•РЎРЈРџ Р·Р°РїРёСЃР°РЅР° "РќРµРґРµР»СЏ:"
+  Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РќРµРґРµР»СЏ:", 100, 100)
   Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
   Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
   '
-  НеделяНаЛистеN = 0
-  НеделяНаЛистеN = CInt(ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 1).Value)
+  РќРµРґРµР»СЏРќР°Р›РёСЃС‚РµN = 0
+  РќРµРґРµР»СЏРќР°Р›РёСЃС‚РµN = CInt(ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 1).Value)
 End Function
 
-' 32. Открываем ini-файл и считываем значение переменной
+' 32. РћС‚РєСЂС‹РІР°РµРј ini-С„Р°Р№Р» Рё СЃС‡РёС‚С‹РІР°РµРј Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРјРµРЅРЅРѕР№
 Function param_from_ini(In_iniFile, In_ParamName) As String
    param_from_ini = ""
    f = FreeFile
    Open In_iniFile For Input As #f
    Do While Not EOF(f)
      Line Input #f, S
-     ' Если в строке есть знак "="
+     ' Р•СЃР»Рё РІ СЃС‚СЂРѕРєРµ РµСЃС‚СЊ Р·РЅР°Рє "="
      If InStr(S, "=") <> 0 Then
-       ' Определяем позицию знака "="
-       Позиция_равно = InStr(S, "=")
-       ' Сравниваем строки
-       If Trim(Mid(S, 1, Позиция_равно - 1)) = In_ParamName Then
-         ' Позиция_равно = InStr(s, "=")
-         param_from_ini = Trim(Mid(S, Позиция_равно + 1, Len(S) - Позиция_равно))
+       ' РћРїСЂРµРґРµР»СЏРµРј РїРѕР·РёС†РёСЋ Р·РЅР°РєР° "="
+       РџРѕР·РёС†РёСЏ_СЂР°РІРЅРѕ = InStr(S, "=")
+       ' РЎСЂР°РІРЅРёРІР°РµРј СЃС‚СЂРѕРєРё
+       If Trim(Mid(S, 1, РџРѕР·РёС†РёСЏ_СЂР°РІРЅРѕ - 1)) = In_ParamName Then
+         ' РџРѕР·РёС†РёСЏ_СЂР°РІРЅРѕ = InStr(s, "=")
+         param_from_ini = Trim(Mid(S, РџРѕР·РёС†РёСЏ_СЂР°РІРЅРѕ + 1, Len(S) - РџРѕР·РёС†РёСЏ_СЂР°РІРЅРѕ))
        End If
-     End If ' Если в строке есть знак "="
+     End If ' Р•СЃР»Рё РІ СЃС‚СЂРѕРєРµ РµСЃС‚СЊ Р·РЅР°Рє "="
    Loop
    Close f
 End Function
 
-' 33. Отправка письма (тест)
-Sub Отправка_Lotus_Notes()
-Dim текстПисьма As String
-  ' Текст письма
-  текстПисьма = "Уважаемые сотрудники," & Chr(13)
-  текстПисьма = текстПисьма + "" + Chr(13)
-  текстПисьма = текстПисьма + "Объем кредитного портфеля с изменениями за период." + Chr(13)
-  текстПисьма = текстПисьма + "" + Chr(13)
-  текстПисьма = текстПисьма + "" + Chr(13)
-  ' Визитка (подпись С Ув., )
-  текстПисьма = текстПисьма + ПодписьВПисьме()
-  ' Хэштег
-  текстПисьма = текстПисьма + ThisWorkbook.Sheets("Лист3").Cells(2, 13).Value + Chr(13)
-  ' Вызов
-  Call send_Lotus_Notes(ThisWorkbook.Sheets("Лист3").Cells(2, 16).Value, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", текстПисьма, "C:\Users\proschaevsf\Documents\#DB_Result\Out\Тестовый_файл_для_отправки.xlsx")
+' 33. РћС‚РїСЂР°РІРєР° РїРёСЃСЊРјР° (С‚РµСЃС‚)
+Sub РћС‚РїСЂР°РІРєР°_Lotus_Notes()
+Dim С‚РµРєСЃС‚РџРёСЃСЊРјР° As String
+  ' РўРµРєСЃС‚ РїРёСЃСЊРјР°
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = "РЈРІР°Р¶Р°РµРјС‹Рµ СЃРѕС‚СЂСѓРґРЅРёРєРё," & Chr(13)
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "РћР±СЉРµРј РєСЂРµРґРёС‚РЅРѕРіРѕ РїРѕСЂС‚С„РµР»СЏ СЃ РёР·РјРµРЅРµРЅРёСЏРјРё Р·Р° РїРµСЂРёРѕРґ." + Chr(13)
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + "" + Chr(13)
+  ' Р’РёР·РёС‚РєР° (РїРѕРґРїРёСЃСЊ РЎ РЈРІ., )
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + РџРѕРґРїРёСЃСЊР’РџРёСЃСЊРјРµ()
+  ' РҐСЌС€С‚РµРі
+  С‚РµРєСЃС‚РџРёСЃСЊРјР° = С‚РµРєСЃС‚РџРёСЃСЊРјР° + ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(2, 13).Value + Chr(13)
+  ' Р’С‹Р·РѕРІ
+  Call send_Lotus_Notes(ThisWorkbook.Sheets("Р›РёСЃС‚3").Cells(2, 16).Value, "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", "Sergey Fedorovich Proschaev/Tyumen/PSBank/Ru", С‚РµРєСЃС‚РџРёСЃСЊРјР°, "C:\Users\proschaevsf\Documents\#DB_Result\Out\РўРµСЃС‚РѕРІС‹Р№_С„Р°Р№Р»_РґР»СЏ_РѕС‚РїСЂР°РІРєРё.xlsx")
 End Sub
 
-' 34. Проверка формата открываемых отчетов
-' Вынесен в отдельный модуль "Module_CheckFormatReport"
+' 34. РџСЂРѕРІРµСЂРєР° С„РѕСЂРјР°С‚Р° РѕС‚РєСЂС‹РІР°РµРјС‹С… РѕС‚С‡РµС‚РѕРІ
+' Р’С‹РЅРµСЃРµРЅ РІ РѕС‚РґРµР»СЊРЅС‹Р№ РјРѕРґСѓР»СЊ "Module_CheckFormatReport"
     
-' 35. Проверка наличия листа с заданным именем в Книге (моя версия)
+' 35. РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ Р»РёСЃС‚Р° СЃ Р·Р°РґР°РЅРЅС‹Рј РёРјРµРЅРµРј РІ РљРЅРёРіРµ (РјРѕСЏ РІРµСЂСЃРёСЏ)
 Function Sheets_Exist2(In_Workbooks, In_Sheets) As Boolean
 Dim wsSh As Worksheet
   On Error Resume Next
@@ -1638,315 +1638,315 @@ Dim wsSh As Worksheet
   Sheets_Exist2 = Not wsSh Is Nothing
 End Function
 
-' 36. Список присутствующих на собрании в виде строки с Листа ЕСУП, In_Status = 1 - присутствующие, In_Status = 0 - отсутствующие
-Function Присутствовавшие_на_Собрании(In_Status) As String
+' 36. РЎРїРёСЃРѕРє РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‰РёС… РЅР° СЃРѕР±СЂР°РЅРёРё РІ РІРёРґРµ СЃС‚СЂРѕРєРё СЃ Р›РёСЃС‚Р° Р•РЎРЈРџ, In_Status = 1 - РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‰РёРµ, In_Status = 0 - РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‰РёРµ
+Function РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё(In_Status) As String
 
-Dim Присутств_на_Собрании_Range, Пригл_на_Собрание_Range, Должность_и_ФИО, список_приглашенных_str As String
-Dim rowCount, Присутств_на_Собрании_Row, Присутств_на_Собрании_Column, Число_присуствующих, Число_приглашенных, Пригл_на_Собрание_Row, Пригл_на_Собрание_Column As Byte
+Dim РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Range, Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ, СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str As String
+Dim rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column, Р§РёСЃР»Рѕ_РїСЂРёСЃСѓСЃС‚РІСѓСЋС‰РёС…, Р§РёСЃР»Рѕ_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Row, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column As Byte
   
-  ' Инициализация строки
-  Присутствовавшие_на_Собрании = ""
-  ' На Листе "ЕСУП" находим ячейку с данными "Присутств_на_Собрании"
-  Присутств_на_Собрании_Range = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Присутств_на_Собрании", 100, 100)
-  Присутств_на_Собрании_Row = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Row
-  Присутств_на_Собрании_Column = ThisWorkbook.Sheets("ЕСУП").Range(Присутств_на_Собрании_Range).Column
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃС‚СЂРѕРєРё
+  РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = ""
+  ' РќР° Р›РёСЃС‚Рµ "Р•РЎРЈРџ" РЅР°С…РѕРґРёРј СЏС‡РµР№РєСѓ СЃ РґР°РЅРЅС‹РјРё "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё"
+  РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё", 100, 100)
+  РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Row
+  РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Range).Column
   
-  ' Обрабатываем список
-  Число_присуствующих = 0
-  rowCount = Присутств_на_Собрании_Row + 1
-  Do While ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column).Value <> "Пригл_на_Собрание"
+  ' РћР±СЂР°Р±Р°С‚С‹РІР°РµРј СЃРїРёСЃРѕРє
+  Р§РёСЃР»Рѕ_РїСЂРёСЃСѓСЃС‚РІСѓСЋС‰РёС… = 0
+  rowCount = РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Row + 1
+  Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column).Value <> "РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ"
     
-    ' Проверяем статус 1 - присутствует, 0 - отсутствует
-    If ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column).Value = In_Status Then
+    ' РџСЂРѕРІРµСЂСЏРµРј СЃС‚Р°С‚СѓСЃ 1 - РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚, 0 - РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚
+    If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column).Value = In_Status Then
        
-      ' ФИО <> 0
-      If ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value <> 0 Then
+      ' Р¤РРћ <> 0
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value <> 0 Then
       
-        Должность_и_ФИО = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 4).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Присутств_на_Собрании_Column + 1).Value, 3)
+        Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 4).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёСЃСѓС‚СЃС‚РІ_РЅР°_РЎРѕР±СЂР°РЅРёРё_Column + 1).Value, 3)
       
-        If Число_присуствующих <> 0 Then
-          Присутствовавшие_на_Собрании = Присутствовавшие_на_Собрании + ", " + Должность_и_ФИО
+        If Р§РёСЃР»Рѕ_РїСЂРёСЃСѓСЃС‚РІСѓСЋС‰РёС… <> 0 Then
+          РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё + ", " + Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ
         Else
-          Присутствовавшие_на_Собрании = Должность_и_ФИО
+          РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ
         End If
-        Число_присуствующих = Число_присуствующих + 1
+        Р§РёСЃР»Рѕ_РїСЂРёСЃСѓСЃС‚РІСѓСЋС‰РёС… = Р§РёСЃР»Рѕ_РїСЂРёСЃСѓСЃС‚РІСѓСЋС‰РёС… + 1
         
       End If
       
     End If
-    ' Следующая запись
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
     rowCount = rowCount + 1
   Loop
   
-  ' Если генерируем список присутствующих, то добавляем и Приглашенных (если есть)
+  ' Р•СЃР»Рё РіРµРЅРµСЂРёСЂСѓРµРј СЃРїРёСЃРѕРє РїСЂРёСЃСѓС‚СЃС‚РІСѓСЋС‰РёС…, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј Рё РџСЂРёРіР»Р°С€РµРЅРЅС‹С… (РµСЃР»Рё РµСЃС‚СЊ)
   If In_Status = 1 Then
     
-    ' Список приглашенных участников:
-    список_приглашенных_str = ""
-    Число_приглашенных = 0
+    ' РЎРїРёСЃРѕРє РїСЂРёРіР»Р°С€РµРЅРЅС‹С… СѓС‡Р°СЃС‚РЅРёРєРѕРІ:
+    СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str = ""
+    Р§РёСЃР»Рѕ_РїСЂРёРіР»Р°С€РµРЅРЅС‹С… = 0
     
-    Пригл_на_Собрание_Range = RangeByValue(ThisWorkbook.Name, "ЕСУП", "Пригл_на_Собрание", 100, 100)
-    Пригл_на_Собрание_Row = ThisWorkbook.Sheets("ЕСУП").Range(Пригл_на_Собрание_Range).Row
-    Пригл_на_Собрание_Column = ThisWorkbook.Sheets("ЕСУП").Range(Пригл_на_Собрание_Range).Column
+    РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Range = RangeByValue(ThisWorkbook.Name, "Р•РЎРЈРџ", "РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ", 100, 100)
+    РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Row = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Range).Row
+    РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column = ThisWorkbook.Sheets("Р•РЎРЈРџ").Range(РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Range).Column
   
-    rowCount = Пригл_на_Собрание_Row + 1
+    rowCount = РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Row + 1
   
-    Do While ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Пригл_на_Собрание_Column).Value <> ""
+    Do While ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column).Value <> ""
       
-      ' Проверяем статус 1 - присутствует, 0 - отсутствует
-      If ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Пригл_на_Собрание_Column).Value = 1 Then
+      ' РџСЂРѕРІРµСЂСЏРµРј СЃС‚Р°С‚СѓСЃ 1 - РїСЂРёСЃСѓС‚СЃС‚РІСѓРµС‚, 0 - РѕС‚СЃСѓС‚СЃС‚РІСѓРµС‚
+      If ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column).Value = 1 Then
         
-        Должность_и_ФИО = ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Пригл_на_Собрание_Column + 4).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("ЕСУП").Cells(rowCount, Пригл_на_Собрание_Column + 1).Value, 3)
+        Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ = ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column + 4).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Р•РЎРЈРџ").Cells(rowCount, РџСЂРёРіР»_РЅР°_РЎРѕР±СЂР°РЅРёРµ_Column + 1).Value, 3)
         
-        If Число_приглашенных <> 0 Then
-          список_приглашенных_str = список_приглашенных_str + ", " + Должность_и_ФИО
+        If Р§РёСЃР»Рѕ_РїСЂРёРіР»Р°С€РµРЅРЅС‹С… <> 0 Then
+          СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str = СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str + ", " + Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ
         Else
-          список_приглашенных_str = Должность_и_ФИО
+          СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str = Р”РѕР»Р¶РЅРѕСЃС‚СЊ_Рё_Р¤РРћ
         End If
-        Число_приглашенных = Число_приглашенных + 1
+        Р§РёСЃР»Рѕ_РїСЂРёРіР»Р°С€РµРЅРЅС‹С… = Р§РёСЃР»Рѕ_РїСЂРёРіР»Р°С€РµРЅРЅС‹С… + 1
       End If
       
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
   
-    ' Если список приглашенных не пустой - то добавляем к списку участников:
-    If список_приглашенных_str <> "" Then
-      Присутствовавшие_на_Собрании = Присутствовавшие_на_Собрании + ". Приглашенные участники: " + список_приглашенных_str
+    ' Р•СЃР»Рё СЃРїРёСЃРѕРє РїСЂРёРіР»Р°С€РµРЅРЅС‹С… РЅРµ РїСѓСЃС‚РѕР№ - С‚Рѕ РґРѕР±Р°РІР»СЏРµРј Рє СЃРїРёСЃРєСѓ СѓС‡Р°СЃС‚РЅРёРєРѕРІ:
+    If СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str <> "" Then
+      РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё + ". РџСЂРёРіР»Р°С€РµРЅРЅС‹Рµ СѓС‡Р°СЃС‚РЅРёРєРё: " + СЃРїРёСЃРѕРє_РїСЂРёРіР»Р°С€РµРЅРЅС‹С…_str
     End If
   End If
   
-  ' Если список пустой - возвращаем "-"
-  If Присутствовавшие_на_Собрании = "" Then
-    Присутствовавшие_на_Собрании = "-"
+  ' Р•СЃР»Рё СЃРїРёСЃРѕРє РїСѓСЃС‚РѕР№ - РІРѕР·РІСЂР°С‰Р°РµРј "-"
+  If РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = "" Then
+    РџСЂРёСЃСѓС‚СЃС‚РІРѕРІР°РІС€РёРµ_РЅР°_РЎРѕР±СЂР°РЅРёРё = "-"
   End If
 End Function
 
-' 37. Фамилия и Имя из ФИО (Параметр: 1-Иванов Иван, 2-Иванов И., 3-Иванов И.И., 4-Иванов И (без точки), 5-Иванов )
-Function Фамилия_и_Имя(In_Фамилия_Имя_Отчество, In_Type As Byte) As String
-Dim Первый_пробел, Второй_пробел As Byte
+' 37. Р¤Р°РјРёР»РёСЏ Рё РРјСЏ РёР· Р¤РРћ (РџР°СЂР°РјРµС‚СЂ: 1-РРІР°РЅРѕРІ РРІР°РЅ, 2-РРІР°РЅРѕРІ Р., 3-РРІР°РЅРѕРІ Р.Р., 4-РРІР°РЅРѕРІ Р (Р±РµР· С‚РѕС‡РєРё), 5-РРІР°РЅРѕРІ )
+Function Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, In_Type As Byte) As String
+Dim РџРµСЂРІС‹Р№_РїСЂРѕР±РµР», Р’С‚РѕСЂРѕР№_РїСЂРѕР±РµР» As Byte
   
-  If In_Фамилия_Имя_Отчество <> "" Then
+  If In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ <> "" Then
     
-    ' Исполняемый код Функции:
-    Фамилия_и_Имя = "_<ФИО>_"
+    ' РСЃРїРѕР»РЅСЏРµРјС‹Р№ РєРѕРґ Р¤СѓРЅРєС†РёРё:
+    Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = "_<Р¤РРћ>_"
     
-    ' Первый пробел
-    Первый_пробел = InStr(In_Фамилия_Имя_Отчество, " ")
+    ' РџРµСЂРІС‹Р№ РїСЂРѕР±РµР»
+    РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» = InStr(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, " ")
   
-    ' Здесь ищем с позиции, следующей за первым пробелом
-    Второй_пробел = InStr(Первый_пробел + 1, In_Фамилия_Имя_Отчество, " ")
+    ' Р—РґРµСЃСЊ РёС‰РµРј СЃ РїРѕР·РёС†РёРё, СЃР»РµРґСѓСЋС‰РµР№ Р·Р° РїРµСЂРІС‹Рј РїСЂРѕР±РµР»РѕРј
+    Р’С‚РѕСЂРѕР№_РїСЂРѕР±РµР» = InStr(РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, " ")
     
-    ' Если In_Type=1 выводим Иванов Иван
+    ' Р•СЃР»Рё In_Type=1 РІС‹РІРѕРґРёРј РРІР°РЅРѕРІ РРІР°РЅ
     If In_Type = 1 Then
-       Фамилия_и_Имя = Mid(In_Фамилия_Имя_Отчество, 1, Первый_пробел - 1) + " " + Mid(In_Фамилия_Имя_Отчество, Первый_пробел + 1, Второй_пробел - Первый_пробел - 1)
+       Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1) + " " + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, Р’С‚РѕСЂРѕР№_РїСЂРѕР±РµР» - РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1)
     End If
-    ' Если In_Type=2 выводим Иванов И.
+    ' Р•СЃР»Рё In_Type=2 РІС‹РІРѕРґРёРј РРІР°РЅРѕРІ Р.
     If In_Type = 2 Then
-       Фамилия_и_Имя = Mid(In_Фамилия_Имя_Отчество, 1, Первый_пробел - 1) + " " + Mid(In_Фамилия_Имя_Отчество, Первый_пробел + 1, 1) + "."
+       Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1) + " " + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, 1) + "."
     End If
-    ' Если In_Type=3 выводим Иванов И.И.
+    ' Р•СЃР»Рё In_Type=3 РІС‹РІРѕРґРёРј РРІР°РЅРѕРІ Р.Р.
     If In_Type = 3 Then
-       Фамилия_и_Имя = Mid(In_Фамилия_Имя_Отчество, 1, Первый_пробел - 1) + " " + Mid(In_Фамилия_Имя_Отчество, Первый_пробел + 1, 1) + "." + Mid(In_Фамилия_Имя_Отчество, Второй_пробел + 1, 1) + "."
+       Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1) + " " + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, 1) + "." + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, Р’С‚РѕСЂРѕР№_РїСЂРѕР±РµР» + 1, 1) + "."
     End If
-    ' Если In_Type=4 выводим Иванов И (без точки)
+    ' Р•СЃР»Рё In_Type=4 РІС‹РІРѕРґРёРј РРІР°РЅРѕРІ Р (Р±РµР· С‚РѕС‡РєРё)
     If In_Type = 4 Then
-       Фамилия_и_Имя = Mid(In_Фамилия_Имя_Отчество, 1, Первый_пробел - 1) + " " + Mid(In_Фамилия_Имя_Отчество, Первый_пробел + 1, 1) ' + "."
+       Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1) + " " + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, 1) ' + "."
     End If
-    ' Если In_Type=5 выводим только фамилию Иванов
+    ' Р•СЃР»Рё In_Type=5 РІС‹РІРѕРґРёРј С‚РѕР»СЊРєРѕ С„Р°РјРёР»РёСЋ РРІР°РЅРѕРІ
     If In_Type = 5 Then
-       Фамилия_и_Имя = Mid(In_Фамилия_Имя_Отчество, 1, Первый_пробел - 1) ' + " " + Mid(In_Фамилия_Имя_Отчество, Первый_пробел + 1, 1) ' + "."
+       Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, 1, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» - 1) ' + " " + Mid(In_Р¤Р°РјРёР»РёСЏ_РРјСЏ_РћС‚С‡РµСЃС‚РІРѕ, РџРµСЂРІС‹Р№_РїСЂРѕР±РµР» + 1, 1) ' + "."
     End If
   Else
-    Фамилия_и_Имя = ""
+    Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ = ""
   End If
   
 End Function
 
-' 38. Расчет высоты строки по длинне текста
+' 38. Р Р°СЃС‡РµС‚ РІС‹СЃРѕС‚С‹ СЃС‚СЂРѕРєРё РїРѕ РґР»РёРЅРЅРµ С‚РµРєСЃС‚Р°
 Function lineHeight(In_Str, In_lineHeight, In_numberOfCharacters)
-Dim Расчетная_высота As Integer
+Dim Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р° As Integer
   
-  ' 1-ый вариант: Целочисленное деление отличается от деления с плавающей точкой тем, что его результатом всегда есть целое число без дробной части. VBA отбрасывает (но не округляет!) любой дробный остаток результата выражения целочисленного деления. Например, выражения 22\5 и 24\5 будут иметь один и тот же результат = 4.
-  ' Расчетная_высота = (Len(Trim(In_Str)) \ In_numberOfCharacters) * In_lineHeight
+  ' 1-С‹Р№ РІР°СЂРёР°РЅС‚: Р¦РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ РґРµР»РµРЅРёРµ РѕС‚Р»РёС‡Р°РµС‚СЃСЏ РѕС‚ РґРµР»РµРЅРёСЏ СЃ РїР»Р°РІР°СЋС‰РµР№ С‚РѕС‡РєРѕР№ С‚РµРј, С‡С‚Рѕ РµРіРѕ СЂРµР·СѓР»СЊС‚Р°С‚РѕРј РІСЃРµРіРґР° РµСЃС‚СЊ С†РµР»РѕРµ С‡РёСЃР»Рѕ Р±РµР· РґСЂРѕР±РЅРѕР№ С‡Р°СЃС‚Рё. VBA РѕС‚Р±СЂР°СЃС‹РІР°РµС‚ (РЅРѕ РЅРµ РѕРєСЂСѓРіР»СЏРµС‚!) Р»СЋР±РѕР№ РґСЂРѕР±РЅС‹Р№ РѕСЃС‚Р°С‚РѕРє СЂРµР·СѓР»СЊС‚Р°С‚Р° РІС‹СЂР°Р¶РµРЅРёСЏ С†РµР»РѕС‡РёСЃР»РµРЅРЅРѕРіРѕ РґРµР»РµРЅРёСЏ. РќР°РїСЂРёРјРµСЂ, РІС‹СЂР°Р¶РµРЅРёСЏ 22\5 Рё 24\5 Р±СѓРґСѓС‚ РёРјРµС‚СЊ РѕРґРёРЅ Рё С‚РѕС‚ Р¶Рµ СЂРµР·СѓР»СЊС‚Р°С‚ = 4.
+  ' Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р° = (Len(Trim(In_Str)) \ In_numberOfCharacters) * In_lineHeight
   
-  ' 2-ой вариант:
-  Расчетная_высота = (Len(Trim(In_Str)) \ In_numberOfCharacters) * In_lineHeight
+  ' 2-РѕР№ РІР°СЂРёР°РЅС‚:
+  Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р° = (Len(Trim(In_Str)) \ In_numberOfCharacters) * In_lineHeight
   
-  If Расчетная_высота < In_lineHeight Then
+  If Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р° < In_lineHeight Then
     lineHeight = In_lineHeight
   Else
-    ' lineHeight = Расчетная_высота
-    lineHeight = Расчетная_высота + In_lineHeight
+    ' lineHeight = Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р°
+    lineHeight = Р Р°СЃС‡РµС‚РЅР°СЏ_РІС‹СЃРѕС‚Р° + In_lineHeight
   End If
   
 End Function
 
-' 39. Получение данных из адрессной книги
-Function getFromAddrBook(In_К_дол, In_TypeData) As String
-Dim К_дол_Range As String
-Dim К_дол_Row, К_дол_Column, rowCount As Byte
+' 39. РџРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёР· Р°РґСЂРµСЃСЃРЅРѕР№ РєРЅРёРіРё
+Function getFromAddrBook(In_Рљ_РґРѕР», In_TypeData) As String
+Dim Рљ_РґРѕР»_Range As String
+Dim Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column, rowCount As Byte
   
   getFromAddrBook = ""
   
-  ' Находим In_К_дол на Листе
-  ' К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
+  ' РќР°С…РѕРґРёРј In_Рљ_РґРѕР» РЅР° Р›РёСЃС‚Рµ
+  ' Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
   
-  ' If К_дол_Range <> "" Then
+  ' If Рљ_РґРѕР»_Range <> "" Then
     
-    ' In_TypeData = 1: Должность (сокр) + ФИО (сокр)
+    ' In_TypeData = 1: Р”РѕР»Р¶РЅРѕСЃС‚СЊ (СЃРѕРєСЂ) + Р¤РРћ (СЃРѕРєСЂ)
     If In_TypeData = 1 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-      К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-      getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 6).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 1).Value, 3)
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+      Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+      getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 6).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 1).Value, 3)
     End If
   
-    ' In_TypeData = 2: Вся розница для рассылки, которая есть в подстроке УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП,РРИЦ,РИЦ,СотрИЦ
+    ' In_TypeData = 2: Р’СЃСЏ СЂРѕР·РЅРёС†Р° РґР»СЏ СЂР°СЃСЃС‹Р»РєРё, РєРѕС‚РѕСЂР°СЏ РµСЃС‚СЊ РІ РїРѕРґСЃС‚СЂРѕРєРµ РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ,Р Р РР¦,Р РР¦,РЎРѕС‚СЂРР¦
     If In_TypeData = 2 Then
-      ' К_долStr1 = "УДО2,УДО3,УДО4,УДО5,НОРПиКО1,НОРПиКО2,НОРПиКО3,НОРПиКО4,НОРПиКО5,ПМ,МРК1,МРК2,МРК3,МРК4,МРК5,НОКП,РРКК,МПП,РРИЦ,РИЦ,СотрИЦ"
+      ' Рљ_РґРѕР»Str1 = "РЈР”Рћ2,РЈР”Рћ3,РЈР”Рћ4,РЈР”Рћ5,РќРћР РџРёРљРћ1,РќРћР РџРёРљРћ2,РќРћР РџРёРљРћ3,РќРћР РџРёРљРћ4,РќРћР РџРёРљРћ5,РџРњ,РњР Рљ1,РњР Рљ2,РњР Рљ3,РњР Рљ4,РњР Рљ5,РќРћРљРџ,Р Р РљРљ,РњРџРџ,Р Р РР¦,Р РР¦,РЎРѕС‚СЂРР¦"
       rowCount = 7
       Do While ThisWorkbook.Sheets("Addr.Book").Cells(rowCount, 3).Value <> ""
-        If InStr(In_К_дол, ThisWorkbook.Sheets("Addr.Book").Cells(rowCount, 3).Value) <> 0 Then
+        If InStr(In_Рљ_РґРѕР», ThisWorkbook.Sheets("Addr.Book").Cells(rowCount, 3).Value) <> 0 Then
           If getFromAddrBook = "" Then
             getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(rowCount, 10).Value
           Else
             getFromAddrBook = getFromAddrBook + ", " + ThisWorkbook.Sheets("Addr.Book").Cells(rowCount, 10).Value
           End If
         End If
-        ' Следующая запись
+        ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
         rowCount = rowCount + 1
       Loop
     End If
   
-    ' In_TypeData = 3: ФИО (сокр)
+    ' In_TypeData = 3: Р¤РРћ (СЃРѕРєСЂ)
     If In_TypeData = 3 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      If К_дол_Range <> "" Then
-        К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-        К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-        getFromAddrBook = Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 1).Value, 3)
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      If Рљ_РґРѕР»_Range <> "" Then
+        Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+        Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+        getFromAddrBook = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 1).Value, 3)
       End If
     End If
 
-    ' In_TypeData = 4: Фамилия Имя Отчество
+    ' In_TypeData = 4: Р¤Р°РјРёР»РёСЏ РРјСЏ РћС‚С‡РµСЃС‚РІРѕ
     If In_TypeData = 4 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      If К_дол_Range <> "" Then
-        К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-        К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 1).Value
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      If Рљ_РґРѕР»_Range <> "" Then
+        Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+        Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 1).Value
       End If
     End If
     
-    ' In_TypeData = 5: адрес электронной почты (10-ый столбец)
+    ' In_TypeData = 5: Р°РґСЂРµСЃ СЌР»РµРєС‚СЂРѕРЅРЅРѕР№ РїРѕС‡С‚С‹ (10-С‹Р№ СЃС‚РѕР»Р±РµС†)
     If In_TypeData = 5 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      If К_дол_Range <> "" Then
-        К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-        К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 7).Value
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      If Рљ_РґРѕР»_Range <> "" Then
+        Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+        Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 7).Value
       End If
     End If
     
-    ' 6: Имя Обращение - форма 1 (Имя)
+    ' 6: РРјСЏ РћР±СЂР°С‰РµРЅРёРµ - С„РѕСЂРјР° 1 (РРјСЏ)
     If In_TypeData = 6 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      If К_дол_Range <> "" Then
-        К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-        К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 12).Value
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      If Рљ_РґРѕР»_Range <> "" Then
+        Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+        Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 12).Value
       End If
     End If
  
-    ' 7: Имя Отчество Обращение - форма 2 (Имя)
+    ' 7: РРјСЏ РћС‚С‡РµСЃС‚РІРѕ РћР±СЂР°С‰РµРЅРёРµ - С„РѕСЂРјР° 2 (РРјСЏ)
     If In_TypeData = 7 Then
-      ' Выполняем поиск In_К_дол
-      К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_К_дол, 100, 100)
-      If К_дол_Range <> "" Then
-        К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-        К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 13).Value
+      ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_Рљ_РґРѕР»
+      Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Рљ_РґРѕР», 100, 100)
+      If Рљ_РґРѕР»_Range <> "" Then
+        Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+        Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+        getFromAddrBook = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 13).Value
       End If
     End If
  
-  ' End If ' К_дол_Range <> ""
+  ' End If ' Рљ_РґРѕР»_Range <> ""
 
 End Function
 
-' 39.1 Получение данных из адрессной книги по табельному номеру
-Function getFromAddrBook2(In_Табномер, In_TypeData) As String
-Dim К_дол_Range As String
-Dim К_дол_Row, К_дол_Column, rowCount As Byte
+' 39.1 РџРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С… РёР· Р°РґСЂРµСЃСЃРЅРѕР№ РєРЅРёРіРё РїРѕ С‚Р°Р±РµР»СЊРЅРѕРјСѓ РЅРѕРјРµСЂСѓ
+Function getFromAddrBook2(In_РўР°Р±РЅРѕРјРµСЂ, In_TypeData) As String
+Dim Рљ_РґРѕР»_Range As String
+Dim Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column, rowCount As Byte
   
   getFromAddrBook2 = ""
   
-  ' In_TypeData = 1: Должность (сокр) + ФИО (сокр)
+  ' In_TypeData = 1: Р”РѕР»Р¶РЅРѕСЃС‚СЊ (СЃРѕРєСЂ) + Р¤РРћ (СЃРѕРєСЂ)
   If In_TypeData = 1 Then
-    ' Выполняем поиск In_Табномер
-    К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Табномер, 100, 100)
-    К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-    К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-    getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 3).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 4).Value, 3)
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_РўР°Р±РЅРѕРјРµСЂ
+    Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_РўР°Р±РЅРѕРјРµСЂ, 100, 100)
+    Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+    Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+    getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 3).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 4).Value, 3)
   End If
     
-  ' In_TypeData = 2: ФИО (сокр)
+  ' In_TypeData = 2: Р¤РРћ (СЃРѕРєСЂ)
   If In_TypeData = 2 Then
-    ' Выполняем поиск In_Табномер
-    К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Табномер, 100, 100)
-    К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-    К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-    getFromAddrBook2 = Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 4).Value, 3)
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_РўР°Р±РЅРѕРјРµСЂ
+    Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_РўР°Р±РЅРѕРјРµСЂ, 100, 100)
+    Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+    Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+    getFromAddrBook2 = Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 4).Value, 3)
   End If
 
-  ' In_TypeData = 3: Должность полная + ФИО (сокр)
+  ' In_TypeData = 3: Р”РѕР»Р¶РЅРѕСЃС‚СЊ РїРѕР»РЅР°СЏ + Р¤РРћ (СЃРѕРєСЂ)
   If In_TypeData = 3 Then
-    ' Выполняем поиск In_Табномер
-    К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Табномер, 100, 100)
-    If К_дол_Range <> "" Then
-      К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-      К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-      getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 2).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 4).Value, 3)
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_РўР°Р±РЅРѕРјРµСЂ
+    Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_РўР°Р±РЅРѕРјРµСЂ, 100, 100)
+    If Рљ_РґРѕР»_Range <> "" Then
+      Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+      Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+      getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 2).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 4).Value, 3)
     End If
   End If
 
-  ' In_TypeData = 4: Должность (сокр) + ФИО (сокр)
+  ' In_TypeData = 4: Р”РѕР»Р¶РЅРѕСЃС‚СЊ (СЃРѕРєСЂ) + Р¤РРћ (СЃРѕРєСЂ)
   If In_TypeData = 4 Then
-    ' Выполняем поиск In_Табномер
-    К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Табномер, 100, 100)
-    К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-    К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-    getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 3).Value + " " + Фамилия_и_Имя(ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column - 4).Value, 3)
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_РўР°Р±РЅРѕРјРµСЂ
+    Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_РўР°Р±РЅРѕРјРµСЂ, 100, 100)
+    Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+    Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+    getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 3).Value + " " + Р¤Р°РјРёР»РёСЏ_Рё_РРјСЏ(ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column - 4).Value, 3)
   End If
 
-  ' In_TypeData = 5: Должность полная
+  ' In_TypeData = 5: Р”РѕР»Р¶РЅРѕСЃС‚СЊ РїРѕР»РЅР°СЏ
   If In_TypeData = 5 Then
-    ' Выполняем поиск In_Табномер
-    К_дол_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_Табномер, 100, 100)
-    If К_дол_Range <> "" Then
-      К_дол_Row = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Row
-      К_дол_Column = ThisWorkbook.Sheets("Addr.Book").Range(К_дол_Range).Column
-      getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(К_дол_Row, К_дол_Column + 2).Value
+    ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє In_РўР°Р±РЅРѕРјРµСЂ
+    Рљ_РґРѕР»_Range = RangeByValue(ThisWorkbook.Name, "Addr.Book", In_РўР°Р±РЅРѕРјРµСЂ, 100, 100)
+    If Рљ_РґРѕР»_Range <> "" Then
+      Рљ_РґРѕР»_Row = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Row
+      Рљ_РґРѕР»_Column = ThisWorkbook.Sheets("Addr.Book").Range(Рљ_РґРѕР»_Range).Column
+      getFromAddrBook2 = ThisWorkbook.Sheets("Addr.Book").Cells(Рљ_РґРѕР»_Row, Рљ_РґРѕР»_Column + 2).Value
     End If
   End If
 
 
 End Function
 
-' 39.2 Получение адреса почты из адрессной книги по полному ФИО Иванов Иван Иванович
-Function getFromAddrBook3(In_ФИО) As String
+' 39.2 РџРѕР»СѓС‡РµРЅРёРµ Р°РґСЂРµСЃР° РїРѕС‡С‚С‹ РёР· Р°РґСЂРµСЃСЃРЅРѕР№ РєРЅРёРіРё РїРѕ РїРѕР»РЅРѕРјСѓ Р¤РРћ РРІР°РЅРѕРІ РРІР°РЅ РРІР°РЅРѕРІРёС‡
+Function getFromAddrBook3(In_Р¤РРћ) As String
   
-  getFromAddrBook3 = "Адрес LotusNotes не определен (поиск по ФИО)!"
+  getFromAddrBook3 = "РђРґСЂРµСЃ LotusNotes РЅРµ РѕРїСЂРµРґРµР»РµРЅ (РїРѕРёСЃРє РїРѕ Р¤РРћ)!"
   
-  ' Находим строку с ФИО в Addr.Book
-  row_In_AddrBook = rowByValue(ThisWorkbook.Name, "Addr.Book", In_ФИО, 100, 100)
+  ' РќР°С…РѕРґРёРј СЃС‚СЂРѕРєСѓ СЃ Р¤РРћ РІ Addr.Book
+  row_In_AddrBook = rowByValue(ThisWorkbook.Name, "Addr.Book", In_Р¤РРћ, 100, 100)
   
-  ' Если запись была найдена
+  ' Р•СЃР»Рё Р·Р°РїРёСЃСЊ Р±С‹Р»Р° РЅР°Р№РґРµРЅР°
   If row_In_AddrBook <> 0 Then
     getFromAddrBook3 = ThisWorkbook.Sheets("Addr.Book").Cells(row_In_AddrBook, 10).Value
   End If
@@ -1954,343 +1954,343 @@ Function getFromAddrBook3(In_ФИО) As String
 End Function
 
 
-' 40. Получение наименование офиса по моему порядковому номеру 1 - Тюмень, 2 - Сургут, 3 - Нижневартовск, 4 - Новый Уренгой, 5 - Тарко-Сале
+' 40. РџРѕР»СѓС‡РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС„РёСЃР° РїРѕ РјРѕРµРјСѓ РїРѕСЂСЏРґРєРѕРІРѕРјСѓ РЅРѕРјРµСЂСѓ 1 - РўСЋРјРµРЅСЊ, 2 - РЎСѓСЂРіСѓС‚, 3 - РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє, 4 - РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№, 5 - РўР°СЂРєРѕ-РЎР°Р»Рµ
 Function getNameOfficeByNumber(In_Number) As String
-  getNameOfficeByNumber = "Офис не определен!"
+  getNameOfficeByNumber = "РћС„РёСЃ РЅРµ РѕРїСЂРµРґРµР»РµРЅ!"
   Select Case In_Number
-    Case 1 ' ОО «Тюменский»
-      getNameOfficeByNumber = "ОО «Тюменский»"
-    Case 2 ' ОО «Сургутский»
-      getNameOfficeByNumber = "ОО «Сургутский»"
-    Case 3 ' ОО «Нижневартовский»
-      getNameOfficeByNumber = "ОО «Нижневартовский»"
-    Case 4 ' ОО «Новоуренгойский»
-      getNameOfficeByNumber = "ОО «Новоуренгойский»"
-    Case 5 ' ОО «Тарко-Сале»
-      getNameOfficeByNumber = "ОО «Тарко-Сале»"
-    Case 0 ' Итого по РОО «Тюменский»
-      getNameOfficeByNumber = "Итого по РОО «Тюменский»"
+    Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+      getNameOfficeByNumber = "РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»"
+    Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+      getNameOfficeByNumber = "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»"
+    Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+      getNameOfficeByNumber = "РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»"
+    Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+      getNameOfficeByNumber = "РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»"
+    Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+      getNameOfficeByNumber = "РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»"
+    Case 0 ' РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+      getNameOfficeByNumber = "РС‚РѕРіРѕ РїРѕ Р РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»"
       
   End Select
 End Function
 
-' 40. Получение наименование офиса по моему порядковому номеру 1 - Тюмень, 2 - Сургут, 3 - Нижневартовск, 4 - Новый Уренгой, 5 - Тарко-Сале
+' 40. РџРѕР»СѓС‡РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС„РёСЃР° РїРѕ РјРѕРµРјСѓ РїРѕСЂСЏРґРєРѕРІРѕРјСѓ РЅРѕРјРµСЂСѓ 1 - РўСЋРјРµРЅСЊ, 2 - РЎСѓСЂРіСѓС‚, 3 - РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє, 4 - РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№, 5 - РўР°СЂРєРѕ-РЎР°Р»Рµ
 Function getNameOfficeByNumber2(In_Number) As String
-  getNameOfficeByNumber2 = "Офис не определен!"
+  getNameOfficeByNumber2 = "РћС„РёСЃ РЅРµ РѕРїСЂРµРґРµР»РµРЅ!"
   Select Case In_Number
-    Case 1 ' ОО «Тюменский»
-      getNameOfficeByNumber2 = "Тюменский"
-    Case 2 ' ОО «Сургутский»
-      getNameOfficeByNumber2 = "Сургутский"
-    Case 3 ' ОО «Нижневартовский»
-      getNameOfficeByNumber2 = "Нижневартовский"
-    Case 4 ' ОО «Новоуренгойский»
-      getNameOfficeByNumber2 = "Новоуренгойский"
-    Case 5 ' ОО «Тарко-Сале»
-      getNameOfficeByNumber2 = "Тарко-Сале"
+    Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+      getNameOfficeByNumber2 = "РўСЋРјРµРЅСЃРєРёР№"
+    Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+      getNameOfficeByNumber2 = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
+    Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+      getNameOfficeByNumber2 = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
+    Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+      getNameOfficeByNumber2 = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
+    Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+      getNameOfficeByNumber2 = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
   End Select
 End Function
 
 
-' 40.1 Получение наименование офиса по городу Тюмень, 2 - Сургут, 3 - Нижневартовск, 4 - Новый Уренгой, 5 - Тарко-Сале
+' 40.1 РџРѕР»СѓС‡РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС„РёСЃР° РїРѕ РіРѕСЂРѕРґСѓ РўСЋРјРµРЅСЊ, 2 - РЎСѓСЂРіСѓС‚, 3 - РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє, 4 - РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№, 5 - РўР°СЂРєРѕ-РЎР°Р»Рµ
 Function getNameOfficeByCity(In_City) As String
-  getNameOfficeByCity = "Офис не определен!"
+  getNameOfficeByCity = "РћС„РёСЃ РЅРµ РѕРїСЂРµРґРµР»РµРЅ!"
   Select Case In_Number
-    Case "Тюмень" ' ОО «Тюменский»
-      getNameOfficeByCity = "ОО «Тюменский»"
-    Case "Сургут" ' ОО «Сургутский»
-      getNameOfficeByCity = "ОО «Сургутский»"
-    Case "Нижневартовский" ' ОО «Нижневартовский»
-      getNameOfficeByCity = "ОО «Нижневартовский»"
-    Case "Новый Уренгой" ' ОО «Новоуренгойский»
-      getNameOfficeByCity = "ОО «Новоуренгойский»"
-    Case "Тарко-Сале" ' ОО «Тарко-Сале»
-      getNameOfficeByCity = "ОО «Тарко-Сале»"
+    Case "РўСЋРјРµРЅСЊ" ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+      getNameOfficeByCity = "РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»"
+    Case "РЎСѓСЂРіСѓС‚" ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+      getNameOfficeByCity = "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»"
+    Case "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№" ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+      getNameOfficeByCity = "РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»"
+    Case "РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№" ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+      getNameOfficeByCity = "РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»"
+    Case "РўР°СЂРєРѕ-РЎР°Р»Рµ" ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+      getNameOfficeByCity = "РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»"
   End Select
 End Function
 
-' 40.2 Получение номера офиса по наименованию 1 - Тюменский, 2 - Сургутский, 3 - Нижневартовский, 4 - Новоуренгойский, 5 - Тарко-Сале
+' 40.2 РџРѕР»СѓС‡РµРЅРёРµ РЅРѕРјРµСЂР° РѕС„РёСЃР° РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ 1 - РўСЋРјРµРЅСЃРєРёР№, 2 - РЎСѓСЂРіСѓС‚СЃРєРёР№, 3 - РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№, 4 - РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№, 5 - РўР°СЂРєРѕ-РЎР°Р»Рµ
 Function getNumberOfficeByName(In_Office) As Byte
   getNumberOfficeByName = 0
   Select Case In_Office
-    Case "Тюменский"
+    Case "РўСЋРјРµРЅСЃРєРёР№"
       getNumberOfficeByName = 1
-    Case "Сургутский"
+    Case "РЎСѓСЂРіСѓС‚СЃРєРёР№"
       getNumberOfficeByName = 2
-    Case "Нижневартовский"
+    Case "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
       getNumberOfficeByName = 3
-    Case "Новоуренгойский"
+    Case "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
       getNumberOfficeByName = 4
-    Case "Тарко-Сале"
+    Case "РўР°СЂРєРѕ-РЎР°Р»Рµ"
       getNumberOfficeByName = 5
   End Select
 End Function
 
-' 40.3 Получение номера офиса по наименованию 1 - Тюменский, 2 - Сургутский, 3 - Нижневартовский, 4 - Новоуренгойский, 5 - Тарко-Сале
-' Функция getNumberOfficeByName2 обрабатывает ОО2 "Тарко-Сале"
+' 40.3 РџРѕР»СѓС‡РµРЅРёРµ РЅРѕРјРµСЂР° РѕС„РёСЃР° РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ 1 - РўСЋРјРµРЅСЃРєРёР№, 2 - РЎСѓСЂРіСѓС‚СЃРєРёР№, 3 - РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№, 4 - РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№, 5 - РўР°СЂРєРѕ-РЎР°Р»Рµ
+' Р¤СѓРЅРєС†РёСЏ getNumberOfficeByName2 РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РћРћ2 "РўР°СЂРєРѕ-РЎР°Р»Рµ"
 Function getNumberOfficeByName2(In_Office) As Byte
   
   getNumberOfficeByName2 = 0
   
-  If InStr(In_Office, "Тюменский") <> 0 Then
+  If InStr(In_Office, "РўСЋРјРµРЅСЃРєРёР№") <> 0 Then
     getNumberOfficeByName2 = 1
   End If
       
-  If InStr(In_Office, "Сургутский") <> 0 Then
+  If InStr(In_Office, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0 Then
     getNumberOfficeByName2 = 2
   End If
       
-  If InStr(In_Office, "Нижневартовский") <> 0 Then
+  If InStr(In_Office, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") <> 0 Then
     getNumberOfficeByName2 = 3
   End If
       
-  If InStr(In_Office, "Новоуренгойский") <> 0 Then
+  If InStr(In_Office, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№") <> 0 Then
     getNumberOfficeByName2 = 4
   End If
       
-  If InStr(In_Office, "Тарко-Сале") <> 0 Then
+  If InStr(In_Office, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0 Then
     getNumberOfficeByName2 = 5
   End If
 
 End Function
 
-' 40.3 Получение наименование офиса: Тюменский, Сургутский, Нижневартовский, Новоуренгойский, Тарко-Сале
-' Функция getShortNameOfficeByName обрабатывает ОО2 "Тарко-Сале"
+' 40.3 РџРѕР»СѓС‡РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС„РёСЃР°: РўСЋРјРµРЅСЃРєРёР№, РЎСѓСЂРіСѓС‚СЃРєРёР№, РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№, РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№, РўР°СЂРєРѕ-РЎР°Р»Рµ
+' Р¤СѓРЅРєС†РёСЏ getShortNameOfficeByName РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РћРћ2 "РўР°СЂРєРѕ-РЎР°Р»Рµ"
 Function getShortNameOfficeByName(In_Office) As String
   
   getShortNameOfficeByName = 0
   
-  If InStr(In_Office, "Тюменский") <> 0 Then
-    getShortNameOfficeByName = "Тюменский"
+  If InStr(In_Office, "РўСЋРјРµРЅСЃРєРёР№") <> 0 Then
+    getShortNameOfficeByName = "РўСЋРјРµРЅСЃРєРёР№"
   End If
       
-  If InStr(In_Office, "Сургутский") <> 0 Then
-    getShortNameOfficeByName = "Сургутский"
+  If InStr(In_Office, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0 Then
+    getShortNameOfficeByName = "РЎСѓСЂРіСѓС‚СЃРєРёР№"
   End If
       
-  If InStr(In_Office, "Нижневартовский") <> 0 Then
-    getShortNameOfficeByName = "Нижневартовский"
+  If InStr(In_Office, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") <> 0 Then
+    getShortNameOfficeByName = "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№"
   End If
       
-  If InStr(In_Office, "Новоуренгойский") <> 0 Then
-    getShortNameOfficeByName = "Новоуренгойский"
+  If InStr(In_Office, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№") <> 0 Then
+    getShortNameOfficeByName = "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№"
   End If
       
-  If InStr(In_Office, "Тарко-Сале") <> 0 Then
-    getShortNameOfficeByName = "Тарко-Сале"
+  If InStr(In_Office, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0 Then
+    getShortNameOfficeByName = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
   End If
 
 End Function
 
-' 40.4 Получение наименование офиса: ОО «Тюменский», ОО «Сургутский», ОО «Нижневартовский», ОО «Новоуренгойский», ОО «Тарко-Сале»
+' 40.4 РџРѕР»СѓС‡РµРЅРёРµ РЅР°РёРјРµРЅРѕРІР°РЅРёРµ РѕС„РёСЃР°: РћРћ В«РўСЋРјРµРЅСЃРєРёР№В», РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В», РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В», РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В», РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
 Function updateNameOfficeByName(In_Office) As String
   
   updateNameOfficeByName = ""
   
-  If InStr(In_Office, "Тюменский") <> 0 Then
-    updateNameOfficeByName = "ОО «Тюменский»"
+  If InStr(In_Office, "РўСЋРјРµРЅСЃРєРёР№") <> 0 Then
+    updateNameOfficeByName = "РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»"
   End If
       
-  If InStr(In_Office, "Сургутский") <> 0 Then
-    updateNameOfficeByName = "ОО «Сургутский»"
+  If InStr(In_Office, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0 Then
+    updateNameOfficeByName = "РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»"
   End If
       
-  If InStr(In_Office, "Нижневартовский") <> 0 Then
-    updateNameOfficeByName = "ОО «Нижневартовский»"
+  If InStr(In_Office, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") <> 0 Then
+    updateNameOfficeByName = "РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»"
   End If
       
-  If InStr(In_Office, "Новоуренгойский") <> 0 Then
-    updateNameOfficeByName = "ОО «Новоуренгойский»"
+  If InStr(In_Office, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№") <> 0 Then
+    updateNameOfficeByName = "РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»"
   End If
       
-  If InStr(In_Office, "Тарко-Сале") <> 0 Then
-    updateNameOfficeByName = "ОО «Тарко-Сале»"
+  If InStr(In_Office, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0 Then
+    updateNameOfficeByName = "РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»"
   End If
 
 End Function
 
 
-' 41. Дата протокола (строка) из имени файла с протоколом - берем из G2 "10-02032020"
+' 41. Р”Р°С‚Р° РїСЂРѕС‚РѕРєРѕР»Р° (СЃС‚СЂРѕРєР°) РёР· РёРјРµРЅРё С„Р°Р№Р»Р° СЃ РїСЂРѕС‚РѕРєРѕР»РѕРј - Р±РµСЂРµРј РёР· G2 "10-02032020"
 Function dateProtocol(In_ProtocolNumber) As Date
-Dim позицияДефис As Byte
+Dim РїРѕР·РёС†РёСЏР”РµС„РёСЃ As Byte
 Dim str_dateProtocol
-  ' Находим подстроку от "-"
-  позицияДефис = InStr(In_ProtocolNumber, "-")
-  str_dateProtocol = Mid(In_ProtocolNumber, позицияДефис + 1, Len(In_ProtocolNumber) - позицияДефис)
-  ' Разделяем дату, месяц и год точкой
+  ' РќР°С…РѕРґРёРј РїРѕРґСЃС‚СЂРѕРєСѓ РѕС‚ "-"
+  РїРѕР·РёС†РёСЏР”РµС„РёСЃ = InStr(In_ProtocolNumber, "-")
+  str_dateProtocol = Mid(In_ProtocolNumber, РїРѕР·РёС†РёСЏР”РµС„РёСЃ + 1, Len(In_ProtocolNumber) - РїРѕР·РёС†РёСЏР”РµС„РёСЃ)
+  ' Р Р°Р·РґРµР»СЏРµРј РґР°С‚Сѓ, РјРµСЃСЏС† Рё РіРѕРґ С‚РѕС‡РєРѕР№
   dateProtocol = CDate(Mid(str_dateProtocol, 1, 2) + "." + Mid(str_dateProtocol, 3, 2) + "." + Mid(str_dateProtocol, 5, 4))
 End Function
 
-' 42. Создать Хэштэг в Листе0 P13 формат: 08.03.2020 10:06 => 832106
+' 42. РЎРѕР·РґР°С‚СЊ РҐСЌС€С‚СЌРі РІ Р›РёСЃС‚Рµ0 P13 С„РѕСЂРјР°С‚: 08.03.2020 10:06 => 832106
 Function createHashTag(In_Letter)
-Dim Число, Месяц, Год, Часы, Минуты As String
-  ' Число
-  Число = Mid(CStr(Date), 1, 2)
-  If CInt(Число) < 10 Then
-    Число = Replace(Число, "0", "")
+Dim Р§РёСЃР»Рѕ, РњРµСЃСЏС†, Р“РѕРґ, Р§Р°СЃС‹, РњРёРЅСѓС‚С‹ As String
+  ' Р§РёСЃР»Рѕ
+  Р§РёСЃР»Рѕ = Mid(CStr(Date), 1, 2)
+  If CInt(Р§РёСЃР»Рѕ) < 10 Then
+    Р§РёСЃР»Рѕ = Replace(Р§РёСЃР»Рѕ, "0", "")
   End If
-  ' Месяц
-  Месяц = Mid(CStr(Date), 4, 2)
-  If CInt(Месяц) < 10 Then
-    Месяц = Replace(Месяц, "0", "")
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Mid(CStr(Date), 4, 2)
+  If CInt(РњРµСЃСЏС†) < 10 Then
+    РњРµСЃСЏС† = Replace(РњРµСЃСЏС†, "0", "")
   End If
-  ' Год 2020 -> "2", 2021 -> "21", 2022 -> "22"
-  Год = Replace(Mid(Year(Date), 3, 2), "0", "")
-  ' Часы = Replace(Mid(CStr(Time), 1, 2), "0", "")
-  Часы = Mid(CStr(Time), 1, 2)
-  If CInt(Часы) < 10 Then
-    Часы = Replace(Часы, "0", "")
+  ' Р“РѕРґ 2020 -> "2", 2021 -> "21", 2022 -> "22"
+  Р“РѕРґ = Replace(Mid(Year(Date), 3, 2), "0", "")
+  ' Р§Р°СЃС‹ = Replace(Mid(CStr(Time), 1, 2), "0", "")
+  Р§Р°СЃС‹ = Mid(CStr(Time), 1, 2)
+  If CInt(Р§Р°СЃС‹) < 10 Then
+    Р§Р°СЃС‹ = Replace(Р§Р°СЃС‹, "0", "")
   End If
-  ' Минуты
-  Минуты = Mid(CStr(Time), 4, 2)
-  If CInt(Минуты) < 10 Then
-    Минуты = Replace(Минуты, "0", "")
+  ' РњРёРЅСѓС‚С‹
+  РњРёРЅСѓС‚С‹ = Mid(CStr(Time), 4, 2)
+  If CInt(РњРёРЅСѓС‚С‹) < 10 Then
+    РњРёРЅСѓС‚С‹ = Replace(РњРёРЅСѓС‚С‹, "0", "")
   End If
-  ' Генерация Хэштега
-  createHashTag = "#" + In_Letter + Число + Месяц + Год + Часы + Минуты
+  ' Р“РµРЅРµСЂР°С†РёСЏ РҐСЌС€С‚РµРіР°
+  createHashTag = "#" + In_Letter + Р§РёСЃР»Рѕ + РњРµСЃСЏС† + Р“РѕРґ + Р§Р°СЃС‹ + РњРёРЅСѓС‚С‹
 End Function
 
-' 43. Дата следующего воскресенья (исп во вкладах)
+' 43. Р”Р°С‚Р° СЃР»РµРґСѓСЋС‰РµРіРѕ РІРѕСЃРєСЂРµСЃРµРЅСЊСЏ (РёСЃРї РІРѕ РІРєР»Р°РґР°С…)
 Function Next_sunday_date(In_Date) As Date
-Dim Текущая_дата_рассчета As Date
-  ' Берем переданную дату. Если In_Date - воскресенье, то считаем с понедельника
+Dim РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° As Date
+  ' Р‘РµСЂРµРј РїРµСЂРµРґР°РЅРЅСѓСЋ РґР°С‚Сѓ. Р•СЃР»Рё In_Date - РІРѕСЃРєСЂРµСЃРµРЅСЊРµ, С‚Рѕ СЃС‡РёС‚Р°РµРј СЃ РїРѕРЅРµРґРµР»СЊРЅРёРєР°
   If Weekday(In_Date, vbMonday) = 7 Then
-    Текущая_дата_рассчета = In_Date + 1
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_Date + 1
   Else
-    Текущая_дата_рассчета = In_Date
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_Date
   End If
-  ' Считаем дни до первого воскресенья
-  Do While Weekday(Текущая_дата_рассчета, vbMonday) < 6
-    ' Следующий день
-    Текущая_дата_рассчета = Текущая_дата_рассчета + 1
+  ' РЎС‡РёС‚Р°РµРј РґРЅРё РґРѕ РїРµСЂРІРѕРіРѕ РІРѕСЃРєСЂРµСЃРµРЅСЊСЏ
+  Do While Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) < 6
+    ' РЎР»РµРґСѓСЋС‰РёР№ РґРµРЅСЊ
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
   Loop
-  Next_sunday_date = Текущая_дата_рассчета + 1
+  Next_sunday_date = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
 End Function
 
-' 44. Определяем число рабочих дней с текущего дня до конца месяца (используется по вкладам)
-Function Working_days_in_the_month(In_DateNow, In_working_days_in_the_week, In_считаем_сегодня) As Integer
-  ' Декодируем дату In_DateNow
-  ' Месяц
-  Месяц = Month(In_DateNow)
-  ' Год
-  Год = Year(In_DateNow)
-  ' Первый день следующего месяца
-  If Месяц = 12 Then
-    Месяц = 0
-    Год = Год + 1
+' 44. РћРїСЂРµРґРµР»СЏРµРј С‡РёСЃР»Рѕ СЂР°Р±РѕС‡РёС… РґРЅРµР№ СЃ С‚РµРєСѓС‰РµРіРѕ РґРЅСЏ РґРѕ РєРѕРЅС†Р° РјРµСЃСЏС†Р° (РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РїРѕ РІРєР»Р°РґР°Рј)
+Function Working_days_in_the_month(In_DateNow, In_working_days_in_the_week, In_СЃС‡РёС‚Р°РµРј_СЃРµРіРѕРґРЅСЏ) As Integer
+  ' Р”РµРєРѕРґРёСЂСѓРµРј РґР°С‚Сѓ In_DateNow
+  ' РњРµСЃСЏС†
+  РњРµСЃСЏС† = Month(In_DateNow)
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_DateNow)
+  ' РџРµСЂРІС‹Р№ РґРµРЅСЊ СЃР»РµРґСѓСЋС‰РµРіРѕ РјРµСЃСЏС†Р°
+  If РњРµСЃСЏС† = 12 Then
+    РњРµСЃСЏС† = 0
+    Р“РѕРґ = Р“РѕРґ + 1
   End If
-  Первый_день_следующего_месяца = CDate("01." + CStr(Месяц + 1) + "." + CStr(Год))
-  ' Если считаем сегодняшний день
-  If In_считаем_сегодня = True Then
-    Текущая_дата_рассчета = In_DateNow
+  РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р° = CDate("01." + CStr(РњРµСЃСЏС† + 1) + "." + CStr(Р“РѕРґ))
+  ' Р•СЃР»Рё СЃС‡РёС‚Р°РµРј СЃРµРіРѕРґРЅСЏС€РЅРёР№ РґРµРЅСЊ
+  If In_СЃС‡РёС‚Р°РµРј_СЃРµРіРѕРґРЅСЏ = True Then
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_DateNow
   Else
-    Текущая_дата_рассчета = In_DateNow + 1
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = In_DateNow + 1
   End If
-  ' Делаем рассчет по датам
+  ' Р”РµР»Р°РµРј СЂР°СЃСЃС‡РµС‚ РїРѕ РґР°С‚Р°Рј
   Working_days_in_the_month = 0
-  Do While Текущая_дата_рассчета < Первый_день_следующего_месяца
-    ' Если Текущая_дата_рассчета не суббота
+  Do While РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° < РџРµСЂРІС‹Р№_РґРµРЅСЊ_СЃР»РµРґСѓСЋС‰РµРіРѕ_РјРµСЃСЏС†Р°
+    ' Р•СЃР»Рё РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° РЅРµ СЃСѓР±Р±РѕС‚Р°
     If In_working_days_in_the_week = 5 Then
-      ' Если пятидневка
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 6) And (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё РїСЏС‚РёРґРЅРµРІРєР°
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 6) And (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_in_the_month = Working_days_in_the_month + 1
       End If
     Else
-      ' Если шестидневка - In_working_days_in_the_week = 6
-      If (Weekday(Текущая_дата_рассчета, vbMonday) <> 7) Then
+      ' Р•СЃР»Рё С€РµСЃС‚РёРґРЅРµРІРєР° - In_working_days_in_the_week = 6
+      If (Weekday(РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р°, vbMonday) <> 7) Then
         Working_days_in_the_month = Working_days_in_the_month + 1
       End If
     End If
-    ' Следующая дата
-    Текущая_дата_рассчета = Текущая_дата_рассчета + 1
-  Loop ' Следующая дата
+    ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
+    РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° = РўРµРєСѓС‰Р°СЏ_РґР°С‚Р°_СЂР°СЃСЃС‡РµС‚Р° + 1
+  Loop ' РЎР»РµРґСѓСЋС‰Р°СЏ РґР°С‚Р°
 End Function
 
-' 45. Установка % выполнения по задачам в BASE\Tasks
-Sub setStatusInTasks(In_BookName, In_Sheet, In_Last_Date, In_К_пор, In_Protocol)
+' 45. РЈСЃС‚Р°РЅРѕРІРєР° % РІС‹РїРѕР»РЅРµРЅРёСЏ РїРѕ Р·Р°РґР°С‡Р°Рј РІ BASE\Tasks
+Sub setStatusInTasks(In_BookName, In_Sheet, In_Last_Date, In_Рљ_РїРѕСЂ, In_Protocol)
 
 Dim rowCount As Integer
-Dim column_К_пор, column_Last_Date, column_Value, column_Last_Value, column_Status_persent, column_Status, column_Description_status, column_Date_finish, column_Protocol As Byte
+Dim column_Рљ_РїРѕСЂ, column_Last_Date, column_Value, column_Last_Value, column_Status_persent, column_Status, column_Description_status, column_Date_finish, column_Protocol As Byte
 
-  ' Номер столбца Last_Date
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Last_Date
   column_Last_Date = ColumnByName(In_BookName, In_Sheet, 1, "Last_Date")
-  ' Номер столбца К_пор
-  column_К_пор = ColumnByName(In_BookName, In_Sheet, 1, "К_пор")
-  ' Номер столбца Value
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Рљ_РїРѕСЂ
+  column_Рљ_РїРѕСЂ = ColumnByName(In_BookName, In_Sheet, 1, "Рљ_РїРѕСЂ")
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Value
   column_Value = ColumnByName(In_BookName, In_Sheet, 1, "Value")
-  ' Номер столбца Last_Value
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Last_Value
   column_Last_Value = ColumnByName(In_BookName, In_Sheet, 1, "Last_Value")
-  ' Номер столбца Status_persent
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Status_persent
   column_Status_persent = ColumnByName(In_BookName, In_Sheet, 1, "Status_persent")
-  ' Номер столбца Status
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Status
   column_Status = ColumnByName(In_BookName, In_Sheet, 1, "Status")
-    ' Номер столбца Description_status
+    ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Description_status
   column_Description_status = ColumnByName(In_BookName, In_Sheet, 1, "Description_status")
-  ' Номер столбца Date_finish
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Date_finish
   column_Date_finish = ColumnByName(In_BookName, In_Sheet, 1, "Date_finish")
-  ' Номер столбца Protocol
+  ' РќРѕРјРµСЂ СЃС‚РѕР»Р±С†Р° Protocol
   column_Protocol = ColumnByName(In_BookName, In_Sheet, 1, "Protocol")
   
-  ' Когда не указан Протокол - считаем, что текущее обновление
+  ' РљРѕРіРґР° РЅРµ СѓРєР°Р·Р°РЅ РџСЂРѕС‚РѕРєРѕР» - СЃС‡РёС‚Р°РµРј, С‡С‚Рѕ С‚РµРєСѓС‰РµРµ РѕР±РЅРѕРІР»РµРЅРёРµ
   If In_Protocol = "" Then
   
     rowCount = 2
     Do While Not IsEmpty(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, 1))
     
-      ' Если это запись с In_Last_Date и In_К_пор
-      If (Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Last_Date).Value = In_Last_Date) And (InStr(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_К_пор).Value, In_К_пор) <> 0) Then
+      ' Р•СЃР»Рё СЌС‚Рѕ Р·Р°РїРёСЃСЊ СЃ In_Last_Date Рё In_Рљ_РїРѕСЂ
+      If (Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Last_Date).Value = In_Last_Date) And (InStr(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Рљ_РїРѕСЂ).Value, In_Рљ_РїРѕСЂ) <> 0) Then
       
-        ' Делаем расчет Status_persent в %: Last_Value к Value
+        ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚ Status_persent РІ %: Last_Value Рє Value
         If Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Value).Value > 0 Then
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value = Round(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Last_Value).Value / Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Value).Value, 2)
         Else
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value = 1
         End If
         
-        ' Статус 0-в работе 1-исполнено досрочно 10 - не исполнено 11 - исполнено
+        ' РЎС‚Р°С‚СѓСЃ 0-РІ СЂР°Р±РѕС‚Рµ 1-РёСЃРїРѕР»РЅРµРЅРѕ РґРѕСЃСЂРѕС‡РЅРѕ 10 - РЅРµ РёСЃРїРѕР»РЅРµРЅРѕ 11 - РёСЃРїРѕР»РЅРµРЅРѕ
         If Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value < 1 Then
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status).Value = 0
-          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "В работе"
+          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "Р’ СЂР°Р±РѕС‚Рµ"
         Else
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status).Value = 1
-          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "Исполнено"
+          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "РСЃРїРѕР»РЅРµРЅРѕ"
         End If
       
       End If
     
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
   Else
     
-    ' Если Протокол указан, то закрываем его
+    ' Р•СЃР»Рё РџСЂРѕС‚РѕРєРѕР» СѓРєР°Р·Р°РЅ, С‚Рѕ Р·Р°РєСЂС‹РІР°РµРј РµРіРѕ
     rowCount = 2
     Do While Not IsEmpty(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, 1))
     
-      ' Если это запись с Protocol и In_К_пор
-      If (Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Protocol).Value = In_Protocol) And (InStr(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_К_пор).Value, In_К_пор) <> 0) Then
+      ' Р•СЃР»Рё СЌС‚Рѕ Р·Р°РїРёСЃСЊ СЃ Protocol Рё In_Рљ_РїРѕСЂ
+      If (Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Protocol).Value = In_Protocol) And (InStr(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Рљ_РїРѕСЂ).Value, In_Рљ_РїРѕСЂ) <> 0) Then
       
-        ' Делаем расчет Status_persent в %: Last_Value к Value
+        ' Р”РµР»Р°РµРј СЂР°СЃС‡РµС‚ Status_persent РІ %: Last_Value Рє Value
         If Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Value).Value > 0 Then
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value = Round(Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Last_Value).Value / Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Value).Value, 2)
         Else
-          ' План на неделю был 0, то ставим 100%
+          ' РџР»Р°РЅ РЅР° РЅРµРґРµР»СЋ Р±С‹Р» 0, С‚Рѕ СЃС‚Р°РІРёРј 100%
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value = 1
         End If
         
        
-        ' Статус 0/1
+        ' РЎС‚Р°С‚СѓСЃ 0/1
         If Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status_persent).Value < 1 Then
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status).Value = 10
-          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "Не исполнено"
+          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "РќРµ РёСЃРїРѕР»РЅРµРЅРѕ"
         Else
           Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Status).Value = 11
-          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "Исполнено"
+          Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_Description_status).Value = "РСЃРїРѕР»РЅРµРЅРѕ"
         End If
       
       End If
     
-      ' Следующая запись
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ Р·Р°РїРёСЃСЊ
       rowCount = rowCount + 1
     Loop
     
@@ -2298,81 +2298,81 @@ Dim column_К_пор, column_Last_Date, column_Value, column_Last_Value, column_Stat
   
 End Sub
 
-' 46. Значение между разделителями
-Function Значение_между_разделителями(In_Строка, In_Разделитель, In_Начало, In_Конец) As String
-Dim i, Позиция_начала, Позиция_конца As Integer
-Dim Счетчик_найденных_разделителей As Byte
+' 46. Р—РЅР°С‡РµРЅРёРµ РјРµР¶РґСѓ СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё
+Function Р—РЅР°С‡РµРЅРёРµ_РјРµР¶РґСѓ_СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё(In_РЎС‚СЂРѕРєР°, In_Р Р°Р·РґРµР»РёС‚РµР»СЊ, In_РќР°С‡Р°Р»Рѕ, In_РљРѕРЅРµС†) As String
+Dim i, РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р°, РџРѕР·РёС†РёСЏ_РєРѕРЅС†Р° As Integer
+Dim РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ As Byte
 
-  Значение_между_разделителями = In_Строка
-  ' Россия; Тюменская область; г. Тюмень; ул. Линейная; Дом:7;
-  If Len(In_Строка) <> 0 Then
-    Значение_между_разделителями = ""
-    Позиция_начала = 0
-    Позиция_конца = 0
-    Счетчик_найденных_разделителей = 0
-    ' Находим
-    For i = 1 To Len(In_Строка)
-      If Mid(In_Строка, i, 1) = In_Разделитель Then
-        Счетчик_найденных_разделителей = Счетчик_найденных_разделителей + 1
-        ' Если это начало
-        If Счетчик_найденных_разделителей = In_Начало Then
-          Позиция_начала = i
+  Р—РЅР°С‡РµРЅРёРµ_РјРµР¶РґСѓ_СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё = In_РЎС‚СЂРѕРєР°
+  ' Р РѕСЃСЃРёСЏ; РўСЋРјРµРЅСЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ; Рі. РўСЋРјРµРЅСЊ; СѓР». Р›РёРЅРµР№РЅР°СЏ; Р”РѕРј:7;
+  If Len(In_РЎС‚СЂРѕРєР°) <> 0 Then
+    Р—РЅР°С‡РµРЅРёРµ_РјРµР¶РґСѓ_СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё = ""
+    РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р° = 0
+    РџРѕР·РёС†РёСЏ_РєРѕРЅС†Р° = 0
+    РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ = 0
+    ' РќР°С…РѕРґРёРј
+    For i = 1 To Len(In_РЎС‚СЂРѕРєР°)
+      If Mid(In_РЎС‚СЂРѕРєР°, i, 1) = In_Р Р°Р·РґРµР»РёС‚РµР»СЊ Then
+        РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ = РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ + 1
+        ' Р•СЃР»Рё СЌС‚Рѕ РЅР°С‡Р°Р»Рѕ
+        If РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ = In_РќР°С‡Р°Р»Рѕ Then
+          РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р° = i
         End If
-        ' Если это конец
-        If Счетчик_найденных_разделителей = In_Конец Then
-          Позиция_конца = i
+        ' Р•СЃР»Рё СЌС‚Рѕ РєРѕРЅРµС†
+        If РЎС‡РµС‚С‡РёРє_РЅР°Р№РґРµРЅРЅС‹С…_СЂР°Р·РґРµР»РёС‚РµР»РµР№ = In_РљРѕРЅРµС† Then
+          РџРѕР·РёС†РёСЏ_РєРѕРЅС†Р° = i
         End If
       End If
     Next i
-    ' Если Позиция начала и конца не нулевые
-    If (Позиция_начала <> 0) And (Позиция_конца <> 0) Then
-      Значение_между_разделителями = Mid(In_Строка, (Позиция_начала + 1), (Позиция_конца - Позиция_начала - 1))
+    ' Р•СЃР»Рё РџРѕР·РёС†РёСЏ РЅР°С‡Р°Р»Р° Рё РєРѕРЅС†Р° РЅРµ РЅСѓР»РµРІС‹Рµ
+    If (РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р° <> 0) And (РџРѕР·РёС†РёСЏ_РєРѕРЅС†Р° <> 0) Then
+      Р—РЅР°С‡РµРЅРёРµ_РјРµР¶РґСѓ_СЂР°Р·РґРµР»РёС‚РµР»СЏРјРё = Mid(In_РЎС‚СЂРѕРєР°, (РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р° + 1), (РџРѕР·РёС†РёСЏ_РєРѕРЅС†Р° - РџРѕР·РёС†РёСЏ_РЅР°С‡Р°Р»Р° - 1))
     End If
   End If
   
 End Function
 
-' 47. Удаление ненужных символов: 10 и еще перевод строки 13
+' 47. РЈРґР°Р»РµРЅРёРµ РЅРµРЅСѓР¶РЅС‹С… СЃРёРјРІРѕР»РѕРІ: 10 Рё РµС‰Рµ РїРµСЂРµРІРѕРґ СЃС‚СЂРѕРєРё 13
 Function delSym(In_Str) As String
   delSym = Replace(In_Str, Chr(10), "")
-  ' Добавил еще
+  ' Р”РѕР±Р°РІРёР» РµС‰Рµ
   delSym = Replace(delSym, Chr(13), "")
 End Function
 
-' 48. Добавление символа перевода строки
+' 48. Р”РѕР±Р°РІР»РµРЅРёРµ СЃРёРјРІРѕР»Р° РїРµСЂРµРІРѕРґР° СЃС‚СЂРѕРєРё
 Function createBlankStr(In_Count) As String
-  ' Инициализация
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
   createBlankStr = ""
-  ' Добавляем перевод строк
+  ' Р”РѕР±Р°РІР»СЏРµРј РїРµСЂРµРІРѕРґ СЃС‚СЂРѕРє
   For i = 1 To In_Count
     createBlankStr = createBlankStr + Chr(13)
   Next i
 End Function
 
-' 49. Получение номера недели из формата строки: Для Capacity 11.03.2020 г.: 10.02.03.20-08.03.20, 11.09.03.20-15.03.20 (один дефиз и 5 точек)
+' 49. РџРѕР»СѓС‡РµРЅРёРµ РЅРѕРјРµСЂР° РЅРµРґРµР»Рё РёР· С„РѕСЂРјР°С‚Р° СЃС‚СЂРѕРєРё: Р”Р»СЏ Capacity 11.03.2020 Рі.: 10.02.03.20-08.03.20, 11.09.03.20-15.03.20 (РѕРґРёРЅ РґРµС„РёР· Рё 5 С‚РѕС‡РµРє)
 Function rowOfWeekPeriod(In_CellWeekPeriod) As Byte
-Dim Позиция_точки_1, Позиция_точки_2, Позиция_точки_3, Позиция_точки_4, Позиция_точки_5, Позиция_дефис As Byte
-  ' Инициализация
+Dim РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_2, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_3, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_4, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_5, РџРѕР·РёС†РёСЏ_РґРµС„РёСЃ As Byte
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
   rowOfWeekPeriod = 0
   '
-  Позиция_точки_1 = InStr(In_CellWeekPeriod, ".")
-  If Позиция_точки_1 <> 0 Then
-    Позиция_точки_2 = InStr(Mid(In_CellWeekPeriod, Позиция_точки_1 + 1, Len(In_CellWeekPeriod) - Позиция_точки_1), ".")
-    Позиция_точки_3 = InStr(Mid(In_CellWeekPeriod, Позиция_точки_2 + 1, Len(In_CellWeekPeriod) - Позиция_точки_2), ".")
-    Позиция_точки_4 = InStr(Mid(In_CellWeekPeriod, Позиция_точки_3 + 1, Len(In_CellWeekPeriod) - Позиция_точки_3), ".")
-    Позиция_точки_5 = InStr(Mid(In_CellWeekPeriod, Позиция_точки_4 + 1, Len(In_CellWeekPeriod) - Позиция_точки_4), ".")
-    Позиция_дефис = InStr(In_CellWeekPeriod, "-")
-    ' Финальная проверка
-    If (Позиция_точки_1 <> 0) And (Позиция_точки_2 <> 0) And (Позиция_точки_3 <> 0) And (Позиция_точки_4 <> 0) And (Позиция_точки_5 <> 0) And (Позиция_дефис <> 0) Then
-      ' Берем номер недели
-      rowOfWeekPeriod = CInt(Mid(In_CellWeekPeriod, 1, Позиция_точки_1 - 1))
+  РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1 = InStr(In_CellWeekPeriod, ".")
+  If РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1 <> 0 Then
+    РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_2 = InStr(Mid(In_CellWeekPeriod, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1 + 1, Len(In_CellWeekPeriod) - РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1), ".")
+    РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_3 = InStr(Mid(In_CellWeekPeriod, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_2 + 1, Len(In_CellWeekPeriod) - РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_2), ".")
+    РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_4 = InStr(Mid(In_CellWeekPeriod, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_3 + 1, Len(In_CellWeekPeriod) - РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_3), ".")
+    РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_5 = InStr(Mid(In_CellWeekPeriod, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_4 + 1, Len(In_CellWeekPeriod) - РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_4), ".")
+    РџРѕР·РёС†РёСЏ_РґРµС„РёСЃ = InStr(In_CellWeekPeriod, "-")
+    ' Р¤РёРЅР°Р»СЊРЅР°СЏ РїСЂРѕРІРµСЂРєР°
+    If (РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1 <> 0) And (РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_2 <> 0) And (РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_3 <> 0) And (РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_4 <> 0) And (РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_5 <> 0) And (РџРѕР·РёС†РёСЏ_РґРµС„РёСЃ <> 0) Then
+      ' Р‘РµСЂРµРј РЅРѕРјРµСЂ РЅРµРґРµР»Рё
+      rowOfWeekPeriod = CInt(Mid(In_CellWeekPeriod, 1, РџРѕР·РёС†РёСЏ_С‚РѕС‡РєРё_1 - 1))
     End If
   End If
   
 End Function
 
-' 50. Очищаем ячейки отчета - медленный метод, есть версия clearСontents2
-Sub clearСontents(In_BookName, In_Sheet, In_StartRange, In_EndRange)
+' 50. РћС‡РёС‰Р°РµРј СЏС‡РµР№РєРё РѕС‚С‡РµС‚Р° - РјРµРґР»РµРЅРЅС‹Р№ РјРµС‚РѕРґ, РµСЃС‚СЊ РІРµСЂСЃРёСЏ clearРЎontents2
+Sub clearРЎontents(In_BookName, In_Sheet, In_StartRange, In_EndRange)
 Dim rowCount, ColumnCount, startRow, endRow, startColumn, endColumn As Byte
   '
   startRow = Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange).Row
@@ -2380,38 +2380,38 @@ Dim rowCount, ColumnCount, startRow, endRow, startColumn, endColumn As Byte
   startColumn = Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange).Column
   endColumn = Workbooks(In_BookName).Sheets(In_Sheet).Range(In_EndRange).Column
     
-  ' Двигаемся сначала по столбцу, потом по строке
+  ' Р”РІРёРіР°РµРјСЃСЏ СЃРЅР°С‡Р°Р»Р° РїРѕ СЃС‚РѕР»Р±С†Сѓ, РїРѕС‚РѕРј РїРѕ СЃС‚СЂРѕРєРµ
   ColumnCount = startColumn
   Do While (ColumnCount <= endColumn)
     
-    ' По срокам
+    ' РџРѕ СЃСЂРѕРєР°Рј
     rowCount = startRow
     Do While (rowCount <= endRow)
       Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnCount).Value = ""
       Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnCount).HorizontalAlignment = xlLeft
-      ' Убираем заливку
+      ' РЈР±РёСЂР°РµРј Р·Р°Р»РёРІРєСѓ
       Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnCount).Interior.Pattern = xlNone
       Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnCount).Interior.TintAndShade = 0
       Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, ColumnCount).Interior.PatternTintAndShade = 0
-      ' Следующая строка
+      ' РЎР»РµРґСѓСЋС‰Р°СЏ СЃС‚СЂРѕРєР°
       rowCount = rowCount + 1
     Loop
-    ' Следующий столбец
+    ' РЎР»РµРґСѓСЋС‰РёР№ СЃС‚РѕР»Р±РµС†
     ColumnCount = ColumnCount + 1
   Loop
   
 End Sub
 
-' 51. Очищаем ячейки отчета - скоростной метод
-Sub clearСontents2(In_BookName, In_Sheet, In_StartRange, In_EndRange)
+' 51. РћС‡РёС‰Р°РµРј СЏС‡РµР№РєРё РѕС‚С‡РµС‚Р° - СЃРєРѕСЂРѕСЃС‚РЅРѕР№ РјРµС‚РѕРґ
+Sub clearРЎontents2(In_BookName, In_Sheet, In_StartRange, In_EndRange)
   '
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Value = ""
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).HorizontalAlignment = xlLeft
-  ' Убираем заливку
+  ' РЈР±РёСЂР°РµРј Р·Р°Р»РёРІРєСѓ
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Interior.Pattern = xlNone
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Interior.TintAndShade = 0
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Interior.PatternTintAndShade = 0
-  ' Убираем линии на границу
+  ' РЈР±РёСЂР°РµРј Р»РёРЅРёРё РЅР° РіСЂР°РЅРёС†Сѓ
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Borders(xlDiagonalDown).LineStyle = xlNone
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Borders(xlDiagonalUp).LineStyle = xlNone
   Workbooks(In_BookName).Sheets(In_Sheet).Range(In_StartRange + ":" + In_EndRange).Borders(xlEdgeLeft).LineStyle = xlNone
@@ -2423,8 +2423,8 @@ Sub clearСontents2(In_BookName, In_Sheet, In_StartRange, In_EndRange)
 
 End Sub
 
-' 51.2 Очищаем ячейки отчета - скоростной метод
-Sub clearСontents3(In_BookName, In_Sheet, In_StartRow, In_StartColumn, In_EndRow, In_EndColumn)
+' 51.2 РћС‡РёС‰Р°РµРј СЏС‡РµР№РєРё РѕС‚С‡РµС‚Р° - СЃРєРѕСЂРѕСЃС‚РЅРѕР№ РјРµС‚РѕРґ
+Sub clearРЎontents3(In_BookName, In_Sheet, In_StartRow, In_StartColumn, In_EndRow, In_EndColumn)
 ' Dim In_StartRange, In_EndRange As Range
   '
   ' In_StartRange = Workbooks(In_BookName).Cells(In_StartRow, In_StartColumn).Range
@@ -2432,20 +2432,20 @@ Sub clearСontents3(In_BookName, In_Sheet, In_StartRow, In_StartColumn, In_EndRow
   '
   Workbooks(In_BookName).Sheets(In_Sheet).Range(Cells(In_StartRow, In_StartColumn), Cells(In_EndRow, In_EndColumn)).Value = ""
   ' Workbooks(In_BookName).Sheets(In_Sheet).Range(Cells(In_StartRow, In_StartColumn), Cells(In_EndRow, In_EndColumn)).HorizontalAlignment = xlLeft
-  ' Убираем заливку
+  ' РЈР±РёСЂР°РµРј Р·Р°Р»РёРІРєСѓ
   Workbooks(In_BookName).Sheets(In_Sheet).Range(Cells(In_StartRow, In_StartColumn), Cells(In_EndRow, In_EndColumn)).Interior.Pattern = xlNone
   Workbooks(In_BookName).Sheets(In_Sheet).Range(Cells(In_StartRow, In_StartColumn), Cells(In_EndRow, In_EndColumn)).Interior.TintAndShade = 0
   Workbooks(In_BookName).Sheets(In_Sheet).Range(Cells(In_StartRow, In_StartColumn), Cells(In_EndRow, In_EndColumn)).Interior.PatternTintAndShade = 0
 End Sub
 
 
-' 52. Заливка ячейки цветом:
+' 52. Р—Р°Р»РёРІРєР° СЏС‡РµР№РєРё С†РІРµС‚РѕРј:
 Sub setColorCells(In_BookName, In_Sheet, In_RowStart, In_ColumnStart, In_RowEnd, In_ColumnEnd)
 Dim RangeStart, RangeEnd As String
-  ' Определение диапазона
+  ' РћРїСЂРµРґРµР»РµРЅРёРµ РґРёР°РїР°Р·РѕРЅР°
   RangeStart = ConvertToLetter(In_ColumnStart) + CStr(In_RowStart)
   RangeEnd = ConvertToLetter(In_ColumnEnd) + CStr(In_RowEnd)
-  ' Заливка диапазона
+  ' Р—Р°Р»РёРІРєР° РґРёР°РїР°Р·РѕРЅР°
   Workbooks(In_BookName).Sheets(In_Sheet).Range(RangeStart + ":" + RangeEnd).Interior.Pattern = xlSolid
   Workbooks(In_BookName).Sheets(In_Sheet).Range(RangeStart + ":" + RangeEnd).Interior.PatternColorIndex = xlAutomatic
   Workbooks(In_BookName).Sheets(In_Sheet).Range(RangeStart + ":" + RangeEnd).Interior.ThemeColor = xlThemeColorAccent5
@@ -2453,80 +2453,80 @@ Dim RangeStart, RangeEnd As String
   Workbooks(In_BookName).Sheets(In_Sheet).Range(RangeStart + ":" + RangeEnd).Interior.PatternTintAndShade = 0
 End Sub
 
-' 53. Доля (лучше в округлении ставить 3)
-Function РассчетДоли(In_План, In_Факт, In_Dec) As Double
-  If In_План > 0 Then
-    РассчетДоли = Round((In_Факт / In_План), In_Dec)
+' 53. Р”РѕР»СЏ (Р»СѓС‡С€Рµ РІ РѕРєСЂСѓРіР»РµРЅРёРё СЃС‚Р°РІРёС‚СЊ 3)
+Function Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(In_РџР»Р°РЅ, In_Р¤Р°РєС‚, In_Dec) As Double
+  If In_РџР»Р°РЅ > 0 Then
+    Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё = Round((In_Р¤Р°РєС‚ / In_РџР»Р°РЅ), In_Dec)
   Else
-    РассчетДоли = 0
+    Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё = 0
   End If
 End Function
 
-' 54. Формат процентов
+' 54. Р¤РѕСЂРјР°С‚ РїСЂРѕС†РµРЅС‚РѕРІ
 Function cellsNumberFormat(In_Value) As String
 Dim ValueVar As Double
   cellsNumberFormat = "0.0%"
   
-  ' Умножаем на 100 и анализируем
+  ' РЈРјРЅРѕР¶Р°РµРј РЅР° 100 Рё Р°РЅР°Р»РёР·РёСЂСѓРµРј
   ValueVar = In_Value * 100
 
-  ' Если 0%
+  ' Р•СЃР»Рё 0%
   If In_Value = 0 Then
     cellsNumberFormat = "0%"
   End If
   
-  ' Если целое 5,0, если 1,1-1,0, то
+  ' Р•СЃР»Рё С†РµР»РѕРµ 5,0, РµСЃР»Рё 1,1-1,0, С‚Рѕ
   If ((ValueVar) - Int(ValueVar)) = 0 Then
     cellsNumberFormat = "0%"
   End If
   
 End Function
 
-' 55. Установка периода для формирования отчета из Ритейла
+' 55. РЈСЃС‚Р°РЅРѕРІРєР° РїРµСЂРёРѕРґР° РґР»СЏ С„РѕСЂРјРёСЂРѕРІР°РЅРёСЏ РѕС‚С‡РµС‚Р° РёР· Р РёС‚РµР№Р»Р°
 Sub setPriodReport(In_Sheet, In_Date)
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-  ' Если это Активы (Лист3) или Банкострахование (Лист10)
-  If (In_Sheet = "Лист3") Or (In_Sheet = "Лист10") Then
-    ' Находим ячейку "Период:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Период:", 100, 100)
+  ' Р•СЃР»Рё СЌС‚Рѕ РђРєС‚РёРІС‹ (Р›РёСЃС‚3) РёР»Рё Р‘Р°РЅРєРѕСЃС‚СЂР°С…РѕРІР°РЅРёРµ (Р›РёСЃС‚10)
+  If (In_Sheet = "Р›РёСЃС‚3") Or (In_Sheet = "Р›РёСЃС‚10") Then
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РџРµСЂРёРѕРґ:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РџРµСЂРёРѕРґ:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
-    ' Установка даты с ___ по ____
+    ' РЈСЃС‚Р°РЅРѕРІРєР° РґР°С‚С‹ СЃ ___ РїРѕ ____
     ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 1).Value = YearStartDate(In_Date)
     ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 3).Value = In_Date - 1
   End If
   
-  ' Если это карты
-  If In_Sheet = "Лист5" Then
-    ' Находим ячейку "Период:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Период:", 100, 100)
+  ' Р•СЃР»Рё СЌС‚Рѕ РєР°СЂС‚С‹
+  If In_Sheet = "Р›РёСЃС‚5" Then
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РџРµСЂРёРѕРґ:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РџРµСЂРёРѕРґ:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
-    ' Установка даты с ___ по ____
+    ' РЈСЃС‚Р°РЅРѕРІРєР° РґР°С‚С‹ СЃ ___ РїРѕ ____
     ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 1).Value = YearStartDate(In_Date)
     ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 3).Value = In_Date
   End If
   
 End Sub
 
-' 56. Определение даты начала года по текущей дате
+' 56. РћРїСЂРµРґРµР»РµРЅРёРµ РґР°С‚С‹ РЅР°С‡Р°Р»Р° РіРѕРґР° РїРѕ С‚РµРєСѓС‰РµР№ РґР°С‚Рµ
 Function YearStartDate(In_Date) As Date
-Dim Год As Integer
-  ' Год
-  Год = Year(In_Date)
-  YearStartDate = CDate("01.01." + CStr(Год))
+Dim Р“РѕРґ As Integer
+  ' Р“РѕРґ
+  Р“РѕРґ = Year(In_Date)
+  YearStartDate = CDate("01.01." + CStr(Р“РѕРґ))
 End Function
 
-' 58. "Период по" на листе
-' Период: 01.01.2020  по  06.07.2020 periodFromSheet -> возвращает 06.07.2020
+' 58. "РџРµСЂРёРѕРґ РїРѕ" РЅР° Р»РёСЃС‚Рµ
+' РџРµСЂРёРѕРґ: 01.01.2020  РїРѕ  06.07.2020 periodFromSheet -> РІРѕР·РІСЂР°С‰Р°РµС‚ 06.07.2020
 Function periodFromSheet(In_Sheet) As Date
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Период:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Период:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РџРµСЂРёРѕРґ:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РџРµСЂРёРѕРґ:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2534,38 +2534,38 @@ Dim Range_Row, Range_Column As Byte
     
 End Function
 
-' Период: 01.01.2020  по  06.07.2020  -> periodFromSheet2("Лист3", 1) возвращает 01.01.2020. periodFromSheet2("Лист3", 2) возвращает 06.07.2020
+' РџРµСЂРёРѕРґ: 01.01.2020  РїРѕ  06.07.2020  -> periodFromSheet2("Р›РёСЃС‚3", 1) РІРѕР·РІСЂР°С‰Р°РµС‚ 01.01.2020. periodFromSheet2("Р›РёСЃС‚3", 2) РІРѕР·РІСЂР°С‰Р°РµС‚ 06.07.2020
 Function periodFromSheet2(In_Sheet, In_Period) As Date
 Dim Range_str As String
-Dim Range_Row, Range_Column, смещение As Byte
+Dim Range_Row, Range_Column, СЃРјРµС‰РµРЅРёРµ As Byte
     
-  ' Смещение:
-  смещение = 3
+  ' РЎРјРµС‰РµРЅРёРµ:
+  СЃРјРµС‰РµРЅРёРµ = 3
   
   Select Case Weekday(In_Date, vbMonday)
     Case 1
-      смещение = 1
+      СЃРјРµС‰РµРЅРёРµ = 1
     Case 2
-      смещение = 3
+      СЃРјРµС‰РµРЅРёРµ = 3
   End Select
 
-    ' Находим ячейку "Период:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Период:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РџРµСЂРёРѕРґ:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РџРµСЂРёРѕРґ:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
-    periodFromSheet2 = CDate(ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + смещение).Value)
+    periodFromSheet2 = CDate(ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + СЃРјРµС‰РµРЅРёРµ).Value)
     
 End Function
 
 
-' 59. "Хэштег" на листе
+' 59. "РҐСЌС€С‚РµРі" РЅР° Р»РёСЃС‚Рµ
 Function hashTagFromSheet(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Хэштэг:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Хэштэг:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РҐСЌС€С‚СЌРі:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РҐСЌС€С‚СЌРі:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2573,13 +2573,13 @@ Dim Range_Row, Range_Column As Byte
       
 End Function
 
-' 59.1 "Хэштег2" на листе
+' 59.1 "РҐСЌС€С‚РµРі2" РЅР° Р»РёСЃС‚Рµ
 Function hashTagFromSheetII(In_Sheet, In_Number) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Хэштэг:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Хэштэг" + CStr(In_Number) + ":", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РҐСЌС€С‚СЌРі:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РҐСЌС€С‚СЌРі" + CStr(In_Number) + ":", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2588,13 +2588,13 @@ Dim Range_Row, Range_Column As Byte
 End Function
 
 
-' 60. Тема: на листе
+' 60. РўРµРјР°: РЅР° Р»РёСЃС‚Рµ
 Function subjectFromSheet(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Тема:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Тема:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РўРµРјР°:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РўРµРјР°:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2602,13 +2602,13 @@ Dim Range_Row, Range_Column As Byte
       
 End Function
 
-' 60.1 Тема2: на листе
+' 60.1 РўРµРјР°2: РЅР° Р»РёСЃС‚Рµ
 Function subjectFromSheetII(In_Sheet, In_Number) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Тема:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Тема" + CStr(In_Number) + ":", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РўРµРјР°:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РўРµРјР°" + CStr(In_Number) + ":", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2617,52 +2617,52 @@ Dim Range_Row, Range_Column As Byte
 End Function
 
 
-' 61. Дата отчета из имени файла, например: Отчетность ЕСУП_итог 15.03.2020. Результат - как String, чтобы обрабатывать если даты нет в имени!
+' 61. Р”Р°С‚Р° РѕС‚С‡РµС‚Р° РёР· РёРјРµРЅРё С„Р°Р№Р»Р°, РЅР°РїСЂРёРјРµСЂ: РћС‚С‡РµС‚РЅРѕСЃС‚СЊ Р•РЎРЈРџ_РёС‚РѕРі 15.03.2020. Р РµР·СѓР»СЊС‚Р°С‚ - РєР°Рє String, С‡С‚РѕР±С‹ РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ РµСЃР»Рё РґР°С‚С‹ РЅРµС‚ РІ РёРјРµРЅРё!
 Function getDateReportFromFileName(In_ReportName_String) As String
-Dim поз_точки As Byte
+Dim РїРѕР·_С‚РѕС‡РєРё As Byte
   
-  ' Инициализация
+  ' РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
   getDateReportFromFileName = ""
   
-  ' Находим позицию первой точки
-  поз_точки = InStr(In_ReportName_String, ".")
+  ' РќР°С…РѕРґРёРј РїРѕР·РёС†РёСЋ РїРµСЂРІРѕР№ С‚РѕС‡РєРё
+  РїРѕР·_С‚РѕС‡РєРё = InStr(In_ReportName_String, ".")
   
-  getDateReportFromFileName = Mid(In_ReportName_String, поз_точки - 2, 10)
+  getDateReportFromFileName = Mid(In_ReportName_String, РїРѕР·_С‚РѕС‡РєРё - 2, 10)
   
 End Function
 
-' 62. Дата начала месяца dateBeginMonth (имя функции меняем на monthStartDate, так как ранее уже использовалось имя переменной dateBeginMonth (на Лист3))
+' 62. Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р° dateBeginMonth (РёРјСЏ С„СѓРЅРєС†РёРё РјРµРЅСЏРµРј РЅР° monthStartDate, С‚Р°Рє РєР°Рє СЂР°РЅРµРµ СѓР¶Рµ РёСЃРїРѕР»СЊР·РѕРІР°Р»РѕСЃСЊ РёРјСЏ РїРµСЂРµРјРµРЅРЅРѕР№ dateBeginMonth (РЅР° Р›РёСЃС‚3))
 Function monthStartDate(In_Date) As Date
-    ' Дата начала месяца
+    ' Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РјРµСЃСЏС†Р°
     monthStartDate = CDate("01." + Mid(CStr(In_Date), 4, 7))
 End Function
 
-' 63. Получение даты из Отчета: "Отчет обновлен на 20.03.2020 за 20.03.2020 (16.30)" или "Отчет обновлен на 23.03.2020 за 20-22.03.2020 (полный день)"
-Function getDate_Отчет_План_Факт_по_продуктам_ИСЖ_НСЖ(In_StringWithDate) As Date
-Dim позиция_скобки As Byte
-  позиция_скобки = InStr(In_StringWithDate, "(")
-  getDate_Отчет_План_Факт_по_продуктам_ИСЖ_НСЖ = CDate(Mid(In_StringWithDate, позиция_скобки - 11, 10))
+' 63. РџРѕР»СѓС‡РµРЅРёРµ РґР°С‚С‹ РёР· РћС‚С‡РµС‚Р°: "РћС‚С‡РµС‚ РѕР±РЅРѕРІР»РµРЅ РЅР° 20.03.2020 Р·Р° 20.03.2020 (16.30)" РёР»Рё "РћС‚С‡РµС‚ РѕР±РЅРѕРІР»РµРЅ РЅР° 23.03.2020 Р·Р° 20-22.03.2020 (РїРѕР»РЅС‹Р№ РґРµРЅСЊ)"
+Function getDate_РћС‚С‡РµС‚_РџР»Р°РЅ_Р¤Р°РєС‚_РїРѕ_РїСЂРѕРґСѓРєС‚Р°Рј_РРЎР–_РќРЎР–(In_StringWithDate) As Date
+Dim РїРѕР·РёС†РёСЏ_СЃРєРѕР±РєРё As Byte
+  РїРѕР·РёС†РёСЏ_СЃРєРѕР±РєРё = InStr(In_StringWithDate, "(")
+  getDate_РћС‚С‡РµС‚_РџР»Р°РЅ_Р¤Р°РєС‚_РїРѕ_РїСЂРѕРґСѓРєС‚Р°Рј_РРЎР–_РќРЎР– = CDate(Mid(In_StringWithDate, РїРѕР·РёС†РёСЏ_СЃРєРѕР±РєРё - 11, 10))
 End Function
 
-' 64. "Хэштег2" на листе
+' 64. "РҐСЌС€С‚РµРі2" РЅР° Р»РёСЃС‚Рµ
 Function hashTagFromSheet2(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
-    ' Находим ячейку "Хэштэг:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Хэштэг2:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РҐСЌС€С‚СЌРі:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РҐСЌС€С‚СЌРі2:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
     hashTagFromSheet2 = ThisWorkbook.Sheets(In_Sheet).Cells(Range_Row, Range_Column + 1).Value
 End Function
 
-' 65. Тема2: на листе
+' 65. РўРµРјР°2: РЅР° Р»РёСЃС‚Рµ
 Function subjectFromSheet2(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Тема:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Тема2:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РўРµРјР°:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РўРµРјР°2:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2670,13 +2670,13 @@ Dim Range_Row, Range_Column As Byte
       
 End Function
 
-' 66. Список получателей: на листе
+' 66. РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№: РЅР° Р»РёСЃС‚Рµ
 Function recipientList(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Список получателей:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Список получателей:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2684,13 +2684,13 @@ Dim Range_Row, Range_Column As Byte
       
 End Function
 
-' 66.2 Список получателей2: на листе
+' 66.2 РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2: РЅР° Р»РёСЃС‚Рµ
 Function recipientList2(In_Sheet) As String
 Dim Range_str As String
 Dim Range_Row, Range_Column As Byte
     
-    ' Находим ячейку "Список получателей2:"
-    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "Список получателей2:", 100, 100)
+    ' РќР°С…РѕРґРёРј СЏС‡РµР№РєСѓ "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:"
+    Range_str = RangeByValue(ThisWorkbook.Name, In_Sheet, "РЎРїРёСЃРѕРє РїРѕР»СѓС‡Р°С‚РµР»РµР№2:", 100, 100)
     Range_Row = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Row
     Range_Column = Workbooks(ThisWorkbook.Name).Sheets(In_Sheet).Range(Range_str).Column
     '
@@ -2698,89 +2698,89 @@ Dim Range_Row, Range_Column As Byte
       
 End Function
 
-' 67. Город по наименованию офиса
+' 67. Р“РѕСЂРѕРґ РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ РѕС„РёСЃР°
 ' Function cityOfficeName(In_Office2_Name As String) As String
 Function cityOfficeName(In_Office2_Name) As String
 
   cityOfficeName = In_Office2_Name
-  ' Тюмень
-  If InStr(In_Office2_Name, "Тюменский") <> 0 Then
-    cityOfficeName = "Тюмень"
+  ' РўСЋРјРµРЅСЊ
+  If InStr(In_Office2_Name, "РўСЋРјРµРЅСЃРєРёР№") <> 0 Then
+    cityOfficeName = "РўСЋРјРµРЅСЊ"
   End If
-  ' Сургут
-  If InStr(In_Office2_Name, "Сургутский") <> 0 Then
-    cityOfficeName = "Сургут"
+  ' РЎСѓСЂРіСѓС‚
+  If InStr(In_Office2_Name, "РЎСѓСЂРіСѓС‚СЃРєРёР№") <> 0 Then
+    cityOfficeName = "РЎСѓСЂРіСѓС‚"
   End If
-  ' Нижневартовск
-  If InStr(In_Office2_Name, "Нижневартовский") <> 0 Then
-    cityOfficeName = "Н-Вартовск"
+  ' РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРє
+  If InStr(In_Office2_Name, "РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№") <> 0 Then
+    cityOfficeName = "Рќ-Р’Р°СЂС‚РѕРІСЃРє"
   End If
-  ' Новый Уренгой
-  If InStr(In_Office2_Name, "Новоуренгойский") <> 0 Then
-    cityOfficeName = "Н-Уренгой"
+  ' РќРѕРІС‹Р№ РЈСЂРµРЅРіРѕР№
+  If InStr(In_Office2_Name, "РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№") <> 0 Then
+    cityOfficeName = "Рќ-РЈСЂРµРЅРіРѕР№"
   End If
-  ' Тарко-Сале
-  If InStr(In_Office2_Name, "Тарко-Сале") <> 0 Then
-    cityOfficeName = "Тарко-Сале"
+  ' РўР°СЂРєРѕ-РЎР°Р»Рµ
+  If InStr(In_Office2_Name, "РўР°СЂРєРѕ-РЎР°Р»Рµ") <> 0 Then
+    cityOfficeName = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
   End If
 End Function
 
-' 67.2 Город по наименованию офиса
+' 67.2 Р“РѕСЂРѕРґ РїРѕ РЅР°РёРјРµРЅРѕРІР°РЅРёСЋ РѕС„РёСЃР°
 Function cityOfficeNameByNumber(In_NumberOffice) As String
 
           Select Case In_NumberOffice
-          Case 1 ' ОО «Тюменский»
-            cityOfficeNameByNumber = "Тюмень"
-          Case 2 ' ОО «Сургутский»
-            cityOfficeNameByNumber = "Сургут"
-          Case 3 ' ОО «Нижневартовский»
-            cityOfficeNameByNumber = "Н-Вартовск"
-          Case 4 ' ОО «Новоуренгойский»
-            cityOfficeNameByNumber = "Н-Уренгой"
-          Case 5 ' ОО «Тарко-Сале»
-            cityOfficeNameByNumber = "Тарко-Сале"
+          Case 1 ' РћРћ В«РўСЋРјРµРЅСЃРєРёР№В»
+            cityOfficeNameByNumber = "РўСЋРјРµРЅСЊ"
+          Case 2 ' РћРћ В«РЎСѓСЂРіСѓС‚СЃРєРёР№В»
+            cityOfficeNameByNumber = "РЎСѓСЂРіСѓС‚"
+          Case 3 ' РћРћ В«РќРёР¶РЅРµРІР°СЂС‚РѕРІСЃРєРёР№В»
+            cityOfficeNameByNumber = "Рќ-Р’Р°СЂС‚РѕРІСЃРє"
+          Case 4 ' РћРћ В«РќРѕРІРѕСѓСЂРµРЅРіРѕР№СЃРєРёР№В»
+            cityOfficeNameByNumber = "Рќ-РЈСЂРµРЅРіРѕР№"
+          Case 5 ' РћРћ В«РўР°СЂРєРѕ-РЎР°Р»РµВ»
+            cityOfficeNameByNumber = "РўР°СЂРєРѕ-РЎР°Р»Рµ"
         End Select
 
 
 End Function
 
 
-' 68. Дата начала квартала (для рассчета накопительным по кварталу)
+' 68. Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РєРІР°СЂС‚Р°Р»Р° (РґР»СЏ СЂР°СЃСЃС‡РµС‚Р° РЅР°РєРѕРїРёС‚РµР»СЊРЅС‹Рј РїРѕ РєРІР°СЂС‚Р°Р»Сѓ)
 Function quarterStartDate(In_Date) As Date
 
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
           quarterStartDate = CDate("01.01." + CStr(Year(In_Date)))
-        ' 2 кв. - 01.04.YYYY
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
           quarterStartDate = CDate("01.04." + CStr(Year(In_Date)))
-        ' 3 кв. - 01.07.YYYY
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
           quarterStartDate = CDate("01.07." + CStr(Year(In_Date)))
-        ' 4 кв. - 01.10.YYYY
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
           quarterStartDate = CDate("01.10." + CStr(Year(In_Date)))
       End Select
   
 End Function
 
-' 68.1 Дата начала второго месяца квартала
+' 68.1 Р”Р°С‚Р° РЅР°С‡Р°Р»Р° РІС‚РѕСЂРѕРіРѕ РјРµСЃСЏС†Р° РєРІР°СЂС‚Р°Р»Р°
 Function quarterSecondMonthStartDate(In_Date) As Date
 
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
           quarterSecondMonthStartDate = CDate("01.02." + CStr(Year(In_Date)))
-        ' 2 кв. - 01.04.YYYY
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
           quarterSecondMonthStartDate = CDate("01.05." + CStr(Year(In_Date)))
-        ' 3 кв. - 01.07.YYYY
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
           quarterSecondMonthStartDate = CDate("01.08." + CStr(Year(In_Date)))
-        ' 4 кв. - 01.10.YYYY
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
           quarterSecondMonthStartDate = CDate("01.11." + CStr(Year(In_Date)))
       End Select
@@ -2788,63 +2788,63 @@ Function quarterSecondMonthStartDate(In_Date) As Date
 End Function
 
 
-' 69. Наименование квартала (по дате)
+' 69. РќР°РёРјРµРЅРѕРІР°РЅРёРµ РєРІР°СЂС‚Р°Р»Р° (РїРѕ РґР°С‚Рµ)
 Function quarterName(In_Date) As String
 
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
-          quarterName = "1 кв. " + CStr(Year(In_Date)) + " г."
-        ' 2 кв. - 01.04.YYYY
+          quarterName = "1 РєРІ. " + CStr(Year(In_Date)) + " Рі."
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
-          quarterName = "2 кв. " + CStr(Year(In_Date)) + " г."
-        ' 3 кв. - 01.07.YYYY
+          quarterName = "2 РєРІ. " + CStr(Year(In_Date)) + " Рі."
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
-          quarterName = "3 кв. " + CStr(Year(In_Date)) + " г."
-        ' 4 кв. - 01.10.YYYY
+          quarterName = "3 РєРІ. " + CStr(Year(In_Date)) + " Рі."
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
-          quarterName = "4 кв. " + CStr(Year(In_Date)) + " г."
+          quarterName = "4 РєРІ. " + CStr(Year(In_Date)) + " Рі."
       End Select
   
 End Function
 
-' 69.1 Наименование квартала (по дате)
+' 69.1 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РєРІР°СЂС‚Р°Р»Р° (РїРѕ РґР°С‚Рµ)
 Function quarterName2(In_Date) As String
 
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
-          quarterName2 = "1Q " + CStr(Year(In_Date)) + " г."
-        ' 2 кв. - 01.04.YYYY
+          quarterName2 = "1Q " + CStr(Year(In_Date)) + " Рі."
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
-          quarterName2 = "2Q " + CStr(Year(In_Date)) + " г."
-        ' 3 кв. - 01.07.YYYY
+          quarterName2 = "2Q " + CStr(Year(In_Date)) + " Рі."
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
-          quarterName2 = "3Q " + CStr(Year(In_Date)) + " г."
-        ' 4 кв. - 01.10.YYYY
+          quarterName2 = "3Q " + CStr(Year(In_Date)) + " Рі."
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
-          quarterName2 = "4Q " + CStr(Year(In_Date)) + " г."
+          quarterName2 = "4Q " + CStr(Year(In_Date)) + " Рі."
       End Select
   
 End Function
 
-' 69.2 Наименование квартала (по дате)
+' 69.2 РќР°РёРјРµРЅРѕРІР°РЅРёРµ РєРІР°СЂС‚Р°Р»Р° (РїРѕ РґР°С‚Рµ)
 Function quarterName3(In_Date) As String
 
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
           quarterName3 = "1Q " + CStr(Year(In_Date))
-        ' 2 кв. - 01.04.YYYY
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
           quarterName3 = "2Q " + CStr(Year(In_Date))
-        ' 3 кв. - 01.07.YYYY
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
           quarterName3 = "3Q " + CStr(Year(In_Date))
-        ' 4 кв. - 01.10.YYYY
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
           quarterName3 = "4Q " + CStr(Year(In_Date))
       End Select
@@ -2852,21 +2852,21 @@ Function quarterName3(In_Date) As String
 End Function
 
 
-' 69.3 Подстрока Квартал + Год "1Q20" из Даты
+' 69.3 РџРѕРґСЃС‚СЂРѕРєР° РљРІР°СЂС‚Р°Р» + Р“РѕРґ "1Q20" РёР· Р”Р°С‚С‹
 Function strNQYY(In_Date) As String
   
-  ' Месяц
+  ' РњРµСЃСЏС†
   Select Case Month(In_Date)
-        ' 1 кв. - 01.01.YYYY
+        ' 1 РєРІ. - 01.01.YYYY
         Case 1, 2, 3
           strNQYY = "1Q" + Mid(CStr(Year(In_Date)), 3, 2)
-        ' 2 кв. - 01.04.YYYY
+        ' 2 РєРІ. - 01.04.YYYY
         Case 4, 5, 6
           strNQYY = "2Q" + Mid(CStr(Year(In_Date)), 3, 2)
-        ' 3 кв. - 01.07.YYYY
+        ' 3 РєРІ. - 01.07.YYYY
         Case 7, 8, 9
           strNQYY = "3Q" + Mid(CStr(Year(In_Date)), 3, 2)
-        ' 4 кв. - 01.10.YYYY
+        ' 4 РєРІ. - 01.10.YYYY
         Case 10, 11, 12
           strNQYY = "4Q" + Mid(CStr(Year(In_Date)), 3, 2)
       End Select
@@ -2875,114 +2875,114 @@ Function strNQYY(In_Date) As String
 End Function
 
 
-' 70. Заливка ячейки цветом "светофор" - значение In_Value в %, In_Target в %
+' 70. Р—Р°Р»РёРІРєР° СЏС‡РµР№РєРё С†РІРµС‚РѕРј "СЃРІРµС‚РѕС„РѕСЂ" - Р·РЅР°С‡РµРЅРёРµ In_Value РІ %, In_Target РІ %
 Sub Full_Color_RangeII(In_list, In_Row, In_Column, In_Value, In_Target)
   
   ' In_Value = In_Value * 100
   
   In_Value_tmp = (In_Value / In_Target) * 100
   
-  ' Если до этого ячейка была цветная - сбрасываем цвет
+  ' Р•СЃР»Рё РґРѕ СЌС‚РѕРіРѕ СЏС‡РµР№РєР° Р±С‹Р»Р° С†РІРµС‚РЅР°СЏ - СЃР±СЂР°СЃС‹РІР°РµРј С†РІРµС‚
   ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = xlNone
-  ' Цвет текста - черный
+  ' Р¦РІРµС‚ С‚РµРєСЃС‚Р° - С‡РµСЂРЅС‹Р№
   ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Font.Color = vbBlack
-  ' От 100% и выше - Зеленый
+  ' РћС‚ 100% Рё РІС‹С€Рµ - Р—РµР»РµРЅС‹Р№
   If (In_Value_tmp >= 100) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbGreen
   End If
-  ' От 90%-100% - Желтый
+  ' РћС‚ 90%-100% - Р–РµР»С‚С‹Р№
   If (In_Value_tmp >= 90) And (In_Value_tmp < 100) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbYellow
   End If
-  ' От 0% - 90% - Красный
+  ' РћС‚ 0% - 90% - РљСЂР°СЃРЅС‹Р№
   If (In_Value_tmp < 90) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbRed
   End If
   
 End Sub
 
-' 70.1 Заливка ячейки цветом "светофор" - значение In_Value в %, In_Target в %. In_Yelow - уровень желтой зоны: 85% или 90%, значение передавать: 85 или 90
+' 70.1 Р—Р°Р»РёРІРєР° СЏС‡РµР№РєРё С†РІРµС‚РѕРј "СЃРІРµС‚РѕС„РѕСЂ" - Р·РЅР°С‡РµРЅРёРµ In_Value РІ %, In_Target РІ %. In_Yelow - СѓСЂРѕРІРµРЅСЊ Р¶РµР»С‚РѕР№ Р·РѕРЅС‹: 85% РёР»Рё 90%, Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРґР°РІР°С‚СЊ: 85 РёР»Рё 90
 Sub Full_Color_RangeIII(In_list, In_Row, In_Column, In_Value, In_Target, In_Yelow)
   
   ' In_Value = In_Value * 100
   
   In_Value_tmp = (In_Value / In_Target) * 100
   
-  ' Если до этого ячейка была цветная - сбрасываем цвет
+  ' Р•СЃР»Рё РґРѕ СЌС‚РѕРіРѕ СЏС‡РµР№РєР° Р±С‹Р»Р° С†РІРµС‚РЅР°СЏ - СЃР±СЂР°СЃС‹РІР°РµРј С†РІРµС‚
   ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = xlNone
-  ' Цвет текста - черный
+  ' Р¦РІРµС‚ С‚РµРєСЃС‚Р° - С‡РµСЂРЅС‹Р№
   ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Font.Color = vbBlack
   
-  ' От 100% и выше - Зеленый
+  ' РћС‚ 100% Рё РІС‹С€Рµ - Р—РµР»РµРЅС‹Р№
   If (In_Value_tmp >= 100) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbGreen
   End If
   
-  ' От In_Yelow%-100% - Желтый
+  ' РћС‚ In_Yelow%-100% - Р–РµР»С‚С‹Р№
   If (In_Value_tmp >= In_Yelow) And (In_Value_tmp < 100) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbYellow
   End If
-  ' От 0% - In_Yelow% - Красный
+  ' РћС‚ 0% - In_Yelow% - РљСЂР°СЃРЅС‹Р№
   If (In_Value_tmp < In_Yelow) Then
     ThisWorkbook.Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbRed
   End If
   
 End Sub
 
-' 70.2 Заливка ячейки цветом "светофор" - значение In_Value в %, In_Target в %. In_Yelow - уровень желтой зоны: 85% или 90%, значение передавать: 85 или 90
+' 70.2 Р—Р°Р»РёРІРєР° СЏС‡РµР№РєРё С†РІРµС‚РѕРј "СЃРІРµС‚РѕС„РѕСЂ" - Р·РЅР°С‡РµРЅРёРµ In_Value РІ %, In_Target РІ %. In_Yelow - СѓСЂРѕРІРµРЅСЊ Р¶РµР»С‚РѕР№ Р·РѕРЅС‹: 85% РёР»Рё 90%, Р·РЅР°С‡РµРЅРёРµ РїРµСЂРµРґР°РІР°С‚СЊ: 85 РёР»Рё 90
 Sub Full_Color_RangeIV(In_Book, In_list, In_Row, In_Column, In_Value, In_Target, In_Yelow)
   
   ' In_Value = In_Value * 100
   
-  ' План не ноль (иначе возникает ошибка при делении на нуль)
+  ' РџР»Р°РЅ РЅРµ РЅРѕР»СЊ (РёРЅР°С‡Рµ РІРѕР·РЅРёРєР°РµС‚ РѕС€РёР±РєР° РїСЂРё РґРµР»РµРЅРёРё РЅР° РЅСѓР»СЊ)
   If In_Target <> 0 Then
   
     In_Value_tmp = (In_Value / In_Target) * 100
   
-    ' Если до этого ячейка была цветная - сбрасываем цвет
+    ' Р•СЃР»Рё РґРѕ СЌС‚РѕРіРѕ СЏС‡РµР№РєР° Р±С‹Р»Р° С†РІРµС‚РЅР°СЏ - СЃР±СЂР°СЃС‹РІР°РµРј С†РІРµС‚
     Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = xlNone
-    ' Цвет текста - черный
+    ' Р¦РІРµС‚ С‚РµРєСЃС‚Р° - С‡РµСЂРЅС‹Р№
     Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Font.Color = vbBlack
   
-    ' От 100% и выше - Зеленый
+    ' РћС‚ 100% Рё РІС‹С€Рµ - Р—РµР»РµРЅС‹Р№
     If (In_Value_tmp >= 100) Then
       Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbGreen
     End If
   
-    ' От In_Yelow%-100% - Желтый
+    ' РћС‚ In_Yelow%-100% - Р–РµР»С‚С‹Р№
     If (In_Value_tmp >= In_Yelow) And (In_Value_tmp < 100) Then
       Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbYellow
     End If
     
-    ' От 0% - In_Yelow% - Красный
+    ' РћС‚ 0% - In_Yelow% - РљСЂР°СЃРЅС‹Р№
     If (In_Value_tmp < In_Yelow) Then
       Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbRed
     End If
   
-  End If ' План не ноль (иначе возникает ошибка)
+  End If ' РџР»Р°РЅ РЅРµ РЅРѕР»СЊ (РёРЅР°С‡Рµ РІРѕР·РЅРёРєР°РµС‚ РѕС€РёР±РєР°)
   
 End Sub
 
-' 70.3 Заливка ячейки цветом "светофор" - значение In_Value в %, In_Target в %
+' 70.3 Р—Р°Р»РёРІРєР° СЏС‡РµР№РєРё С†РІРµС‚РѕРј "СЃРІРµС‚РѕС„РѕСЂ" - Р·РЅР°С‡РµРЅРёРµ In_Value РІ %, In_Target РІ %
 Sub Full_Color_RangeV(In_Book, In_list, In_Row, In_Column, In_Value, In_Target)
   
   ' In_Value = In_Value * 100
   
   In_Value_tmp = (In_Value / In_Target) * 100
   
-  ' Если до этого ячейка была цветная - сбрасываем цвет
+  ' Р•СЃР»Рё РґРѕ СЌС‚РѕРіРѕ СЏС‡РµР№РєР° Р±С‹Р»Р° С†РІРµС‚РЅР°СЏ - СЃР±СЂР°СЃС‹РІР°РµРј С†РІРµС‚
   Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = xlNone
-  ' Цвет текста - черный
+  ' Р¦РІРµС‚ С‚РµРєСЃС‚Р° - С‡РµСЂРЅС‹Р№
   Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Font.Color = vbBlack
-  ' От 100% и выше - Зеленый
+  ' РћС‚ 100% Рё РІС‹С€Рµ - Р—РµР»РµРЅС‹Р№
   If (In_Value_tmp >= 100) Then
     Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbGreen
   End If
-  ' От 90%-100% - Желтый
+  ' РћС‚ 90%-100% - Р–РµР»С‚С‹Р№
   If (In_Value_tmp >= 90) And (In_Value_tmp < 100) Then
     Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbYellow
   End If
-  ' От 0% - 90% - Красный
+  ' РћС‚ 0% - 90% - РљСЂР°СЃРЅС‹Р№
   If (In_Value_tmp < 90) Then
     Workbooks(In_Book).Sheets(In_list).Cells(In_Row, In_Column).Interior.Color = vbRed
   End If
@@ -2990,13 +2990,13 @@ Sub Full_Color_RangeV(In_Book, In_list, In_Row, In_Column, In_Value, In_Target)
 End Sub
 
 
-' 71. Установка факта План по офису на листе "План": Месяц (1-12), Офис (1-5)
+' 71. РЈСЃС‚Р°РЅРѕРІРєР° С„Р°РєС‚Р° РџР»Р°РЅ РїРѕ РѕС„РёСЃСѓ РЅР° Р»РёСЃС‚Рµ "РџР»Р°РЅ": РњРµСЃСЏС† (1-12), РћС„РёСЃ (1-5)
 Sub setResultValue(In_Month, In_Office, In_Value)
   
-  ' Строка с офисом
+  ' РЎС‚СЂРѕРєР° СЃ РѕС„РёСЃРѕРј
   row_N = In_Office + 5
   
-  ' Месяц - к номеру месяца прибавляем 3
+  ' РњРµСЃСЏС† - Рє РЅРѕРјРµСЂСѓ РјРµСЃСЏС†Р° РїСЂРёР±Р°РІР»СЏРµРј 3
   ' column_n = (2 * In_Month) + 2
   Select Case In_Month
       Case 1
@@ -3025,39 +3025,39 @@ Sub setResultValue(In_Month, In_Office, In_Value)
         column_n = 32
   End Select
   
-  ' Выводим значение
-  ThisWorkbook.Sheets("План").Cells(row_N, column_n).Value = In_Value
+  ' Р’С‹РІРѕРґРёРј Р·РЅР°С‡РµРЅРёРµ
+  ThisWorkbook.Sheets("РџР»Р°РЅ").Cells(row_N, column_n).Value = In_Value
     
 End Sub
 
-' 72. Получение информации по действующим сотрудникам из Таблицы BASE\ActiveStaff getInfoFromActiveStaff
+' 72. РџРѕР»СѓС‡РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё РїРѕ РґРµР№СЃС‚РІСѓСЋС‰РёРј СЃРѕС‚СЂСѓРґРЅРёРєР°Рј РёР· РўР°Р±Р»РёС†С‹ BASE\ActiveStaff getInfoFromActiveStaff
 Function getInfoFromActiveStaff(In_TabNumber) As String
 Dim rowCount As Integer
 
-  ' Убираем фильтр, иначе поиск не по всей таблице
-  If Workbooks("ActiveStaff").Sheets("Лист1").AutoFilterMode = True Then
-    ' Выключаем Автофильтр
-    Workbooks("ActiveStaff").Sheets("Лист1").Cells(1, 1).AutoFilter
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+  If Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+    Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
   End If
 
-  ' Иницииализация результата
+  ' РРЅРёС†РёРёР°Р»РёР·Р°С†РёСЏ СЂРµР·СѓР»СЊС‚Р°С‚Р°
   getInfoFromActiveStaff = ""
   
-  ' Проверяем наличие записи
-  Set searchResults = Workbooks("ActiveStaff").Sheets("Лист1").Columns("A:A").Find(In_TabNumber, LookAt:=xlWhole)
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ Р·Р°РїРёСЃРё
+  Set searchResults = Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").Columns("A:A").Find(In_TabNumber, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
     
-    ' Если не найдена - вставляем. Не работает!
-    ' MsgBox (Workbooks("ActiveStaff").Sheets("Лист1").CountA(Columns(1))) - хотел найти число заполненных записей через CountA
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР° - РІСЃС‚Р°РІР»СЏРµРј. РќРµ СЂР°Р±РѕС‚Р°РµС‚!
+    ' MsgBox (Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").CountA(Columns(1))) - С…РѕС‚РµР» РЅР°Р№С‚Рё С‡РёСЃР»Рѕ Р·Р°РїРѕР»РЅРµРЅРЅС‹С… Р·Р°РїРёСЃРµР№ С‡РµСЂРµР· CountA
     
   Else
     
-    ' Если найдена:
-    ' Дата увольнения
-    If Workbooks("ActiveStaff").Sheets("Лист1").Cells(searchResults.Row, 5).Value <> "" Then
-      getInfoFromActiveStaff = "Уволен " + CStr(Workbooks("ActiveStaff").Sheets("Лист1").Cells(searchResults.Row, 5).Value) + " г."
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°:
+    ' Р”Р°С‚Р° СѓРІРѕР»СЊРЅРµРЅРёСЏ
+    If Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").Cells(searchResults.Row, 5).Value <> "" Then
+      getInfoFromActiveStaff = "РЈРІРѕР»РµРЅ " + CStr(Workbooks("ActiveStaff").Sheets("Р›РёСЃС‚1").Cells(searchResults.Row, 5).Value) + " Рі."
     End If
      
   End If
@@ -3065,18 +3065,18 @@ Dim rowCount As Integer
   
 End Function
 
-' 73. Преобразовать "MMYY" в номер месяца (Int)
+' 73. РџСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ "MMYY" РІ РЅРѕРјРµСЂ РјРµСЃСЏС†Р° (Int)
 Function decodeMMYY(In_MMYY) As Byte
   decodeMMYY = CInt(Mid(In_MMYY, 1, 2))
 End Function
 
-' 74. "MMYY" в номер месяца в январь 2020
+' 74. "MMYY" РІ РЅРѕРјРµСЂ РјРµСЃСЏС†Р° РІ СЏРЅРІР°СЂСЊ 2020
 Function decodeMMYY2(In_MMYY) As String
-  decodeMMYY2 = ИмяМесяца(CDate("01." + Mid(In_MMYY, 1, 2) + ".2020")) + " 20" + Mid(In_MMYY, 3, 2)
+  decodeMMYY2 = РРјСЏРњРµСЃСЏС†Р°(CDate("01." + Mid(In_MMYY, 1, 2) + ".2020")) + " 20" + Mid(In_MMYY, 3, 2)
 End Function
 
-' 75. Чтение из буфера обмена (взято из Интернет http://www.excelworld.ru/forum/10-4692-1)
-' Внимание - выдает ошибку, если в буффере обмена ничего нет
+' 75. Р§С‚РµРЅРёРµ РёР· Р±СѓС„РµСЂР° РѕР±РјРµРЅР° (РІР·СЏС‚Рѕ РёР· РРЅС‚РµСЂРЅРµС‚ http://www.excelworld.ru/forum/10-4692-1)
+' Р’РЅРёРјР°РЅРёРµ - РІС‹РґР°РµС‚ РѕС€РёР±РєСѓ, РµСЃР»Рё РІ Р±СѓС„С„РµСЂРµ РѕР±РјРµРЅР° РЅРёС‡РµРіРѕ РЅРµС‚
 Function ClipboardText()
     With GetObject("New:{1C3B4210-F441-11CE-B9EA-00AA006B1A69}")
         .GetFromClipboard
@@ -3084,7 +3084,7 @@ Function ClipboardText()
     End With
 End Function
 
-' 76. Запись в буфер обмена (взято из Интернет http://www.excelworld.ru/forum/10-4692-1)
+' 76. Р—Р°РїРёСЃСЊ РІ Р±СѓС„РµСЂ РѕР±РјРµРЅР° (РІР·СЏС‚Рѕ РёР· РРЅС‚РµСЂРЅРµС‚ http://www.excelworld.ru/forum/10-4692-1)
 Sub SetClipboardText(ByVal txt$)
     With GetObject("New:{1C3B4210-F441-11CE-B9EA-00AA006B1A69}")
         .SetText txt$
@@ -3092,7 +3092,7 @@ Sub SetClipboardText(ByVal txt$)
     End With
 End Sub
 
-' 77. Получение имени Листа из DB
+' 77. РџРѕР»СѓС‡РµРЅРёРµ РёРјРµРЅРё Р›РёСЃС‚Р° РёР· DB
 Function FindNameSheet(In_Workbooks, In_StringInSheet) As String
 Dim i As Integer
 
@@ -3100,7 +3100,7 @@ Dim i As Integer
     
   For i = 1 To Workbooks(In_Workbooks).Sheets.Count
        
-    ' В Dashboard_new_РБ_09.09.2021 "неверная ссылка вперед или ссылка на неоткомпилированный тип" на листе с индексом 5
+    ' Р’ Dashboard_new_Р Р‘_09.09.2021 "РЅРµРІРµСЂРЅР°СЏ СЃСЃС‹Р»РєР° РІРїРµСЂРµРґ РёР»Рё СЃСЃС‹Р»РєР° РЅР° РЅРµРѕС‚РєРѕРјРїРёР»РёСЂРѕРІР°РЅРЅС‹Р№ С‚РёРї" РЅР° Р»РёСЃС‚Рµ СЃ РёРЅРґРµРєСЃРѕРј 5
     If i <> 5 Then
     
       t = Workbooks(In_Workbooks).Sheets.Count
@@ -3109,10 +3109,10 @@ Dim i As Integer
       t4 = InStr(Workbooks(In_Workbooks).Sheets(i).Name, ".")
       t5 = Workbooks(In_Workbooks).Sheets(i).Name
     
-      ' Ищем в имени листа подстроку + добавил 06.11 поиск ".", потому как был "Комм доход данные"
+      ' РС‰РµРј РІ РёРјРµРЅРё Р»РёСЃС‚Р° РїРѕРґСЃС‚СЂРѕРєСѓ + РґРѕР±Р°РІРёР» 06.11 РїРѕРёСЃРє ".", РїРѕС‚РѕРјСѓ РєР°Рє Р±С‹Р» "РљРѕРјРј РґРѕС…РѕРґ РґР°РЅРЅС‹Рµ"
       If (InStr(Workbooks(In_Workbooks).Sheets(i).Name, In_StringInSheet) <> 0) And ((InStr(Workbooks(In_Workbooks).Sheets(i).Name, ".") <> 0)) Then
       
-        ' Проверяем  - видимый ли этот Лист? В DB очень много скрытых листов с одинаковыми названиями
+        ' РџСЂРѕРІРµСЂСЏРµРј  - РІРёРґРёРјС‹Р№ Р»Рё СЌС‚РѕС‚ Р›РёСЃС‚? Р’ DB РѕС‡РµРЅСЊ РјРЅРѕРіРѕ СЃРєСЂС‹С‚С‹С… Р»РёСЃС‚РѕРІ СЃ РѕРґРёРЅР°РєРѕРІС‹РјРё РЅР°Р·РІР°РЅРёСЏРјРё
         If Workbooks(In_Workbooks).Sheets(i).Visible = xlSheetVisible Then
           FindNameSheet = Workbooks(In_Workbooks).Sheets(i).Name
         End If
@@ -3124,146 +3124,146 @@ Dim i As Integer
   Next
 End Function
 
-' 78. Округление до большего при значении <1
-Function ОкруглениеБольше(In_Value) As Integer
-  ' Текущее округление
-  ОкруглениеБольше = Round(In_Value, 0)
-  ' Если значение <1, то округляем до 1
+' 78. РћРєСЂСѓРіР»РµРЅРёРµ РґРѕ Р±РѕР»СЊС€РµРіРѕ РїСЂРё Р·РЅР°С‡РµРЅРёРё <1
+Function РћРєСЂСѓРіР»РµРЅРёРµР‘РѕР»СЊС€Рµ(In_Value) As Integer
+  ' РўРµРєСѓС‰РµРµ РѕРєСЂСѓРіР»РµРЅРёРµ
+  РћРєСЂСѓРіР»РµРЅРёРµР‘РѕР»СЊС€Рµ = Round(In_Value, 0)
+  ' Р•СЃР»Рё Р·РЅР°С‡РµРЅРёРµ <1, С‚Рѕ РѕРєСЂСѓРіР»СЏРµРј РґРѕ 1
   If (In_Value > 0) And (In_Value < 1) Then
-    ОкруглениеБольше = 1
+    РћРєСЂСѓРіР»РµРЅРёРµР‘РѕР»СЊС€Рµ = 1
   End If
-  ' Если значение <0, то выдаем всегда 0
+  ' Р•СЃР»Рё Р·РЅР°С‡РµРЅРёРµ <0, С‚Рѕ РІС‹РґР°РµРј РІСЃРµРіРґР° 0
   If (In_Value <= 0) Then
-    ОкруглениеБольше = 0
+    РћРєСЂСѓРіР»РµРЅРёРµР‘РѕР»СЊС€Рµ = 0
   End If
 End Function
 
-' 79. Прогноз месяца с учетом и без учета нерабочих дней: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-ти/6-ти дневка), In_NonWorkingDays = 1/0 (учитывать нерабочие дни из BASE\NonWorkingDays)
-Function Прогноз_месяца(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
+' 79. РџСЂРѕРіРЅРѕР· РјРµСЃСЏС†Р° СЃ СѓС‡РµС‚РѕРј Рё Р±РµР· СѓС‡РµС‚Р° РЅРµСЂР°Р±РѕС‡РёС… РґРЅРµР№: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-С‚Рё/6-С‚Рё РґРЅРµРІРєР°), In_NonWorkingDays = 1/0 (СѓС‡РёС‚С‹РІР°С‚СЊ РЅРµСЂР°Р±РѕС‡РёРµ РґРЅРё РёР· BASE\NonWorkingDays)
+Function РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р°(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
   
-  Дата_начала_Месяца = Date_begin_day_month(In_Date)
+  Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р° = Date_begin_day_month(In_Date)
   
-  Дата_конца_месяца = Date_last_day_month(In_Date)
+  Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р° = Date_last_day_month(In_Date)
   
-  Число_прошедших_раб_дней = Working_days_between_dates(Дата_начала_Месяца, In_Date, 5)
+  Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, In_Date, 5)
   
   If In_NonWorkingDays = 1 Then
-    Число_раб_дней_месяц = Working_days_between_datesII(Дата_начала_Месяца, Дата_конца_месяца, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС† = Working_days_between_datesII(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р°, 5)
   Else
-    Число_раб_дней_месяц = Working_days_between_dates(Дата_начала_Месяца, Дата_конца_месяца, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС† = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р°, 5)
   End If
   
-  Прогноз_месяца = (In_Fact / Число_прошедших_раб_дней) * Число_раб_дней_месяц
+  РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р° = (In_Fact / Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№) * Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС†
 
 End Function
 
-' 79.1 Прогноз квартала с учетом и без учета нерабочих дней: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-ти/6-ти дневка), In_NonWorkingDays = 1/0 (учитывать нерабочие дни из BASE\NonWorkingDays)
-Function Прогноз_квартала(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
+' 79.1 РџСЂРѕРіРЅРѕР· РєРІР°СЂС‚Р°Р»Р° СЃ СѓС‡РµС‚РѕРј Рё Р±РµР· СѓС‡РµС‚Р° РЅРµСЂР°Р±РѕС‡РёС… РґРЅРµР№: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-С‚Рё/6-С‚Рё РґРЅРµРІРєР°), In_NonWorkingDays = 1/0 (СѓС‡РёС‚С‹РІР°С‚СЊ РЅРµСЂР°Р±РѕС‡РёРµ РґРЅРё РёР· BASE\NonWorkingDays)
+Function РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
   
-  Дата_начала_квартала = quarterStartDate(In_Date)
+  Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р° = quarterStartDate(In_Date)
   
-  Дата_конца_квартала = Date_last_day_quarter(In_Date)
+  Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р° = Date_last_day_quarter(In_Date)
   
-  Число_прошедших_раб_дней = Working_days_between_dates(Дата_начала_квартала, In_Date, 5)
+  Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, In_Date, 5)
   
   If In_NonWorkingDays = 1 Then
-    Число_раб_дней_квартал = Working_days_between_datesII(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_datesII(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   Else
-    Число_раб_дней_квартал = Working_days_between_dates(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   End If
   
-  Прогноз_квартала = (In_Fact / Число_прошедших_раб_дней) * Число_раб_дней_квартал
+  РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р° = (In_Fact / Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№) * Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р»
 
 End Function
 
-' 79.2 Прогноз квартала с учетом и без учета нерабочих дней: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-ти/6-ти дневка), In_NonWorkingDays = 1/0 (учитывать нерабочие дни из BASE\NonWorkingDays)
-Function Прогноз_квартала_проц(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
+' 79.2 РџСЂРѕРіРЅРѕР· РєРІР°СЂС‚Р°Р»Р° СЃ СѓС‡РµС‚РѕРј Рё Р±РµР· СѓС‡РµС‚Р° РЅРµСЂР°Р±РѕС‡РёС… РґРЅРµР№: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-С‚Рё/6-С‚Рё РґРЅРµРІРєР°), In_NonWorkingDays = 1/0 (СѓС‡РёС‚С‹РІР°С‚СЊ РЅРµСЂР°Р±РѕС‡РёРµ РґРЅРё РёР· BASE\NonWorkingDays)
+Function РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°_РїСЂРѕС†(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
   
-  Дата_начала_квартала = quarterStartDate(In_Date)
+  Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р° = quarterStartDate(In_Date)
   
-  Дата_конца_квартала = Date_last_day_quarter(In_Date)
+  Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р° = Date_last_day_quarter(In_Date)
   
-  Число_прошедших_раб_дней = Working_days_between_dates(Дата_начала_квартала, In_Date, 5)
+  Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, In_Date, 5)
   
   If In_NonWorkingDays = 1 Then
-    Число_раб_дней_квартал = Working_days_between_datesII(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_datesII(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   Else
-    Число_раб_дней_квартал = Working_days_between_dates(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   End If
   
-  Прогноз_квартала_объем = (In_Fact / Число_прошедших_раб_дней) * Число_раб_дней_квартал
+  РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°_РѕР±СЉРµРј = (In_Fact / Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№) * Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р»
   
-  Прогноз_квартала_проц = РассчетДоли(In_Plan, Прогноз_квартала_объем, 3)
+  РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°_РїСЂРѕС† = Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(In_Plan, РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°_РѕР±СЉРµРј, 3)
 
 End Function
 
-' 79.2.1 Прогноз месяца с учетом и без учета нерабочих дней: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-ти/6-ти дневка), In_NonWorkingDays = 1/0 (учитывать нерабочие дни из BASE\NonWorkingDays)
-Function Прогноз_месяца_проц(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
+' 79.2.1 РџСЂРѕРіРЅРѕР· РјРµСЃСЏС†Р° СЃ СѓС‡РµС‚РѕРј Рё Р±РµР· СѓС‡РµС‚Р° РЅРµСЂР°Р±РѕС‡РёС… РґРЅРµР№: In_Date, In_Plan, In_Fact, In_working_days_in_the_week (5-С‚Рё/6-С‚Рё РґРЅРµРІРєР°), In_NonWorkingDays = 1/0 (СѓС‡РёС‚С‹РІР°С‚СЊ РЅРµСЂР°Р±РѕС‡РёРµ РґРЅРё РёР· BASE\NonWorkingDays)
+Function РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р°_РїСЂРѕС†(In_Date, In_Plan, In_Fact, In_working_days_in_the_week, In_NonWorkingDays) As Double
   
-  Дата_начала_Месяца = Date_begin_day_month(In_Date)
+  Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р° = Date_begin_day_month(In_Date)
   
-  Дата_конца_месяца = Date_last_day_month(In_Date)
+  Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р° = Date_last_day_month(In_Date)
   
-  Число_прошедших_раб_дней = Working_days_between_dates(Дата_начала_Месяца, In_Date, 5)
+  Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, In_Date, 5)
   
   If In_NonWorkingDays = 1 Then
-    Число_раб_дней_месяц = Working_days_between_datesII(Дата_начала_Месяца, Дата_конца_месяца, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС† = Working_days_between_datesII(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р°, 5)
   Else
-    Число_раб_дней_месяц = Working_days_between_dates(Дата_начала_Месяца, Дата_конца_месяца, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС† = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РњРµСЃСЏС†Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РјРµСЃСЏС†Р°, 5)
   End If
   
-  Прогноз_месяца_объем = (In_Fact / Число_прошедших_раб_дней) * Число_раб_дней_месяц
+  РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р°_РѕР±СЉРµРј = (In_Fact / Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№) * Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РјРµСЃСЏС†
   
-  Прогноз_месяца_проц = РассчетДоли(In_Plan, Прогноз_месяца_объем, 3)
+  РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р°_РїСЂРѕС† = Р Р°СЃСЃС‡РµС‚Р”РѕР»Рё(In_Plan, РџСЂРѕРіРЅРѕР·_РјРµСЃСЏС†Р°_РѕР±СЉРµРј, 3)
 
 End Function
 
 
-' 79.3 Факт на дату, чтобы достигнуть прогноза Квартала
-Function Факт_на_дату_для_прогноза_квартала(In_Date, In_Plan, In_прогноза_квартала_проц, In_working_days_in_the_week, In_NonWorkingDays) As Double
+' 79.3 Р¤Р°РєС‚ РЅР° РґР°С‚Сѓ, С‡С‚РѕР±С‹ РґРѕСЃС‚РёРіРЅСѓС‚СЊ РїСЂРѕРіРЅРѕР·Р° РљРІР°СЂС‚Р°Р»Р°
+Function Р¤Р°РєС‚_РЅР°_РґР°С‚Сѓ_РґР»СЏ_РїСЂРѕРіРЅРѕР·Р°_РєРІР°СЂС‚Р°Р»Р°(In_Date, In_Plan, In_РїСЂРѕРіРЅРѕР·Р°_РєРІР°СЂС‚Р°Р»Р°_РїСЂРѕС†, In_working_days_in_the_week, In_NonWorkingDays) As Double
   
-  Дата_начала_квартала = quarterStartDate(In_Date)
+  Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р° = quarterStartDate(In_Date)
   
-  Дата_конца_квартала = Date_last_day_quarter(In_Date)
+  Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р° = Date_last_day_quarter(In_Date)
   
-  Число_прошедших_раб_дней = Working_days_between_dates(Дата_начала_квартала, In_Date, 5)
+  Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, In_Date, 5)
   
   If In_NonWorkingDays = 1 Then
-    Число_раб_дней_квартал = Working_days_between_datesII(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_datesII(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   Else
-    Число_раб_дней_квартал = Working_days_between_dates(Дата_начала_квартала, Дата_конца_квартала, 5)
+    Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р» = Working_days_between_dates(Р”Р°С‚Р°_РЅР°С‡Р°Р»Р°_РєРІР°СЂС‚Р°Р»Р°, Р”Р°С‚Р°_РєРѕРЅС†Р°_РєРІР°СЂС‚Р°Р»Р°, 5)
   End If
   
-  ' Прогноз_квартала_объем = (In_Fact / Число_прошедших_раб_дней) * Число_раб_дней_квартал
+  ' РџСЂРѕРіРЅРѕР·_РєРІР°СЂС‚Р°Р»Р°_РѕР±СЉРµРј = (In_Fact / Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№) * Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р»
 
-  Факт_на_дату_для_прогноза_квартала = (In_прогноза_квартала_проц * Число_прошедших_раб_дней * In_Plan) / Число_раб_дней_квартал
+  Р¤Р°РєС‚_РЅР°_РґР°С‚Сѓ_РґР»СЏ_РїСЂРѕРіРЅРѕР·Р°_РєРІР°СЂС‚Р°Р»Р° = (In_РїСЂРѕРіРЅРѕР·Р°_РєРІР°СЂС‚Р°Р»Р°_РїСЂРѕС† * Р§РёСЃР»Рѕ_РїСЂРѕС€РµРґС€РёС…_СЂР°Р±_РґРЅРµР№ * In_Plan) / Р§РёСЃР»Рѕ_СЂР°Р±_РґРЅРµР№_РєРІР°СЂС‚Р°Р»
 
 End Function
 
 
-' 80. Внесение данных на лист книги
+' 80. Р’РЅРµСЃРµРЅРёРµ РґР°РЅРЅС‹С… РЅР° Р»РёСЃС‚ РєРЅРёРіРё
 Sub setValueInBookSheet(In_Workbooks, In_Sheets, In_RowKey, In_Column, In_Value, In_maxRowInSheet, In_maxColumnInSheet)
   
 End Sub
 
-' Переход в браузере по ссылке на странице, в конце ставить "/" для перехода в категорию
+' РџРµСЂРµС…РѕРґ РІ Р±СЂР°СѓР·РµСЂРµ РїРѕ СЃСЃС‹Р»РєРµ РЅР° СЃС‚СЂР°РЅРёС†Рµ, РІ РєРѕРЅС†Рµ СЃС‚Р°РІРёС‚СЊ "/" РґР»СЏ РїРµСЂРµС…РѕРґР° РІ РєР°С‚РµРіРѕСЂРёСЋ
 Sub goToURL()
   
   SheetsVar = ThisWorkbook.ActiveSheet.Name
-  rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "Ссылка:", 100, 100)
-  columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "Ссылка:", 100, 100) + 1
+  rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°:", 100, 100)
+  columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°:", 100, 100) + 1
   
   ' ThisWorkbook.FollowHyperlink ("http://isrb.psbnk.msk.ru/inf/6601/6622/ejednevnii_otchet_po_prodajam/")
   ThisWorkbook.FollowHyperlink (ThisWorkbook.Sheets(SheetsVar).Cells(rowVar, columnVar).Value)
   
 End Sub
 
-' Переход в браузере по ссылке на странице, в конце ставить "/" для перехода в категорию
+' РџРµСЂРµС…РѕРґ РІ Р±СЂР°СѓР·РµСЂРµ РїРѕ СЃСЃС‹Р»РєРµ РЅР° СЃС‚СЂР°РЅРёС†Рµ, РІ РєРѕРЅС†Рµ СЃС‚Р°РІРёС‚СЊ "/" РґР»СЏ РїРµСЂРµС…РѕРґР° РІ РєР°С‚РµРіРѕСЂРёСЋ
 Sub goToURL2()
   
   SheetsVar = ThisWorkbook.ActiveSheet.Name
-  rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "Ссылка2:", 100, 100)
-  columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "Ссылка2:", 100, 100) + 1
+  rowVar = rowByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°2:", 100, 100)
+  columnVar = ColumnByValue(ThisWorkbook.Name, SheetsVar, "РЎСЃС‹Р»РєР°2:", 100, 100) + 1
   
   ' ThisWorkbook.FollowHyperlink ("http://isrb.psbnk.msk.ru/inf/6601/6622/ejednevnii_otchet_po_prodajam/")
   ThisWorkbook.FollowHyperlink (ThisWorkbook.Sheets(SheetsVar).Cells(rowVar, columnVar).Value)
@@ -3271,242 +3271,242 @@ Sub goToURL2()
 End Sub
 
 
-' 81. Приветствие с 6 до 12 часов — утро; с 12 до 18 часов — день; с 18 до 24 часов — вечер. Time() — возвращает текущее системное время
-Function Добрый_утро_день_вечер(In_Time, In_Д_д) As String
+' 81. РџСЂРёРІРµС‚СЃС‚РІРёРµ СЃ 6 РґРѕ 12 С‡Р°СЃРѕРІ вЂ” СѓС‚СЂРѕ; СЃ 12 РґРѕ 18 С‡Р°СЃРѕРІ вЂ” РґРµРЅСЊ; СЃ 18 РґРѕ 24 С‡Р°СЃРѕРІ вЂ” РІРµС‡РµСЂ. Time() вЂ” РІРѕР·РІСЂР°С‰Р°РµС‚ С‚РµРєСѓС‰РµРµ СЃРёСЃС‚РµРјРЅРѕРµ РІСЂРµРјСЏ
+Function Р”РѕР±СЂС‹Р№_СѓС‚СЂРѕ_РґРµРЅСЊ_РІРµС‡РµСЂ(In_Time, In_Р”_Рґ) As String
   
-  Добрый_утро_день_вечер = ""
+  Р”РѕР±СЂС‹Р№_СѓС‚СЂРѕ_РґРµРЅСЊ_РІРµС‡РµСЂ = ""
 
   If (In_Time >= "00:00:00") And ((In_Time <= "12:00:00")) Then
-    Добрый_утро_день_вечер = In_Д_д + "оброе утро"
+    Р”РѕР±СЂС‹Р№_СѓС‚СЂРѕ_РґРµРЅСЊ_РІРµС‡РµСЂ = In_Р”_Рґ + "РѕР±СЂРѕРµ СѓС‚СЂРѕ"
   End If
 
   If (In_Time >= "12:00:01") And ((In_Time <= "18:00:00")) Then
-    Добрый_утро_день_вечер = In_Д_д + "обрый день"
+    Р”РѕР±СЂС‹Р№_СѓС‚СЂРѕ_РґРµРЅСЊ_РІРµС‡РµСЂ = In_Р”_Рґ + "РѕР±СЂС‹Р№ РґРµРЅСЊ"
   End If
 
   If (In_Time >= "18:00:01") And ((In_Time <= "23:59:59")) Then
-    Добрый_утро_день_вечер = In_Д_д + "обрый вечер"
+    Р”РѕР±СЂС‹Р№_СѓС‚СЂРѕ_РґРµРЅСЊ_РІРµС‡РµСЂ = In_Р”_Рґ + "РѕР±СЂС‹Р№ РІРµС‡РµСЂ"
   End If
 
 
 End Function
 
-' 82. Дата DB с Лист7
-Function dateDB_Лист_7() As Date
+' 82. Р”Р°С‚Р° DB СЃ Р›РёСЃС‚7
+Function dateDB_Р›РёСЃС‚_7() As Date
   
-  dateDB_Лист_7 = CDate(Mid(ThisWorkbook.Sheets("Лист7").Range("B5").Value, 40, 10))
+  dateDB_Р›РёСЃС‚_7 = CDate(Mid(ThisWorkbook.Sheets("Р›РёСЃС‚7").Range("B5").Value, 40, 10))
 
 End Function
 
 
-' 83. Дата DB с Лист8
-Function dateDB_Лист_8() As Date
+' 83. Р”Р°С‚Р° DB СЃ Р›РёСЃС‚8
+Function dateDB_Р›РёСЃС‚_8() As Date
   
-  dateDB_Лист_8 = CDate(Mid(ThisWorkbook.Sheets("Лист8").Range("B5").Value, 52, 10))
+  dateDB_Р›РёСЃС‚_8 = CDate(Mid(ThisWorkbook.Sheets("Р›РёСЃС‚8").Range("B5").Value, 52, 10))
 
 End Function
 
-' 84. Удаляем файл если он есть
+' 84. РЈРґР°Р»СЏРµРј С„Р°Р№Р» РµСЃР»Рё РѕРЅ РµСЃС‚СЊ
 Sub deleteFile(In_fileName)
 
   If Dir(In_fileName) <> "" Then
-    ' Удаляем старый отчет на диске
+    ' РЈРґР°Р»СЏРµРј СЃС‚Р°СЂС‹Р№ РѕС‚С‡РµС‚ РЅР° РґРёСЃРєРµ
     Kill In_fileName
   End If
 
 End Sub
 
-' 85. Кодировщик наимнования продукта в короткий код
+' 85. РљРѕРґРёСЂРѕРІС‰РёРє РЅР°РёРјРЅРѕРІР°РЅРёСЏ РїСЂРѕРґСѓРєС‚Р° РІ РєРѕСЂРѕС‚РєРёР№ РєРѕРґ
 Function Product_Name_to_Product_Code(In_Product_Name) As String
   
   Product_Name_to_Product_Code = ""
   
-  ' 20.06.2021 в BASE\Products создана таблица в которую будут заноситься все значения ProductName, ProductCode
+  ' 20.06.2021 РІ BASE\Products СЃРѕР·РґР°РЅР° С‚Р°Р±Р»РёС†Р° РІ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓС‚ Р·Р°РЅРѕСЃРёС‚СЊСЃСЏ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ ProductName, ProductCode
   
-  ' Проверяем - если BASE\Products не открыта, то открываем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃР»Рё BASE\Products РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј
   If BookIsOpen("Products") = True Then
-    Книга_была_открыта = True
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = True
   Else
-    Книга_была_открыта = False
-    ' Открываем BASE\Products
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Products
     OpenBookInBase ("Products")
   End If
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
-  If Workbooks("Products").Sheets("Лист1").AutoFilterMode = True Then
-    ' Выключаем Автофильтр
-    Workbooks("Products").Sheets("Лист1").Cells(1, 1).AutoFilter
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+  If Workbooks("Products").Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+    Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
   End If
   
-  ' Выполняем поиск
-  Set searchResults = Workbooks("Products").Sheets("Лист1").Columns("A:A").Find(In_Product_Name, LookAt:=xlWhole)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє
+  Set searchResults = Workbooks("Products").Sheets("Р›РёСЃС‚1").Columns("A:A").Find(In_Product_Name, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР°
     Product_Name_to_Product_Code = ""
   Else
-    ' Если найдена
-    Product_Name_to_Product_Code = Workbooks("Products").Sheets("Лист1").Cells(searchResults.Row, 2).Value
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°
+    Product_Name_to_Product_Code = Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(searchResults.Row, 2).Value
   End If
 
   
   ' Select Case In_Product_Name
-  '       Case "Зарплатные карты 18+"
-  '         Product_Name_to_Product_Code = "ЗП"
-  '       Case "Портфель ЗП 18+, шт._Квартал "
-  '         Product_Name_to_Product_Code = "Портфель_ЗП"
-  '       Case "Потребительские кредиты"
-  '         Product_Name_to_Product_Code = "ПК"
-  '       Case "Кредитные карты (актив.)"
-  '         Product_Name_to_Product_Code = "КК"
-  '       Case "Комиссионный доход"
-  '         Product_Name_to_Product_Code = "КД"
-  '       Case "Пассивы"
-  '         Product_Name_to_Product_Code = "Пассивы"
+  '       Case "Р—Р°СЂРїР»Р°С‚РЅС‹Рµ РєР°СЂС‚С‹ 18+"
+  '         Product_Name_to_Product_Code = "Р—Рџ"
+  '       Case "РџРѕСЂС‚С„РµР»СЊ Р—Рџ 18+, С€С‚._РљРІР°СЂС‚Р°Р» "
+  '         Product_Name_to_Product_Code = "РџРѕСЂС‚С„РµР»СЊ_Р—Рџ"
+  '       Case "РџРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёРµ РєСЂРµРґРёС‚С‹"
+  '         Product_Name_to_Product_Code = "РџРљ"
+  '       Case "РљСЂРµРґРёС‚РЅС‹Рµ РєР°СЂС‚С‹ (Р°РєС‚РёРІ.)"
+  '         Product_Name_to_Product_Code = "РљРљ"
+  '       Case "РљРѕРјРёСЃСЃРёРѕРЅРЅС‹Р№ РґРѕС…РѕРґ"
+  '         Product_Name_to_Product_Code = "РљР”"
+  '       Case "РџР°СЃСЃРёРІС‹"
+  '         Product_Name_to_Product_Code = "РџР°СЃСЃРёРІС‹"
   '       Case "Orange Premium Club"
   '         Product_Name_to_Product_Code = "OPC"
-  '       Case "Инвест"
-  '         Product_Name_to_Product_Code = "ИНВ"
-  '       Case "Инвест Брокер обслуж"
-  '         Product_Name_to_Product_Code = "ИНВ_БО"
+  '       Case "РРЅРІРµСЃС‚"
+  '         Product_Name_to_Product_Code = "РРќР’"
+  '       Case "РРЅРІРµСЃС‚ Р‘СЂРѕРєРµСЂ РѕР±СЃР»СѓР¶"
+  '         Product_Name_to_Product_Code = "РРќР’_Р‘Рћ"
   '
   ' End Select
   
-  ' Если BASE\Products была открыта до начала работы Product_Name_to_Product_Code, то не закрываем ее
-  If Книга_была_открыта = False Then
-    ' Закрываем BASE\Products
+  ' Р•СЃР»Рё BASE\Products Р±С‹Р»Р° РѕС‚РєСЂС‹С‚Р° РґРѕ РЅР°С‡Р°Р»Р° СЂР°Р±РѕС‚С‹ Product_Name_to_Product_Code, С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµРј РµРµ
+  If РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False Then
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Products
     CloseBook ("Products")
   End If
   
-  ' Сообщение
+  ' РЎРѕРѕР±С‰РµРЅРёРµ
   If Product_Name_to_Product_Code = "" Then
-    MsgBox ("В Product_Name_to_Product_Code не найден " + In_Product_Name + "!")
+    MsgBox ("Р’ Product_Name_to_Product_Code РЅРµ РЅР°Р№РґРµРЅ " + In_Product_Name + "!")
   End If
 
 End Function
 
-' Получение единицы измерения по продукту
+' РџРѕР»СѓС‡РµРЅРёРµ РµРґРёРЅРёС†С‹ РёР·РјРµСЂРµРЅРёСЏ РїРѕ РїСЂРѕРґСѓРєС‚Сѓ
 Function Product_Name_to_Unit(In_Product_Name) As String
   
   Product_Name_to_Unit = ""
   
-  ' 20.06.2021 в BASE\Products создана таблица в которую будут заноситься все значения ProductName, ProductCode
+  ' 20.06.2021 РІ BASE\Products СЃРѕР·РґР°РЅР° С‚Р°Р±Р»РёС†Р° РІ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓС‚ Р·Р°РЅРѕСЃРёС‚СЊСЃСЏ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ ProductName, ProductCode
   
-  ' Проверяем - если BASE\Products не открыта, то открываем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃР»Рё BASE\Products РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј
   If BookIsOpen("Products") = True Then
-    Книга_была_открыта = True
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = True
   Else
-    Книга_была_открыта = False
-    ' Открываем BASE\Products
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Products
     OpenBookInBase ("Products")
   End If
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
-  If Workbooks("Products").Sheets("Лист1").AutoFilterMode = True Then
-    ' Выключаем Автофильтр
-    Workbooks("Products").Sheets("Лист1").Cells(1, 1).AutoFilter
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+  If Workbooks("Products").Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+    Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
   End If
   
-  ' Выполняем поиск
-  Set searchResults = Workbooks("Products").Sheets("Лист1").Columns("A:A").Find(In_Product_Name, LookAt:=xlWhole)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє
+  Set searchResults = Workbooks("Products").Sheets("Р›РёСЃС‚1").Columns("A:A").Find(In_Product_Name, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР°
     Product_Name_to_Unit = ""
   Else
-    ' Если найдена
-    Product_Name_to_Unit = Workbooks("Products").Sheets("Лист1").Cells(searchResults.Row, 3).Value
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°
+    Product_Name_to_Unit = Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(searchResults.Row, 3).Value
   End If
 
-  ' Если BASE\Products была открыта до начала работы Product_Name_to_Unit, то не закрываем ее
-  If Книга_была_открыта = False Then
-    ' Закрываем BASE\Products
+  ' Р•СЃР»Рё BASE\Products Р±С‹Р»Р° РѕС‚РєСЂС‹С‚Р° РґРѕ РЅР°С‡Р°Р»Р° СЂР°Р±РѕС‚С‹ Product_Name_to_Unit, С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµРј РµРµ
+  If РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False Then
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Products
     CloseBook ("Products")
   End If
   
-  ' Сообщение
+  ' РЎРѕРѕР±С‰РµРЅРёРµ
   If Product_Name_to_Unit = "" Then
-    MsgBox ("В Product_Name_to_Unit не найден " + In_Product_Name + "!")
+    MsgBox ("Р’ Product_Name_to_Unit РЅРµ РЅР°Р№РґРµРЅ " + In_Product_Name + "!")
   End If
 
 End Function
 
 
-' 85. ДеКодировщик короткий код в наимнования продукта
+' 85. Р”РµРљРѕРґРёСЂРѕРІС‰РёРє РєРѕСЂРѕС‚РєРёР№ РєРѕРґ РІ РЅР°РёРјРЅРѕРІР°РЅРёСЏ РїСЂРѕРґСѓРєС‚Р°
 Function Product_Code_to_Product_Name(In_Product_Code) As String
   
   Product_Code_to_Product_Name = ""
   
-  ' 20.06.2021 в BASE\Products создана таблица в которую будут заноситься все значения ProductName, ProductCode
+  ' 20.06.2021 РІ BASE\Products СЃРѕР·РґР°РЅР° С‚Р°Р±Р»РёС†Р° РІ РєРѕС‚РѕСЂСѓСЋ Р±СѓРґСѓС‚ Р·Р°РЅРѕСЃРёС‚СЊСЃСЏ РІСЃРµ Р·РЅР°С‡РµРЅРёСЏ ProductName, ProductCode
   
-  ' Проверяем - если BASE\Products не открыта, то открываем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃР»Рё BASE\Products РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј
   If BookIsOpen("Products") = True Then
-    Книга_была_открыта = True
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = True
   Else
-    Книга_была_открыта = False
-    ' Открываем BASE\Products
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Products
     OpenBookInBase ("Products")
   End If
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
-  If Workbooks("Products").Sheets("Лист1").AutoFilterMode = True Then
-    ' Выключаем Автофильтр
-    Workbooks("Products").Sheets("Лист1").Cells(1, 1).AutoFilter
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
+  If Workbooks("Products").Sheets("Р›РёСЃС‚1").AutoFilterMode = True Then
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
+    Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(1, 1).AutoFilter
   End If
   
-  ' Выполняем поиск
-  Set searchResults = Workbooks("Products").Sheets("Лист1").Columns("B:B").Find(In_Product_Code, LookAt:=xlWhole)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє
+  Set searchResults = Workbooks("Products").Sheets("Р›РёСЃС‚1").Columns("B:B").Find(In_Product_Code, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР°
     Product_Code_to_Product_Name = ""
   Else
-    ' Если найдена
-    Product_Code_to_Product_Name = Workbooks("Products").Sheets("Лист1").Cells(searchResults.Row, 1).Value
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°
+    Product_Code_to_Product_Name = Workbooks("Products").Sheets("Р›РёСЃС‚1").Cells(searchResults.Row, 1).Value
   End If
 
   
   ' Select Case In_Product_Name
-  '       Case "Зарплатные карты 18+"
-  '         Product_Code_to_Product_Name = "ЗП"
-  '       Case "Портфель ЗП 18+, шт._Квартал "
-  '         Product_Code_to_Product_Name = "Портфель_ЗП"
-  '       Case "Потребительские кредиты"
-  '         Product_Code_to_Product_Name = "ПК"
-  '       Case "Кредитные карты (актив.)"
-  '         Product_Code_to_Product_Name = "КК"
-  '       Case "Комиссионный доход"
-  '         Product_Code_to_Product_Name = "КД"
-  '       Case "Пассивы"
-  '         Product_Code_to_Product_Name = "Пассивы"
+  '       Case "Р—Р°СЂРїР»Р°С‚РЅС‹Рµ РєР°СЂС‚С‹ 18+"
+  '         Product_Code_to_Product_Name = "Р—Рџ"
+  '       Case "РџРѕСЂС‚С„РµР»СЊ Р—Рџ 18+, С€С‚._РљРІР°СЂС‚Р°Р» "
+  '         Product_Code_to_Product_Name = "РџРѕСЂС‚С„РµР»СЊ_Р—Рџ"
+  '       Case "РџРѕС‚СЂРµР±РёС‚РµР»СЊСЃРєРёРµ РєСЂРµРґРёС‚С‹"
+  '         Product_Code_to_Product_Name = "РџРљ"
+  '       Case "РљСЂРµРґРёС‚РЅС‹Рµ РєР°СЂС‚С‹ (Р°РєС‚РёРІ.)"
+  '         Product_Code_to_Product_Name = "РљРљ"
+  '       Case "РљРѕРјРёСЃСЃРёРѕРЅРЅС‹Р№ РґРѕС…РѕРґ"
+  '         Product_Code_to_Product_Name = "РљР”"
+  '       Case "РџР°СЃСЃРёРІС‹"
+  '         Product_Code_to_Product_Name = "РџР°СЃСЃРёРІС‹"
   '       Case "Orange Premium Club"
   '         Product_Code_to_Product_Name = "OPC"
-  '       Case "Инвест"
-  '         Product_Code_to_Product_Name = "ИНВ"
-  '       Case "Инвест Брокер обслуж"
-  '         Product_Code_to_Product_Name = "ИНВ_БО"
+  '       Case "РРЅРІРµСЃС‚"
+  '         Product_Code_to_Product_Name = "РРќР’"
+  '       Case "РРЅРІРµСЃС‚ Р‘СЂРѕРєРµСЂ РѕР±СЃР»СѓР¶"
+  '         Product_Code_to_Product_Name = "РРќР’_Р‘Рћ"
   '
   ' End Select
   
-  ' Если BASE\Products была открыта до начала работы Product_Code_to_Product_Name, то не закрываем ее
-  If Книга_была_открыта = False Then
-    ' Закрываем BASE\Products
+  ' Р•СЃР»Рё BASE\Products Р±С‹Р»Р° РѕС‚РєСЂС‹С‚Р° РґРѕ РЅР°С‡Р°Р»Р° СЂР°Р±РѕС‚С‹ Product_Code_to_Product_Name, С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµРј РµРµ
+  If РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False Then
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Products
     CloseBook ("Products")
   End If
   
-  ' Сообщение
+  ' РЎРѕРѕР±С‰РµРЅРёРµ
   If Product_Code_to_Product_Name = "" Then
-    MsgBox ("В Product_Code_to_Product_Name не найден " + In_Product_Name + "!")
+    MsgBox ("Р’ Product_Code_to_Product_Name РЅРµ РЅР°Р№РґРµРЅ " + In_Product_Name + "!")
   End If
 
 End Function
 
 
-' 86. Убрать заливку цветом ячейки
-Sub Убрать_заливку_цветом(In_Workbooks, In_Sheets, In_Row, In_Col)
+' 86. РЈР±СЂР°С‚СЊ Р·Р°Р»РёРІРєСѓ С†РІРµС‚РѕРј СЏС‡РµР№РєРё
+Sub РЈР±СЂР°С‚СЊ_Р·Р°Р»РёРІРєСѓ_С†РІРµС‚РѕРј(In_Workbooks, In_Sheets, In_Row, In_Col)
     
   Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Interior.Pattern = xlNone
   Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Interior.TintAndShade = 0
@@ -3514,77 +3514,77 @@ Sub Убрать_заливку_цветом(In_Workbooks, In_Sheets, In_Row, In_Col)
 
 End Sub
 
-' 87. Получение значения записи из таблицы каталога BASE\"Workbook"
-Function getDataFrom_BASE_Workbook(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_Открывать_Закрывать_BookName)
+' 87. РџРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ Р·Р°РїРёСЃРё РёР· С‚Р°Р±Р»РёС†С‹ РєР°С‚Р°Р»РѕРіР° BASE\"Workbook"
+Function getDataFrom_BASE_Workbook(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName)
     
   getDataFrom_BASE_Workbook = "not found"
   
-  ' Если In_Открывать_Закрывать_BookName = 1 то перед работой функции getDataFrom_BASE_Workbook открываем таблицу
-  If In_Открывать_Закрывать_BookName = 1 Then
-    ' Открываем BASE\Sales
+  ' Р•СЃР»Рё In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName = 1 С‚Рѕ РїРµСЂРµРґ СЂР°Р±РѕС‚РѕР№ С„СѓРЅРєС†РёРё getDataFrom_BASE_Workbook РѕС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ
+  If In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName = 1 Then
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Sales
     OpenBookInBase (In_BookName)
   End If
   
-  ' Убираем фильтр, иначе поиск не по всей таблице
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
   If Workbooks(In_BookName).Sheets(In_Sheet).AutoFilterMode = True Then
-    ' Выключаем Автофильтр
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(1, 1).AutoFilter
   End If
   
-  ' Выполняем поиск по ключу
-  ' Проверяем наличие записи In_FieldKeyName - In_FieldKeyValue
-  Литера_столбца = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
-  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Литера_столбца + ":" + Литера_столбца).Find(In_FieldKeyValue, LookAt:=xlWhole)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє РїРѕ РєР»СЋС‡Сѓ
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ Р·Р°РїРёСЃРё In_FieldKeyName - In_FieldKeyValue
+  Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
+  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° + ":" + Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р°).Find(In_FieldKeyValue, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР°
     getDataFrom_BASE_Workbook = "not found"
   Else
-    ' Если найдена, то делаем поиск значения записи
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°, С‚Рѕ РґРµР»Р°РµРј РїРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ Р·Р°РїРёСЃРё
     rowCount = searchResults.Row
     column_In_FieldName1 = ColumnByValue(In_BookName, In_Sheet, In_FieldName1, 1, 500)
     getDataFrom_BASE_Workbook = Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_In_FieldName1).Value
   End If
   
-  ' Если In_Открывать_Закрывать_BookName = 1 то перед работой функции getDataFrom_BASE_Workbook открываем таблицу
-  If In_Открывать_Закрывать_BookName = 1 Then
-    ' Закрываем BASE\Sales
+  ' Р•СЃР»Рё In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName = 1 С‚Рѕ РїРµСЂРµРґ СЂР°Р±РѕС‚РѕР№ С„СѓРЅРєС†РёРё getDataFrom_BASE_Workbook РѕС‚РєСЂС‹РІР°РµРј С‚Р°Р±Р»РёС†Сѓ
+  If In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName = 1 Then
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Sales
     CloseBook (In_BookName)
   End If
 End Function
 
-' 88. Получение значения записи из таблицы каталога BASE\"Workbook" с проверкой открытия/закрытия. Параметр In_Открывать_Закрывать_BookName - не используется!
-Function getDataFrom_BASE_Workbook2(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_Открывать_Закрывать_BookName)
+' 88. РџРѕР»СѓС‡РµРЅРёРµ Р·РЅР°С‡РµРЅРёСЏ Р·Р°РїРёСЃРё РёР· С‚Р°Р±Р»РёС†С‹ РєР°С‚Р°Р»РѕРіР° BASE\"Workbook" СЃ РїСЂРѕРІРµСЂРєРѕР№ РѕС‚РєСЂС‹С‚РёСЏ/Р·Р°РєСЂС‹С‚РёСЏ. РџР°СЂР°РјРµС‚СЂ In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName - РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ!
+Function getDataFrom_BASE_Workbook2(In_BookName, In_Sheet, In_FieldKeyName, In_FieldKeyValue, In_FieldName1, In_РћС‚РєСЂС‹РІР°С‚СЊ_Р—Р°РєСЂС‹РІР°С‚СЊ_BookName)
     
   getDataFrom_BASE_Workbook2 = "not found"
   
-  ' Проверяем - если BASE\... не открыта, то открываем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃР»Рё BASE\... РЅРµ РѕС‚РєСЂС‹С‚Р°, С‚Рѕ РѕС‚РєСЂС‹РІР°РµРј
   If BookIsOpen(In_BookName) = True Then
-    Книга_была_открыта = True
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = True
   Else
-    Книга_была_открыта = False
-    ' Открываем BASE\Products
+    РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False
+    ' РћС‚РєСЂС‹РІР°РµРј BASE\Products
     OpenBookInBase (In_BookName)
   End If
     
-  ' Убираем фильтр, иначе поиск не по всей таблице
+  ' РЈР±РёСЂР°РµРј С„РёР»СЊС‚СЂ, РёРЅР°С‡Рµ РїРѕРёСЃРє РЅРµ РїРѕ РІСЃРµР№ С‚Р°Р±Р»РёС†Рµ
   If Workbooks(In_BookName).Sheets(In_Sheet).AutoFilterMode = True Then
-    ' Выключаем Автофильтр
+    ' Р’С‹РєР»СЋС‡Р°РµРј РђРІС‚РѕС„РёР»СЊС‚СЂ
     Workbooks(In_BookName).Sheets(In_Sheet).Cells(1, 1).AutoFilter
   End If
     
-  ' Выполняем поиск по ключу
-  ' Проверяем наличие записи In_FieldKeyName - In_FieldKeyValue
-  Литера_столбца = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
-  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Литера_столбца + ":" + Литера_столбца).Find(In_FieldKeyValue, LookAt:=xlWhole)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє РїРѕ РєР»СЋС‡Сѓ
+  ' РџСЂРѕРІРµСЂСЏРµРј РЅР°Р»РёС‡РёРµ Р·Р°РїРёСЃРё In_FieldKeyName - In_FieldKeyValue
+  Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° = ConvertToLetter(ColumnByName(In_BookName, In_Sheet, 1, In_FieldKeyName))
+  Set searchResults = Workbooks(In_BookName).Sheets(In_Sheet).Columns(Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р° + ":" + Р›РёС‚РµСЂР°_СЃС‚РѕР»Р±С†Р°).Find(In_FieldKeyValue, LookAt:=xlWhole)
   
-  ' Проверяем - есть ли такая дата, если нет, то добавляем
+  ' РџСЂРѕРІРµСЂСЏРµРј - РµСЃС‚СЊ Р»Рё С‚Р°РєР°СЏ РґР°С‚Р°, РµСЃР»Рё РЅРµС‚, С‚Рѕ РґРѕР±Р°РІР»СЏРµРј
   If searchResults Is Nothing Then
-    ' Если не найдена
+    ' Р•СЃР»Рё РЅРµ РЅР°Р№РґРµРЅР°
     getDataFrom_BASE_Workbook2 = "not found"
   Else
-    ' Если найдена, то делаем поиск значения записи
+    ' Р•СЃР»Рё РЅР°Р№РґРµРЅР°, С‚Рѕ РґРµР»Р°РµРј РїРѕРёСЃРє Р·РЅР°С‡РµРЅРёСЏ Р·Р°РїРёСЃРё
     rowCount = searchResults.Row
     column_In_FieldName1 = ColumnByValue(In_BookName, In_Sheet, In_FieldName1, 1, 500)
     getDataFrom_BASE_Workbook2 = Workbooks(In_BookName).Sheets(In_Sheet).Cells(rowCount, column_In_FieldName1).Value
@@ -3592,150 +3592,150 @@ Function getDataFrom_BASE_Workbook2(In_BookName, In_Sheet, In_FieldKeyName, In_F
   
   
   
-  ' Если BASE\Products была открыта до начала работы Функции, то не закрываем ее
-  If Книга_была_открыта = False Then
-    ' Закрываем BASE\Products
+  ' Р•СЃР»Рё BASE\Products Р±С‹Р»Р° РѕС‚РєСЂС‹С‚Р° РґРѕ РЅР°С‡Р°Р»Р° СЂР°Р±РѕС‚С‹ Р¤СѓРЅРєС†РёРё, С‚Рѕ РЅРµ Р·Р°РєСЂС‹РІР°РµРј РµРµ
+  If РљРЅРёРіР°_Р±С‹Р»Р°_РѕС‚РєСЂС‹С‚Р° = False Then
+    ' Р—Р°РєСЂС‹РІР°РµРј BASE\Products
     CloseBook (In_BookName)
   End If
   
 End Function
 
 
-' 88. Получение Факта за квартал по продукту из таблицы каталога BASE\"Sales_Office". Если факта нет в Date_DD, то возвращаем 0!
-Function Факт_Q_на_дату(In_OfficeNumber, In_Product_Code, In_Date) As Double
+' 88. РџРѕР»СѓС‡РµРЅРёРµ Р¤Р°РєС‚Р° Р·Р° РєРІР°СЂС‚Р°Р» РїРѕ РїСЂРѕРґСѓРєС‚Сѓ РёР· С‚Р°Р±Р»РёС†С‹ РєР°С‚Р°Р»РѕРіР° BASE\"Sales_Office". Р•СЃР»Рё С„Р°РєС‚Р° РЅРµС‚ РІ Date_DD, С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµРј 0!
+Function Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ(In_OfficeNumber, In_Product_Code, In_Date) As Double
 
-  Месяц_даты = Month(In_Date)
-  Год_даты = Year(In_Date)
+  РњРµСЃСЏС†_РґР°С‚С‹ = Month(In_Date)
+  Р“РѕРґ_РґР°С‚С‹ = Year(In_Date)
   
-  ' Идентификатор ID_Rec для In_Date:
+  ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РґР»СЏ In_Date:
   ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code)
 
-  ' Текущие значения в месяце: Date_01 (N), Date_02 (O), Date_03 (P), Date_04 (Q), Date_05 Date_06 Date_07 Date_08 Date_09 Date_10 Date_11 Date_12 Date_13 Date_14 Date_15 Date_16 Date_17 Date_18 Date_19 Date_20 Date_21 Date_22 Date_23 Date_24 Date_25 Date_26 Date_27 Date_28 Date_29 Date_30 Date_31
+  ' РўРµРєСѓС‰РёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РјРµСЃСЏС†Рµ: Date_01 (N), Date_02 (O), Date_03 (P), Date_04 (Q), Date_05 Date_06 Date_07 Date_08 Date_09 Date_10 Date_11 Date_12 Date_13 Date_14 Date_15 Date_16 Date_17 Date_18 Date_19 Date_20 Date_21 Date_22 Date_23 Date_24 Date_25 Date_26 Date_27 Date_28 Date_29 Date_30 Date_31
   Column_Date_DD = "Date_" + Mid(In_Date, 1, 2)
   
-  ' Записываем результат в переменную для проверки
-  result_Месяц_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
+  ' Р—Р°РїРёСЃС‹РІР°РµРј СЂРµР·СѓР»СЊС‚Р°С‚ РІ РїРµСЂРµРјРµРЅРЅСѓСЋ РґР»СЏ РїСЂРѕРІРµСЂРєРё
+  result_РњРµСЃСЏС†_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
   
-  ' Если результат не пустой - возникает, когда добавляется новый продукт и по нему не возвращает "not found", а приходит Empty. Было 12.08.2021 при добавлении Портфеля АУМ из DB от 10.08.2021
-  If result_Месяц_getDataFrom_BASE_Workbook2 <> "" Then
+  ' Р•СЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ РЅРµ РїСѓСЃС‚РѕР№ - РІРѕР·РЅРёРєР°РµС‚, РєРѕРіРґР° РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РЅРѕРІС‹Р№ РїСЂРѕРґСѓРєС‚ Рё РїРѕ РЅРµРјСѓ РЅРµ РІРѕР·РІСЂР°С‰Р°РµС‚ "not found", Р° РїСЂРёС…РѕРґРёС‚ Empty. Р‘С‹Р»Рѕ 12.08.2021 РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РџРѕСЂС‚С„РµР»СЏ РђРЈРњ РёР· DB РѕС‚ 10.08.2021
+  If result_РњРµСЃСЏС†_getDataFrom_BASE_Workbook2 <> "" Then
   
-    ' Проверяем результат поиска записи в BASE\Sales_Office по месяцу
-    If result_Месяц_getDataFrom_BASE_Workbook2 <> "not found" Then
+    ' РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР° Р·Р°РїРёСЃРё РІ BASE\Sales_Office РїРѕ РјРµСЃСЏС†Сѓ
+    If result_РњРµСЃСЏС†_getDataFrom_BASE_Workbook2 <> "not found" Then
 
-      ' Берем факт из Date_ДД
-      ' Факт_Q_на_дату = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
-      Факт_Q_на_дату = result_Месяц_getDataFrom_BASE_Workbook2
+      ' Р‘РµСЂРµРј С„Р°РєС‚ РёР· Date_Р”Р”
+      ' Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
+      Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = result_РњРµСЃСЏС†_getDataFrom_BASE_Workbook2
 
-      ' Если полученный факт на Дату <>0
-      ' If Факт_Q_на_дату <> 0 Then
+      ' Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ С„Р°РєС‚ РЅР° Р”Р°С‚Сѓ <>0
+      ' If Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ <> 0 Then
 
-        ' Дата может относится:
-        ' - 1-му месяцу Q
-        ' If (Месяц_даты = 1) Or (Месяц_даты = 4) Or (Месяц_даты = 7) Then
-          ' Берем факт из Date_ДД
-          ' Факт_Q_на_дату = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
+        ' Р”Р°С‚Р° РјРѕР¶РµС‚ РѕС‚РЅРѕСЃРёС‚СЃСЏ:
+        ' - 1-РјСѓ РјРµСЃСЏС†Сѓ Q
+        ' If (РњРµСЃСЏС†_РґР°С‚С‹ = 1) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 4) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 7) Then
+          ' Р‘РµСЂРµРј С„Р°РєС‚ РёР· Date_Р”Р”
+          ' Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, Column_Date_DD, 0)
         ' End If
   
-        ' Если In_Datr относится к 2-му месяцу Q
-        If (Месяц_даты = 2) Or (Месяц_даты = 5) Or (Месяц_даты = 8) Or (Месяц_даты = 11) Then
-          ' Берем факт из Date_ДД
+        ' Р•СЃР»Рё In_Datr РѕС‚РЅРѕСЃРёС‚СЃСЏ Рє 2-РјСѓ РјРµСЃСЏС†Сѓ Q
+        If (РњРµСЃСЏС†_РґР°С‚С‹ = 2) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 5) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 8) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 11) Then
+          ' Р‘РµСЂРµРј С„Р°РєС‚ РёР· Date_Р”Р”
           '
-          ' Идентификатор ID_Rec для 1 месяца Q:
+          ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РґР»СЏ 1 РјРµСЃСЏС†Р° Q:
           ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strMMYY(Date_begin_day_quarter(In_Date)) + "-" + In_Product_Code)
           
-          ' Прибавляем факт 1 месяца
-          result_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+          ' РџСЂРёР±Р°РІР»СЏРµРј С„Р°РєС‚ 1 РјРµСЃСЏС†Р°
+          result_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           If result_getDataFrom_BASE_Workbook2_Fact <> "not found" Then
-            Факт_Q_на_дату = Факт_Q_на_дату + result_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+            Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ + result_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           End If
           
         End If
   
-        ' Если In_Datr относится к 3-му месяцу Q
-        If (Месяц_даты = 3) Or (Месяц_даты = 6) Or (Месяц_даты = 9) Or (Месяц_даты = 12) Then
+        ' Р•СЃР»Рё In_Datr РѕС‚РЅРѕСЃРёС‚СЃСЏ Рє 3-РјСѓ РјРµСЃСЏС†Сѓ Q
+        If (РњРµСЃСЏС†_РґР°С‚С‹ = 3) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 6) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 9) Or (РњРµСЃСЏС†_РґР°С‚С‹ = 12) Then
     
-          ' Берем факт из Date_ДД
+          ' Р‘РµСЂРµРј С„Р°РєС‚ РёР· Date_Р”Р”
           '
-          ' Идентификатор ID_Rec для 1 месяца Q:
+          ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РґР»СЏ 1 РјРµСЃСЏС†Р° Q:
           ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strMMYY(Date_begin_day_quarter(In_Date)) + "-" + In_Product_Code)
-          ' Прибавляем факт 1 месяца
-          resilt_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+          ' РџСЂРёР±Р°РІР»СЏРµРј С„Р°РєС‚ 1 РјРµСЃСЏС†Р°
+          resilt_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           If resilt_getDataFrom_BASE_Workbook2_Fact <> "not found" Then
-            Факт_Q_на_дату = Факт_Q_на_дату + resilt_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+            Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ + resilt_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           End If
     
-          ' Идентификатор ID_Rec для 2 месяца Q:
-          ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strMMYY(CDate("01." + CStr(Месяц_даты - 1) + "." + CStr(Год_даты))) + "-" + In_Product_Code)
-          ' Прибавляем факт 2 месяца
-          result_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+          ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РґР»СЏ 2 РјРµСЃСЏС†Р° Q:
+          ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strMMYY(CDate("01." + CStr(РњРµСЃСЏС†_РґР°С‚С‹ - 1) + "." + CStr(Р“РѕРґ_РґР°С‚С‹))) + "-" + In_Product_Code)
+          ' РџСЂРёР±Р°РІР»СЏРµРј С„Р°РєС‚ 2 РјРµСЃСЏС†Р°
+          result_getDataFrom_BASE_Workbook2_Fact = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           If result_getDataFrom_BASE_Workbook2_Fact <> "not found" Then
-            Факт_Q_на_дату = Факт_Q_на_дату + result_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 0)
+            Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ + result_getDataFrom_BASE_Workbook2_Fact ' getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 0)
           End If
           
         End If
   
-      ' End If ' Если полученный факт на Дату <>0
+      ' End If ' Р•СЃР»Рё РїРѕР»СѓС‡РµРЅРЅС‹Р№ С„Р°РєС‚ РЅР° Р”Р°С‚Сѓ <>0
 
     Else
-      Факт_Q_на_дату = 0
-    End If ' Проверяем результат на возможность обработки по записям месяца
+      Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = 0
+    End If ' РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РЅР° РІРѕР·РјРѕР¶РЅРѕСЃС‚СЊ РѕР±СЂР°Р±РѕС‚РєРё РїРѕ Р·Р°РїРёСЃСЏРј РјРµСЃСЏС†Р°
  
-    ' Проверяем результат квартала
-    If result_Месяц_getDataFrom_BASE_Workbook2 = "not found" Then
+    ' РџСЂРѕРІРµСЂСЏРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РєРІР°СЂС‚Р°Р»Р°
+    If result_РњРµСЃСЏС†_getDataFrom_BASE_Workbook2 = "not found" Then
       
-      '  Идентификатор ID_Rec для квартальных планов:
+      '  РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РґР»СЏ РєРІР°СЂС‚Р°Р»СЊРЅС‹С… РїР»Р°РЅРѕРІ:
       ID_RecVar = CStr(CStr(In_OfficeNumber) + "-" + strNQYY(In_Date) + "-" + In_Product_Code)
                         
-      ' Текущие значения в месяце: Date_01 (N), Date_02 (O), Date_03 (P), Date_04 (Q), Date_05 Date_06 Date_07 Date_08 Date_09 Date_10 Date_11 Date_12 Date_13 Date_14 Date_15 Date_16 Date_17 Date_18 Date_19 Date_20 Date_21 Date_22 Date_23 Date_24 Date_25 Date_26 Date_27 Date_28 Date_29 Date_30 Date_31
-      ' Номер месяца в квартале: 1-"", 2-"2", 3-"3"
+      ' РўРµРєСѓС‰РёРµ Р·РЅР°С‡РµРЅРёСЏ РІ РјРµСЃСЏС†Рµ: Date_01 (N), Date_02 (O), Date_03 (P), Date_04 (Q), Date_05 Date_06 Date_07 Date_08 Date_09 Date_10 Date_11 Date_12 Date_13 Date_14 Date_15 Date_16 Date_17 Date_18 Date_19 Date_20 Date_21 Date_22 Date_23 Date_24 Date_25 Date_26 Date_27 Date_28 Date_29 Date_30 Date_31
+      ' РќРѕРјРµСЂ РјРµСЃСЏС†Р° РІ РєРІР°СЂС‚Р°Р»Рµ: 1-"", 2-"2", 3-"3"
       M_num = Nom_mes_quarter_str(In_Date)
       Column_DateN_DD = "Date" + M_num + "_" + Mid(In_Date, 1, 2)
       
-      result_getDataFrom_BASE_Workbook2_Column_DateN_DD = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, Column_DateN_DD, 0)
+      result_getDataFrom_BASE_Workbook2_Column_DateN_DD = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, Column_DateN_DD, 0)
       If result_getDataFrom_BASE_Workbook2_Column_DateN_DD <> "not found" Then
-        Факт_Q_на_дату = result_getDataFrom_BASE_Workbook2_Column_DateN_DD ' getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, Column_DateN_DD, 0)
+        Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = result_getDataFrom_BASE_Workbook2_Column_DateN_DD ' getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, Column_DateN_DD, 0)
       End If
     End If
 
   Else
-    Факт_Q_на_дату = 0
-  End If ' Если результат не пустой - возникает, когда добавляется новый продукт и по нему не возвращает "not found", а приходит Empty. Было 12.08.2021 при добавлении Портфеля АУМ из DB от 10.08.2021
+    Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ = 0
+  End If ' Р•СЃР»Рё СЂРµР·СѓР»СЊС‚Р°С‚ РЅРµ РїСѓСЃС‚РѕР№ - РІРѕР·РЅРёРєР°РµС‚, РєРѕРіРґР° РґРѕР±Р°РІР»СЏРµС‚СЃСЏ РЅРѕРІС‹Р№ РїСЂРѕРґСѓРєС‚ Рё РїРѕ РЅРµРјСѓ РЅРµ РІРѕР·РІСЂР°С‰Р°РµС‚ "not found", Р° РїСЂРёС…РѕРґРёС‚ Empty. Р‘С‹Р»Рѕ 12.08.2021 РїСЂРё РґРѕР±Р°РІР»РµРЅРёРё РџРѕСЂС‚С„РµР»СЏ РђРЈРњ РёР· DB РѕС‚ 10.08.2021
   
 
 
 End Function
 
-' 89. Первый_понедельник_от_даты(Date)
-Function Первый_понедельник_от_даты(In_Date) As Date
+' 89. РџРµСЂРІС‹Р№_РїРѕРЅРµРґРµР»СЊРЅРёРє_РѕС‚_РґР°С‚С‹(Date)
+Function РџРµСЂРІС‹Р№_РїРѕРЅРµРґРµР»СЊРЅРёРє_РѕС‚_РґР°С‚С‹(In_Date) As Date
   
-  ' Берем текущую дату
-  текущая_дата = In_Date + 1
+  ' Р‘РµСЂРµРј С‚РµРєСѓС‰СѓСЋ РґР°С‚Сѓ
+  С‚РµРєСѓС‰Р°СЏ_РґР°С‚Р° = In_Date + 1
   
-  ' Переменная контроля
-  понедельник_найден = False
+  ' РџРµСЂРµРјРµРЅРЅР°СЏ РєРѕРЅС‚СЂРѕР»СЏ
+  РїРѕРЅРµРґРµР»СЊРЅРёРє_РЅР°Р№РґРµРЅ = False
   
-  Do While понедельник_найден = False
+  Do While РїРѕРЅРµРґРµР»СЊРЅРёРє_РЅР°Р№РґРµРЅ = False
     
-    ' Проверяем день недели
-    If Weekday(текущая_дата, vbMonday) = 1 Then
-      Первый_понедельник_от_даты = текущая_дата
-      понедельник_найден = True
+    ' РџСЂРѕРІРµСЂСЏРµРј РґРµРЅСЊ РЅРµРґРµР»Рё
+    If Weekday(С‚РµРєСѓС‰Р°СЏ_РґР°С‚Р°, vbMonday) = 1 Then
+      РџРµСЂРІС‹Р№_РїРѕРЅРµРґРµР»СЊРЅРёРє_РѕС‚_РґР°С‚С‹ = С‚РµРєСѓС‰Р°СЏ_РґР°С‚Р°
+      РїРѕРЅРµРґРµР»СЊРЅРёРє_РЅР°Р№РґРµРЅ = True
     Else
-      ' Иначе берем следующий день
-      текущая_дата = текущая_дата + 1
+      ' РРЅР°С‡Рµ Р±РµСЂРµРј СЃР»РµРґСѓСЋС‰РёР№ РґРµРЅСЊ
+      С‚РµРєСѓС‰Р°СЏ_РґР°С‚Р° = С‚РµРєСѓС‰Р°СЏ_РґР°С‚Р° + 1
     End If
     
   Loop
   
 End Function
 
-' 90. Кавычки
-Function кавычки() As String
-  кавычки = Chr(34)
+' 90. РљР°РІС‹С‡РєРё
+Function РєР°РІС‹С‡РєРё() As String
+  РєР°РІС‹С‡РєРё = Chr(34)
 End Function
 
-' 91. Обычный текст в ячейке
-Sub Обычный_текст(In_Workbooks, In_Sheets, In_Row, In_Col)
+' 91. РћР±С‹С‡РЅС‹Р№ С‚РµРєСЃС‚ РІ СЏС‡РµР№РєРµ
+Sub РћР±С‹С‡РЅС‹Р№_С‚РµРєСЃС‚(In_Workbooks, In_Sheets, In_Row, In_Col)
   
   Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Font.Bold = False
   ' Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Borders(xlDiagonalDown).LineStyle = xlNone
@@ -3750,8 +3750,8 @@ Sub Обычный_текст(In_Workbooks, In_Sheets, In_Row, In_Col)
 End Sub
 
 
-' 92. Полужирный текст в ячейке
-Sub Полужирный_текст(In_Workbooks, In_Sheets, In_Row, In_Col)
+' 92. РџРѕР»СѓР¶РёСЂРЅС‹Р№ С‚РµРєСЃС‚ РІ СЏС‡РµР№РєРµ
+Sub РџРѕР»СѓР¶РёСЂРЅС‹Р№_С‚РµРєСЃС‚(In_Workbooks, In_Sheets, In_Row, In_Col)
 
   Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Font.Bold = True
   ' Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Borders(xlDiagonalDown).LineStyle = xlNone
@@ -3766,16 +3766,16 @@ Sub Полужирный_текст(In_Workbooks, In_Sheets, In_Row, In_Col)
 
 End Sub
 
-' 93. Курсив текст в ячейке
-Sub Курсив_текст(In_Workbooks, In_Sheets, In_Row, In_Col)
+' 93. РљСѓСЂСЃРёРІ С‚РµРєСЃС‚ РІ СЏС‡РµР№РєРµ
+Sub РљСѓСЂСЃРёРІ_С‚РµРєСЃС‚(In_Workbooks, In_Sheets, In_Row, In_Col)
   
     
   
 End Sub
 
 
-' 94. Убрать рамки
-Sub Убрать_рамку(In_Workbooks, In_Sheets, In_Row, In_Col)
+' 94. РЈР±СЂР°С‚СЊ СЂР°РјРєРё
+Sub РЈР±СЂР°С‚СЊ_СЂР°РјРєСѓ(In_Workbooks, In_Sheets, In_Row, In_Col)
   
   ' Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Font.Bold = False
   Workbooks(In_Workbooks).Sheets(In_Sheets).Cells(In_Row, In_Col).Borders(xlDiagonalDown).LineStyle = xlNone
@@ -3789,112 +3789,111 @@ Sub Убрать_рамку(In_Workbooks, In_Sheets, In_Row, In_Col)
 
 End Sub
 
-' 95. Факт месяца по продукту из поля "Fact", из In_Date определяем только номер месяца и год
-Function Факт_М(In_Date, In_OfficeNumber, In_Product_Code) As Double
+' 95. Р¤Р°РєС‚ РјРµСЃСЏС†Р° РїРѕ РїСЂРѕРґСѓРєС‚Сѓ РёР· РїРѕР»СЏ "Fact", РёР· In_Date РѕРїСЂРµРґРµР»СЏРµРј С‚РѕР»СЊРєРѕ РЅРѕРјРµСЂ РјРµСЃСЏС†Р° Рё РіРѕРґ
+Function Р¤Р°РєС‚_Рњ(In_Date, In_OfficeNumber, In_Product_Code) As Double
   
-  Факт_М = 0
+  Р¤Р°РєС‚_Рњ = 0
     
-  ' Определяем ID_Rec
-  If In_Product_Code <> "ЗП" Then
-    ' Идентификатор ID_Rec в формате 5-0119-КД
+  ' РћРїСЂРµРґРµР»СЏРµРј ID_Rec
+  If In_Product_Code <> "Р—Рџ" Then
+    ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 5-0119-РљР”
     ID_RecVar = CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code
   Else
-    ' для 3, 6, 9, 12 месяцев
+    ' РґР»СЏ 3, 6, 9, 12 РјРµСЃСЏС†РµРІ
     If (Month(In_Date) = 3) Or (Month(In_Date) = 6) Or (Month(In_Date) = 9) Or (Month(In_Date) = 12) Then
-      ' Идентификатор ID_Rec в формате 1-1Q19-ЗП для Product_Code=ЗП
+      ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 1-1Q19-Р—Рџ РґР»СЏ Product_Code=Р—Рџ
       ID_RecVar = CStr(In_OfficeNumber) + "-" + strNQYY(In_Date) + "-" + In_Product_Code
     Else
-      ' Формируем как для месяца, результат будет 0
-      ' Идентификатор ID_Rec в формате 5-0119-КД
+      ' Р¤РѕСЂРјРёСЂСѓРµРј РєР°Рє РґР»СЏ РјРµСЃСЏС†Р°, СЂРµР·СѓР»СЊС‚Р°С‚ Р±СѓРґРµС‚ 0
+      ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 5-0119-РљР”
       ID_RecVar = CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code
     End If
   End If
   
-  ' Выполняем поиск
-  result_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Fact", 1)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє
+  result_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Fact", 1)
   
-  ' Анализируем результат поиска
+  ' РђРЅР°Р»РёР·РёСЂСѓРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР°
   If result_getDataFrom_BASE_Workbook2 <> "not found" Then
-    Факт_М = result_getDataFrom_BASE_Workbook2
+    Р¤Р°РєС‚_Рњ = result_getDataFrom_BASE_Workbook2
   Else
-    Факт_М = 0
+    Р¤Р°РєС‚_Рњ = 0
   End If
   
 End Function
 
-' 96. План месяца по продукту из поля "Plan", из In_Date определяем только номер месяца и год
-Function План_М(In_Date, In_OfficeNumber, In_Product_Code) As Double
+' 96. РџР»Р°РЅ РјРµСЃСЏС†Р° РїРѕ РїСЂРѕРґСѓРєС‚Сѓ РёР· РїРѕР»СЏ "Plan", РёР· In_Date РѕРїСЂРµРґРµР»СЏРµРј С‚РѕР»СЊРєРѕ РЅРѕРјРµСЂ РјРµСЃСЏС†Р° Рё РіРѕРґ
+Function РџР»Р°РЅ_Рњ(In_Date, In_OfficeNumber, In_Product_Code) As Double
   
-  План_М = 0
+  РџР»Р°РЅ_Рњ = 0
   
-  ' Идентификатор ID_Rec в формате 5-0119-КД
+  ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 5-0119-РљР”
   ' ID_RecVar = CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code
   
-  ' Определяем ID_Rec
-  If In_Product_Code <> "ЗП" Then
-    ' Идентификатор ID_Rec в формате 5-0119-КД
+  ' РћРїСЂРµРґРµР»СЏРµРј ID_Rec
+  If In_Product_Code <> "Р—Рџ" Then
+    ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 5-0119-РљР”
     ID_RecVar = CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code
   Else
-    ' для 3, 6, 9, 12 месяцев
+    ' РґР»СЏ 3, 6, 9, 12 РјРµСЃСЏС†РµРІ
     If (Month(In_Date) = 3) Or (Month(In_Date) = 6) Or (Month(In_Date) = 9) Or (Month(In_Date) = 12) Then
-      ' Идентификатор ID_Rec в формате 1-1Q19-ЗП для Product_Code=ЗП
+      ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 1-1Q19-Р—Рџ РґР»СЏ Product_Code=Р—Рџ
       ID_RecVar = CStr(In_OfficeNumber) + "-" + strNQYY(In_Date) + "-" + In_Product_Code
     Else
-      ' Формируем как для месяца, результат будет 0
-      ' Идентификатор ID_Rec в формате 5-0119-КД
+      ' Р¤РѕСЂРјРёСЂСѓРµРј РєР°Рє РґР»СЏ РјРµСЃСЏС†Р°, СЂРµР·СѓР»СЊС‚Р°С‚ Р±СѓРґРµС‚ 0
+      ' РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ ID_Rec РІ С„РѕСЂРјР°С‚Рµ 5-0119-РљР”
       ID_RecVar = CStr(In_OfficeNumber) + "-" + strMMYY(In_Date) + "-" + In_Product_Code
     End If
   End If
   
   
-  ' Выполняем поиск
-  result_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Лист1", "ID_Rec", ID_RecVar, "Plan", 1)
+  ' Р’С‹РїРѕР»РЅСЏРµРј РїРѕРёСЃРє
+  result_getDataFrom_BASE_Workbook2 = getDataFrom_BASE_Workbook2("Sales_Office", "Р›РёСЃС‚1", "ID_Rec", ID_RecVar, "Plan", 1)
   
-  ' Анализируем результат поиска
+  ' РђРЅР°Р»РёР·РёСЂСѓРµРј СЂРµР·СѓР»СЊС‚Р°С‚ РїРѕРёСЃРєР°
   If result_getDataFrom_BASE_Workbook2 <> "not found" Then
-    План_М = result_getDataFrom_BASE_Workbook2
+    РџР»Р°РЅ_Рњ = result_getDataFrom_BASE_Workbook2
   Else
-    План_М = 0
+    РџР»Р°РЅ_Рњ = 0
   End If
   
 End Function
 
-' 97. Проверка наличия данных
+' 97. РџСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ РґР°РЅРЅС‹С…
 Function CheckData(In_Value) As Double
 
-  ' Проверяем, если не пусто
+  ' РџСЂРѕРІРµСЂСЏРµРј, РµСЃР»Рё РЅРµ РїСѓСЃС‚Рѕ
   If (In_Value <> "") And (In_Value <> "not found") Then
-    ' Результат = вх.параметру
+    ' Р РµР·СѓР»СЊС‚Р°С‚ = РІС….РїР°СЂР°РјРµС‚СЂСѓ
     CheckData = In_Value
   Else
-    ' Иначе 0
+    ' РРЅР°С‡Рµ 0
     CheckData = 0
   End If
   
 End Function
 
-' 98. Получение продаж за период - на основе Function Факт_Q_на_дату(In_OfficeNumber, In_Product_Code, In_Date) As Double - Факт за квартал по продукту из таблицы каталога BASE\"Sales_Office". Если факта нет в Date_DD, то возвращаем 0!
-Function Продажи_Q_за_период(In_OfficeNumber, In_Product_Code, In_DateStart, In_DateEnd) As Double
+' 98. РџРѕР»СѓС‡РµРЅРёРµ РїСЂРѕРґР°Р¶ Р·Р° РїРµСЂРёРѕРґ - РЅР° РѕСЃРЅРѕРІРµ Function Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ(In_OfficeNumber, In_Product_Code, In_Date) As Double - Р¤Р°РєС‚ Р·Р° РєРІР°СЂС‚Р°Р» РїРѕ РїСЂРѕРґСѓРєС‚Сѓ РёР· С‚Р°Р±Р»РёС†С‹ РєР°С‚Р°Р»РѕРіР° BASE\"Sales_Office". Р•СЃР»Рё С„Р°РєС‚Р° РЅРµС‚ РІ Date_DD, С‚Рѕ РІРѕР·РІСЂР°С‰Р°РµРј 0!
+Function РџСЂРѕРґР°Р¶Рё_Q_Р·Р°_РїРµСЂРёРѕРґ(In_OfficeNumber, In_Product_Code, In_DateStart, In_DateEnd) As Double
   
-  Факт_Q_на_дату_DateEnd = CheckData(Факт_Q_на_дату(In_OfficeNumber, In_Product_Code, In_DateEnd))
+  Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ_DateEnd = CheckData(Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ(In_OfficeNumber, In_Product_Code, In_DateEnd))
   
-  Факт_Q_на_дату_DateStart = CheckData(Факт_Q_на_дату(In_OfficeNumber, In_Product_Code, In_DateStart))
+  Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ_DateStart = CheckData(Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ(In_OfficeNumber, In_Product_Code, In_DateStart))
   
-  Продажи_Q_за_период = Факт_Q_на_дату_DateEnd - Факт_Q_на_дату_DateStart
-  
-End Function
-
-' 99. Дата из "12.08.2021-19.08.2021"
-Function Дата1(In_DateStr) As Date
-  
-  Дата1 = CDate(Mid(In_DateStr, 1, 10))
+  РџСЂРѕРґР°Р¶Рё_Q_Р·Р°_РїРµСЂРёРѕРґ = Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ_DateEnd - Р¤Р°РєС‚_Q_РЅР°_РґР°С‚Сѓ_DateStart
   
 End Function
 
-' 99. Дата из "12.08.2021-19.08.2021"
-Function Дата2(In_DateStr) As Date
+' 99. Р”Р°С‚Р° РёР· "12.08.2021-19.08.2021"
+Function Р”Р°С‚Р°1(In_DateStr) As Date
   
-  Дата2 = CDate(Mid(In_DateStr, 12, 10))
+  Р”Р°С‚Р°1 = CDate(Mid(In_DateStr, 1, 10))
   
 End Function
 
+' 99. Р”Р°С‚Р° РёР· "12.08.2021-19.08.2021"
+Function Р”Р°С‚Р°2(In_DateStr) As Date
+  
+  Р”Р°С‚Р°2 = CDate(Mid(In_DateStr, 12, 10))
+  
+End Function
