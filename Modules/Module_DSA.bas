@@ -1,13 +1,11 @@
 Attribute VB_Name = "Module_DSA"
-' Лист DSA
+' Р›РёСЃС‚ DSA
 Sub SaveFromDSA()
 
-  ' Копируем Лист2
+  ' РљРѕРїРёСЂСѓРµРј Р›РёСЃС‚2
   ThisWorkbook.Sheets("DSA").Copy
 
   '
-  ' Workbooks("Книга1").Sheets("Лист1").Paste
+  ' Workbooks("РљРЅРёРіР°1").Sheets("Р›РёСЃС‚1").Paste
 
 End Sub
-
-
